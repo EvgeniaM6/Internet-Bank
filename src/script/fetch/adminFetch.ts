@@ -1,4 +1,4 @@
-import { IMainRes, IBank, TAdminInfo, IUserDatabase, TMethod, IUserInfo } from "../data/types";
+import { IMainRes, IBank, IUserDatabase, IUserInfo, EMethod, EAdminInfo } from "../data/types";
 import Fetch from "./mainFetch";
 
 class AdminFetch extends Fetch{
@@ -14,7 +14,7 @@ class AdminFetch extends Fetch{
         return result;
     }
 
-    async getInfo(token: string, info: TAdminInfo, bankname?: string){
+    async getInfo(token: string, info: EAdminInfo, bankname?: string){
         const path = `/admin/${info}`;
         const query = bankname ? `?bankname=${bankname}` : '';
         const req = {
@@ -27,29 +27,29 @@ class AdminFetch extends Fetch{
         return result;
     }
 
-    async user(method: TMethod, token: string, username: string, password?: string, email?: string, isBlock?: boolean) {
+    async user(method: EMethod, token: string, username: string, password?: string, email?: string, isBlock?: boolean) {
         const path = '/admin/user';
-        const query = method === 'GET' ? `?username=${username}` : '';
+        const query = method === EMethod.GET ? `?username=${username}` : '';
         const req: any = {
             method,
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         }
-        if (method === 'POST') {
+        if (method === EMethod.POST) {
             req.body = {
                 username,
                 password,
                 email
             }
         }
-        if (method === 'PUT') {
+        if (method === EMethod.PUT) {
             req.body = {
                 username,
                 isBlock
             }
         }
-        if (method === 'DELETE') {
+        if (method === EMethod.DELETE) {
             req.body = {
                 username,
             }

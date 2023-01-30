@@ -1,4 +1,4 @@
-import { IMainRes, IUserInfo, IVerify, TMethod } from "../data/types";
+import { EMethod, IMainRes, IUserInfo, IVerify } from "../data/types";
 import Fetch from "./mainFetch";
 
 class UserFetch extends Fetch {
@@ -67,7 +67,7 @@ class UserFetch extends Fetch {
         return result;
     }
 
-    async user(method: TMethod, token: string, username?: string, password?: string, email?: string) {
+    async user(method: EMethod, token: string, username?: string, password?: string, email?: string) {
         const path = '/user';
         const req: any = {
             method,
@@ -75,14 +75,14 @@ class UserFetch extends Fetch {
                 'Authorization': `Bearer ${token}`
             }
         }
-        if (method === 'PUT') {
+        if (method === EMethod.PUT) {
             req.body = {
                 username,
                 password,
                 email
             }
         }
-        if (method === 'DELETE') {
+        if (method === EMethod.DELETE) {
             req.body = {
                 password,
             }

@@ -1,8 +1,8 @@
-import { ICommission, IMainRes, TMethod, TOperation } from "../data/types";
+import { EMethod, EOperation, ICommission, IMainRes } from "../data/types";
 import Fetch from "./mainFetch";
 
 class MoneyFetch extends Fetch {
-    async changeMainMoney(money: number, operation: TOperation, token: string) {
+    async changeMainMoney(money: number, operation: EOperation, token: string) {
         const path = '/money';
         const query = `?operation=${operation}`;
         const req = {
@@ -32,10 +32,10 @@ class MoneyFetch extends Fetch {
         return result;
     }
 
-    async moneyAccount(method: TMethod, username: string, currency: string, token: string, money?: number, operation?: TOperation,) {
+    async moneyAccount(method: EMethod, username: string, currency: string, token: string, money?: number, operation?: EOperation,) {
         const path = '/money/account';
         const query = operation ? `?operation=${operation}` : '';
-        if (operation && method !== 'PUT') {
+        if (operation && method !== EMethod.PUT) {
             return;
         }
         const reqBody: any = {

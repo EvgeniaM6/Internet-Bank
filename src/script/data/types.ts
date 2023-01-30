@@ -1,8 +1,21 @@
-export type TOperation = 'add' | 'remove';
+export enum EOperation {
+    ADD = 'add',
+    REMOVE = 'remove'
+}
 
-export type TMethod = 'POST' | 'GET' | 'DELETE' | 'PUT';
+export enum EMethod {
+    POST = 'POST',
+    GET = 'GET',
+    DELETE = 'DELETE',
+    PUT = 'PUT'
+}
 
 export type TAdminInfo = 'database' | 'bank';
+
+export enum EAdminInfo {
+    DATABASE = 'database',
+    BANK = 'bank'
+}
 
 export interface IMainRes {
     success: boolean,
