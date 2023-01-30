@@ -21,8 +21,8 @@ export interface IUser extends IUserConfig {
 }
 
 export interface IVerify extends IMainRes {
-    token?: string,
-    userConfig?: IUserConfig
+    token: string,
+    userConfig: IUserConfig
 }
 
 export interface IUserInfo extends IMainRes {

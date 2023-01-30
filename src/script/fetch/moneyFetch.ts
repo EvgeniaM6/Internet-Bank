@@ -32,7 +32,7 @@ class MoneyFetch extends Fetch {
         return result;
     }
 
-    async moneyAccount(username: string, currency: string, method: TMethod, token: string, money?: number, operation?: TOperation,) {
+    async moneyAccount(method: TMethod, username: string, currency: string, token: string, money?: number, operation?: TOperation,) {
         const path = '/money/account';
         const query = operation ? `?operation=${operation}` : '';
         if (operation && method !== 'PUT') {
