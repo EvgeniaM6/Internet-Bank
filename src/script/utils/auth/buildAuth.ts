@@ -1,6 +1,6 @@
 class BuildAuth{
     login(){
-        const main = document.querySelector('.main');
+        const main = document.querySelector('.main-container');
         if (!main) return;
 
         main.innerHTML = `<div class="login">
@@ -26,7 +26,7 @@ class BuildAuth{
     }
 
     registration() {
-        const main = document.querySelector('.main');
+        const main = document.querySelector('.main-container');
         if (!main) return;
 
         main.innerHTML = `<div class="reg">
@@ -56,7 +56,7 @@ class BuildAuth{
     }
 
     afterRegistration() {
-        const main = document.querySelector('.main');
+        const main = document.querySelector('.main-container');
         if (!main) return;
 
         main.innerHTML = `<div class="after-reg">
@@ -67,7 +67,7 @@ class BuildAuth{
     }
 
     reset(){
-        const main = document.querySelector('.main');
+        const main = document.querySelector('.main-container');
         if (!main) return;
 
         main.innerHTML = `<div class="reset">
@@ -88,7 +88,7 @@ class BuildAuth{
     }
 
     afterReset(){
-        const main = document.querySelector('.main');
+        const main = document.querySelector('.main-container');
         if (!main) return;
 
         main.innerHTML = `<div class="after-reset">
@@ -98,7 +98,7 @@ class BuildAuth{
     }
 
     verify(){
-        const main = document.querySelector('.main');
+        const main = document.querySelector('.main-container');
         if (!main) return;
 
         main.innerHTML = `<div class="verify">
