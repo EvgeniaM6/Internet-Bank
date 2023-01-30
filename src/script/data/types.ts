@@ -10,8 +10,6 @@ export enum EMethod {
     PUT = 'PUT'
 }
 
-export type TAdminInfo = 'database' | 'bank';
-
 export enum EAdminInfo {
     DATABASE = 'database',
     BANK = 'bank'
