@@ -31,26 +31,27 @@ class BuildAuth {
     const main = document.querySelector('.main-container');
     if (!main) return;
 
-    main.innerHTML = `<div class="reg">
-            <h2 class="reg__h"></h2>
-            <div class="reg__container">
-                <div class="reg__username-container">
+    main.innerHTML = `<div class="reg auth">
+            <h2 class="reg__h">Time to become a client of our bank!</h2>
+            <p class="reg__instruction">Please, enter real e-mail. We use two-factor authentication</p>
+            <div class="reg__container auth__container">
+                <div class="reg__username-container auth__block">
                     <label for="" class="reg__username-label">Username</label>
-                    <input type="text" name="" id="" class="reg__username-input">
+                    <input type="text" name="" id="" class="reg__username-input auth__input">
                 </div>
-                <div class="reg__email-container">
+                <div class="reg__email-container auth__block">
                     <label for="" class="reg__email-label">E-mail</label>
-                    <input type="email" name="" id="" class="reg__email-input">
+                    <input type="email" name="" id="" class="reg__email-input auth__input">
                 </div>
-                <div class="reg__password-container">
+                <div class="reg__password-container auth__block">
                     <label for="" class="reg__password-label">Password</label>
-                    <input type="password" name="" id="" class="reg__password-input">
+                    <input type="password" name="" id="" class="reg__password-input auth__input">
                 </div>
-                <div class="reg__repeat-password-container">
+                <div class="reg__repeat-password-container auth__block">
                     <label for="" class="repeat-reg__password-label">Repeat Password</label>
-                    <input type="password" name="" id="" class="repeat-reg__password-input">
+                    <input type="password" name="" id="" class="repeat-reg__password-input auth__input">
                 </div>
-                <button class="reg__button-reg">Let's start!</button>
+                <button class="reg__button-reg auth__button">Let's start!</button>
                 <p class="reg__error"></p>
                 <p class="reg__secury-code"></p>
             </div>
@@ -72,18 +73,18 @@ class BuildAuth {
     const main = document.querySelector('.main-container');
     if (!main) return;
 
-    main.innerHTML = `<div class="reset">
-            <h2 class="reset__h"></h2>
-            <div class="reset__container">
-                <div class="reset__username-container">
+    main.innerHTML = `<div class="reset auth">
+            <h2 class="reset__h">Reset password</h2>
+            <div class="reset__container auth__container">
+                <div class="reset__username-container auth__block">
                     <label for="" class="reset__username-label">Username</label>
-                    <input type="text" name="" id="" class="reset__username-input">
+                    <input type="text" name="" id="" class="reset__username-input auth__input">
                 </div>
-                <div class="reset__email-container">
+                <div class="reset__email-container auth__block">
                     <label for="" class="reset__email-label">E-mail</label>
-                    <input type="email" name="" id="" class="reset__email-input">
+                    <input type="email" name="" id="" class="reset__email-input auth__input">
                 </div>
-                <button class="reset__button-reset">Reset password</button>
+                <button class="reset__button-reset auth__button">Reset password</button>
                 <p class="reset__error"></p>
             </div>
         </div>`;
@@ -103,16 +104,16 @@ class BuildAuth {
     const main = document.querySelector('.main-container');
     if (!main) return;
 
-    main.innerHTML = `<div class="verify">
+    main.innerHTML = `<div class="verify auth">
             <h2 class="verify__h"></h2>
-            <div class="verify__container">
-                <div class="verify__code-container">
+            <div class="verify__container auth__container">
+                <div class="verify__code-container auth__block">
                     <label for="" class="verify__code-label">Code</label>
-                    <input type="number" name="" id="" class="verify__code-input">
+                    <input type="number" name="" id="" class="verify__code-input auth__input">
                 </div>
-                <div class="verify__button-container">
-                    <button class="verify__button-confirm">Confirm</button>
-                    <button class="verify__button-back">Back</button>
+                <div class="verify__button-container auth__button-container">
+                    <button class="verify__button-confirm auth__button">Confirm</button>
+                    <button class="verify__button-back auth__button">Back</button>
                 </div>
                 <p class="verify__error"></p>
             </div>
