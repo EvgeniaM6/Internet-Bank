@@ -1,0 +1,16 @@
+$white: #fffffc;
+$black: #090909;
+$third: #d8c307;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page {
+  background-color: $third;
+}
+
+@import 'auth';
+@import 'auth-extra';
