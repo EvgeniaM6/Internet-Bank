@@ -1,3 +1,7 @@
+export type TOperation = 'add' | 'remove';
+
+export type TMethod = 'POST' | 'GET' | 'DELETE' | 'PUT'
+
 export interface IMainRes {
     success: boolean,
     message: string
