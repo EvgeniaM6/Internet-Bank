@@ -1,6 +1,8 @@
 export type TOperation = 'add' | 'remove';
 
-export type TMethod = 'POST' | 'GET' | 'DELETE' | 'PUT'
+export type TMethod = 'POST' | 'GET' | 'DELETE' | 'PUT';
+
+export type TAdminInfo = 'database' | 'bank';
 
 export interface IMainRes {
     success: boolean,
