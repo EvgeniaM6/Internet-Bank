@@ -1,35 +1,37 @@
-class BuildAuth{
-    login(){
-        const main = document.querySelector('.main-container');
-        if (!main) return;
+class BuildAuth {
+  login() {
+    const main = document.querySelector('.main-container');
+    if (!main) return;
 
-        main.innerHTML = `<div class="login">
-            <h2 class="login__h"></h2>
-            <div class="login__container">
-                <div class="login__username-container">
+    main.innerHTML = `<div class="login auth">
+            <h2 class="login__h">Welcome to the best bank!</h2>
+            <div class="login__container auth__container">
+                <div class="login__username-container auth__block">
                     <label for="" class="login__username-label">Username</label>
-                    <input type="text" name="" id="" class="login__username-input">
+                    <input type="text" name="" id="" class="login__username-input auth__input">
                 </div>
-                <div class="login__password-container">
+                <div class="login__password-container auth__block">
                     <label for="" class="login__password-label">Password</label>
-                    <input type="password" name="" id="" class="login__password-input">
+                    <input type="password" name="" id="" class="login__password-input auth__input">
                 </div>
-                <button class="login__button-login">Sign In</button>
+                <div class="login__button-container auth__button-container">
+                    <button class="login__button-login auth__button">Sign In</button>
+                    <button class="login__button-anonim auth__button">Continue as Guest</button>
+                </div>
                 <p class="login__error"></p>
                 <div class="login__links">
-                    <p>Register now</p>
-                    <p>Forget password?</p>
+                    <p class="login__register">Register now</p>
+                    <p class="login__reset">Forget password?</p>
                 </div>
-                <button class="login__button-anonim">Continue as Guest</button>
             </div>
         </div>`;
-    }
+  }
 
-    registration() {
-        const main = document.querySelector('.main-container');
-        if (!main) return;
+  registration() {
+    const main = document.querySelector('.main-container');
+    if (!main) return;
 
-        main.innerHTML = `<div class="reg">
+    main.innerHTML = `<div class="reg">
             <h2 class="reg__h"></h2>
             <div class="reg__container">
                 <div class="reg__username-container">
@@ -53,24 +55,24 @@ class BuildAuth{
                 <p class="reg__secury-code"></p>
             </div>
         </div>`;
-    }
+  }
 
-    afterRegistration() {
-        const main = document.querySelector('.main-container');
-        if (!main) return;
+  afterRegistration() {
+    const main = document.querySelector('.main-container');
+    if (!main) return;
 
-        main.innerHTML = `<div class="after-reg">
+    main.innerHTML = `<div class="after-reg">
             <p class="after-reg__text"></p>
             <p class="after-reg__code"></p>
             <button class="after-reg__back">Back to Log In</button>
         </div>`;
-    }
+  }
 
-    reset(){
-        const main = document.querySelector('.main-container');
-        if (!main) return;
+  reset() {
+    const main = document.querySelector('.main-container');
+    if (!main) return;
 
-        main.innerHTML = `<div class="reset">
+    main.innerHTML = `<div class="reset">
             <h2 class="reset__h"></h2>
             <div class="reset__container">
                 <div class="reset__username-container">
@@ -85,23 +87,23 @@ class BuildAuth{
                 <p class="reset__error"></p>
             </div>
         </div>`;
-    }
+  }
 
-    afterReset(){
-        const main = document.querySelector('.main-container');
-        if (!main) return;
+  afterReset() {
+    const main = document.querySelector('.main-container');
+    if (!main) return;
 
-        main.innerHTML = `<div class="after-reset">
+    main.innerHTML = `<div class="after-reset">
             <p class="after-reset__text">Check your email - we sent a new password</p>
             <button class="after-reset__back">Back to Log In</button>
         </div>`;
-    }
+  }
 
-    verify(){
-        const main = document.querySelector('.main-container');
-        if (!main) return;
+  verify() {
+    const main = document.querySelector('.main-container');
+    if (!main) return;
 
-        main.innerHTML = `<div class="verify">
+    main.innerHTML = `<div class="verify">
             <h2 class="verify__h"></h2>
             <div class="verify__container">
                 <div class="verify__code-container">
@@ -115,7 +117,7 @@ class BuildAuth{
                 <p class="verify__error"></p>
             </div>
         </div>`;
-    }
+  }
 }
 
 export const buildAuth = new BuildAuth();
