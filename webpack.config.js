@@ -7,8 +7,8 @@ const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
-  mode: 'production',
-  watch: false,
+  mode: 'development',
+  watch: true,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
@@ -24,10 +24,10 @@ module.exports = {
         test: /\.ts$/,
         use: 'ts-loader'
       },
-      {
+      /*{
         test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
         type: 'asset/resource',
-      }
+      }*/
     ]
   },
   resolve: {
@@ -40,11 +40,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new EslintPlugin({extensions: 'ts'}),
-    new CopyPlugin({
+    /*new CopyPlugin({
       patterns: [
         { from: 'src/assets', to: 'assets'},
       ],
-    }),
+    }),*/
     new NetlifyPlugin({redirects: [
         {
           from: "/*",
