@@ -1,4 +1,4 @@
-import { INDEX_START_SERVICES } from '../../data/constants';
+import { COMMISSION_AMOUNT, INDEX_START_SERVICES } from '../../data/constants';
 import { IServiceObj, IServices } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { servicesFetch } from '../../fetch/servicesFetch';
@@ -28,19 +28,46 @@ class RenderPayment {
     btn.addEventListener('click', () => this.renderPayment(payment, operationID));
   }
 
-  renderPayment(payment: string, operationID: number): void {
+  renderPayment(paymentType: string, operationID: number): void {
     this.main.innerHTML = '';
-    const cart = createElem('div', '', this.main, payment);
-    const sumInput = createElem('input', '', cart) as HTMLInputElement;
-    sumInput.type = 'number';
-    const btn = createElem('button', '', cart, 'pay');
+    const cart = createElem('div', '', this.main, paymentType);
 
-    btn.addEventListener('click', () => this.pay(sumInput, operationID));
+    const payForm = createElem('form', '', cart) as HTMLFormElement;
+    const sumInput = createElem('input', '', payForm) as HTMLInputElement;
+    sumInput.type = 'number';
+    sumInput.required = true;
+    sumInput.placeholder = '10.00';
+    // sumInput.pattern = `/^\\d+(\\.\\d\\d)?$/gi`;
+    sumInput.addEventListener('input', () => this.checkInputsValidity(payForm));
+
+    const dataInput = createElem('input', '', payForm) as HTMLInputElement;
+    dataInput.type = 'text';
+    dataInput.required = true;
+    dataInput.addEventListener('input', () => this.checkInputsValidity(payForm));
+
+    if (!payment.getCurrentToken()) {
+      createElem('div', '', cart, `Commission for this operation is ${COMMISSION_AMOUNT}`) as HTMLFormElement;
+    }
+
+    const btn = createElem('button', '', payForm, 'pay');
+
+    btn.addEventListener('click', (e) => this.pay(e, payForm, operationID));
   }
 
-  pay(sumInput: HTMLInputElement, operationID: number): void {
-    const paymentSum = +sumInput.value || 0;
-    payment.makePayment(paymentSum, operationID);
+  pay(e: Event, payForm: HTMLFormElement, operationID: number): void {
+    e.preventDefault();
+    // const paymentSum = +sumInput.value || 0;
+    // payment.makePayment(paymentSum, operationID);
+  }
+
+  checkInputsValidity(payForm: HTMLFormElement): void {
+    console.log('payForm=', payForm);
+    const canPay = Array.from(payForm.elements).every((input) => {
+      console.log('input=', (input as HTMLInputElement).value);
+      return true;
+    });
+    // if (canPay) {
+    // }
   }
 }
 
