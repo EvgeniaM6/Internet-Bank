@@ -1,7 +1,11 @@
 import { IMainRes } from './types';
 
-export interface TServices extends IMainRes {
-  operaionID: TServiceDetails;
+export interface IServices extends IMainRes {
+  operations: IServiceObj;
+}
+
+export interface IServiceObj {
+  [operaionID: string]: TServiceDetails;
 }
 
 type TServiceDetails = {
