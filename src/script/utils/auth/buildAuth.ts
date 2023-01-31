@@ -25,7 +25,7 @@ class BuildAuth {
                     <button class="login__button-login auth__button">Sign In</button>
                     <button class="login__button-anonim auth__button">Continue as Guest</button>
                 </div>
-                <p class="login__error"></p>
+                <p class="login__error auth__error"></p>
                 <div class="login__links">
                     <p class="login__register">Register now</p>
                     <p class="login__reset">Forget password?</p>
@@ -60,7 +60,7 @@ class BuildAuth {
                 	<button class="reg__button-reg auth__button">Let's start!</button>
                 	<button class="reg__button-back auth__button">Back</button>
 								</div>
-                <p class="reg__error">We use two-step verification. Please, enter real e-mail</p>`;
+                <p class="reg__error auth__error">We use two-step verification. Please, enter real e-mail</p>`;
   }
 
   afterRegistration() {
@@ -94,7 +94,7 @@ class BuildAuth {
                 	<button class="reset__button-reset auth__button">Reset password</button>
                 	<button class="reset__button-back auth__button">Back</button>
 								</div>
-                <p class="reset__error"></p>`;
+                <p class="reset__error auth__error"></p>`;
   }
 
   afterReset() {
@@ -120,7 +120,7 @@ class BuildAuth {
                     <button class="verify__button-confirm auth__button">Confirm</button>
                     <button class="verify__button-back auth__button">Back</button>
                 </div>
-                <p class="verify__error"></p>`;
+                <p class="verify__error auth__error"></p>`;
   }
 
   private removeClass(el: Element) {

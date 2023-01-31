@@ -184,7 +184,7 @@ class ListenAuth {
           setTimeout(() => {
             const code = document.querySelector('.after-reg__code');
             if (!code) return;
-            code.textContent = result.message; // check
+            code.textContent = `${result.pinCode}`;
           }, 250);
           return;
         }

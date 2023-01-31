@@ -1,4 +1,4 @@
-import { EMethod, IMainRes, IUserInfo, IVerify } from '../data/types';
+import { EMethod, IAfterReg, IMainRes, IUserInfo, IVerify } from '../data/types';
 import Fetch from './mainFetch';
 
 class UserFetch extends Fetch {
@@ -15,7 +15,7 @@ class UserFetch extends Fetch {
         email,
       }),
     };
-    const result: IMainRes = await this.mainFetch(req, path);
+    const result: IAfterReg = await this.mainFetch(req, path);
     return result;
   }
 
