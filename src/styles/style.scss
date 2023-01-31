@@ -14,3 +14,7 @@ $third: #d8c307;
 
 @import 'auth';
 @import 'auth-extra';
+
+.invalid {
+  border: 2px red solid
+}
