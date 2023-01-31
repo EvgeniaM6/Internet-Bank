@@ -6,8 +6,7 @@ class Payment {
     console.log('Payment');
   }
 
-  makePayment(payType: string, sum: number, operationID: number): void {
-    console.log('makePayment!', payType, sum, operationID);
+  makePayment(sum: number, operationID: number): void {
     const token = this.getCurrentToken();
     moneyFetch.changeMainMoney(sum, EOperation.REMOVE, token, operationID);
   }

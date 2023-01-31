@@ -1,4 +1,5 @@
-// import { TServices } from '../../data/servicesType';
+import { INDEX_START_SERVICES } from '../../data/constants';
+import { IServiceObj, IServices } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { servicesFetch } from '../../fetch/servicesFetch';
 import { createElem } from '../../utilities/createElem';
@@ -8,13 +9,15 @@ class RenderPayment {
   main = document.querySelector('main') as HTMLElement;
 
   renderPaymentsPage(): void {
-    console.log('renderPaymentsPage!');
     this.main.innerHTML = '';
+
     servicesFetch.getServicesList().then((response: IMainRes) => {
-      console.log('response=', response);
-      // Object.keys(response.operations).forEach((operation) => {
-      //   this.renderPaymentCart(operation);
-      // });
+      const operationsObj = (response as IServices).operations as IServiceObj;
+
+      Object.keys(operationsObj).forEach((operation) => {
+        if (+operation < INDEX_START_SERVICES) return;
+        this.renderPaymentCart(operationsObj[operation].name, +operation);
+      });
     });
   }
 
@@ -32,12 +35,12 @@ class RenderPayment {
     sumInput.type = 'number';
     const btn = createElem('button', '', cart, 'pay');
 
-    btn.addEventListener('click', () => this.pay(payment, sumInput, operationID));
+    btn.addEventListener('click', () => this.pay(sumInput, operationID));
   }
 
-  pay(paymentType: string, sumInput: HTMLInputElement, operationID: number): void {
+  pay(sumInput: HTMLInputElement, operationID: number): void {
     const paymentSum = +sumInput.value || 0;
-    payment.makePayment(paymentType, paymentSum, operationID);
+    payment.makePayment(paymentSum, operationID);
   }
 }
 
