@@ -4,16 +4,20 @@
   padding: 10px;
   border-radius: 10px;
   background-color: $white;
+  border: 2px $third solid;
   width: 520px;
   &__container {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
+    height: 370px;
+    margin-top: 20px;
     padding: 10px;
     border-radius: 10px;
-    border: 2px $third solid;
+    //border: 2px $third solid;
     font-size: 18px;
+    transition: opacity .2s;
   }
 
   &__block {
@@ -56,5 +60,10 @@
     padding: 6px 5px;
     border-radius: 6px;
     border: 1px $third solid;
+  }
+
+  &__error {
+    color: red;
+    font-weight: bold;
   }
 }

@@ -1,4 +1,4 @@
-import { EMethod, IMainRes, IUserInfo, IVerify } from '../data/types';
+import { EMethod, IAfterReg, IMainRes, IUserInfo, IVerify } from '../data/types';
 import Fetch from './mainFetch';
 
 class UserFetch extends Fetch {
@@ -6,13 +6,16 @@ class UserFetch extends Fetch {
     const path = '/user/registration';
     const req = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         username,
         password,
         email,
       }),
     };
-    const result: IMainRes = await this.mainFetch(req, path);
+    const result: IAfterReg = await this.mainFetch(req, path);
     return result;
   }
 
@@ -20,6 +23,9 @@ class UserFetch extends Fetch {
     const path = '/user/login';
     const req = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         username,
         password,
@@ -33,6 +39,9 @@ class UserFetch extends Fetch {
     const path = '/user/verify';
     const req = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         username,
         code,
@@ -46,6 +55,9 @@ class UserFetch extends Fetch {
     const path = '/user/reset';
     const req = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         username,
         email,
@@ -57,13 +69,11 @@ class UserFetch extends Fetch {
 
   async isOurUser(username: string) {
     const path = '/user/check';
+    const query = `?username=${username}`;
     const req = {
       method: 'GET',
-      body: JSON.stringify({
-        username,
-      }),
     };
-    const result: boolean = await this.mainFetch(req, path);
+    const result: boolean = await this.mainFetch(req, path, query);
     return result;
   }
 
