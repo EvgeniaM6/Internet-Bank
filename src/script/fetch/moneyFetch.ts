@@ -9,6 +9,7 @@ class MoneyFetch extends Fetch {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ money }),
     };
@@ -22,6 +23,7 @@ class MoneyFetch extends Fetch {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         money,
@@ -56,6 +58,7 @@ class MoneyFetch extends Fetch {
       method: `${method}`,
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(reqBody),
     };
@@ -67,6 +70,9 @@ class MoneyFetch extends Fetch {
     const path = '/money/commission';
     const req = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         money,
         operationID,
@@ -80,6 +86,9 @@ class MoneyFetch extends Fetch {
     const path = '/money/exchange';
     const req = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         money,
         currencyOne,
@@ -96,6 +105,7 @@ class MoneyFetch extends Fetch {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         money,

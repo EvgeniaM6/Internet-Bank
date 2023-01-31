@@ -9,8 +9,16 @@ $third: #d8c307;
 }
 
 .page {
-  background-color: $third;
+  //background-color: $third;
+  display: flex;
+  flex-direction: column;
 }
 
 @import 'auth';
 @import 'auth-extra';
+@import 'load';
+@import 'main';
+
+.invalid {
+  border: 2px red solid
+}

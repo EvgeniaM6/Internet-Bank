@@ -20,6 +20,10 @@ export interface IMainRes {
   message: string;
 }
 
+export interface IAfterReg extends IMainRes {
+ pinCode?: number;
+}
+
 export interface IUserConfig {
   username: string;
   money?: number;

@@ -24,18 +24,39 @@
 }
 
 .reg {
-  &__button-reg {
-    margin-top: 20px;
+  &__button {
+    &-container {
+      flex-direction: row;
+      width: 80%;
+    }
+
+    &-reg,
+    &-back {
+      width: 45%;
+    }
+
+    &-back {
+      font-size: 16px;
+      border: 2px $third solid;
+      background-color: $white;
+      color: $third;
+    }
   }
 }
 
 .reset {
-  &__button-reset{
-    margin-top: 20px;
+  &__button-back {
+    font-size: 16px;
+    border: 2px $third solid;
+    background-color: $white;
+    color: $third;
   }
 }
 
 .verify {
+  &__container {
+    justify-content: flex-start;
+  }
   &__button {
     &-container {
       flex-direction: row;
@@ -52,5 +73,4 @@
       border: 1px $third solid;
     }
   }
-
 }
