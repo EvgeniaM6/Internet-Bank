@@ -49,7 +49,7 @@ class BuildAuth {
                     <input type="email" name="" id="email" class="reg__email-input auth__input">
                 </div>
                 <div class="reg__password-container auth__block">
-                    <label for="pass" class="reg__password-label">Password</label>
+                    <label for="pass" class="reg__password-label">Password (min 8 characters, numbers and letters)</label>
                     <input type="password" name="" id="pass" class="reg__password-input auth__input">
                 </div>
                 <div class="reg__repeat-password-container auth__block">
