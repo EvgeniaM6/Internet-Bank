@@ -21,7 +21,7 @@ export interface IMainRes {
 }
 
 export interface IAfterReg extends IMainRes {
- pinCode?: number;
+  pinCode?: number;
 }
 
 export interface IUserConfig {
@@ -38,8 +38,8 @@ export interface IUser extends IUserConfig {
 }
 
 export interface IVerify extends IMainRes {
-  token: string;
-  userConfig: IUserConfig;
+  token?: string;
+  userConfig?: IUserConfig;
 }
 
 export interface IUserInfo extends IMainRes {
@@ -71,5 +71,15 @@ export interface IStatistics {
 }
 
 export interface IGetStatistics extends IMainRes {
-  statistics: IStatistics | IStatistics[];
+  statistics?: IStatistics | IStatistics[];
+}
+
+export interface IOperation {
+  name: string;
+  ruName: string;
+  category: string;
+}
+
+export interface IOperationList {
+  [index: number] : IOperation;
 }

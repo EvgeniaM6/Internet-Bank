@@ -1,0 +1,29 @@
+.header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 230px;
+  padding-left: 20px;
+  font-size: 28px;
+  border-right: 2px $third solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  &__ul {
+    list-style: none;
+    li {
+      margin: 4px 0;
+      cursor: pointer;
+      transition: .2s;
+      &:hover {
+        opacity: .8;
+      }
+    }
+  }
+  &__nav {
+    &_active {
+      color: $third;
+    }
+  }
+}
