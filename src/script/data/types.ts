@@ -71,15 +71,20 @@ export interface IStatistics {
 }
 
 export interface IGetStatistics extends IMainRes {
-  statistics?: IStatistics | IStatistics[];
+  result?: IStatistics[];
 }
 
 export interface IOperation {
   name: string;
   ruName: string;
   category: string;
+  logo?: string;
 }
 
 export interface IOperationList {
-  [index: number] : IOperation;
+  [index: number]: IOperation;
+}
+
+export interface IOperationRes extends IMainRes {
+  operations?: IOperationList;
 }

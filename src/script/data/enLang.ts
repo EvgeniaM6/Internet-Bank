@@ -1,19 +1,19 @@
 export default {
-  'auth__h': 'Welcome to RS Bank!',
+  auth__h: 'Welcome to RS Bank!',
   'login__username-label': 'Username',
   'login__password-label': 'Password',
   'login__button-login': 'Sign In',
   'login__button-anonim': 'Continue as Guest',
-  'login__register': 'Register now',
-  'login__reset': 'Forgot password?',
+  login__register: 'Register now',
+  login__reset: 'Forgot password?',
 
   'reg__username-label': 'Username (min 1 character)',
   'reg__email-label': 'E-mail',
   'reg__password-label': 'Password (min 8 characters, numbers and letters)',
   'repeat-reg__password-label': 'Repeat Password',
-  'reg__button-reg': 'Let\'s start!',
+  'reg__button-reg': "Let's start!",
   'reg__button-back': 'Back',
-  'reg__error': 'We use two-step verification. Please, enter real e-mail',
+  reg__error: 'We use two-step verification. Please, enter real e-mail',
 
   'after-reg__text': 'We use two-step verification. But you can also use PIN-CODE',
   'after-reg__back': 'Back to Log In',
@@ -28,5 +28,5 @@ export default {
 
   'verify__code-label': 'Code (check your e-mail or use PIN)',
   'verify__button-confirm': 'Confirm',
-  'verify__button-back': 'Back'
-}
+  'verify__button-back': 'Back',
+};
