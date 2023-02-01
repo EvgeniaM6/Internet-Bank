@@ -12,12 +12,14 @@ $third: #d8c307;
   //background-color: $third;
   display: flex;
   flex-direction: column;
+  transition: opacity .2s;
 }
 
 @import 'auth';
 @import 'auth-extra';
 @import 'load';
 @import 'main';
+@import 'header';
 
 .invalid {
   border: 2px red solid

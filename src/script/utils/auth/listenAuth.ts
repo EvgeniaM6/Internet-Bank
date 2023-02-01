@@ -1,6 +1,7 @@
 import config from '../../data/config';
 import { userFetch } from '../../fetch/userFetch';
 import { load } from '../load';
+import { createMain } from '../main/createMain';
 import { transition } from '../transition';
 import { validate } from '../validate';
 import { createAuth } from './createAuth';
@@ -21,11 +22,13 @@ class ListenAuth {
     const anonim = document.querySelector('.login__button-anonim');
     const username = document.querySelector('.login__username-input');
     const password = document.querySelector('.login__password-input');
+    const page = document.querySelector('.page');
 
     if (
       !reset ||
       !register ||
       !(auth instanceof HTMLElement) ||
+      !(page instanceof HTMLElement) ||
       !login ||
       !anonim ||
       !(username instanceof HTMLInputElement) ||
@@ -47,6 +50,10 @@ class ListenAuth {
 
     register.addEventListener('click', () => {
       transition(auth, createAuth.registration);
+    });
+
+    anonim.addEventListener('click', () => {
+      transition(page, createMain.afterLogin);
     });
 
     login.addEventListener('click', async () => {
@@ -72,10 +79,6 @@ class ListenAuth {
           username.value = currUsername;
         }, 250);
       });
-    });
-
-    anonim.addEventListener('click', () => {
-      alert('Anonim!');
     });
   }
 
@@ -211,11 +214,19 @@ class ListenAuth {
 
   verify() {
     const auth = document.querySelector('.auth__container');
+    const page = document.querySelector('.page');
     const back = document.querySelector('.verify__button-back');
     const confirm = document.querySelector('.verify__button-confirm');
     const input = document.querySelector('.verify__code-input');
 
-    if (!(auth instanceof HTMLElement) || !(input instanceof HTMLInputElement) || !back || !confirm) return;
+    if (
+      !(auth instanceof HTMLElement) ||
+      !(input instanceof HTMLInputElement) ||
+      !(page instanceof HTMLElement) ||
+      !back ||
+      !confirm
+    )
+      return;
 
     this.backToLogin(back, auth);
 
@@ -224,7 +235,10 @@ class ListenAuth {
       load(auth);
       await userFetch.verify(config.currentUser, +input.value).then((result) => {
         if (result.success) {
-          transition(auth, createAuth.login);
+          if (result.token) {
+            sessionStorage.setItem('token', result.token);
+          }
+          transition(page, createMain.afterLogin);
           return;
         }
 

@@ -47,7 +47,7 @@ class UserFetch extends Fetch {
         code,
       }),
     };
-    const result: IMainRes | IVerify = await this.mainFetch(req, path);
+    const result: IVerify = await this.mainFetch(req, path);
     return result;
   }
 
@@ -97,7 +97,7 @@ class UserFetch extends Fetch {
         password,
       };
     }
-    const result: IMainRes | IUserInfo = await this.mainFetch(req, path);
+    const result: IUserInfo = await this.mainFetch(req, path);
     return result;
   }
 }

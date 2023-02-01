@@ -1,7 +1,11 @@
 class BuildAuth {
   main() {
     const main = document.querySelector('.main-container');
-    if (!main) return;
+    const header = document.querySelector('header');
+    if (!main || !header) return;
+
+    header.classList.remove('header');
+    header.innerHTML = '';
 
     main.innerHTML = `<div class="auth">
 		<h2 class="auth__h">Welcome to the best bank!</h2>
