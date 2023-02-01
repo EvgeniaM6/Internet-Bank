@@ -14,3 +14,7 @@ type TServiceDetails = {
   category: string;
   logo?: string;
 };
+
+export type TElemsForUpdateText = {
+  [key: string]: HTMLElement;
+};
