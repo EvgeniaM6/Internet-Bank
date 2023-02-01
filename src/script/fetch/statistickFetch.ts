@@ -1,5 +1,5 @@
-import { IGetStatistics } from "../data/types";
-import Fetch from "./mainFetch";
+import { IGetStatistics } from '../data/types';
+import Fetch from './mainFetch';
 
 class StatistickFetch extends Fetch {
   async operations() {
@@ -11,3 +11,5 @@ class StatistickFetch extends Fetch {
     return result;
   }
 }
+
+export const statFetch = new StatistickFetch();

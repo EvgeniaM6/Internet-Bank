@@ -1,5 +1,6 @@
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
+import { createStatistics } from '../statistics/createStatistics';
 import { transition } from '../transition';
 import { createMain } from './createMain';
 
@@ -33,10 +34,13 @@ class ListenHeader {
     });
 
     nav.forEach((el) => {
-      el.addEventListener('click', () => {
+      el.addEventListener('click', async () => {
         this.removeActiveClass();
         el.classList.add('header__nav_active');
-        // Перкелючение на нужную секцию
+        if (el.textContent === 'Statistics') {
+          await createStatistics.operations();
+          return;
+        }
         alert(el.textContent);
       });
     });

@@ -1,4 +1,4 @@
-import { EMethod, IAfterReg, IMainRes, IUserInfo, IVerify } from '../data/types';
+import { EMethod, IAfterReg, IMainRes, IOperationRes, IUserInfo, IVerify } from '../data/types';
 import Fetch from './mainFetch';
 
 class UserFetch extends Fetch {
@@ -98,6 +98,15 @@ class UserFetch extends Fetch {
       };
     }
     const result: IUserInfo = await this.mainFetch(req, path);
+    return result;
+  }
+
+  async services() {
+    const path = '/user/services';
+    const req = {
+      method: 'GET',
+    };
+    const result: IOperationRes = await this.mainFetch(req, path);
     return result;
   }
 }
