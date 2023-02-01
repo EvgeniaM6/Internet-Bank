@@ -6,10 +6,6 @@ import { userFetch } from '../../fetch/userFetch';
 class Payment {
   constructor() {
     console.log('Payment');
-    sessionStorage.setItem(
-      'token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDdmNWE4NTMzMzJlYTI3YmZhMzQ4MyIsImlhdCI6MTY3NTA5Nzc0NH0.3WDMi60yspkcXcKABMM-waYSwzqhl-SEq1FZsE4chRI'
-    );
   }
 
   makePayment(sum: number, operationID: number): void {
@@ -26,7 +22,9 @@ class Payment {
   }
 
   getCurrentToken(): string {
-    return sessionStorage.getItem('token') || '';
+    const token = sessionStorage.getItem('token') || '';
+    console.log('token=', token);
+    return token;
   }
 }
 

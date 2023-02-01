@@ -1,5 +1,5 @@
 import { COMMISSION_AMOUNT, INDEX_START_SERVICES } from '../../data/constants';
-import { IServiceObj, IServices } from '../../data/servicesType';
+import { IServiceObj, IServices, TElemsForUpdateText } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { servicesFetch } from '../../fetch/servicesFetch';
 import { createElem } from '../../utilities/createElem';
@@ -7,32 +7,53 @@ import { payment } from './payment';
 
 class RenderPayment {
   main = document.querySelector('main') as HTMLElement;
+  operationsResp: IServiceObj = {};
+  elemsForUpdatingText: TElemsForUpdateText = {};
 
   renderPaymentsPage(): void {
     this.main.innerHTML = '';
+    const operationsContainer = createElem('div', 'operations', this.main);
 
     servicesFetch.getServicesList().then((response: IMainRes) => {
       const operationsObj = (response as IServices).operations as IServiceObj;
+      this.elemsForUpdatingText = {};
 
-      Object.keys(operationsObj).forEach((operation) => {
-        if (+operation < INDEX_START_SERVICES) return;
-        this.renderPaymentCart(operationsObj[operation].name, +operation);
+      Object.keys(operationsObj).forEach((operationID) => {
+        if (+operationID < INDEX_START_SERVICES) return;
+        this.operationsResp[operationID] = operationsObj[operationID];
+
+        this.renderPaymentCard(operationID, operationsContainer);
       });
+
+      this.updatePaymentCardsText();
     });
   }
 
-  renderPaymentCart(payment: string, operationID: number): void {
-    const cart = createElem('div', '', this.main, payment);
-    const btn = createElem('button', '', cart, 'go to payment');
+  renderPaymentCard(operationID: string, container: HTMLElement): void {
+    const card = createElem('div', 'operations__card card');
 
-    btn.addEventListener('click', () => this.renderPayment(payment, operationID));
+    const operationImgBlock = createElem('div', 'card__img', card);
+    const operationImg = createElem('img', null, operationImgBlock) as HTMLImageElement;
+    const logo = this.operationsResp[operationID].logo;
+    if (logo) {
+      operationImg.src = logo;
+    }
+
+    const operationName = createElem('p', 'card__title', card);
+    this.elemsForUpdatingText[`${operationID}_operation-title`] = operationName;
+
+    const btn = createElem('button', 'card__btn', card, 'go to payment');
+
+    btn.addEventListener('click', () => this.renderPayment(+operationID));
+
+    container.append(card);
   }
 
-  renderPayment(paymentType: string, operationID: number): void {
+  renderPayment(operationID: number): void {
     this.main.innerHTML = '';
-    const cart = createElem('div', '', this.main, paymentType);
+    const card = createElem('div', '', this.main);
 
-    const payForm = createElem('form', '', cart) as HTMLFormElement;
+    const payForm = createElem('form', '', card) as HTMLFormElement;
     const sumInput = createElem('input', '', payForm) as HTMLInputElement;
     sumInput.type = 'number';
     sumInput.required = true;
@@ -46,10 +67,10 @@ class RenderPayment {
     dataInput.addEventListener('input', () => this.checkInputsValidity(payForm));
 
     if (!payment.getCurrentToken()) {
-      createElem('div', '', cart, `Commission for this operation is ${COMMISSION_AMOUNT}`) as HTMLFormElement;
+      createElem('div', '', card, `Commission for this operation is ${COMMISSION_AMOUNT}`) as HTMLFormElement;
     }
 
-    const btn = createElem('button', '', payForm, 'pay');
+    const btn = createElem('button', 'unable', payForm, 'pay');
 
     btn.addEventListener('click', (e) => this.pay(e, payForm, operationID));
   }
@@ -68,6 +89,31 @@ class RenderPayment {
     });
     // if (canPay) {
     // }
+  }
+
+  updatePaymentCardsText(): void {
+    console.log('updatePaymentCardsText!');
+    const currentLang = this.getCurrentLang();
+    const keyForText = currentLang === 'en' ? 'name' : 'ruName';
+
+    Object.keys(this.elemsForUpdatingText).forEach((key) => {
+      console.log('key=', key);
+      const [operationID, elemType] = key.split('_');
+      if (elemType === 'operation-title') {
+        console.log('operationID=', operationID);
+        console.log('elemType=', elemType);
+        const elemForUpdate = this.elemsForUpdatingText[key];
+        console.log('elemForUpdate=', elemForUpdate);
+        console.log('this.operationsResp[operationID]=', this.operationsResp[operationID]);
+        const textForElem = this.operationsResp[operationID][keyForText];
+        console.log('textForElem=', textForElem);
+        elemForUpdate.textContent = textForElem;
+      }
+    });
+  }
+
+  getCurrentLang(): string {
+    return 'en';
   }
 }
 
