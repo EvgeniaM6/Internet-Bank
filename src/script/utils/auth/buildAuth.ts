@@ -8,7 +8,7 @@ class BuildAuth {
     header.innerHTML = '';
 
     main.innerHTML = `<div class="auth">
-		<h2 class="auth__h">Welcome to the best bank!</h2>
+		<h2 class="auth__h">Welcome to RS Bank!</h2>
 		<div class="auth__container"></div>`;
   }
   login() {
@@ -45,7 +45,7 @@ class BuildAuth {
 
     auth.innerHTML = `
                 <div class="reg__username-container auth__block">
-                    <label for="user" class="reg__username-label">Username</label>
+                    <label for="user" class="reg__username-label">Username (min 1 character)</label>
                     <input type="text" name="" id="user" class="reg__username-input auth__input">
                 </div>
                 <div class="reg__email-container auth__block">
@@ -117,7 +117,7 @@ class BuildAuth {
     auth.classList.add('verify__container');
 
     auth.innerHTML = `<div class="verify__code-container auth__block">
-                    <label for="cpde" class="verify__code-label">Code</label>
+                    <label for="cpde" class="verify__code-label">Code (check your e-mail or use PIN)</label>
                     <input type="number" name="" id="code" class="verify__code-input auth__input">
                 </div>
                 <div class="verify__button-container auth__button-container">
