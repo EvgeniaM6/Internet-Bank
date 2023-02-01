@@ -1,11 +1,11 @@
 export default {
-  'auth__h': 'Добро пожаловать в RS Банк!',
+  auth__h: 'Добро пожаловать в RS Банк!',
   'login__username-label': 'Логин',
   'login__password-label': 'Пароль',
   'login__button-login': 'Войти',
   'login__button-anonim': 'Продолжить анонимно',
-  'login__register': 'Зарегистрироваться',
-  'login__reset': 'Забыли пароль?',
+  login__register: 'Зарегистрироваться',
+  login__reset: 'Забыли пароль?',
 
   'reg__username-label': 'Логин (мин. 1 символ)',
   'reg__email-label': 'Электронная почта',
@@ -13,7 +13,7 @@ export default {
   'repeat-reg__password-label': 'Повторите пароль',
   'reg__button-reg': 'Создать',
   'reg__button-back': 'Назад',
-  'reg__error': 'Мы используем двухэтапную верификацию. Пожалуйста, указывайте реальную электронную почту',
+  reg__error: 'Мы используем двухэтапную верификацию. Пожалуйста, указывайте реальную электронную почту',
 
   'after-reg__text': 'Мы используем двухэтапную верификацию. Однако вы можете также использовать ПИН-КОД',
   'after-reg__back': 'Войти',
@@ -28,5 +28,5 @@ export default {
 
   'verify__code-label': 'Код (проверьте электронную почту или используйте ПИН-КОД)',
   'verify__button-confirm': 'Подтвердить',
-  'verify__button-back': 'Назад'
-}
+  'verify__button-back': 'Назад',
+};
