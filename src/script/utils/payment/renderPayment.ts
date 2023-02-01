@@ -1,9 +1,9 @@
-import { COMMISSION_AMOUNT, INDEX_START_SERVICES } from '../../data/constants';
+import { INDEX_START_SERVICES } from '../../data/constants';
 import { IServiceObj, IServices, TElemsForUpdateText } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { servicesFetch } from '../../fetch/servicesFetch';
 import { createElem } from '../../utilities/createElem';
-import { payment } from './payment';
+import { renderPaymentDetails } from './renderPaymentDetails';
 
 class RenderPayment {
   main = document.querySelector('main') as HTMLElement;
@@ -32,17 +32,18 @@ class RenderPayment {
   renderPaymentCard(operationID: string, container: HTMLElement): void {
     const card = createElem('div', 'operations__card card');
 
-    const operationImgBlock = createElem('div', 'card__img', card);
-    const operationImg = createElem('img', null, operationImgBlock) as HTMLImageElement;
+    const mainInfo = createElem('div', 'card__main', card);
+
+    const operationImgBlock = createElem('div', 'card__img', mainInfo);
     const logo = this.operationsResp[operationID].logo;
     if (logo) {
-      operationImg.src = logo;
+      operationImgBlock.style.backgroundImage = `url(${logo})`;
     }
 
-    const operationName = createElem('p', 'card__title', card);
+    const operationName = createElem('p', 'card__title', mainInfo);
     this.elemsForUpdatingText[`${operationID}_operation-title`] = operationName;
 
-    const btn = createElem('button', 'card__btn', card, 'go to payment');
+    const btn = createElem('button', 'card__btn', card, 'pay');
 
     btn.addEventListener('click', () => this.renderPayment(+operationID));
 
@@ -50,45 +51,7 @@ class RenderPayment {
   }
 
   renderPayment(operationID: number): void {
-    this.main.innerHTML = '';
-    const card = createElem('div', '', this.main);
-
-    const payForm = createElem('form', '', card) as HTMLFormElement;
-    const sumInput = createElem('input', '', payForm) as HTMLInputElement;
-    sumInput.type = 'number';
-    sumInput.required = true;
-    sumInput.placeholder = '10.00';
-    // sumInput.pattern = `/^\\d+(\\.\\d\\d)?$/gi`;
-    sumInput.addEventListener('input', () => this.checkInputsValidity(payForm));
-
-    const dataInput = createElem('input', '', payForm) as HTMLInputElement;
-    dataInput.type = 'text';
-    dataInput.required = true;
-    dataInput.addEventListener('input', () => this.checkInputsValidity(payForm));
-
-    if (!payment.getCurrentToken()) {
-      createElem('div', '', card, `Commission for this operation is ${COMMISSION_AMOUNT}`) as HTMLFormElement;
-    }
-
-    const btn = createElem('button', 'unable', payForm, 'pay');
-
-    btn.addEventListener('click', (e) => this.pay(e, payForm, operationID));
-  }
-
-  pay(e: Event, payForm: HTMLFormElement, operationID: number): void {
-    e.preventDefault();
-    // const paymentSum = +sumInput.value || 0;
-    // payment.makePayment(paymentSum, operationID);
-  }
-
-  checkInputsValidity(payForm: HTMLFormElement): void {
-    console.log('payForm=', payForm);
-    const canPay = Array.from(payForm.elements).every((input) => {
-      console.log('input=', (input as HTMLInputElement).value);
-      return true;
-    });
-    // if (canPay) {
-    // }
+    renderPaymentDetails.renderPayment(operationID);
   }
 
   updatePaymentCardsText(): void {
@@ -113,7 +76,7 @@ class RenderPayment {
   }
 
   getCurrentLang(): string {
-    return 'en';
+    return 'ru';
   }
 }
 
