@@ -6,18 +6,21 @@ $third: #d8c307;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Sofia Sans', sans-serif;
 }
 
 .page {
   //background-color: $third;
   display: flex;
   flex-direction: column;
+  transition: opacity .2s;
 }
 
 @import 'auth';
 @import 'auth-extra';
 @import 'load';
 @import 'main';
+@import 'header';
 
 .invalid {
   border: 2px red solid
