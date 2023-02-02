@@ -1,0 +1,118 @@
+.popup {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  &__content {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 440px;
+    // background-color: $light-color-2;
+    background-color: #79a3ec;
+    padding: 20px;
+    border-radius: 5px;
+  }
+}
+
+.popup-message {
+  z-index: 15;
+
+  &__content {
+    width: 60%;
+    margin: 0 auto;
+    max-width: 300px;
+    // background-color: $accent2-color;
+    background-color: #ec79e0;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  &__message-info {
+    // color: $light-text-color;
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+.form {
+  &__person-details {
+    margin: 0 0 20px 0;
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 500;
+    // color: $accent1-color;
+    text-align: center;
+    margin: 0 0 10px 0;
+  }
+
+  &__item {
+    margin: 0 0 10px 0;
+  }
+
+  &__card-details {
+    margin: 0 0 20px 0;
+  }
+
+  &__data {
+  }
+
+  &__btn {
+    text-align: center;
+  }
+}
+
+.card-data {
+  max-width: 240px;
+  margin: 0 auto;
+  // background-color: $accent4-color;
+  background-color: #f8c047;
+  border-radius: 5px;
+  padding: 25px 15px;
+
+  input {
+    text-align: center;
+  }
+
+  &__card-number {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 20px 0;
+  }
+
+  &__card-number img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__info input {
+    width: 55px;
+  }
+
+  &__valid-data {
+    font-weight: 500;
+  }
+}
+
+.btn--col-3 {
+  // background-color: $accent3-color;
+  // color: $text-color;
+  font-weight: 700;
+}
+
+.input--payment {
+  width: 100%;
+  height: 30px;
+}
