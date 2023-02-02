@@ -1,5 +1,5 @@
 import { INDEX_START_SERVICES } from '../../data/constants';
-import { IServiceObj, IServices, TElemsForUpdateText } from '../../data/servicesType';
+import { IServiceObj, IServices, TElemsForUpdateText, TServiceDetails } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { servicesFetch } from '../../fetch/servicesFetch';
 import { createElem } from '../../utilities/createElem';
@@ -37,13 +37,18 @@ class RenderPayment {
     const operationImgBlock = createElem('div', 'card__img', mainInfo);
     const logo = this.operationsResp[operationID].logo;
     if (logo) {
+      operationImgBlock.style.backgroundColor = 'transparent';
       operationImgBlock.style.backgroundImage = `url(${logo})`;
     }
 
     const operationName = createElem('p', 'card__title', mainInfo);
     this.elemsForUpdatingText[`${operationID}_operation-title`] = operationName;
 
-    const btn = createElem('button', 'card__btn', card, 'pay');
+    const operationCategory = createElem('p', 'card__category', mainInfo);
+    createElem('span', 'card__category-text', operationCategory);
+    createElem('span', 'card__category-type', operationCategory, this.operationsResp[operationID].category);
+
+    const btn = createElem('button', 'card__btn btn-colored', card);
 
     btn.addEventListener('click', () => this.renderPayment(+operationID));
 
@@ -55,21 +60,15 @@ class RenderPayment {
   }
 
   updatePaymentCardsText(): void {
-    console.log('updatePaymentCardsText!');
     const currentLang = this.getCurrentLang();
     const keyForText = currentLang === 'en' ? 'name' : 'ruName';
 
     Object.keys(this.elemsForUpdatingText).forEach((key) => {
-      console.log('key=', key);
       const [operationID, elemType] = key.split('_');
+
       if (elemType === 'operation-title') {
-        console.log('operationID=', operationID);
-        console.log('elemType=', elemType);
         const elemForUpdate = this.elemsForUpdatingText[key];
-        console.log('elemForUpdate=', elemForUpdate);
-        console.log('this.operationsResp[operationID]=', this.operationsResp[operationID]);
         const textForElem = this.operationsResp[operationID][keyForText];
-        console.log('textForElem=', textForElem);
         elemForUpdate.textContent = textForElem;
       }
     });
@@ -77,6 +76,10 @@ class RenderPayment {
 
   getCurrentLang(): string {
     return 'ru';
+  }
+
+  getOparationData(operationID: number): TServiceDetails | null {
+    return this.operationsResp[operationID] || null;
   }
 }
 
