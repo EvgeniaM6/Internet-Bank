@@ -24,10 +24,11 @@ module.exports = {
         test: /\.ts$/,
         use: 'ts-loader'
       },
-      /*{
+      {
         test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
         type: 'asset/resource',
-      }*/
+        include: [path.resolve(__dirname, 'src')],
+      }
     ]
   },
   resolve: {
