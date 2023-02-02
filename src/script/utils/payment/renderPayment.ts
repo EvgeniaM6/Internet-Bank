@@ -103,7 +103,7 @@ class RenderPayment {
     inputAllOperationsElem.id = 'all';
     inputAllOperationsElem.name = filterType;
     inputAllOperationsElem.type = 'radio';
-    inputAllOperationsElem.checked = true;
+    inputAllOperationsElem.checked = this.selectedCategoryFilter === 'all';
     this.elemsForUpdatingText[`category_all`] = inputAllOperationsElem;
 
     const label = createElem('label', 'filter__label', filterAllItemElem, 'All') as HTMLLabelElement;
@@ -144,6 +144,7 @@ class RenderPayment {
     inputElem.id = filterValue.toLowerCase();
     inputElem.name = filterType.toLowerCase();
     inputElem.type = 'radio';
+    inputElem.checked = this.selectedCategoryFilter === filterValue.toLowerCase();
     this.elemsForUpdatingText[`radio_${key}`] = inputElem;
 
     const label = createElem('label', 'filter__label', filterItemElem, filterValue) as HTMLLabelElement;
