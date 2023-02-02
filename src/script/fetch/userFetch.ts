@@ -77,7 +77,7 @@ class UserFetch extends Fetch {
     return result;
   }
 
-  async user(method: EMethod, token: string, username?: string, password?: string, email?: string) {
+  async user(method: EMethod, token: string, username?: string, email?: string, password?: string) {
     const path = '/user';
     const req: any = {
       method,

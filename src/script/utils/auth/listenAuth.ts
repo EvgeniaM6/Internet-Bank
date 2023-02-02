@@ -58,6 +58,7 @@ class ListenAuth {
 
     login.addEventListener('click', async () => {
       const currUsername = username.value;
+      const currPassword = password.value;
       if (!validateAuth.login()) return;
       load(auth);
 
@@ -65,6 +66,7 @@ class ListenAuth {
         if (result.success) {
           transition(auth, createAuth.verify);
           config.currentUser = currUsername;
+          config.password = currPassword;
           return;
         }
 

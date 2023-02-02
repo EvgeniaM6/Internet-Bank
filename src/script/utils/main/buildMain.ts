@@ -70,6 +70,22 @@ class BuildMain {
         </div>
     </section>`;
   }
+
+  account() {
+    const main = document.querySelector('.main-container');
+    const account = document.querySelector('.header__nav-account');
+    if (!main || !account) return;
+
+    account.classList.add('header__nav_active');
+    main.innerHTML = `<ul class="account__list">
+      <li class="account__list-item">Edit account</li>
+      <li class="account__list-item">Edit password</li>
+      <li class="account__list-item">...</li>
+      <li class="account__list-item">...</li>
+      <li class="account__list-item">Delete account</li>
+    </ul>
+    <div class="account-container"></div>`;
+  }
 }
 
 export const buildMain = new BuildMain();

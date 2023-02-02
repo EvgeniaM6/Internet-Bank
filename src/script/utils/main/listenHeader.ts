@@ -1,7 +1,9 @@
+import { navigationAccount } from '../account/navigationAccount';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { createStatistics } from '../statistics/createStatistics';
 import { transition } from '../transition';
+import { buildMain } from './buildMain';
 import { createMain } from './createMain';
 
 class ListenHeader {
@@ -39,6 +41,12 @@ class ListenHeader {
         el.classList.add('header__nav_active');
         if (el.textContent === 'Statistics') {
           await createStatistics.operations();
+          return;
+        }
+
+        if (el.textContent === 'Account') {
+          buildMain.account();
+          navigationAccount();
           return;
         }
         alert(el.textContent);
