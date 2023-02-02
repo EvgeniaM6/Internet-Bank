@@ -2,6 +2,7 @@ import { EPages } from '../../data/types';
 import { navigationAccount } from '../account/navigationAccount';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
+import { renderPayment } from '../payment/renderPayment';
 import { createStatistics } from '../statistics/createStatistics';
 import { transition } from '../transition';
 import { buildMain } from './buildMain';
@@ -74,6 +75,11 @@ class ListenHeader {
         if (el.textContent === EPages.ACCOUNT) {
           buildMain.account();
           navigationAccount();
+          return;
+        }
+
+        if (el.textContent === 'Services') {
+          await renderPayment.renderPaymentsPage();
           return;
         }
         alert(el.textContent);
