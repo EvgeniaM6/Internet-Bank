@@ -29,6 +29,7 @@ class BuildHeader {
 
     const account = document.createElement('li');
     account.classList.add('header__nav-item');
+    account.classList.add('header__nav-account');
     account.textContent = 'Account';
 
     const cardCreator = document.createElement('li');
