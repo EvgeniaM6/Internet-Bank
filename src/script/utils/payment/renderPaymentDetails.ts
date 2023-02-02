@@ -1,7 +1,9 @@
-import { COMMISSION_AMOUNT, operationInputData } from '../../data/constants';
+import config from '../../data/config';
+import { operationInputData } from '../../data/constants';
 import { TElemsForUpdateText, TServiceDetails } from '../../data/servicesType';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
+import { modalPayment } from './modalPayment';
 import { payment } from './payment';
 import { renderPayment } from './renderPayment';
 
@@ -21,19 +23,20 @@ class RenderPaymentDetails {
 
     const operationInfo = createElem('div', 'operation__info', operation);
 
-    const operationName = createElem('p', 'operation__title', operationInfo);
-    this.elemsForUpdatingText.title = operationName;
-
-    const operationCategory = createElem('p', 'operation__category', operationInfo);
-    createElem('span', 'operation__category-text', operationCategory);
-    createElem('span', 'operation__category-type', operationCategory, this.currentOperationData.category);
-
     const operationImgBlock = createElem('div', 'operation__img', operationInfo);
     const logo = this.currentOperationData.logo;
     if (logo) {
       operationImgBlock.style.backgroundColor = 'transparent';
       operationImgBlock.style.backgroundImage = `url(${logo})`;
     }
+
+    const operationMain = createElem('div', 'operation__main', operationInfo);
+    const operationName = createElem('p', 'operation__title', operationMain);
+    this.elemsForUpdatingText.title = operationName;
+
+    const operationCategory = createElem('p', 'operation__category', operationMain);
+    createElem('span', 'operation__category-text', operationCategory);
+    createElem('span', 'operation__category-type', operationCategory, this.currentOperationData.category);
 
     const payDetails = createElem('form', 'operation__details', operation) as HTMLFormElement;
     const payForm = createElem('form', 'operation__form form', payDetails) as HTMLFormElement;
@@ -88,8 +91,13 @@ class RenderPaymentDetails {
     e.preventDefault();
     if (!this.canPay) return;
     const paymentSum = +(sumInput as HTMLInputElement).value;
-    payment.makePayment(paymentSum, operationID);
-    console.log('pay!');
+
+    if (!config.currentUser) {
+      this.renderAnonimPayment(paymentSum);
+    } else {
+      payment.makePayment(paymentSum, operationID);
+      console.log('pay!');
+    }
   }
 
   checkInputsValidity(payForm: HTMLFormElement): void {
@@ -159,6 +167,10 @@ class RenderPaymentDetails {
 
   getCurrentLang(): string {
     return this.currLang;
+  }
+
+  renderAnonimPayment(paymentSum: number): void {
+    modalPayment.drawModalPayment(paymentSum);
   }
 
   // toggleLang(): void {

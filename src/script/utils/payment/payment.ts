@@ -1,7 +1,5 @@
-import { COMMISSION_AMOUNT } from '../../data/constants';
 import { EOperation } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
-import { userFetch } from '../../fetch/userFetch';
 
 class Payment {
   constructor() {
@@ -10,15 +8,15 @@ class Payment {
 
   makePayment(sum: number, operationID: number): void {
     const token = this.getCurrentToken();
-    if (token) {
-      moneyFetch.changeMainMoney(sum, EOperation.REMOVE, token, operationID);
-      userFetch.isOurUser('evg').then((resp) => {
-        console.log('resp evg =', resp);
-      });
-    } else {
-      const commissSum = COMMISSION_AMOUNT;
-      moneyFetch.commission(commissSum, operationID);
-    }
+    // if (token) {
+    moneyFetch.changeMainMoney(sum, EOperation.REMOVE, token, operationID).then((resp) => {
+      console.log('resp=', resp);
+    });
+    // } else {
+    //   const commissSum = calculateCommissionSum(sum);
+    //   console.log('commissSum=', commissSum);
+    //   moneyFetch.commission(commissSum, operationID);
+    // }
   }
 
   getCurrentToken(): string {
