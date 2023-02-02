@@ -56,6 +56,73 @@ class ListenAccount {
       //userFetch.user(EMethod.PUT, token, name, email);
     });
   }
+
+  editPassword() {
+    const oldPass = document.getElementById('edit-oldpass');
+    const newPass = document.getElementById('edit-newpass');
+    const confirmPass = document.getElementById('edit-confirmpass');
+    const buttonSubmit = document.querySelector('.edit__button-submit');
+    const buttonCancel = document.querySelector('.edit__button-cancel');
+
+    if (
+      !buttonSubmit ||
+      !buttonCancel ||
+      !(oldPass instanceof HTMLInputElement) ||
+      !(newPass instanceof HTMLInputElement) ||
+      !(confirmPass instanceof HTMLInputElement)
+    )
+      return;
+
+    let valName: boolean;
+    let valEmail: boolean;
+
+    oldPass.addEventListener('blur', () => {
+      valName = validate(oldPass, config.regex.password);
+    });
+
+    newPass.addEventListener('blur', () => {
+      valEmail = validate(newPass, config.regex.password);
+    });
+
+    confirmPass.addEventListener('blur', () => {
+      valEmail = validate(confirmPass, config.regex.password);
+    });
+
+    const token = sessionStorage.getItem('token');
+
+    buttonSubmit.addEventListener('click', async () => {
+      const oldPassword = oldPass.value;
+      const newPassword = newPass.value;
+      const confirmPassword = confirmPass.value;
+      if (!oldPassword || !newPassword || !confirmPassword || !token) return;
+
+      if (oldPassword !== config.password) {
+        alert('неверный пароль');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        alert('пароли не совпадают');
+        return;
+      }
+
+      (
+        await fetch(`http://127.0.0.1:3000/user`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            username: config.currentUser,
+            password: newPassword,
+          }),
+        })
+      ).json();
+
+      //userFetch.user(EMethod.PUT, token, name, email);
+    });
+  }
 }
 
 export const listenAccount = new ListenAccount();

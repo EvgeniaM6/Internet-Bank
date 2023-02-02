@@ -8,10 +8,15 @@ export function navigationAccount() {
 
   nav.forEach((item) => {
     item.addEventListener('click', () => {
-      console.log('click');
       if (item.textContent === 'Edit account') {
         buildAccount.editAccount();
         listenAccount.editAccount();
+        return;
+      }
+
+      if (item.textContent === 'Edit password') {
+        buildAccount.editPassword();
+        listenAccount.editPassword();
         return;
       }
     });
