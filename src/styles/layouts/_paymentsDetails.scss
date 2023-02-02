@@ -1,0 +1,60 @@
+.operation {
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 5px;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__img {
+    width: 50px;
+    height: 50px;
+    background-color: $third;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &-block {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+  }
+
+}
+
+.form {
+  
+  &__label {
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    padding: 6px 12px;
+    border: solid 2px #e3b824;
+    border-radius: 8px;
+    font-size: 18px;
+    width: 250px;
+  }
+
+  &__btn {
+
+    &.unable {
+      background-color: #717171;
+      cursor: default;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
