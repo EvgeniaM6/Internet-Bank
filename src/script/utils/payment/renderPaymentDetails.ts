@@ -35,7 +35,8 @@ class RenderPaymentDetails {
       operationImgBlock.style.backgroundImage = `url(${logo})`;
     }
 
-    const payForm = createElem('form', 'operation__form form', operation) as HTMLFormElement;
+    const payDetails = createElem('form', 'operation__details', operation) as HTMLFormElement;
+    const payForm = createElem('form', 'operation__form form', payDetails) as HTMLFormElement;
 
     const sumBlock = createElem('div', 'operation__form-block form-sum', payForm);
     const sumLabel = createElem('label', 'form-sum__label form__label', sumBlock) as HTMLLabelElement;
@@ -68,17 +69,17 @@ class RenderPaymentDetails {
     dataInput.addEventListener('input', () => this.checkInputsValidity(payForm));
 
     if (!payment.getCurrentToken()) {
-      createElem('div', '', operation, `Commission for this operation is ${COMMISSION_AMOUNT}`) as HTMLFormElement;
+      createElem('div', 'operation__commission', payDetails) as HTMLFormElement;
     }
 
-    const btn = createElem('button', 'form__btn btn-colored unable', operation);
+    const btn = createElem('button', 'form__btn btn-colored unable', payDetails);
     this.elemsForUpdatingText.btnPay = btn;
 
     btn.addEventListener('click', (e) => this.pay(e, sumInput, operationID));
 
     this.updatePaymentText();
 
-    //test
+    // test
     // const btnLang = createElem('button', '', operation, 'en/ru');
     // btnLang.addEventListener('click', () => this.toggleLang());
   }
