@@ -8,7 +8,7 @@ export interface IServiceObj {
   [operaionID: string]: TServiceDetails;
 }
 
-type TServiceDetails = {
+export type TServiceDetails = {
   name: string;
   ruName: string;
   category: string;
@@ -17,4 +17,19 @@ type TServiceDetails = {
 
 export type TElemsForUpdateText = {
   [key: string]: HTMLElement;
+};
+
+export type TOperationInputData = {
+  [key: string]: TInputData;
+};
+
+type TInputData = {
+  regex: string;
+  placeholder: string;
+  hint: TTextByLang;
+  labelText: TTextByLang;
+};
+
+type TTextByLang = {
+  [key: string]: string;
 };
