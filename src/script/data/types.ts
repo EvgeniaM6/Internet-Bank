@@ -1,3 +1,13 @@
+export enum EPages {
+  AUTH = 'auth',
+  ABOUT = 'about',
+  SERVICES = 'services',
+  ACCOUNT = 'account',
+  QUIZ = 'quiz',
+  STATISTICS = 'statistics',
+  CARD_CREATOR = 'card_creator',
+}
+
 export enum EOperation {
   ADD = 'add',
   REMOVE = 'remove',

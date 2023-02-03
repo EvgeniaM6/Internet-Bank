@@ -7,7 +7,25 @@ class BuildStatistics {
     if (!main) return;
 
     main.innerHTML = '';
+    main.className = 'main-container container';
+
     const container = document.createElement('div');
+    container.classList.add('stat');
+
+    const totalCount = document.createElement('p');
+    totalCount.textContent = `
+    ${config.lang === 'en' ? 'Total operations: ' : 'Всего операций: '}
+    ${arr.reduce((acc, el) => acc + el.count, 0)}`;
+
+    const totalMoney = document.createElement('p');
+    totalMoney.textContent = `
+    ${config.lang === 'en' ? 'Total money: ' : 'Всего денег: '}
+    $${arr.reduce((acc, el) => acc + el.money, 0).toFixed(2)}`;
+
+    const total = document.createElement('div');
+    total.appendChild(totalCount);
+    total.appendChild(totalMoney);
+
     arr.forEach((el) => {
       const operations = res.operations;
       if (!operations) return;
@@ -24,7 +42,7 @@ class BuildStatistics {
 
       const operationMoney = document.createElement('p');
       operationMoney.classList.add('stat__operation-p');
-      operationMoney.textContent = `${config.lang === 'en' ? 'Sum Money: ' : 'Всего Денег: '}${el.money}`;
+      operationMoney.textContent = `${config.lang === 'en' ? 'Sum Money: ' : 'Всего Денег: '}$${el.money.toFixed(2)}`;
 
       const operationContainer = document.createElement('div');
       operationContainer.classList.add('stat__operation');
@@ -34,6 +52,7 @@ class BuildStatistics {
 
       container.appendChild(operationContainer);
     });
+    main.appendChild(total);
     main.appendChild(container);
   }
 }

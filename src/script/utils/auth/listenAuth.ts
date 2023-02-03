@@ -29,12 +29,14 @@ class ListenAuth {
       !register ||
       !(auth instanceof HTMLElement) ||
       !(page instanceof HTMLElement) ||
-      !login ||
+      !(login instanceof HTMLElement) ||
       !anonim ||
       !(username instanceof HTMLInputElement) ||
       !(password instanceof HTMLInputElement)
     )
       return;
+
+    username.focus();
 
     username.addEventListener('blur', () => {
       validate(username, config.regex.username);
@@ -70,8 +72,8 @@ class ListenAuth {
           return;
         }
 
-        transition(auth, createAuth.login);
-        setTimeout(() => {
+        transition(auth, () => {
+          createAuth.login();
           const errorLabel = document.querySelector('.login__error');
           const username = document.querySelector('.login__username-input');
 
@@ -79,9 +81,13 @@ class ListenAuth {
 
           errorLabel.textContent = result.message;
           username.value = currUsername;
-        }, 250);
+        });
       });
     });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'Enter') login.click();
+    })
   }
 
   reset() {
@@ -94,11 +100,13 @@ class ListenAuth {
     if (
       !(auth instanceof HTMLElement) ||
       !back ||
-      !reset ||
+      !(reset instanceof HTMLElement) ||
       !(username instanceof HTMLInputElement) ||
       !(email instanceof HTMLInputElement)
     )
       return;
+
+    username.focus();
 
     username.addEventListener('blur', () => {
       validate(username, config.regex.username);
@@ -119,15 +127,19 @@ class ListenAuth {
           return;
         }
 
-        transition(auth, createAuth.reset);
-        setTimeout(() => {
+        transition(auth, () => {
+          createAuth.reset();
           const errorLabel = document.querySelector('.reset__error');
           if (!errorLabel) return;
 
           errorLabel.textContent = result.message;
-        }, 250);
+        });
       });
     });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'Enter') reset.click();
+    })
   }
 
   afterReset() {
@@ -151,13 +163,15 @@ class ListenAuth {
     if (
       !(auth instanceof HTMLElement) ||
       !back ||
-      !reg ||
+      !(reg instanceof HTMLElement) ||
       !(username instanceof HTMLInputElement) ||
       !(password instanceof HTMLInputElement) ||
       !(repPassword instanceof HTMLInputElement) ||
       !(email instanceof HTMLInputElement)
     )
       return;
+
+    username.focus();
 
     username.addEventListener('blur', () => {
       validate(username, config.regex.username);
@@ -185,24 +199,28 @@ class ListenAuth {
       load(auth);
       await userFetch.regictration(username.value, password.value, email.value).then((result) => {
         if (result.success) {
-          transition(auth, createAuth.afterRegistration);
-          setTimeout(() => {
+          transition(auth, () => {
+            createAuth.afterRegistration();
             const code = document.querySelector('.after-reg__code');
             if (!code) return;
             code.textContent = `${result.pinCode}`;
-          }, 250);
-          return;
+            return;
+          });
         }
 
-        transition(auth, createAuth.registration);
-        setTimeout(() => {
+        transition(auth, () => {
+          createAuth.registration();
           const errorLabel = document.querySelector('.reg__error');
           if (!errorLabel) return;
 
           errorLabel.textContent = result.message;
-        }, 250);
+        });
       });
     });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'Enter') reg.click();
+    })
   }
 
   afterRegistration() {
@@ -226,10 +244,11 @@ class ListenAuth {
       !(input instanceof HTMLInputElement) ||
       !(page instanceof HTMLElement) ||
       !back ||
-      !confirm
+      !(confirm instanceof HTMLElement)
     )
       return;
 
+    input.focus();
     this.backToLogin(back, auth);
 
     confirm.addEventListener('click', async () => {
@@ -237,22 +256,41 @@ class ListenAuth {
       load(auth);
       await userFetch.verify(config.currentUser, +input.value).then((result) => {
         if (result.success) {
-          if (result.token) {
+          if (result.userConfig?.isBlock) {
+            transition(auth, () => {
+              createAuth.verify();
+              const errorLabel = document.querySelector('.verify__error');
+              if (!errorLabel) return;
+
+              errorLabel.textContent = `${
+                config.lang === 'en'
+                  ? 'You are blocked. Please, contact with us.'
+                  : 'Вы заблокирвоаны. Свяжитесь с нами.'
+              }`;
+            });
+          }
+          if (result.token && result.userConfig?.money) {
             sessionStorage.setItem('token', result.token);
+            sessionStorage.setItem('money', `${result.userConfig.money}`);
+            sessionStorage.setItem('username', result.userConfig.username);
           }
           transition(page, createMain.afterLogin);
           return;
         }
 
-        transition(auth, createAuth.verify);
-        setTimeout(() => {
+        transition(auth, () => {
+          createAuth.verify();
           const errorLabel = document.querySelector('.verify__error');
           if (!errorLabel) return;
 
           errorLabel.textContent = result.message;
-        }, 250);
+        });
       });
     });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'Enter') confirm.click();
+    })
   }
 }
 

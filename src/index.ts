@@ -11,3 +11,7 @@ createAuth.login();
 
 //buildMain.logHeader();
 //buildMain.defaultMain();
+
+/*window.onbeforeunload = () => {
+  sessionStorage.removeItem('token');
+};*/

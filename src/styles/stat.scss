@@ -1,9 +1,10 @@
 .stat {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   width: 100%;
   padding: 10px;
   gap: 20px;
+
   &__operation {
     display: flex;
     flex-direction: column;
@@ -11,7 +12,7 @@
     font-size: 18px;
     padding: 10px;
     border-radius: 10px;
-    border: 1px $black dotted;
+    border: 1px $third dotted;
     &-p {
       margin: 3px 0;
     }

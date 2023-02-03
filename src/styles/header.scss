@@ -4,12 +4,16 @@
   top: 0;
   height: 100vh;
   width: 230px;
-  padding-left: 20px;
+  padding: 20px;
   font-size: 28px;
   border-right: 2px $third solid;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  &__logo {
+    font-size: 35px;
+    cursor: pointer;
+  }
   &__ul {
     list-style: none;
     li {
@@ -25,5 +29,8 @@
     &_active {
       color: $third;
     }
+  }
+  &__login {
+    cursor: pointer;
   }
 }
