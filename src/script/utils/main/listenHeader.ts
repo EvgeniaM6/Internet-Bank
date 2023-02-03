@@ -1,3 +1,4 @@
+import { EPages } from '../../data/types';
 import { navigationAccount } from '../account/navigationAccount';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
@@ -55,18 +56,22 @@ class ListenHeader {
       el.addEventListener('click', async () => {
         this.removeActiveClass();
         el.classList.add('header__nav_active');
-        if (el.textContent === 'Statistics') {
+        if (el.textContent === EPages.STATISTICS) {
           await createStatistics.operations();
           return;
         }
 
-        if (el.textContent === 'About') {
-          this.removeActiveClass();
+        if (el.textContent === EPages.CARD_CREATOR) {
+          transition(main, createMain.cardCreater);
+          return;
+        }
+
+        if (el.textContent === EPages.ABOUT) {
           transition(main, createMain.about);
           return;
         }
 
-        if (el.textContent === 'Account') {
+        if (el.textContent === EPages.ACCOUNT) {
           buildMain.account();
           navigationAccount();
           return;

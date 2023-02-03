@@ -1,6 +1,8 @@
 import config from '../../data/config';
 import { EPages } from '../../data/types';
 import { openWebSocket } from '../../fetch/webSocket';
+import { buildCard } from '../cardCreator/buildCard';
+import { listenCard } from '../cardCreator/listenCard';
 import { buildHeader } from './buildHeader';
 import { buildMain } from './buildMain';
 import { listenHeader } from './listenHeader';
@@ -32,6 +34,11 @@ class CreateMain {
     window.scrollTo(0, 0);
     config.page = EPages.ABOUT;
     //list
+  }
+
+  cardCreater() {
+    buildCard.main();
+    listenCard.main();
   }
 }
 
