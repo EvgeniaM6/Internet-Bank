@@ -11,3 +11,18 @@
   flex-direction: column;
   align-items: center;
 }
+
+.main-auth {
+  justify-content: center;
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 768px) {
+  .main {
+    margin-top: 85px;
+  }
+
+  .main-auth {
+    margin-top: -85px;
+  }
+}

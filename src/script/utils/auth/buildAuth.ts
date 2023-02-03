@@ -7,7 +7,7 @@ class BuildAuth {
     header.classList.remove('header');
     header.innerHTML = '';
 
-    main.className = 'container main-container';
+    main.className = 'container main-container main-auth';
     main.innerHTML = `<div class="auth">
 		<h2 class="auth__h">Welcome to RS Bank!</h2>
 		<div class="auth__container"></div>`;

@@ -18,8 +18,24 @@ class ListenHeader {
     const main = document.querySelector('.main');
     const login = document.querySelector('.header__login');
     const page = document.querySelector('.page');
+    const burger = document.querySelector('.header__burger');
+    const closeBurger = document.querySelector('.header__burger-close');
 
-    if (!logo || !login || !(main instanceof HTMLElement) || !(page instanceof HTMLElement)) return;
+    if (!burger || !closeBurger || !logo || !login || !(main instanceof HTMLElement) || !(page instanceof HTMLElement)) return;
+
+    burger.addEventListener('click', () => {
+      const nav = document.querySelector('.header__nav');
+      if (!nav) return;
+
+      nav.classList.add('header__nav_burger');
+    })
+
+    closeBurger.addEventListener('click', () => {
+      const nav = document.querySelector('.header__nav');
+      if (!nav) return;
+
+      nav.classList.remove('header__nav_burger');
+    })
 
     logo.addEventListener('click', () => {
       this.removeActiveClass();
