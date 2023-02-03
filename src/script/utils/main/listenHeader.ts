@@ -44,6 +44,12 @@ class ListenHeader {
           return;
         }
 
+        if (el.textContent === 'About') {
+          this.removeActiveClass();
+          transition(main, createMain.about);
+          return;
+        }
+
         if (el.textContent === 'Account') {
           buildMain.account();
           navigationAccount();

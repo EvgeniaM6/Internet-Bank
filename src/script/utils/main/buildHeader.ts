@@ -7,7 +7,10 @@ class BuildHeader {
     main.style.marginLeft = '230px';
 
     header.classList.add('header');
-    header.innerHTML = `<div class="header__logo">RS Bank</div>
+    header.innerHTML = `<div>
+        <h1 class="header__logo">RS Bank</h1>
+        <small>Users online: <span class="users-online__count"></span></small>
+    </div>
     <nav class="header__logo">
         <ul class="header__ul">
           <li class="header__nav-item header__nav-about">About</li>

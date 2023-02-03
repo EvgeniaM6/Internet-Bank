@@ -10,6 +10,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  &__logo {
+    font-size: 35px;
+  }
   &__ul {
     list-style: none;
     li {

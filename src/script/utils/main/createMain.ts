@@ -1,3 +1,5 @@
+import config from '../../data/config';
+import { openWebSocket } from '../../fetch/webSocket';
 import { buildHeader } from './buildHeader';
 import { buildMain } from './buildMain';
 import { listenHeader } from './listenHeader';
@@ -19,6 +21,8 @@ class CreateMain {
     createMain.header();
     buildMain.about();
     //list
+
+    //openWebSocket();
   }
 
   about() {
