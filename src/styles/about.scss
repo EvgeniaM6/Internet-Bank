@@ -26,6 +26,7 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
+      align-items: flex-start;
     }
 
     &-photo {
@@ -42,6 +43,43 @@
 
     &-name {
       font-size: 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .about{
+    width: 100%;
+    gap: 50px;
+    font-size: 16px;
+    &__h {
+      font-size: 30px;
+    }
+    h3 {
+      font-size: 22px;
+    }
+    ul {
+      margin-left: 10px;
+    }
+  
+    &__section {
+      gap: 20px;
+    }
+  
+    &__author {
+      &-photo {
+        max-width: 18%;
+        border-radius: 7px;
+      }
+  
+      &-info {
+        max-width: 75%;
+        gap: 6px;
+      }
+  
+      &-name {
+        font-size: 20px;
+      }
     }
   }
 }

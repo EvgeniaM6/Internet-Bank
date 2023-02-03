@@ -6,7 +6,7 @@ class BuildMain {
 
     about.classList.add('header__nav_active');
 
-    main.classList.add('about');
+    main.className = 'main-container container about'
     main.innerHTML = `<h2 class="about__h">RS Bank - clone of Internet Bank</h2>
     <p class="about__text">Our RS School 2022Q3 final project is a clone of the Internet bank. 
         Today, almost all financial transactions can be performed remotely via the Internet. 

@@ -10,9 +10,16 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  &__burger {
+    display: none;
+    &-close {
+      display: none;
+    }
+  }
   &__logo {
     font-size: 35px;
     cursor: pointer;
+    color: $third;
   }
   &__ul {
     list-style: none;
@@ -30,7 +37,70 @@
       color: $third;
     }
   }
+  &__down {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
   &__login {
     cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    height: 80px;
+    width: 100%;
+    padding: 20px;
+    font-size: 18px;
+    border-right: none;
+    border-bottom: 2px $third solid;
+    flex-direction: row;
+    align-items: center;
+    background-color: $white;
+    &__burger {
+      display: block;
+      order: 3;
+      font-size: 20px;
+      background-color: inherit;
+      color: $third;
+      border: none;
+      &-close {
+        display: block;
+        font-size: 20px;
+        background-color: inherit;
+        color: $third;
+        border: none;
+        margin-left: 30px;
+      }
+    }
+    &__logo {
+      font-size: 26px;
+    }
+    &__nav {
+      display: flex;
+      align-items: flex-start;
+      position: absolute;
+      transform: translate(110%, 35%);
+      right: 0;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: $white;
+      border: 2px solid $third;
+      z-index: 3;
+      transition: .3s;
+    }
+    &__nav_burger {
+      transform: translate(-10%, 35%);
+    }
+    &__ul {
+      gap: 10px;
+      li {
+        margin: 4px 0;
+      }
+    }
+    &__down {
+      align-items: center;
+    }
   }
 }

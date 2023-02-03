@@ -6,23 +6,25 @@ class BuildHeader {
     const main = document.querySelector('.main');
     if (!header || !(main instanceof HTMLElement)) return;
 
-    main.style.marginLeft = '230px';
+    if (document.documentElement.clientWidth > 767) main.style.marginLeft = '230px';
 
     header.classList.add('header');
     header.innerHTML = `<div class="header__up">
         <h1 class="header__logo">RS Bank</h1>
-        <small>Users online: <span class="users-online__count"></span></small>
     </div>
+    <button class="header__burger">Menu</button>
     <nav class="header__nav">
         <ul class="header__ul">
-          <li class="header__nav-item header__nav-about">About</li>
-          <li class="header__nav-item">Services</li>
-          <li class="header__nav-item">Quiz</li>
-          <li class="header__nav-item">Statistics</li>
+            <li class="header__nav-item header__nav-about">About</li>
+            <li class="header__nav-item">Services</li>
+            <li class="header__nav-item">Quiz</li>
+            <li class="header__nav-item">Statistics</li>
         </ul>
+        <button class="header__burger-close">&#10006;</button>
     </nav>
     <div class="header__down">
         <div class="header__login">Log In</div>
+        <small>Users online: <span class="users-online__count"></span></small>
     </div>`;
   }
 
@@ -30,8 +32,8 @@ class BuildHeader {
     this.anonimHeader();
     const list = document.querySelector('.header__ul');
     const logout = document.querySelector('.header__login');
-    const headerDown = document.querySelector('.header__down');
-    if (!list || !logout || !headerDown) return;
+    const headerUp = document.querySelector('.header__up');
+    if (!list || !logout || !headerUp) return;
 
     logout.textContent = 'Log Out';
 
@@ -49,7 +51,7 @@ class BuildHeader {
     if (currMoney) {
       money.textContent = `$${Number(currMoney).toFixed(2)}`;
     }
-    headerDown.appendChild(money);
+    headerUp.appendChild(money);
 
     list.appendChild(cardCreator);
     list.appendChild(account);
