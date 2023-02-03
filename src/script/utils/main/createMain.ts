@@ -1,4 +1,5 @@
 import config from '../../data/config';
+import { EPages } from '../../data/types';
 import { openWebSocket } from '../../fetch/webSocket';
 import { buildHeader } from './buildHeader';
 import { buildMain } from './buildMain';
@@ -20,6 +21,7 @@ class CreateMain {
   afterLogin() {
     createMain.header();
     buildMain.about();
+    config.page = EPages.ABOUT;
     //list
 
     //openWebSocket();
@@ -27,6 +29,8 @@ class CreateMain {
 
   about() {
     buildMain.about();
+    window.scrollTo(0, 0);
+    config.page = EPages.ABOUT;
     //list
   }
 }
