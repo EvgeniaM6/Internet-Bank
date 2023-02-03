@@ -1,7 +1,7 @@
 import { validate } from '../validate';
 import config from '../../data/config';
-import { userFetch } from '../../fetch/userFetch';
-import { EMethod } from '../../data/types';
+import { buildAuth } from '../auth/buildAuth';
+import { createAuth } from '../auth/createAuth';
 import { buildAccount } from './buildAccount';
 
 class ListenAccount {
@@ -148,6 +148,9 @@ class ListenAccount {
           }),
         })
       ).json();
+
+      buildAuth.main();
+      createAuth.login();
     });
   }
 
