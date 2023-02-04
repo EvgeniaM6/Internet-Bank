@@ -1,0 +1,52 @@
+.operations {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid $third;
+
+    &__main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__img {
+      width: 150px;
+      height: 150px;
+      background-color: $third;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    &__title {
+      font-size: 18px;
+      padding: 6px 0;
+    }
+
+    &__btn {
+      width: 90%;
+      height: 30px;
+      border-radius: 15px;
+      border-width: 0px;
+      font-size: 20px;
+      text-transform: uppercase;
+      color: $white;
+      background-color: $third;
+      cursor: pointer;
+      transition: .2s;
+  
+      &:hover{
+        opacity: .8;
+      }
+    }
+  }
+}

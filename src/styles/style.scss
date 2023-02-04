@@ -25,6 +25,7 @@ $third: #d8c307;
 @import 'stat';
 @import 'account';
 @import 'card';
+@import './layouts/payments';
 
 .invalid {
   border: 2px red solid
