@@ -25,10 +25,11 @@ $third: #d8c307;
 @import 'stat';
 @import 'account';
 @import 'card';
+@import './abstract/constants';
+@import './base/base';
 @import './layouts/payments';
 @import './layouts/paymentsDetails';
 @import './layouts/modalPayment';
-@import './base/base';
 
 .invalid {
   border: 2px red solid

@@ -34,6 +34,7 @@
     
       &__label {
         margin: 0 5px;
+        cursor: pointer;
     
         &::before {
           content: '';
@@ -50,6 +51,11 @@
           background-size: 50% 50%;
           position: relative;
           top: 0.1em;
+          transition: all .3s;
+        }
+
+        &-title {
+          margin-right: 3px;
         }
       }
     
@@ -87,6 +93,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 10px;
+    transition: 0.2s;
   
     .card {
       display: flex;
@@ -118,8 +125,12 @@
         font-weight: 700;
       }
 
-      &__category-text {
-        margin-right: 5px;
+      &__category {
+        margin-bottom: 12px;
+
+        &-text {
+          margin-right: 5px;
+        }
       }
   
       &__btn {
