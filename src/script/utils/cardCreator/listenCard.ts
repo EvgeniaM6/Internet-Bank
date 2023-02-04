@@ -20,6 +20,10 @@ class ListenCard {
     !cardButton ||
     !cardCreate) return;
 
+    cardName.addEventListener('blur', () => {
+      if (!cardName.value.length) cardName.classList.add('invalid');
+    })
+
     cardButton.addEventListener('click', (e) => {
       e.preventDefault();
       cardConfig.system = cardSelect.value;
