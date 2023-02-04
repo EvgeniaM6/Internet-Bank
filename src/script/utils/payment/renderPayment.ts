@@ -1,9 +1,12 @@
+import config from '../../data/config';
 import { INDEX_START_SERVICES } from '../../data/constants';
-import { IServiceObj, IServices, TElemsForUpdateText, TServiceDetails } from '../../data/servicesType';
+import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { servicesFetch } from '../../fetch/servicesFetch';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
+import en from '../../data/lang/payment/en';
+import ru from '../../data/lang/payment/ru';
 
 class RenderPayment {
   main = document.querySelector('main') as HTMLElement;
@@ -11,9 +14,14 @@ class RenderPayment {
   elemsForUpdatingText: TElemsForUpdateText = {};
   selectedCategoryFilter = 'all';
   operationsContainer = createElem('div', 'operations');
+  langs: TLang = {
+    en,
+    ru,
+  };
 
   renderPaymentsPage(): void {
     this.main.innerHTML = '';
+    window.scrollTo(0, 0);
     const paymentPage = createElem('div', 'main__payment-page', this.main);
     const filtersContainer = createElem('div', 'filters', paymentPage);
 
@@ -30,7 +38,6 @@ class RenderPayment {
 
       this.updatePaymentCards();
       this.renderFilters(filtersContainer);
-      this.updatePaymentCardsText();
     });
   }
 
@@ -50,10 +57,10 @@ class RenderPayment {
     this.elemsForUpdatingText[`${operationId}_operation-title`] = operationName;
 
     const operationCategory = createElem('p', 'card__category', mainInfo);
-    createElem('span', 'card__category-text', operationCategory);
+    createElem('span', 'card__category-text', operationCategory, this.langs[config.lang]['card__category-text']);
     createElem('span', 'card__category-type', operationCategory, this.operationsResp[operationId].category);
 
-    const btn = createElem('button', 'card__btn btn-colored', card);
+    const btn = createElem('button', 'card__btn btn-colored', card, this.langs[config.lang].card__btn);
 
     btn.addEventListener('click', () => this.renderPayment(+operationId));
 
@@ -65,8 +72,7 @@ class RenderPayment {
   }
 
   updatePaymentCardsText(): void {
-    const currentLang = this.getCurrentLang();
-    const keyForText = currentLang === 'en' ? 'name' : 'ruName';
+    const keyForText = config.lang === 'en' ? 'name' : 'ruName';
 
     Object.keys(this.elemsForUpdatingText).forEach((key) => {
       const [operationId, elemType] = key.split('_');
@@ -77,10 +83,6 @@ class RenderPayment {
         elemForUpdate.textContent = textForElem;
       }
     });
-  }
-
-  getCurrentLang(): string {
-    return 'ru';
   }
 
   getOparationData(operationId: number): TServiceDetails | null {
@@ -94,7 +96,7 @@ class RenderPayment {
     const filterForm = createElem('form', 'filter__form', filterElem) as HTMLFormElement;
     filterForm.name = filterType;
 
-    createElem('div', 'filter__title', filterForm);
+    createElem('div', 'filter__title', filterForm, this.langs[config.lang].filter__title);
     const filterList = createElem('div', 'filter__list', filterForm);
 
     const filterAllItemElem = createElem('div', 'filter__item', filterList);
@@ -193,6 +195,8 @@ class RenderPayment {
     filteredOperationsIdArr.forEach((operationId) => {
       this.renderPaymentCard(operationId, this.operationsContainer);
     });
+
+    this.updatePaymentCardsText();
   }
 }
 

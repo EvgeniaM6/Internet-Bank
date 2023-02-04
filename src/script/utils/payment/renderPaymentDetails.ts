@@ -1,21 +1,28 @@
 import config from '../../data/config';
 import { operationInputData } from '../../data/constants';
-import { TElemsForUpdateText, TServiceDetails } from '../../data/servicesType';
+import { TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
+import { EOperation } from '../../data/types';
+import { moneyFetch } from '../../fetch/moneyFetch';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
 import { modalPayment } from './modalPayment';
-import { payment } from './payment';
 import { renderPayment } from './renderPayment';
+import en from '../../data/lang/paymDetails/en';
+import ru from '../../data/lang/paymDetails/ru';
 
 class RenderPaymentDetails {
   main = document.querySelector('main') as HTMLElement;
   elemsForUpdatingText: TElemsForUpdateText = {};
   currentOperationData: TServiceDetails | null = null;
   canPay = false;
-  currLang = 'en';
+  langs: TLang = {
+    en,
+    ru,
+  };
 
-  renderPayment(operationID: number): void {
-    this.currentOperationData = renderPayment.getOparationData(operationID);
+  renderPayment(operationId: number): void {
+    window.scrollTo(0, 0);
+    this.currentOperationData = renderPayment.getOparationData(operationId);
     if (!this.currentOperationData) return;
 
     this.main.innerHTML = '';
@@ -35,16 +42,21 @@ class RenderPaymentDetails {
     this.elemsForUpdatingText.title = operationName;
 
     const operationCategory = createElem('p', 'operation__category', operationMain);
-    createElem('span', 'operation__category-text', operationCategory);
+    createElem(
+      'span',
+      'operation__category-text',
+      operationCategory,
+      this.langs[config.lang]['operation__category-text']
+    );
     createElem('span', 'operation__category-type', operationCategory, this.currentOperationData.category);
 
-    const payDetails = createElem('form', 'operation__details', operation) as HTMLFormElement;
-    const payForm = createElem('form', 'operation__form form', payDetails) as HTMLFormElement;
+    const payDetails = createElem('div', 'operation__details', operation) as HTMLFormElement;
+    const payForm = createElem('form', 'operation__form form-paym', payDetails) as HTMLFormElement;
 
     const sumBlock = createElem('div', 'operation__form-block form-sum', payForm);
-    const sumLabel = createElem('label', 'form-sum__label form__label', sumBlock) as HTMLLabelElement;
+    const sumLabel = createElem('label', 'form-sum__label form-paym__label', sumBlock) as HTMLLabelElement;
 
-    const sumInput = createElem('input', 'form-sum__input form__input', sumBlock) as HTMLInputElement;
+    const sumInput = createElem('input', 'form-sum__input form-paym__input', sumBlock) as HTMLInputElement;
     sumInput.id = sumLabel.htmlFor = 'sum';
     sumInput.type = 'number';
     sumInput.required = true;
@@ -55,14 +67,14 @@ class RenderPaymentDetails {
     this.elemsForUpdatingText[`label_${sumInput.id}`] = sumLabel;
 
     const dataBlock = createElem('div', 'operation__form-block form-data', payForm);
-    const dataLabel = createElem('label', 'form-data__label form__label', dataBlock) as HTMLLabelElement;
+    const dataLabel = createElem('label', 'form-data__label form-paym__label', dataBlock) as HTMLLabelElement;
 
-    const dataInput = createElem('input', 'form__input', dataBlock) as HTMLInputElement;
-    dataInput.id = dataLabel.htmlFor = `${operationID}`;
+    const dataInput = createElem('input', 'form-paym__input', dataBlock) as HTMLInputElement;
+    dataInput.id = dataLabel.htmlFor = `${operationId}`;
     dataInput.type = 'text';
     dataInput.required = true;
 
-    const inputData = operationInputData[`${operationID}`];
+    const inputData = operationInputData[`${operationId}`];
     if (inputData) {
       dataInput.placeholder = inputData.placeholder;
     }
@@ -71,14 +83,32 @@ class RenderPaymentDetails {
 
     dataInput.addEventListener('input', () => this.checkInputsValidity(payForm));
 
-    if (!payment.getCurrentToken()) {
-      createElem('div', 'operation__commission', payDetails) as HTMLFormElement;
+    if (!this.getCurrentToken()) {
+      createElem(
+        'div',
+        'operation__commission',
+        payDetails,
+        this.langs[config.lang].operation__commission
+      ) as HTMLFormElement;
+    } else {
+      const btnPay = createElem(
+        'button',
+        'form-paym__btn btn-colored unable',
+        payDetails,
+        this.langs[config.lang]['form-paym__btn']
+      );
+      this.elemsForUpdatingText.btnPay = btnPay;
+      btnPay.addEventListener('click', (e) => this.pay(e, sumInput, operationId));
     }
 
-    const btn = createElem('button', 'form__btn btn-colored unable', payDetails);
-    this.elemsForUpdatingText.btnPay = btn;
-
-    btn.addEventListener('click', (e) => this.pay(e, sumInput, operationID));
+    const btnPayByCard = createElem(
+      'button',
+      'form-paym__btn-card btn-colored unable',
+      payDetails,
+      this.langs[config.lang][`form-paym__btn-card`]
+    );
+    this.elemsForUpdatingText.btnPayCard = btnPayByCard;
+    btnPayByCard.addEventListener('click', (e) => this.payByCard(e, sumInput, operationId));
 
     this.updatePaymentText();
 
@@ -87,21 +117,38 @@ class RenderPaymentDetails {
     // btnLang.addEventListener('click', () => this.toggleLang());
   }
 
-  pay(e: Event, sumInput: HTMLInputElement, operationID: number): void {
+  pay(e: Event, sumInput: HTMLInputElement, operationId: number): void {
     e.preventDefault();
     if (!this.canPay) return;
     const paymentSum = +(sumInput as HTMLInputElement).value;
 
-    if (!config.currentUser) {
-      this.renderAnonimPayment(paymentSum);
-    } else {
-      payment.makePayment(paymentSum, operationID);
-      console.log('pay!');
-    }
+    const token = this.getCurrentToken();
+
+    moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then((resp) => {
+      console.log('Pay resp=', resp);
+      const popupMessage = createElem('div', 'popup popup-message', document.body);
+
+      const message = resp.success ? this.langs[config.lang].modalInfoMessage : '';
+      popupMessage.innerHTML = modalPayment.modalInfoMessage(message);
+
+      setTimeout(() => {
+        popupMessage.remove();
+        renderPayment.renderPaymentsPage();
+      }, 3000);
+    });
+  }
+
+  payByCard(e: Event, sumInput: HTMLInputElement, operationId: number): void {
+    e.preventDefault();
+    if (!this.canPay) return;
+    const paymentSum = +(sumInput as HTMLInputElement).value;
+    const isAnonim = !config.currentUser;
+
+    this.renderAnonimPayment(paymentSum, operationId, isAnonim);
   }
 
   checkInputsValidity(payForm: HTMLFormElement): void {
-    const canPay = Array.from(payForm.elements).every((inputEl) => {
+    this.canPay = Array.from(payForm.elements).every((inputEl) => {
       const inputId = inputEl.id;
       if (!inputId) return true;
       if (inputId === 'sum' && +(inputEl as HTMLInputElement).value <= 0) {
@@ -116,25 +163,32 @@ class RenderPaymentDetails {
       return isCorrectValue;
     });
 
-    console.log('canPay=', canPay);
+    console.log('this.canPay=', this.canPay);
 
     const buttonPay = this.elemsForUpdatingText.btnPay;
-    if (!buttonPay) return;
-    if (canPay) {
-      this.canPay = true;
-      buttonPay.classList.remove('unable');
+    const buttonPayCard = this.elemsForUpdatingText.btnPayCard;
+    if (!buttonPayCard) return;
+
+    if (this.canPay) {
+      buttonPayCard.classList.remove('unable');
+      if (buttonPay) {
+        buttonPay.classList.remove('unable');
+      }
     } else {
-      if (!buttonPay.classList.contains('unable')) {
-        this.canPay = false;
-        buttonPay.classList.add('unable');
+      if (!buttonPayCard.classList.contains('unable')) {
+        buttonPayCard.classList.add('unable');
+      }
+
+      if (buttonPay) {
+        if (!buttonPay.classList.contains('unable')) {
+          buttonPay.classList.add('unable');
+        }
       }
     }
   }
 
   updatePaymentText(): void {
     if (!this.currentOperationData) return;
-
-    const currentLang = this.getCurrentLang();
 
     Object.keys(this.elemsForUpdatingText).forEach((key) => {
       const keysArr = key.split('_');
@@ -143,20 +197,20 @@ class RenderPaymentDetails {
       switch (keysArr[0]) {
         case 'title':
           {
-            const keyForText = currentLang === 'en' ? 'name' : 'ruName';
+            const keyForText = config.lang === 'en' ? 'name' : 'ruName';
             elem.textContent = this.currentOperationData?.[keyForText] || '';
           }
           break;
         case 'input':
           {
             const elemId = elem.id;
-            elem.title = operationInputData[elemId].hint[currentLang];
+            elem.title = operationInputData[elemId].hint[config.lang];
           }
           break;
         case 'label':
           {
             const elemFor = (elem as HTMLLabelElement).htmlFor;
-            elem.textContent = operationInputData[elemFor].labelText[currentLang];
+            elem.textContent = operationInputData[elemFor].labelText[config.lang];
           }
           break;
         default:
@@ -165,12 +219,14 @@ class RenderPaymentDetails {
     });
   }
 
-  getCurrentLang(): string {
-    return this.currLang;
+  renderAnonimPayment(paymentSum: number, operationId: number, isAnonim: boolean): void {
+    modalPayment.renderModalPayment(paymentSum, operationId, isAnonim);
   }
 
-  renderAnonimPayment(paymentSum: number): void {
-    modalPayment.drawModalPayment(paymentSum);
+  getCurrentToken(): string {
+    const token = sessionStorage.getItem('token') || '';
+    console.log('token=', token);
+    return token;
   }
 
   // toggleLang(): void {
