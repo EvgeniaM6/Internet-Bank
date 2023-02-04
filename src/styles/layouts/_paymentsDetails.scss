@@ -1,0 +1,76 @@
+.operation {
+  width: 100%;
+  padding: 20px;
+
+  &__info {
+    display: flex;
+    padding: 10px 0px;
+  }
+
+  &__img {
+    width: 50px;
+    height: 50px;
+    background-color: $third;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-right: 10px;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__category-text {
+    margin-right: 5px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &-block {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__commission {
+    margin-bottom: 20px;
+  }
+}
+
+.form-paym {
+  
+  &__label {
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    padding: 6px 12px;
+    border: solid 2px #e3b824;
+    border-radius: 8px;
+    font-size: 18px;
+    width: 250px;
+  }
+
+  &__btn.btn-colored,
+  &__btn-card.btn-colored {
+    width: 250px;
+    height: auto;
+    padding: 5px 0;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+
+    &.unable {
+      background-color: #717171;
+      cursor: default;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

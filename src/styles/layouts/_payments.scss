@@ -1,0 +1,131 @@
+.main__payment-page {
+  width: 100%;
+  padding: 10px;
+
+  .filters {
+    border: solid 5px $third;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    padding: 5px;
+
+    .filter {
+    
+      &__form {
+        display: flex;
+      }
+    
+      &__title {
+        margin-right: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 20px;
+        text-align: end;
+      }
+    
+      &__list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    
+      &__item {
+        font-size: 18px;
+        margin: 0 32px 5px 0;
+      }
+    
+      &__label {
+        margin: 0 5px;
+    
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 15px;
+          height: 15px;
+          flex-shrink: 0;
+          flex-grow: 0;
+          border: 1px solid $third;
+          border-radius: 50%;
+          margin-right: 0.3em;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 50% 50%;
+          position: relative;
+          top: 0.1em;
+        }
+      }
+    
+      &__input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    
+        &:not(:checked)+label:hover::before {
+          border-color: transparentize($color: $third, $amount: 0.5);
+        }
+    
+        &:active+label::before {
+          background-color: transparentize($color: $third, $amount: 0.5);
+          border-color: transparentize($color: $third, $amount: 0.5);
+        }
+    
+        &:focus+label::before {
+          box-shadow: 0 0 0 0.2rem transparentize($color: $third, $amount: 0.5);
+        }
+    
+        &:focus:not(:checked)+label::before {
+          border-color: transparentize($color: $third, $amount: 0.5);
+        }
+    
+        &:checked+label::before {
+          border-color: $third;
+          background-color: $third;
+        }
+      }
+    }
+  }
+  
+  .operations {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+  
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-radius: 20px;
+      border: 2px solid $third;
+  
+      &__main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+  
+      &__img {
+        width: 150px;
+        height: 150px;
+        background-color: $third;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+  
+      &__title {
+        font-size: 18px;
+        padding: 6px 0;
+        font-weight: 700;
+      }
+
+      &__category-text {
+        margin-right: 5px;
+      }
+  
+      &__btn {
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+    }
+  }
+}

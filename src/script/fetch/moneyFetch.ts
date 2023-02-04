@@ -2,7 +2,7 @@ import { EMethod, EOperation, ICommission, IMainRes } from '../data/types';
 import Fetch from './mainFetch';
 
 class MoneyFetch extends Fetch {
-  async changeMainMoney(money: number, operation: EOperation, token: string) {
+  async changeMainMoney(money: number, operation: EOperation, token: string, operationID: number) {
     const path = '/money';
     const query = `?operation=${operation}`;
     const req = {
@@ -11,7 +11,7 @@ class MoneyFetch extends Fetch {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ money }),
+      body: JSON.stringify({ money, operationID }),
     };
     const result: IMainRes = await this.mainFetch(req, path, query);
     return result;

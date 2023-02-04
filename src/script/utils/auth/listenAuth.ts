@@ -87,7 +87,7 @@ class ListenAuth {
 
     document.addEventListener('keyup', (e) => {
       if (e.code === 'Enter') login.click();
-    })
+    });
   }
 
   reset() {
@@ -139,7 +139,7 @@ class ListenAuth {
 
     document.addEventListener('keyup', (e) => {
       if (e.code === 'Enter') reset.click();
-    })
+    });
   }
 
   afterReset() {
@@ -220,7 +220,7 @@ class ListenAuth {
 
     document.addEventListener('keyup', (e) => {
       if (e.code === 'Enter') reg.click();
-    })
+    });
   }
 
   afterRegistration() {
@@ -290,7 +290,7 @@ class ListenAuth {
 
     document.addEventListener('keyup', (e) => {
       if (e.code === 'Enter') confirm.click();
-    })
+    });
   }
 }
 

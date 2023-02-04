@@ -2,6 +2,7 @@ import { EPages } from '../../data/types';
 import { navigationAccount } from '../account/navigationAccount';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
+import { renderPayment } from '../payment/renderPayment';
 import { createStatistics } from '../statistics/createStatistics';
 import { transition } from '../transition';
 import { buildMain } from './buildMain';
@@ -22,21 +23,22 @@ class ListenHeader {
     const burger = document.querySelector('.header__burger');
     const closeBurger = document.querySelector('.header__burger-close');
 
-    if (!burger || !closeBurger || !logo || !login || !(main instanceof HTMLElement) || !(page instanceof HTMLElement)) return;
+    if (!burger || !closeBurger || !logo || !login || !(main instanceof HTMLElement) || !(page instanceof HTMLElement))
+      return;
 
     burger.addEventListener('click', () => {
       const nav = document.querySelector('.header__nav');
       if (!nav) return;
 
       nav.classList.add('header__nav_burger');
-    })
+    });
 
     closeBurger.addEventListener('click', () => {
       const nav = document.querySelector('.header__nav');
       if (!nav) return;
 
       nav.classList.remove('header__nav_burger');
-    })
+    });
 
     logo.addEventListener('click', () => {
       this.removeActiveClass();
@@ -74,6 +76,11 @@ class ListenHeader {
         if (el.textContent === EPages.ACCOUNT) {
           buildMain.account();
           navigationAccount();
+          return;
+        }
+
+        if (el.textContent === EPages.SERVICES) {
+          transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
           return;
         }
         alert(el.textContent);
