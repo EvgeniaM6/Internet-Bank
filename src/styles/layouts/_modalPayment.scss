@@ -116,6 +116,15 @@
 .btn--col-3.btn-colored {
   font-weight: 700;
   max-width: 245px;
+  
+  &.unable {
+    background-color: #717171;
+    cursor: default;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .input--payment {
