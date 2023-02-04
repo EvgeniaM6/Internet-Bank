@@ -1,6 +1,6 @@
-import cardConfig from "./cardConfig";
+import cardConfig from './cardConfig';
 
-class BuildCard{
+class BuildCard {
   main() {
     const main = document.querySelector('.main-container');
     if (!main) return;
@@ -50,9 +50,15 @@ class BuildCard{
   }
 
   card() {
-    const code = `<div class="card__code" style="position:relative;width:650px;height:400px;font-family: 'Montserrat', sans-serif;border-radius:20px;overflow:hidden;font-size:30px;color:${cardConfig.text};">
-        <div style="width:100%;height:100%;${cardConfig.color ? `background-color:${cardConfig.color}` : ''};background-image:url(${cardConfig.link});background-size: cover;"></div>
-        <img src="https://raw.githubusercontent.com/kkolite/online-store/develop/src/assets/png/${cardConfig.system}.png" alt="" style="width:80px;position:absolute;bottom:30px;right:30px">
+    const code = `<div class="card__code" style="position:relative;width:650px;height:400px;font-family: 'Montserrat', sans-serif;border-radius:20px;overflow:hidden;font-size:30px;color:${
+      cardConfig.text
+    };">
+        <div style="width:100%;height:100%;${
+          cardConfig.color ? `background-color:${cardConfig.color}` : ''
+        };background-image:url(${cardConfig.link});background-size: cover;"></div>
+        <img src="https://raw.githubusercontent.com/kkolite/online-store/develop/src/assets/png/${
+          cardConfig.system
+        }.png" alt="" style="width:80px;position:absolute;bottom:30px;right:30px">
         <p style="position:absolute;left:60px;bottom:80px">${cardConfig.name.toUpperCase()}</p>
         <p style="position:absolute;left:350px;bottom:130px">02/26</p>
         <p style="position:absolute;left:30px;top:30px;padding:5px;border-radius:10px;font-size:50px;color:#d8c307;background-color:white">RS Bank</p>
@@ -64,18 +70,18 @@ class BuildCard{
 
   generateCard() {
     let first: string;
-    switch(cardConfig.system){
-        case 'mastercard':
-            first = '5247';
-            break;
-        case 'visa':
-            first = '4255';
-            break;
-        case 'unionpay':
-            first = '6582';
-            break;
-        default:
-            first = '7474'
+    switch (cardConfig.system) {
+      case 'mastercard':
+        first = '5247';
+        break;
+      case 'visa':
+        first = '4255';
+        break;
+      case 'unionpay':
+        first = '6582';
+        break;
+      default:
+        first = '7474';
     }
 
     const second = `${random()}5${random()}8`;
@@ -83,10 +89,10 @@ class BuildCard{
     const fourth = `${random()}${random()}${random()}${random()}`;
 
     function random() {
-        return Math.floor(Math.random() *10);
+      return Math.floor(Math.random() * 10);
     }
 
-    return `${first}&nbsp;&nbsp;${second}&nbsp;&nbsp;${third}&nbsp;&nbsp;${fourth}`
+    return `${first}&nbsp;&nbsp;${second}&nbsp;&nbsp;${third}&nbsp;&nbsp;${fourth}`;
   }
 }
 

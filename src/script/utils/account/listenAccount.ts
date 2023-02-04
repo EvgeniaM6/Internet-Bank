@@ -165,7 +165,6 @@ class ListenAccount {
       listenAccount.deleteAccount();
     });
   }
-
 }
 
 export const listenAccount = new ListenAccount();

@@ -5,9 +5,9 @@ class BuildMain {
     if (!main || !aboutHead) return;
 
     aboutHead.classList.add('header__nav_active');
-    
+
     main.innerHTML = ``;
-    main.className = 'main-container container'
+    main.className = 'main-container container';
 
     const about = document.createElement('div');
     about.classList.add('about');

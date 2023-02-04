@@ -1,4 +1,4 @@
-import config from "../../data/config";
+import config from '../../data/config';
 
 class BuildAccount {
   editAccount() {

@@ -1,6 +1,6 @@
-import cardFetch from "../../fetch/cardFetch";
-import { buildCard } from "./buildCard";
-import cardConfig from "./cardConfig";
+import cardFetch from '../../fetch/cardFetch';
+import { buildCard } from './buildCard';
+import cardConfig from './cardConfig';
 
 class ListenCard {
   main() {
@@ -12,17 +12,20 @@ class ListenCard {
     const cardButton = document.querySelector('.card__button');
     const cardCreate = document.querySelector('.card__create');
 
-    if (!(cardSelect instanceof HTMLSelectElement) ||
-    !(cardName instanceof HTMLInputElement) ||
-    !(cardColor instanceof HTMLInputElement) ||
-    !(cardText instanceof HTMLInputElement) ||
-    !(cardLink instanceof HTMLInputElement) ||
-    !cardButton ||
-    !cardCreate) return;
+    if (
+      !(cardSelect instanceof HTMLSelectElement) ||
+      !(cardName instanceof HTMLInputElement) ||
+      !(cardColor instanceof HTMLInputElement) ||
+      !(cardText instanceof HTMLInputElement) ||
+      !(cardLink instanceof HTMLInputElement) ||
+      !cardButton ||
+      !cardCreate
+    )
+      return;
 
     cardName.addEventListener('blur', () => {
       if (!cardName.value.length) cardName.classList.add('invalid');
-    })
+    });
 
     cardButton.addEventListener('click', (e) => {
       e.preventDefault();
@@ -37,15 +40,15 @@ class ListenCard {
         cardConfig.code = buildCard.card();
         cardPrev.innerHTML = cardConfig.code;
       }
-    })
+    });
 
-    cardCreate.addEventListener('click', async(e) => {
+    cardCreate.addEventListener('click', async (e) => {
       e.preventDefault();
       if (cardName.value.length) {
         const link = await cardFetch();
         window.open(link);
       }
-    })
+    });
   }
 }
 
