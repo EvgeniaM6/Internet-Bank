@@ -3,6 +3,8 @@ import config from '../../data/config';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { buildAccount } from './buildAccount';
+import { buildMain } from '../main/buildMain';
+import { navigationAccount } from './navigationAccount';
 
 class ListenAccount {
   editAccount() {
@@ -10,10 +12,12 @@ class ListenAccount {
     const refreshEmail = document.getElementById('edit-email');
     const buttonSubmit = document.querySelector('.edit__button-submit');
     const buttonCancel = document.querySelector('.edit__button-cancel');
+    const note = document.querySelector('.edit__notification');
 
     if (
       !buttonSubmit ||
       !buttonCancel ||
+      !note ||
       !(refreshName instanceof HTMLInputElement) ||
       !(refreshEmail instanceof HTMLInputElement)
     )
@@ -32,11 +36,17 @@ class ListenAccount {
 
     const token = sessionStorage.getItem('token');
 
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
+
     buttonSubmit.addEventListener('click', async () => {
       const name = refreshName.value;
       const email = refreshEmail.value;
-      console.log(email);
-      console.log(token);
+      config.regex.username = name;
+
       if (!valEmail || !valName || !token) return;
 
       (
@@ -53,6 +63,8 @@ class ListenAccount {
           }),
         })
       ).json();
+
+      note.innerHTML = 'Note: Your login and e-mail changed successfully! To return to account page press "Back"';
     });
   }
 
@@ -88,6 +100,12 @@ class ListenAccount {
     });
 
     const token = sessionStorage.getItem('token');
+
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
 
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;
@@ -234,7 +252,6 @@ class ListenAccount {
       ).json();
     });
   }
-
 }
 
 export const listenAccount = new ListenAccount();

@@ -31,6 +31,12 @@ export function navigationAccount() {
         listenAccount.currency();
         return;
       }
+
+      if (item.textContent === 'Last operations') {
+        buildAccount.showLastOperations();
+        //listenAccount.currency();
+        return;
+      }
     });
   });
 }
