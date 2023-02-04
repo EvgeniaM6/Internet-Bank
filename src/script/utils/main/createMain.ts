@@ -26,7 +26,7 @@ class CreateMain {
     config.page = EPages.ABOUT;
     //list
 
-    //openWebSocket();
+    openWebSocket();
   }
 
   about() {

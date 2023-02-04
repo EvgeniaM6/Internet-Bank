@@ -5,7 +5,7 @@ export function openWebSocket() {
 
   socket.onopen = () => {
     console.log('WebSocket open');
-    const key = sessionStorage.getItem('token') ? 'user' : 'anonim';
+    const key = sessionStorage.getItem('token') || 'anonim';
     socket.send(key);
   };
 
@@ -14,6 +14,7 @@ export function openWebSocket() {
     const userCount = document.querySelector('.users-online__count');
     if (!userCount) return;
 
+    console.log(e.data);
     userCount.textContent = e.data;
   };
 
