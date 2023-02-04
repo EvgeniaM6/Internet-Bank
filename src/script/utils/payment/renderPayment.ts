@@ -2,12 +2,12 @@ import config from '../../data/config';
 import { INDEX_START_SERVICES } from '../../data/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
-import { servicesFetch } from '../../fetch/servicesFetch';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
 import en from '../../data/lang/payment/en';
 import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
+import { userFetch } from '../../fetch/userFetch';
 
 class RenderPayment {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -29,7 +29,7 @@ class RenderPayment {
 
     paymentPage.append(this.operationsContainer);
 
-    servicesFetch.getServicesList().then((response: IMainRes) => {
+    userFetch.services().then((response: IMainRes) => {
       const operationsObj = (response as IServices).operations as IServiceObj;
       this.elemsForUpdatingText = {};
 
