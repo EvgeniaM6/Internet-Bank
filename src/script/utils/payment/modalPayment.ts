@@ -35,13 +35,10 @@ class ModalPayment {
     const cardDataValidThru = popup.querySelector('#valid-thru') as HTMLInputElement;
     cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
 
-    console.log('isAnonim=', isAnonim);
-
     if (isAnonim) {
       this.commissionSum = calculateCommissionSum(paymentSum);
 
       const popupContent = popup.querySelector('.popup__content');
-      console.log('popupContent=', popupContent);
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
       createElem('span', 'commis__sum', commissionBlock, `${this.commissionSum}`);
@@ -74,7 +71,6 @@ class ModalPayment {
     popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
 
     if (isAnonim) {
-      console.log('this.commissionSum=', this.commissionSum);
       moneyFetch.commission(this.commissionSum, operationId);
     }
 
@@ -141,16 +137,12 @@ class ModalPayment {
 
   checkInputsValidity(payForm: HTMLFormElement): void {
     this.canPay = Array.from(payForm.elements).every((inputEl) => {
-      console.log('inputEl=', inputEl);
       const inputPattern = (inputEl as HTMLInputElement).pattern;
-      console.log('inputPattern=', inputPattern);
       if (!inputPattern) return true;
+
       const isCorrectValue = validate(inputEl as HTMLInputElement, inputPattern);
-      console.log('isCorrectValue=', isCorrectValue);
       return isCorrectValue;
     });
-
-    console.log('this.canPay=', this.canPay);
 
     if (!this.btnConfirm) return;
 

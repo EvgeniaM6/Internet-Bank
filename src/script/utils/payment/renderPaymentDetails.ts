@@ -11,7 +11,7 @@ import en from '../../data/lang/paymDetails/en';
 import ru from '../../data/lang/paymDetails/ru';
 
 class RenderPaymentDetails {
-  main = document.querySelector('main') as HTMLElement;
+  main = document.querySelector('.main-container') as HTMLElement;
   elemsForUpdatingText: TElemsForUpdateText = {};
   currentOperationData: TServiceDetails | null = null;
   canPay = false;
@@ -21,11 +21,12 @@ class RenderPaymentDetails {
   };
 
   renderPayment(operationId: number): void {
-    window.scrollTo(0, 0);
     this.currentOperationData = renderPayment.getOparationData(operationId);
     if (!this.currentOperationData) return;
 
     this.main.innerHTML = '';
+    this.main.className = 'container main-container';
+    window.scrollTo(0, 0);
     const operation = createElem('div', 'operation', this.main);
 
     const operationInfo = createElem('div', 'operation__info', operation);
@@ -111,10 +112,6 @@ class RenderPaymentDetails {
     btnPayByCard.addEventListener('click', (e) => this.payByCard(e, sumInput, operationId));
 
     this.updatePaymentText();
-
-    // test
-    // const btnLang = createElem('button', '', operation, 'en/ru');
-    // btnLang.addEventListener('click', () => this.toggleLang());
   }
 
   pay(e: Event, sumInput: HTMLInputElement, operationId: number): void {
@@ -125,7 +122,6 @@ class RenderPaymentDetails {
     const token = this.getCurrentToken();
 
     moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then((resp) => {
-      console.log('Pay resp=', resp);
       const popupMessage = createElem('div', 'popup popup-message', document.body);
 
       const message = resp.success ? this.langs[config.lang].modalInfoMessage : '';
@@ -162,8 +158,6 @@ class RenderPaymentDetails {
       const isCorrectValue = validate(inputEl as HTMLInputElement, regExpForValidate.regex);
       return isCorrectValue;
     });
-
-    console.log('this.canPay=', this.canPay);
 
     const buttonPay = this.elemsForUpdatingText.btnPay;
     const buttonPayCard = this.elemsForUpdatingText.btnPayCard;
@@ -225,19 +219,8 @@ class RenderPaymentDetails {
 
   getCurrentToken(): string {
     const token = sessionStorage.getItem('token') || '';
-    console.log('token=', token);
     return token;
   }
-
-  // toggleLang(): void {
-  //   if (this.currLang === 'en') {
-  //     this.currLang = 'ru';
-  //   } else {
-  //     this.currLang = 'en';
-  //   }
-
-  //   this.updatePaymentText();
-  // }
 }
 
 export const renderPaymentDetails = new RenderPaymentDetails();

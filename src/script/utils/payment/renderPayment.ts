@@ -7,9 +7,10 @@ import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
 import en from '../../data/lang/payment/en';
 import ru from '../../data/lang/payment/ru';
+import { transition } from '../transition';
 
 class RenderPayment {
-  main = document.querySelector('main') as HTMLElement;
+  main = document.querySelector('.main-container') as HTMLElement;
   operationsResp: IServiceObj = {};
   elemsForUpdatingText: TElemsForUpdateText = {};
   selectedCategoryFilter = 'all';
@@ -21,6 +22,7 @@ class RenderPayment {
 
   renderPaymentsPage(): void {
     this.main.innerHTML = '';
+    this.main.className = 'container main-container';
     window.scrollTo(0, 0);
     const paymentPage = createElem('div', 'main__payment-page', this.main);
     const filtersContainer = createElem('div', 'filters', paymentPage);
@@ -68,7 +70,8 @@ class RenderPayment {
   }
 
   renderPayment(operationId: number): void {
-    renderPaymentDetails.renderPayment(operationId);
+    const main = document.querySelector('.main') as HTMLElement;
+    transition(main, renderPaymentDetails.renderPayment.bind(renderPaymentDetails, operationId));
   }
 
   updatePaymentCardsText(): void {

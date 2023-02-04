@@ -80,7 +80,7 @@ class ListenHeader {
         }
 
         if (el.textContent === EPages.SERVICES) {
-          await renderPayment.renderPaymentsPage();
+          transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
           return;
         }
         alert(el.textContent);
