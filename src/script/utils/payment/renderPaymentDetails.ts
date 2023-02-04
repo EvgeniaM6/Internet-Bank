@@ -142,7 +142,7 @@ class RenderPaymentDetails {
     e.preventDefault();
     if (!this.canPay) return;
     const paymentSum = +(sumInput as HTMLInputElement).value;
-    const isAnonim = !config.currentUser;
+    const isAnonim = !this.getCurrentToken();
 
     this.renderAnonimPayment(paymentSum, operationId, isAnonim);
   }

@@ -9,11 +9,13 @@ import ru from '../../data/lang/modalPaym/ru';
 import { TLang } from '../../data/servicesType';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import config from '../../data/config';
+import { validate } from '../validate';
 
 class ModalPayment {
   value?: string;
   commissionSum = 0;
   canPay = false;
+  btnConfirm: HTMLButtonElement | null = null;
   langs: TLang = {
     en,
     ru,
@@ -21,16 +23,24 @@ class ModalPayment {
 
   renderModalPayment(paymentSum: number, operationId: number, isAnonim: boolean): void {
     const popup = createElem('div', 'popup', document.body);
-    popup.innerHTML = this.modalPaymentTemplate();
+    popup.addEventListener('click', (e) => this.closePopUp(e));
 
-    const form = document.querySelector('#payment-form');
+    popup.innerHTML = this.modalPaymentTemplate();
+    this.btnConfirm = popup.querySelector('.btn--col-3');
+
+    const form = popup.querySelector('#payment-form');
+    form?.addEventListener('submit', (e) => this.confirmPayment(e, operationId, isAnonim, popup));
+    form?.addEventListener('input', (e) => this.checkForm(e));
+
+    const cardDataValidThru = popup.querySelector('#valid-thru') as HTMLInputElement;
+    cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
 
     console.log('isAnonim=', isAnonim);
 
     if (isAnonim) {
       this.commissionSum = calculateCommissionSum(paymentSum);
 
-      const popupContent = document.querySelector('.popup__content');
+      const popupContent = popup.querySelector('.popup__content');
       console.log('popupContent=', popupContent);
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
@@ -47,49 +57,50 @@ class ModalPayment {
       emailInput.pattern = '.+@\\w+\\.\\w+';
       popupContent?.prepend(personalDetails);
     }
+  }
 
-    popup.addEventListener('click', (e) => {
-      const clickedElem = e.target as HTMLElement;
-      if (clickedElem.classList.contains('popup')) {
-        popup.remove();
-      }
-    });
+  closePopUp(e: Event): void {
+    const clickedElem = e.target as HTMLElement;
+    if (clickedElem.classList.contains('popup')) {
+      clickedElem.remove();
+    }
+  }
 
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
+  confirmPayment(e: Event, operationId: number, isAnonim: boolean, popup: HTMLElement): void {
+    e.preventDefault();
+    if (!this.canPay) return;
 
-      const popupMessage = createElem('div', 'popup popup-message', document.body);
-      popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
+    const popupMessage = createElem('div', 'popup popup-message', document.body);
+    popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
 
-      if (isAnonim) {
-        console.log('this.commissionSum=', this.commissionSum);
-        moneyFetch.commission(this.commissionSum, operationId);
-      }
+    if (isAnonim) {
+      console.log('this.commissionSum=', this.commissionSum);
+      moneyFetch.commission(this.commissionSum, operationId);
+    }
 
-      setTimeout(() => {
-        popupMessage.remove();
-        popup.remove();
-        renderPayment.renderPaymentsPage();
-      }, 3000);
-    });
+    setTimeout(() => {
+      popupMessage.remove();
+      popup.remove();
+      renderPayment.renderPaymentsPage();
+    }, 3000);
+  }
 
-    form?.addEventListener('input', (e) => {
-      const currInput = e.target as HTMLInputElement;
+  checkForm(e: Event): void {
+    const currInput = e.target as HTMLInputElement;
 
-      if (currInput.id === 'card-number') {
-        this.maskCardNumber.call(currInput);
-        this.changeImgPaymentSystem.call(currInput);
-      }
-      if (currInput.id === 'valid-thru') {
-        this.maskCardDataValidThru.call(currInput);
-      }
-    });
+    if (currInput.id === 'card-number') {
+      this.maskCardNumber.call(currInput);
+      this.changeImgPaymentSystem.call(currInput);
+    }
+    if (currInput.id === 'valid-thru') {
+      this.maskCardDataValidThru.call(currInput);
+    }
 
-    const cardDataValidThru = document.querySelector('#valid-thru') as HTMLInputElement;
-    cardDataValidThru.addEventListener('invalid', (e) => {
-      const currInput = e.target as HTMLInputElement;
-      currInput.setCustomValidity(this.langs[config.lang].cardDataValidity);
-    });
+    this.checkInputsValidity(e.currentTarget as HTMLFormElement);
+  }
+
+  showValidity(inputEl: HTMLInputElement): void {
+    inputEl.setCustomValidity(this.langs[config.lang].cardDataValidity);
   }
 
   maskCardNumber(): void {
@@ -126,6 +137,30 @@ class ModalPayment {
     newImg.addEventListener('load', () => {
       cardDataImg.src = newImg.src;
     });
+  }
+
+  checkInputsValidity(payForm: HTMLFormElement): void {
+    this.canPay = Array.from(payForm.elements).every((inputEl) => {
+      console.log('inputEl=', inputEl);
+      const inputPattern = (inputEl as HTMLInputElement).pattern;
+      console.log('inputPattern=', inputPattern);
+      if (!inputPattern) return true;
+      const isCorrectValue = validate(inputEl as HTMLInputElement, inputPattern);
+      console.log('isCorrectValue=', isCorrectValue);
+      return isCorrectValue;
+    });
+
+    console.log('this.canPay=', this.canPay);
+
+    if (!this.btnConfirm) return;
+
+    if (this.canPay) {
+      this.btnConfirm.classList.remove('unable');
+    } else {
+      if (!this.btnConfirm.classList.contains('unable')) {
+        this.btnConfirm.classList.add('unable');
+      }
+    }
   }
 
   modalPaymentTemplate(): string {
@@ -174,7 +209,7 @@ class ModalPayment {
                     required
                     pattern="\\d{3}"
                     maxlength="3"
-                    title="enter 3 digits"
+                    title="${this.langs[config.lang].cvvInputTitle}"
                   />
                 </div>
               </div>
