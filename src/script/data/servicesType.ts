@@ -33,3 +33,11 @@ type TInputData = {
 type TTextByLang = {
   [key: string]: string;
 };
+
+type TTexts = {
+  [key: string]: string;
+};
+
+export type TLang = {
+  [key: string]: TTexts;
+};
