@@ -19,6 +19,12 @@ export function navigationAccount() {
         listenAccount.editPassword();
         return;
       }
+
+      if (item.textContent === 'Delete account') {
+        buildAccount.clarifyAccount();
+        listenAccount.clarifyAccount();
+        return;
+      }
     });
   });
 }

@@ -1,0 +1,60 @@
+.account__list {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 30px;
+  list-style: none;
+}
+
+#account-edit {
+  width: 294px;
+  text-align: right;
+}
+
+#account-pass {
+  width: 360px;
+  text-align: right;
+}
+
+#edit__username-container,
+#edit__oldpass-container,
+#edit__newpass-container {
+  margin-bottom: 10px;
+}
+
+#edit__email-container,
+#edit__confirmpass-container {
+  margin-bottom: 20px;
+}
+
+.edit__username-input,
+.edit__email-input,
+.edit__oldpass-input,
+.edit__newpass-input,
+.edit__confirmpass-input {
+  width: 200px;
+  height: 25px;
+  border-radius: 6px;
+  border: 1px #d8c307 solid;
+}
+
+.edit__button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.account-submit,
+.account-cancel,
+.password-submit,
+.password-cancel {
+  width: 33%;
+  height: 30px;
+  border-radius: 15px;
+  border-width: 0px;
+  color: #fffffc;
+  background-color: #d8c307;
+  cursor: pointer;
+  transition: 0.2s;
+}

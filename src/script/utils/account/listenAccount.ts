@@ -1,7 +1,8 @@
 import { validate } from '../validate';
 import config from '../../data/config';
-import { userFetch } from '../../fetch/userFetch';
-import { EMethod } from '../../data/types';
+import { buildAuth } from '../auth/buildAuth';
+import { createAuth } from '../auth/createAuth';
+import { buildAccount } from './buildAccount';
 
 class ListenAccount {
   editAccount() {
@@ -52,8 +53,6 @@ class ListenAccount {
           }),
         })
       ).json();
-
-      //userFetch.user(EMethod.PUT, token, name, email);
     });
   }
 
@@ -119,10 +118,54 @@ class ListenAccount {
           }),
         })
       ).json();
-
-      //userFetch.user(EMethod.PUT, token, name, email);
     });
   }
+
+  deleteAccount() {
+    const buttonSubmit = document.querySelector('.remove__button-submit');
+    const buttonCancel = document.querySelector('.remove__button-cancel');
+    const password = document.getElementById('edit-remove');
+
+    const token = sessionStorage.getItem('token');
+
+    if (!buttonSubmit || !buttonCancel || !(password instanceof HTMLInputElement)) return;
+
+    buttonSubmit.addEventListener('click', async () => {
+      const passwordValue: string = password.value;
+      if (passwordValue !== config.password) {
+        alert('неверный пароль');
+      }
+
+      (
+        await fetch(`http://127.0.0.1:3000/user`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            password: passwordValue,
+          }),
+        })
+      ).json();
+
+      buildAuth.main();
+      createAuth.login();
+    });
+  }
+
+  clarifyAccount() {
+    const buttonSubmit = document.querySelector('.clarify__button-submit');
+    const buttonCancel = document.querySelector('.clarify__button-cancel');
+
+    if (!buttonSubmit || !buttonCancel) return;
+
+    buttonSubmit.addEventListener('click', () => {
+      buildAccount.deleteAccount();
+      listenAccount.deleteAccount();
+    });
+  }
+
 }
 
 export const listenAccount = new ListenAccount();
