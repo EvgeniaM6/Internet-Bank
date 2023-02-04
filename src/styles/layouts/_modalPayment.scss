@@ -8,14 +8,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: #00000080;
 
   &__content {
     width: 80%;
+    max-width: 570px;
     margin: 0 auto;
-    max-width: 440px;
-    // background-color: $light-color-2;
-    background-color: #79a3ec;
+    background-color: $white;
     padding: 20px;
     border-radius: 5px;
   }
@@ -28,40 +27,46 @@
     width: 60%;
     margin: 0 auto;
     max-width: 300px;
-    // background-color: $accent2-color;
-    background-color: #ec79e0;
+    background-color: $third;
     padding: 20px;
     border-radius: 5px;
   }
+
   &__message-info {
-    // color: $light-text-color;
     font-size: 18px;
     text-align: center;
   }
 }
 
+.commis {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .form {
   &__person-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 0 20px 0;
   }
 
   &__title {
     font-size: 22px;
     font-weight: 500;
-    // color: $accent1-color;
     text-align: center;
     margin: 0 0 10px 0;
   }
 
   &__item {
     margin: 0 0 10px 0;
+    padding: 5px;
+    font-size: 16px;
   }
 
   &__card-details {
     margin: 0 0 20px 0;
-  }
-
-  &__data {
   }
 
   &__btn {
@@ -70,10 +75,9 @@
 }
 
 .card-data {
-  max-width: 240px;
+  max-width: 320px;
   margin: 0 auto;
-  // background-color: $accent4-color;
-  background-color: #f8c047;
+  background-color: $third;
   border-radius: 5px;
   padding: 25px 15px;
 
@@ -88,8 +92,8 @@
   }
 
   &__card-number img {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
   }
 
@@ -97,22 +101,26 @@
     display: flex;
     justify-content: space-between;
   }
+
   &__info input {
-    width: 55px;
+    width: 70px;
   }
 
   &__valid-data {
+    display: flex;
+    flex-direction: column;
     font-weight: 500;
   }
 }
 
-.btn--col-3 {
-  // background-color: $accent3-color;
-  // color: $text-color;
+.btn--col-3.btn-colored {
   font-weight: 700;
+  max-width: 245px;
 }
 
 .input--payment {
   width: 100%;
-  height: 30px;
+  height: 40px;
+  font-size: 18px;
+  max-width: 400px;
 }

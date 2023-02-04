@@ -21,6 +21,10 @@
     font-size: 20px;
   }
 
+  &__category-text {
+    margin-right: 5px;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
@@ -37,7 +41,7 @@
   }
 }
 
-.form {
+.form-paym {
   
   &__label {
     margin-bottom: 5px;
@@ -51,8 +55,13 @@
     width: 250px;
   }
 
-  &__btn.btn-colored {
+  &__btn.btn-colored,
+  &__btn-card.btn-colored {
     width: 250px;
+    height: auto;
+    padding: 5px 0;
+    display: block;
+    margin-bottom: 10px;
 
     &.unable {
       background-color: #717171;
