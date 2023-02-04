@@ -1,13 +1,17 @@
 class BuildMain {
   about() {
     const main = document.querySelector('.main-container');
-    const about = document.querySelector('.header__nav-about');
-    if (!main || !about) return;
+    const aboutHead = document.querySelector('.header__nav-about');
+    if (!main || !aboutHead) return;
 
-    about.classList.add('header__nav_active');
+    aboutHead.classList.add('header__nav_active');
+    
+    main.innerHTML = ``;
+    main.className = 'main-container container'
 
-    main.className = 'main-container container about'
-    main.innerHTML = `<h2 class="about__h">RS Bank - clone of Internet Bank</h2>
+    const about = document.createElement('div');
+    about.classList.add('about');
+    about.innerHTML = `<h2 class="about__h">RS Bank - clone of Internet Bank</h2>
     <p class="about__text">Our RS School 2022Q3 final project is a clone of the Internet bank. 
         Today, almost all financial transactions can be performed remotely via the Internet. 
         So we decided to create bank web-application</p>
@@ -69,6 +73,7 @@ class BuildMain {
             </div>
         </div>
     </section>`;
+    main.appendChild(about);
   }
 
   account() {
