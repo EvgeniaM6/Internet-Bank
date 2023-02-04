@@ -1,0 +1,83 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+
+  &__name,
+  &__link {
+    font-size: 20px;
+    height: 30px;
+    padding: 5px;
+  }
+
+  &__select {
+    font-size: 20px;
+    height: 30px;
+  }
+
+  &__button,
+  &__create {
+    width: 100px;
+    height: 30px;
+    border-radius: 15px;
+    border-width: 0px;
+    font-size: 20px;
+    color: $white;
+    background-color: $third;
+    cursor: pointer;
+    transition: .2s;
+    &:hover{
+      opacity: .8;
+    }
+  }
+
+  &__info {
+    gap: 10px;
+    width: 300px;
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  &__info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 8px 0;
+  }
+
+  &__instraction {
+    margin-left: 10px;
+    margin-top: 50px;
+  }
+
+  &__prev {
+    zoom: 80%;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 999px) {
+  .card{
+    &__prev {
+      zoom: 60%;
+    }
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .card{
+    flex-direction: column;
+    &__prev {
+      margin: 20px 0;
+      zoom: 60%;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .card{
+    &__prev {
+      zoom: 45%;
+    }
+  }
+}

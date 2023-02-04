@@ -1,0 +1,16 @@
+export default {
+  'card__select-label': 'Card by',
+  'card__name-label': 'Your name',
+  'card__color-label': 'Background color',
+  'card__text-label': 'Text color',
+  'card__link-label': 'Background link',
+  'card__button': 'Preview',
+  'card__create': 'Create!',
+  'c__i-one': 'Choose card system',
+  'c__i-two': 'Enter your name',
+  'c__i-three': 'Choose background color',
+  'c__i-four': 'Choose text color',
+  'c__i-five': 'Add your own image via link (optional)',
+  'c__i-six': 'Press "Preview" button',
+  'c__i-seven': 'Did you like the card? Press "Create" and enjoy shopping',
+}
