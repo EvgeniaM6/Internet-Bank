@@ -3,8 +3,6 @@ import { TOperationInputData } from './servicesType';
 export const INDEX_START_SERVICES = 14;
 
 export const COMMISSION_AMOUNT = 2;
-export const COMMISSION_PERCENT = 1;
-export const PERCENTS_AMOUNT = 100;
 export const FRACTION_LENGTH = 2;
 
 export const operationInputData: TOperationInputData = {
