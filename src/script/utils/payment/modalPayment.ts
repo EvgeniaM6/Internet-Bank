@@ -4,18 +4,50 @@ import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
 import visaCard from '../../../assets/img/payment-system/visa.png';
 import mastercardCard from '../../../assets/img/payment-system/mastercard.png';
+import en from '../../data/lang/modalPaym/en';
+import ru from '../../data/lang/modalPaym/ru';
+import { TLang } from '../../data/servicesType';
+import { moneyFetch } from '../../fetch/moneyFetch';
+import config from '../../data/config';
 
 class ModalPayment {
   value?: string;
   commissionSum = 0;
+  canPay = false;
+  langs: TLang = {
+    en,
+    ru,
+  };
 
-  drawModalPayment(paymentSum: number): void {
-    this.commissionSum = calculateCommissionSum(paymentSum);
-
+  renderModalPayment(paymentSum: number, operationId: number, isAnonim: boolean): void {
     const popup = createElem('div', 'popup', document.body);
     popup.innerHTML = this.modalPaymentTemplate();
 
-    //close modal-window on click on dark area
+    const form = document.querySelector('#payment-form');
+
+    console.log('isAnonim=', isAnonim);
+
+    if (isAnonim) {
+      this.commissionSum = calculateCommissionSum(paymentSum);
+
+      const popupContent = document.querySelector('.popup__content');
+      console.log('popupContent=', popupContent);
+      const commissionBlock = createElem('div', 'commis');
+      createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
+      createElem('span', 'commis__sum', commissionBlock, `${this.commissionSum}`);
+      createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
+      popupContent?.prepend(commissionBlock);
+
+      const personalDetails = createElem('div', 'form__person-details');
+      createElem('h2', 'form__title modal-personal', personalDetails, this.langs[config.lang]['modal-personal']);
+      const emailInput = createElem('input', 'form__item input--payment', personalDetails) as HTMLInputElement;
+      emailInput.name = emailInput.type = 'email';
+      emailInput.placeholder = 'E-mail';
+      emailInput.required = true;
+      emailInput.pattern = '.+@\\w+\\.\\w+';
+      popupContent?.prepend(personalDetails);
+    }
+
     popup.addEventListener('click', (e) => {
       const clickedElem = e.target as HTMLElement;
       if (clickedElem.classList.contains('popup')) {
@@ -23,12 +55,16 @@ class ModalPayment {
       }
     });
 
-    const form = document.querySelector('#payment-form');
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const popupMessage = createElem('div', 'popup popup-message', document.body);
-      popupMessage.innerHTML = this.modalInfoMessage('Your order has been confirmed!');
+      popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
+
+      if (isAnonim) {
+        console.log('this.commissionSum=', this.commissionSum);
+        moneyFetch.commission(this.commissionSum, operationId);
+      }
 
       setTimeout(() => {
         popupMessage.remove();
@@ -37,7 +73,6 @@ class ModalPayment {
       }, 3000);
     });
 
-    //input validation
     form?.addEventListener('input', (e) => {
       const currInput = e.target as HTMLInputElement;
 
@@ -50,11 +85,10 @@ class ModalPayment {
       }
     });
 
-    //customize message for invalid value
     const cardDataValidThru = document.querySelector('#valid-thru') as HTMLInputElement;
     cardDataValidThru.addEventListener('invalid', (e) => {
       const currInput = e.target as HTMLInputElement;
-      currInput.setCustomValidity('Month cannot be more than 12');
+      currInput.setCustomValidity(this.langs[config.lang].cardDataValidity);
     });
   }
 
@@ -74,7 +108,6 @@ class ModalPayment {
     }
   }
 
-  //change img of payment system depending on first-char
   changeImgPaymentSystem(): void {
     const cardDataImg = document.querySelector('.card-data__card-number img') as HTMLImageElement;
     const firstChar = this.value?.trim().slice(0, 1);
@@ -98,25 +131,9 @@ class ModalPayment {
   modalPaymentTemplate(): string {
     return `
       <div class="popup__content">
-        <div class="commis">
-          <span class="commis__start"></span>
-          <span class="commis__sum">${this.commissionSum}</span>
-          <span class="commis__end"></span>
-        </div>
         <form id="payment-form" class="form" action="/" method="post">
-          <div class="form__person-details">
-            <h2 class="form__title">Personal details</h2>
-            <input
-              class="form__item input--payment"
-              name="email"
-              type="email"
-              placeholder="E-mail"
-              required
-              pattern=".+@\\w+\\.\\w+"
-            />
-          </div>
           <div class="form__card-details">
-            <h2 class="form__title">Credit card details</h2>
+            <h2 class="form__title modal-credit-card">${this.langs[config.lang]['modal-credit-card']}</h2>
             <div class="form__data card-data">
               <div class="card-data__card-number">
                 <img src=${invoiceCard} alt="credit-card" />
@@ -129,12 +146,12 @@ class ModalPayment {
                   required
                   pattern="\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}"
                   maxlength="19"
-                  title="enter 16 digits"
+                  title="${this.langs[config.lang].cardInputTitle}"
                 />
               </div>
               <div class="card-data__info">
                 <div class="card-data__valid-data">
-                  <label for="valid-thru">valid</label>
+                  <label for="valid-thru" class="valid">${this.langs[config.lang]['valid']}</label>
                   <input
                     id="valid-thru"
                     class="input--payment"
@@ -147,7 +164,7 @@ class ModalPayment {
                   />
                 </div>
                 <div class="card-data__valid-data">
-                  <label for="code-cvv">cvv</label>
+                  <label for="code-cvv" class="code-cvv">${this.langs[config.lang]['code-cvv']}</label>
                   <input
                     id="code-cvv"
                     class="input--payment"
@@ -164,7 +181,9 @@ class ModalPayment {
             </div>
           </div>
           <div class="form__btn">
-            <button type="submit" class="btn btn--col-3">Confirm</button>
+            <button type="submit" class="btn btn--col-3 btn-colored unable">${
+              this.langs[config.lang]['btn--col-3']
+            }</button>
           </div>
         </form>
       </div>
