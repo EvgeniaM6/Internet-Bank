@@ -165,6 +165,76 @@ class ListenAccount {
       listenAccount.deleteAccount();
     });
   }
+
+  currency() {
+    const create = document.querySelector('.operations-create');
+    const del = document.querySelector('.operations-delete');
+
+    if (!create || !del) return;
+
+    create.addEventListener('click', () => {
+      buildAccount.createCurrency();
+      listenAccount.createCurrency();
+    });
+
+    del.addEventListener('click', () => {
+      buildAccount.deleteCurrency();
+      listenAccount.deleteCurrency();
+    });
+  }
+
+  createCurrency() {
+    const buttonSubmit = document.querySelector('.createcurrency-submit');
+    const buttonCancel = document.querySelector('.createcurrency-cancel');
+    const currency = document.getElementById('edit-createcurrency');
+
+    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLInputElement)) return;
+
+    const token = sessionStorage.getItem('token');
+
+    buttonSubmit.addEventListener('click', async () => {
+      (
+        await fetch(`http://127.0.0.1:3000/money/account`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            username: config.currentUser,
+            currency: currency.value,
+          }),
+        })
+      ).json();
+    });
+  }
+
+  deleteCurrency() {
+    const buttonSubmit = document.querySelector('.deletecurrency-submit');
+    const buttonCancel = document.querySelector('.deletecurrency-cancel');
+    const currency = document.getElementById('edit-deletecurrency');
+
+    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLInputElement)) return;
+
+    const token = sessionStorage.getItem('token');
+
+    buttonSubmit.addEventListener('click', async () => {
+      (
+        await fetch(`http://127.0.0.1:3000/money/account`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            username: config.currentUser,
+            currency: currency.value,
+          }),
+        })
+      ).json();
+    });
+  }
+
 }
 
 export const listenAccount = new ListenAccount();

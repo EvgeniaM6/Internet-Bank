@@ -25,6 +25,12 @@ export function navigationAccount() {
         listenAccount.clarifyAccount();
         return;
       }
+
+      if (item.textContent === 'Currency') {
+        buildAccount.currency();
+        listenAccount.currency();
+        return;
+      }
     });
   });
 }
