@@ -11,6 +11,7 @@ import en from '../../data/lang/payment/en';
 import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { load } from '../load';
+import { listenHeader } from '../main/listenHeader';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -132,13 +133,14 @@ class RenderPaymentDetails {
 
     load(this.main);
 
-    moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then((resp) => {
+    moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then(async (resp) => {
       const popupMessage = createElem('div', 'popup popup-message', document.body);
 
       const message = resp.success
         ? this.langs[config.lang].paidByCardMessage
         : this.langs[config.lang].errorPayByCardMessage;
       popupMessage.innerHTML = modalPayment.modalInfoMessage(message);
+      await listenHeader.updateInfo();
 
       setTimeout(() => {
         popupMessage.remove();

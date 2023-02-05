@@ -1,4 +1,6 @@
-import { EPages } from '../../data/types';
+import config from '../../data/config';
+import { EMethod, EPages } from '../../data/types';
+import { userFetch } from '../../fetch/userFetch';
 import { navigationAccount } from '../account/navigationAccount';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
@@ -9,6 +11,20 @@ import { buildMain } from './buildMain';
 import { createMain } from './createMain';
 
 class ListenHeader {
+  async updateInfo() {
+    const money = document.querySelector('.header__money');
+    const token = sessionStorage.getItem('token');
+    if (!token || !money) return;
+    const result = await userFetch.user(EMethod.GET, token);
+    if (!result.userConfig?.email || !result.userConfig.username || !result.userConfig.money) return;
+    config.currentEmail = result.userConfig.email;
+    config.currentUser = result.userConfig.username;
+
+    const currMoney = result.userConfig.money;
+    sessionStorage.setItem('money', `${currMoney}`);
+    money.textContent = `$${Number(currMoney).toFixed(2)}`;
+  }
+
   private removeActiveClass() {
     const nav = document.querySelectorAll('.header__nav-item');
     nav.forEach((el) => el.classList.remove('header__nav_active'));
@@ -40,7 +56,8 @@ class ListenHeader {
       nav.classList.remove('header__nav_burger');
     });
 
-    logo.addEventListener('click', () => {
+    logo.addEventListener('click', async () => {
+      await this.updateInfo();
       this.removeActiveClass();
       transition(main, createMain.about);
     });
@@ -56,6 +73,7 @@ class ListenHeader {
 
     nav.forEach((el) => {
       el.addEventListener('click', async () => {
+        await this.updateInfo();
         this.removeActiveClass();
         el.classList.add('header__nav_active');
         if (el.textContent === EPages.STATISTICS) {

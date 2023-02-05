@@ -47,6 +47,7 @@ class BuildHeader {
     cardCreator.textContent = 'Card Creator';
 
     const money = document.createElement('p');
+    money.classList.add('header__money');
     const currMoney = sessionStorage.getItem('money');
     if (currMoney) {
       money.textContent = `$${Number(currMoney).toFixed(2)}`;

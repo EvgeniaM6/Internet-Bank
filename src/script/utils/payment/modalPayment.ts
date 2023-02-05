@@ -13,6 +13,7 @@ import { validate } from '../validate';
 import { COMMISSION_AMOUNT } from '../../data/constants';
 import { load } from '../load';
 import { transition } from '../transition';
+import { listenHeader } from '../main/listenHeader';
 
 class ModalPayment {
   value?: string;
@@ -94,11 +95,12 @@ class ModalPayment {
     load(popupWindow);
 
     if (isAnonim) {
-      moneyFetch.commission(COMMISSION_AMOUNT, operationId).then(() => {
+      moneyFetch.commission(COMMISSION_AMOUNT, operationId).then(async () => {
         const popupMessage = createElem('div', 'popup popup-message', document.body);
         popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
 
         popup.remove();
+        await listenHeader.updateInfo();
 
         setTimeout(() => {
           popupMessage.remove();
