@@ -3,7 +3,7 @@ import Fetch from './mainFetch';
 
 class StatistickFetch extends Fetch {
   async operations() {
-    const path = '/admin/statistics';
+    const path = '/statistics';
     const req = {
       method: 'GET',
     };
