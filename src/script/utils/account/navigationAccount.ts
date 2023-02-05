@@ -25,6 +25,18 @@ export function navigationAccount() {
         listenAccount.clarifyAccount();
         return;
       }
+
+      if (item.textContent === 'Currency') {
+        buildAccount.currency();
+        listenAccount.currency();
+        return;
+      }
+
+      if (item.textContent === 'Last operations') {
+        buildAccount.showLastOperations();
+        //listenAccount.currency();
+        return;
+      }
     });
   });
 }

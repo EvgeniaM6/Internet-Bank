@@ -85,8 +85,8 @@ class BuildMain {
     main.innerHTML = `<ul class="account__list">
       <li class="account__list-item">Edit account</li>
       <li class="account__list-item">Edit password</li>
-      <li class="account__list-item">...</li>
-      <li class="account__list-item">...</li>
+      <li class="account__list-item">Currency</li>
+      <li class="account__list-item">Last operations</li>
       <li class="account__list-item">Delete account</li>
     </ul>
     <div class="account-container"></div>`;

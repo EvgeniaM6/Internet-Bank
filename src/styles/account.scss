@@ -3,9 +3,14 @@
   justify-content: space-between;
   padding: 10px;
   width: 100%;
-  height: 40px;
+  height: 50px;
   margin-bottom: 30px;
   list-style: none;
+  font-size: 24px;
+}
+
+.account__list-item {
+  cursor: pointer;
 }
 
 #account-edit {
@@ -33,7 +38,9 @@
 .edit__email-input,
 .edit__oldpass-input,
 .edit__newpass-input,
-.edit__confirmpass-input {
+.edit__confirmpass-input,
+#edit-createcurrency,
+#edit-deletecurrency {
   width: 200px;
   height: 25px;
   border-radius: 6px;
@@ -48,7 +55,11 @@
 .account-submit,
 .account-cancel,
 .password-submit,
-.password-cancel {
+.password-cancel,
+.cteatecurrency-submit,
+.cteatecurrency-cancel,
+.deletecurrency-submit,
+.deletecurrency-cancel {
   width: 33%;
   height: 30px;
   border-radius: 15px;
@@ -57,4 +68,43 @@
   background-color: #d8c307;
   cursor: pointer;
   transition: 0.2s;
+}
+
+.operations__title {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.operations {
+  display: flex;
+  gap: 50px;
+  margin-bottom: 25px;
+}
+
+.createC,
+.deleteC {
+  display: inline-block;
+  margin-right: 5px;
+  width: 12px;
+  height: 12px;
+  border: #d8c307 solid 1px;
+  border-radius: 50%;
+}
+
+#edit__createcurrency-container,
+#edit__deletecurrency-container {
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  width: 120px;
+  text-align: center;
+  border-bottom: 1px dashed black;
+  border-right: 1px dashed black;
+}
+
+th:last-child,
+td:last-child {
+  border-right: none;
 }

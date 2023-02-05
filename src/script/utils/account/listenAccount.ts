@@ -3,6 +3,8 @@ import config from '../../data/config';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { buildAccount } from './buildAccount';
+import { buildMain } from '../main/buildMain';
+import { navigationAccount } from './navigationAccount';
 
 class ListenAccount {
   editAccount() {
@@ -10,10 +12,12 @@ class ListenAccount {
     const refreshEmail = document.getElementById('edit-email');
     const buttonSubmit = document.querySelector('.edit__button-submit');
     const buttonCancel = document.querySelector('.edit__button-cancel');
+    const note = document.querySelector('.edit__notification');
 
     if (
       !buttonSubmit ||
       !buttonCancel ||
+      !note ||
       !(refreshName instanceof HTMLInputElement) ||
       !(refreshEmail instanceof HTMLInputElement)
     )
@@ -32,11 +36,17 @@ class ListenAccount {
 
     const token = sessionStorage.getItem('token');
 
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
+
     buttonSubmit.addEventListener('click', async () => {
       const name = refreshName.value;
       const email = refreshEmail.value;
-      console.log(email);
-      console.log(token);
+      config.regex.username = name;
+
       if (!valEmail || !valName || !token) return;
 
       (
@@ -53,6 +63,8 @@ class ListenAccount {
           }),
         })
       ).json();
+
+      note.innerHTML = 'Note: Your login and e-mail changed successfully! To return to account page press "Back"';
     });
   }
 
@@ -88,6 +100,12 @@ class ListenAccount {
     });
 
     const token = sessionStorage.getItem('token');
+
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
 
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;
@@ -163,6 +181,75 @@ class ListenAccount {
     buttonSubmit.addEventListener('click', () => {
       buildAccount.deleteAccount();
       listenAccount.deleteAccount();
+    });
+  }
+
+  currency() {
+    const create = document.querySelector('.operations-create');
+    const del = document.querySelector('.operations-delete');
+
+    if (!create || !del) return;
+
+    create.addEventListener('click', () => {
+      buildAccount.createCurrency();
+      listenAccount.createCurrency();
+    });
+
+    del.addEventListener('click', () => {
+      buildAccount.deleteCurrency();
+      listenAccount.deleteCurrency();
+    });
+  }
+
+  createCurrency() {
+    const buttonSubmit = document.querySelector('.createcurrency-submit');
+    const buttonCancel = document.querySelector('.createcurrency-cancel');
+    const currency = document.getElementById('edit-createcurrency');
+
+    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLInputElement)) return;
+
+    const token = sessionStorage.getItem('token');
+
+    buttonSubmit.addEventListener('click', async () => {
+      (
+        await fetch(`http://127.0.0.1:3000/money/account`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            username: config.currentUser,
+            currency: currency.value,
+          }),
+        })
+      ).json();
+    });
+  }
+
+  deleteCurrency() {
+    const buttonSubmit = document.querySelector('.deletecurrency-submit');
+    const buttonCancel = document.querySelector('.deletecurrency-cancel');
+    const currency = document.getElementById('edit-deletecurrency');
+
+    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLInputElement)) return;
+
+    const token = sessionStorage.getItem('token');
+
+    buttonSubmit.addEventListener('click', async () => {
+      (
+        await fetch(`http://127.0.0.1:3000/money/account`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            username: config.currentUser,
+            currency: currency.value,
+          }),
+        })
+      ).json();
     });
   }
 }

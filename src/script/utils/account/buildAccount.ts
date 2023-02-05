@@ -18,6 +18,7 @@ class BuildAccount {
           <button class="edit__button-submit account-submit">Submit</button>
           <button class="edit__button-cancel account-cancel">Back</button>
         </div>
+        <p class="edit__notification"></p>
       </div>`;
   }
 
@@ -41,6 +42,7 @@ class BuildAccount {
       <div class="edit__button-container">
         <button class="edit__button-submit password-submit">Submit</button>
         <button class="edit__button-cancel password-cancel">Back</button>
+      </div>
       </div>`;
   }
 
@@ -67,6 +69,86 @@ class BuildAccount {
         <button class="remove__button-submit remove-submit">Submit</button>
         <button class="remove__button-cancel remove-cancel">Cancel</button>
       </div>`;
+  }
+
+  currency() {
+    const account = document.querySelector('.account-container');
+    if (!account) return;
+
+    account.innerHTML = `<p class="operations__title">Choose operation:</p>
+    <div class="operations">
+      <div class="operations-create"><span class="createC"></span>Create currency</div>
+      <div class="operations-delete"><span class="deleteC"></span>Delete currency</div>
+    </div>
+    <div class="currency-container"></div>`;
+  }
+
+  createCurrency() {
+    const account = document.querySelector('.currency-container');
+    if (!account) return;
+
+    account.innerHTML = `<div id="account-createCurr">
+      <div id="edit__createcurrency-container">
+        <label for="createcurrency" class="edit__createcurrency-label">Choose currency</label>
+        <input type="text" name="createcurrency" id="edit-createcurrency" class="edit__createcurrency-input">
+      </div>
+      <div class="edit__button-container">
+        <button class="edit__button-submit cteatecurrency-submit">Submit</button>
+        <button class="edit__button-cancel cteatecurrency-cancel">Back</button>
+      </div>`;
+  }
+
+  deleteCurrency() {
+    const account = document.querySelector('.currency-container');
+    if (!account) return;
+
+    account.innerHTML = `<div id="account-deleteCurr">
+      <div id="edit__deletecurrency-container">
+        <label for="deletecurrency" class="edit__deletecurrency-label">Choose currency</label>
+        <input type="text" name="deletecurrency" id="edit-deletecurrency" class="edit__deletecurrency-input">
+      </div>
+      <div class="edit__button-container">
+        <button class="edit__button-submit deletecurrency-submit">Submit</button>
+        <button class="edit__button-cancel deletecurrency-cancel">Back</button>
+      </div>`;
+  }
+
+  async showLastOperations() {
+    const token = sessionStorage.getItem('token');
+
+    const data = (
+      await fetch(`http://127.0.0.1:3000/user`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    ).json();
+
+    data.then((rez) => {
+      console.log(rez.userConfig.lastFive);
+      const account = document.querySelector('.account-container');
+      if (!account) return;
+
+      account.innerHTML = `<table class="operations__table">
+      <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th><th>id</th></tr></thead>
+      <tbody class="operations__tbody"></tbody>
+      </table>`;
+
+      const tbody = <Element>document.querySelector('.operations__tbody');
+
+      for (let i = 0; i < rez.userConfig.lastFive.length; i++) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${i + 1}</td>
+        <td>${rez.userConfig.lastFive[i].date}</td>
+        <td>${rez.userConfig.lastFive[i].operationID}</td>
+        <td>${rez.userConfig.lastFive[i].money}</td>
+        <td>${rez.userConfig.lastFive[i]._id}</td>`;
+
+        tbody.appendChild(row);
+      }
+    });
   }
 }
 
