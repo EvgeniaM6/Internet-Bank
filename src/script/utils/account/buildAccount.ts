@@ -52,8 +52,8 @@ class BuildAccount {
 
     account.innerHTML = `<p class="clarify__question">Do you really want to remove your account</p>
       <div class="clarify__button-container">
-        <button class="clarify__button-submit clarify-submit">Submit</button>
-        <button class="clarify__button-cancel clarify-cancel">Cancel</button>
+        <button class="clarify__button-submit clarify-submit">Remove</button>
+        <button class="clarify__button-cancel clarify-cancel">Back</button>
       </div>`;
   }
 
@@ -92,8 +92,10 @@ class BuildAccount {
         <label class="edit__createcurrency-label">Choose currency</label>
         
         <select id="edit-createcurrency" class="edit__createcurrency-input">
-          <option value="USD" selected>USD</option>
-          <option value="EUR">EUR</option>
+          <option value="EUR" selected>EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="BYN">BYN</option>
+          <option value="UAH">UAH</option>
         </select>
       </div>
       <div class="edit__button-container">
@@ -111,8 +113,10 @@ class BuildAccount {
         <label class="edit__deletecurrency-label">Choose currency</label>
           
         <select id="edit-deletecurrency" class="edit__deletecurrency-input">
-          <option value="USD" selected>USD</option>
-          <option value="EUR">EUR</option>
+          <option value="EUR" selected>EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="BYN">BYN</option>
+          <option value="UAH">UAH</option>
         </select>
       </div>
       <div class="edit__button-container">
