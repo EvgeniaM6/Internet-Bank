@@ -187,15 +187,21 @@ class ListenAccount {
   currency() {
     const create = document.querySelector('.operations-create');
     const del = document.querySelector('.operations-delete');
+    const createRadio = document.querySelector('.createC');
+    const delRadio = document.querySelector('.deleteC');
 
-    if (!create || !del) return;
+    if (!create || !del || !createRadio || !delRadio) return;
 
     create.addEventListener('click', () => {
+      createRadio.classList.add('createC-active');
+      delRadio.classList.remove('deleteC-active');
       buildAccount.createCurrency();
       listenAccount.createCurrency();
     });
 
     del.addEventListener('click', () => {
+      createRadio.classList.remove('createC-active');
+      delRadio.classList.add('deleteC-active');
       buildAccount.deleteCurrency();
       listenAccount.deleteCurrency();
     });
@@ -206,7 +212,7 @@ class ListenAccount {
     const buttonCancel = document.querySelector('.createcurrency-cancel');
     const currency = document.getElementById('edit-createcurrency');
 
-    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLInputElement)) return;
+    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
 
     const token = sessionStorage.getItem('token');
 
@@ -232,7 +238,7 @@ class ListenAccount {
     const buttonCancel = document.querySelector('.deletecurrency-cancel');
     const currency = document.getElementById('edit-deletecurrency');
 
-    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLInputElement)) return;
+    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
 
     const token = sessionStorage.getItem('token');
 

@@ -1,0 +1,18 @@
+.admin__list {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 30px;
+  list-style: none;
+  font-size: 24px;
+}
+
+.admin__list-item {
+  cursor: pointer;
+}
+
+.admin__list-item_active {
+  color: $third;
+}

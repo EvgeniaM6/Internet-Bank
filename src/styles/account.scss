@@ -13,6 +13,10 @@
   cursor: pointer;
 }
 
+.account__list-item_active {
+  color: $third;
+}
+
 #account-edit {
   width: 294px;
   text-align: right;
@@ -30,7 +34,8 @@
 }
 
 #edit__email-container,
-#edit__confirmpass-container {
+#edit__confirmpass-container,
+.clarify__question {
   margin-bottom: 20px;
 }
 
@@ -47,7 +52,8 @@
   border: 1px #d8c307 solid;
 }
 
-.edit__button-container {
+.edit__button-container,
+.clarify__button-container {
   display: flex;
   justify-content: space-between;
 }
@@ -56,10 +62,12 @@
 .account-cancel,
 .password-submit,
 .password-cancel,
-.cteatecurrency-submit,
-.cteatecurrency-cancel,
+.createcurrency-submit,
+.createcurrency-cancel,
 .deletecurrency-submit,
-.deletecurrency-cancel {
+.deletecurrency-cancel,
+.clarify-submit,
+.clarify-cancel {
   width: 33%;
   height: 30px;
   border-radius: 15px;
@@ -89,6 +97,11 @@
   height: 12px;
   border: #d8c307 solid 1px;
   border-radius: 50%;
+}
+
+.createC-active,
+.deleteC-active {
+  background: #d8c307;
 }
 
 #edit__createcurrency-container,

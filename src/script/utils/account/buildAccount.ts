@@ -52,8 +52,8 @@ class BuildAccount {
 
     account.innerHTML = `<p class="clarify__question">Do you really want to remove your account</p>
       <div class="clarify__button-container">
-        <button class="clarify__button-submit clarify-submit">Submit</button>
-        <button class="clarify__button-cancel clarify-cancel">Cancel</button>
+        <button class="clarify__button-submit clarify-submit">Remove</button>
+        <button class="clarify__button-cancel clarify-cancel">Back</button>
       </div>`;
   }
 
@@ -89,12 +89,18 @@ class BuildAccount {
 
     account.innerHTML = `<div id="account-createCurr">
       <div id="edit__createcurrency-container">
-        <label for="createcurrency" class="edit__createcurrency-label">Choose currency</label>
-        <input type="text" name="createcurrency" id="edit-createcurrency" class="edit__createcurrency-input">
+        <label class="edit__createcurrency-label">Choose currency</label>
+        
+        <select id="edit-createcurrency" class="edit__createcurrency-input">
+          <option value="EUR" selected>EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="BYN">BYN</option>
+          <option value="UAH">UAH</option>
+        </select>
       </div>
       <div class="edit__button-container">
-        <button class="edit__button-submit cteatecurrency-submit">Submit</button>
-        <button class="edit__button-cancel cteatecurrency-cancel">Back</button>
+        <button class="edit__button-submit createcurrency-submit">Submit</button>
+        <button class="edit__button-cancel createcurrency-cancel">Back</button>
       </div>`;
   }
 
@@ -104,8 +110,14 @@ class BuildAccount {
 
     account.innerHTML = `<div id="account-deleteCurr">
       <div id="edit__deletecurrency-container">
-        <label for="deletecurrency" class="edit__deletecurrency-label">Choose currency</label>
-        <input type="text" name="deletecurrency" id="edit-deletecurrency" class="edit__deletecurrency-input">
+        <label class="edit__deletecurrency-label">Choose currency</label>
+          
+        <select id="edit-deletecurrency" class="edit__deletecurrency-input">
+          <option value="EUR" selected>EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="BYN">BYN</option>
+          <option value="UAH">UAH</option>
+        </select>
       </div>
       <div class="edit__button-container">
         <button class="edit__button-submit deletecurrency-submit">Submit</button>

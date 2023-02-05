@@ -1,4 +1,5 @@
 export enum EPages {
+  ADMIN = 'Administration',
   AUTH = 'auth',
   ABOUT = 'About',
   SERVICES = 'Services',

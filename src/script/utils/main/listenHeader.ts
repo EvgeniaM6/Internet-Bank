@@ -7,6 +7,7 @@ import { createStatistics } from '../statistics/createStatistics';
 import { transition } from '../transition';
 import { buildMain } from './buildMain';
 import { createMain } from './createMain';
+import { navigationAdmin } from '../admin/navigationAdmin';
 
 class ListenHeader {
   private removeActiveClass() {
@@ -76,6 +77,12 @@ class ListenHeader {
         if (el.textContent === EPages.ACCOUNT) {
           buildMain.account();
           navigationAccount();
+          return;
+        }
+
+        if (el.textContent === EPages.ADMIN) {
+          buildMain.admin();
+          navigationAdmin();
           return;
         }
 
