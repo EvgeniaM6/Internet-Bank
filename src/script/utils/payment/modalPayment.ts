@@ -14,6 +14,7 @@ import { COMMISSION_AMOUNT } from '../../data/constants';
 import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
+import { EOperation } from '../../data/types';
 
 class ModalPayment {
   value?: string;
@@ -25,57 +26,47 @@ class ModalPayment {
   };
   emailInputs: TElemsForUpdateText = {};
 
-  renderModalPayment(paymentSum: number, operationId: number, isAnonim: boolean): void {
+  renderModalPayment(paymentSum: number, operationId: number, isAnonim: boolean, isNotCard: boolean): void {
     const popup = createElem('div', 'popup', document.body);
     popup.addEventListener('click', (e) => this.closePopUp(e));
 
-    popup.innerHTML = this.modalPaymentTemplate();
-    this.btnConfirm = popup.querySelector('.btn--col-3');
+    const popupContent = createElem('div', 'popup__content', popup) as HTMLElement;
+    const form = createElem('form', 'form', popupContent) as HTMLFormElement;
+    form.id = 'payment-form';
 
-    const form = popup.querySelector('#payment-form');
-    form?.addEventListener('submit', (e) => this.confirmPayment(e, operationId, isAnonim, popup));
-    form?.addEventListener('input', (e) => this.checkForm(e));
+    if (!isNotCard) {
+      form.innerHTML = this.modalPaymentTemplate();
 
-    const cardDataValidThru = popup.querySelector('#valid-thru') as HTMLInputElement;
-    cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
+      const cardDataValidThru = form.querySelector('#valid-thru') as HTMLInputElement;
+      cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
+    }
 
-    const popupContent = popup.querySelector('.popup__content');
-    const personalDetails = createElem('div', 'form__person-details');
-    createElem('h2', 'form__title modal-personal', personalDetails, this.langs[config.lang]['modal-personal']);
+    const btnConfirmBlock = createElem('div', 'form__btn', form) as HTMLElement;
+    const btnConfirm = createElem(
+      'button',
+      'btn btn--col-3 btn-colored unable',
+      btnConfirmBlock,
+      this.langs[config.lang]['btn--col-3']
+    ) as HTMLButtonElement;
+    btnConfirm.type = 'submit';
+    this.btnConfirm = btnConfirm;
+    this.checkInputsValidity(form);
 
-    const needEmailCheckboxBlock = createElem('div', 'form__email', personalDetails);
-    const needEmailCheckbox = createElem('input', 'form__email-input', needEmailCheckboxBlock) as HTMLInputElement;
-    needEmailCheckbox.type = 'checkbox';
-    const needEmailCheckboxLabel = createElem(
-      'label',
-      'form__email-label',
-      needEmailCheckboxBlock,
-      this.langs[config.lang]['form__email-label']
-    ) as HTMLLabelElement;
-    needEmailCheckbox.id = needEmailCheckboxLabel.htmlFor = 'need-email';
-    this.emailInputs['checkbox-input'] = needEmailCheckbox;
+    form.addEventListener('submit', (e) => {
+      this.confirmPayment(e, operationId, isAnonim, popup, !!isNotCard, paymentSum);
+    });
+    form.addEventListener('input', (e) => this.checkForm(e));
 
-    const emailInput = createElem('input', 'form__item input--payment', personalDetails) as HTMLInputElement;
-    emailInput.name = emailInput.type = 'email';
-    emailInput.placeholder = 'E-mail';
-    emailInput.required = emailInput.disabled = true;
-    emailInput.pattern = '.+@\\w+\\.\\w+';
-    this.emailInputs['email-input'] = emailInput;
-    popupContent?.prepend(personalDetails);
+    this.renderEmailInput(form, isAnonim);
 
-    needEmailCheckbox.addEventListener('input', (e) =>
-      this.checkNeedEmailInput(e.target as HTMLInputElement, emailInput)
-    );
+    console.log('isAnonim=', isAnonim, 'config.currentEmail=', config.currentEmail);
 
     if (isAnonim) {
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
       createElem('span', 'commis__sum', commissionBlock, `${COMMISSION_AMOUNT}`);
       createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
-      popupContent?.prepend(commissionBlock);
-    } else {
-      emailInput.value = config.currentEmail;
-      emailInput.disabled = false;
+      popupContent.prepend(commissionBlock);
     }
   }
 
@@ -86,29 +77,29 @@ class ModalPayment {
     }
   }
 
-  confirmPayment(e: Event, operationId: number, isAnonim: boolean, popup: HTMLElement): void {
+  confirmPayment(
+    e: Event,
+    operationId: number,
+    isAnonim: boolean,
+    popup: HTMLElement,
+    isNotCard: boolean,
+    paymentSum: number
+  ): void {
     e.preventDefault();
     if (!this.canPay) return;
 
-    const main = document.querySelector('.main-container') as HTMLElement;
-
-    const popupWindow = popup.querySelector('.popup__content') as HTMLElement;
-    popupWindow.classList.add('loading');
-    popupWindow.style.height = `${popupWindow.offsetHeight}px`;
-    load(popupWindow);
+    const popupContent = popup.querySelector('.popup__content') as HTMLElement;
+    popupContent.classList.add('loading');
+    popupContent.style.height = `${popupContent.offsetHeight}px`;
+    load(popupContent);
 
     if (isAnonim) {
-      moneyFetch.commission(COMMISSION_AMOUNT, operationId).then(async () => {
-        const popupMessage = createElem('div', 'popup popup-message', document.body);
-        popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
+      moneyFetch.commission(COMMISSION_AMOUNT, operationId).then(async (resp) => {
+        const message = resp.success
+          ? this.langs[config.lang].modalInfoMessage
+          : this.langs[config.lang].errorPayByCardMessage;
 
-        popup.remove();
-        await listenHeader.updateInfo();
-
-        setTimeout(() => {
-          popupMessage.remove();
-          transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
-        }, 3000);
+        this.modalInfoMessage(message, popup);
       });
 
       if ((this.emailInputs['checkbox-input'] as HTMLInputElement)?.checked) {
@@ -116,8 +107,20 @@ class ModalPayment {
         console.log('anonimEmail=', anonimEmail);
       }
     } else {
-      const popupMessage = createElem('div', 'popup popup-message', document.body);
-      popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
+      if (isNotCard) {
+        const token = this.getCurrentToken();
+
+        moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then(async (resp) => {
+          const message = resp.success
+            ? this.langs[config.lang].modalInfoMessage
+            : this.langs[config.lang].errorPayByCardMessage;
+
+          this.modalInfoMessage(message, popup);
+        });
+      } else {
+        const message = this.langs[config.lang].modalInfoMessage;
+        this.modalInfoMessage(message, popup);
+      }
     }
   }
 
@@ -177,6 +180,8 @@ class ModalPayment {
 
   checkInputsValidity(payForm: HTMLFormElement): void {
     this.canPay = Array.from(payForm.elements).every((inputEl) => {
+      if ((inputEl as HTMLInputElement).disabled) return true;
+
       const inputPattern = (inputEl as HTMLInputElement).pattern;
       if (!inputPattern) return true;
 
@@ -199,74 +204,113 @@ class ModalPayment {
     emailInput.disabled = !checkboxInput.checked;
   }
 
+  renderEmailInput(popupContent: HTMLElement, isAnonim: boolean): void {
+    const personalDetails = createElem('div', 'form__person-details');
+    createElem('h2', 'form__title modal-personal', personalDetails, this.langs[config.lang]['modal-personal']);
+
+    const needEmailCheckboxBlock = createElem('div', 'form__email', personalDetails);
+    const needEmailCheckbox = createElem('input', 'form__email-input', needEmailCheckboxBlock) as HTMLInputElement;
+    needEmailCheckbox.type = 'checkbox';
+    const needEmailCheckboxLabel = createElem(
+      'label',
+      'form__email-label',
+      needEmailCheckboxBlock,
+      this.langs[config.lang]['form__email-label']
+    ) as HTMLLabelElement;
+    needEmailCheckbox.id = needEmailCheckboxLabel.htmlFor = 'need-email';
+    this.emailInputs['checkbox-input'] = needEmailCheckbox;
+
+    const emailInput = createElem('input', 'form__item input--payment', personalDetails) as HTMLInputElement;
+    emailInput.name = emailInput.type = 'email';
+    emailInput.placeholder = 'E-mail';
+    emailInput.required = emailInput.disabled = true;
+    emailInput.pattern = '.+@\\w+\\.\\w+';
+    this.emailInputs['email-input'] = emailInput;
+
+    if (!isAnonim) {
+      emailInput.value = config.currentEmail;
+    }
+
+    needEmailCheckbox.addEventListener('input', (e) =>
+      this.checkNeedEmailInput(e.target as HTMLInputElement, emailInput)
+    );
+
+    popupContent?.prepend(personalDetails);
+  }
+
+  getCurrentToken(): string {
+    const token = sessionStorage.getItem('token') || '';
+    return token;
+  }
+
   modalPaymentTemplate(): string {
     return `
-      <div class="popup__content">
-        <form id="payment-form" class="form" action="/" method="post">
-          <div class="form__card-details">
-            <h2 class="form__title modal-credit-card">${this.langs[config.lang]['modal-credit-card']}</h2>
-            <div class="form__data card-data">
-              <div class="card-data__card-number">
-                <img src=${invoiceCard} alt="credit-card" />
-                <input
-                  id="card-number"
-                  name="card-number"
-                  class="input--payment"
-                  type="text"
-                  placeholder="0000 0000 0000 0000"
-                  required
-                  pattern="\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}"
-                  maxlength="19"
-                  title="${this.langs[config.lang].cardInputTitle}"
-                />
-              </div>
-              <div class="card-data__info">
-                <div class="card-data__valid-data">
-                  <label for="valid-thru" class="valid">${this.langs[config.lang]['valid']}</label>
-                  <input
-                    id="valid-thru"
-                    class="input--payment"
-                    type="text"
-                    name="valid-thru"
-                    placeholder="10/23"
-                    required
-                    pattern="[0-1][0-2][\\/]\\d{2}"
-                    maxlength="5"
-                  />
-                </div>
-                <div class="card-data__valid-data">
-                  <label for="code-cvv" class="code-cvv">${this.langs[config.lang]['code-cvv']}</label>
-                  <input
-                    id="code-cvv"
-                    class="input--payment"
-                    type="text"
-                    name="code-cvv"
-                    placeholder="000"
-                    required
-                    pattern="\\d{3}"
-                    maxlength="3"
-                    title="${this.langs[config.lang].cvvInputTitle}"
-                  />
-                </div>
-              </div>
+      <div class="form__card-details">
+        <h2 class="form__title modal-credit-card">${this.langs[config.lang]['modal-credit-card']}</h2>
+        <div class="form__data card-data">
+          <div class="card-data__card-number">
+            <img src=${invoiceCard} alt="credit-card" />
+            <input
+              id="card-number"
+              name="card-number"
+              class="input--payment"
+              type="text"
+              placeholder="0000 0000 0000 0000"
+              required
+              pattern="\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}"
+              maxlength="19"
+              title="${this.langs[config.lang].cardInputTitle}"
+            />
+          </div>
+          <div class="card-data__info">
+            <div class="card-data__valid-data">
+              <label for="valid-thru" class="valid">${this.langs[config.lang]['valid']}</label>
+              <input
+                id="valid-thru"
+                class="input--payment"
+                type="text"
+                name="valid-thru"
+                placeholder="10/23"
+                required
+                pattern="[0-1][0-2][\\/]\\d{2}"
+                maxlength="5"
+              />
+            </div>
+            <div class="card-data__valid-data">
+              <label for="code-cvv" class="code-cvv">${this.langs[config.lang]['code-cvv']}</label>
+              <input
+                id="code-cvv"
+                class="input--payment"
+                type="text"
+                name="code-cvv"
+                placeholder="000"
+                required
+                pattern="\\d{3}"
+                maxlength="3"
+                title="${this.langs[config.lang].cvvInputTitle}"
+              />
             </div>
           </div>
-          <div class="form__btn">
-            <button type="submit" class="btn btn--col-3 btn-colored unable">${
-              this.langs[config.lang]['btn--col-3']
-            }</button>
-          </div>
-        </form>
+        </div>
       </div>
   `;
   }
 
-  modalInfoMessage(message: string) {
-    return `
-      <div class="popup-message__content">
-        <div class="popup-message__message-info">${message}</div>
-      </div>
-    `;
+  modalInfoMessage(message: string, popup: HTMLElement): void {
+    const popupMessage = createElem('div', 'popup popup-message', document.body);
+    const popupMessageContent = createElem('div', 'popup-message__content', popupMessage);
+    createElem('div', 'popup-message__message-info', popupMessageContent, message);
+
+    popup.remove();
+
+    listenHeader.updateInfo().then(() => {
+      const main = document.querySelector('.main-container') as HTMLElement;
+
+      setTimeout(() => {
+        popupMessage.remove();
+        transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
+      }, 3000);
+    });
   }
 }
 
