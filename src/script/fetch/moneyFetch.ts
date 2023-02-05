@@ -3,7 +3,7 @@ import Fetch from './mainFetch';
 
 class MoneyFetch extends Fetch {
   async changeMainMoney(money: number, operation: EOperation, token: string, operationID: number) {
-    const path = '/money';
+    const path = '/securemoney';
     const query = `?operation=${operation}`;
     const req = {
       method: 'POST',
@@ -13,12 +13,14 @@ class MoneyFetch extends Fetch {
       },
       body: JSON.stringify({ money, operationID }),
     };
+    console.log(req);
     const result: IMainRes = await this.mainFetch(req, path, query);
+    console.log(result);
     return result;
   }
 
   async transfer(money: number, toUsername: string, token: string) {
-    const path = '/money/transfer';
+    const path = '/securemoney/transfer';
     const req = {
       method: 'POST',
       headers: {
@@ -42,7 +44,7 @@ class MoneyFetch extends Fetch {
     money?: number,
     operation?: EOperation
   ) {
-    const path = '/money/account';
+    const path = '/securemoney/account';
     const query = operation ? `?operation=${operation}` : '';
     if (operation && method !== EMethod.PUT) {
       return;

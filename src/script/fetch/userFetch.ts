@@ -3,7 +3,7 @@ import Fetch from './mainFetch';
 
 class UserFetch extends Fetch {
   async regictration(username: string, password: string, email: string) {
-    const path = '/user/registration';
+    const path = '/action/registration';
     const req = {
       method: 'POST',
       headers: {
@@ -20,7 +20,7 @@ class UserFetch extends Fetch {
   }
 
   async login(username: string, password: string) {
-    const path = '/user/login';
+    const path = '/action/login';
     const req = {
       method: 'POST',
       headers: {
@@ -36,7 +36,7 @@ class UserFetch extends Fetch {
   }
 
   async verify(username: string, code: number) {
-    const path = '/user/verify';
+    const path = '/action/verify';
     const req = {
       method: 'POST',
       headers: {
@@ -52,7 +52,7 @@ class UserFetch extends Fetch {
   }
 
   async reset(username: string, email: string) {
-    const path = '/user/reset';
+    const path = '/action/reset';
     const req = {
       method: 'POST',
       headers: {
@@ -68,7 +68,7 @@ class UserFetch extends Fetch {
   }
 
   async isOurUser(username: string) {
-    const path = '/user/check';
+    const path = '/action/check';
     const query = `?username=${username}`;
     const req = {
       method: 'GET',
@@ -102,7 +102,7 @@ class UserFetch extends Fetch {
   }
 
   async services() {
-    const path = '/user/services';
+    const path = '/action/services';
     const req = {
       method: 'GET',
     };
