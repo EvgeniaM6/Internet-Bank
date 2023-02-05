@@ -8,6 +8,9 @@ export function navigationAccount() {
 
   nav.forEach((item) => {
     item.addEventListener('click', () => {
+      nav.forEach((el) => el.classList.remove('account__list-item_active'));
+      item.classList.add('account__list-item_active');
+
       if (item.textContent === 'Edit account') {
         buildAccount.editAccount();
         listenAccount.editAccount();

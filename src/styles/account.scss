@@ -13,6 +13,10 @@
   cursor: pointer;
 }
 
+.account__list-item_active {
+  color: $third;
+}
+
 #account-edit {
   width: 294px;
   text-align: right;
@@ -89,6 +93,11 @@
   height: 12px;
   border: #d8c307 solid 1px;
   border-radius: 50%;
+}
+
+.createC-active,
+.deleteC-active {
+  background: #d8c307;
 }
 
 #edit__createcurrency-container,
