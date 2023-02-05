@@ -1,4 +1,4 @@
-import { calculateCommissionSum, createElem } from '../../utilities/index';
+import { createElem } from '../../utilities/index';
 import { renderPayment } from './renderPayment';
 import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
@@ -6,20 +6,23 @@ import visaCard from '../../../assets/img/payment-system/visa.png';
 import mastercardCard from '../../../assets/img/payment-system/mastercard.png';
 import en from '../../data/lang/modalPaym/en';
 import ru from '../../data/lang/modalPaym/ru';
-import { TLang } from '../../data/servicesType';
+import { TElemsForUpdateText, TLang } from '../../data/servicesType';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import config from '../../data/config';
 import { validate } from '../validate';
+import { COMMISSION_AMOUNT } from '../../data/constants';
+import { load } from '../load';
+import { transition } from '../transition';
 
 class ModalPayment {
   value?: string;
-  commissionSum = 0;
   canPay = false;
   btnConfirm: HTMLButtonElement | null = null;
   langs: TLang = {
     en,
     ru,
   };
+  emailInputs: TElemsForUpdateText = {};
 
   renderModalPayment(paymentSum: number, operationId: number, isAnonim: boolean): void {
     const popup = createElem('div', 'popup', document.body);
@@ -36,23 +39,39 @@ class ModalPayment {
     cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
 
     if (isAnonim) {
-      this.commissionSum = calculateCommissionSum(paymentSum);
-
       const popupContent = popup.querySelector('.popup__content');
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
-      createElem('span', 'commis__sum', commissionBlock, `${this.commissionSum}`);
+      createElem('span', 'commis__sum', commissionBlock, `${COMMISSION_AMOUNT}`);
       createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
       popupContent?.prepend(commissionBlock);
 
       const personalDetails = createElem('div', 'form__person-details');
       createElem('h2', 'form__title modal-personal', personalDetails, this.langs[config.lang]['modal-personal']);
+
+      const needEmailCheckboxBlock = createElem('div', 'form__email', personalDetails);
+      const needEmailCheckbox = createElem('input', 'form__email-input', needEmailCheckboxBlock) as HTMLInputElement;
+      needEmailCheckbox.type = 'checkbox';
+      const needEmailCheckboxLabel = createElem(
+        'label',
+        'form__email-label',
+        needEmailCheckboxBlock,
+        this.langs[config.lang]['form__email-label']
+      ) as HTMLLabelElement;
+      needEmailCheckbox.id = needEmailCheckboxLabel.htmlFor = 'need-email';
+      this.emailInputs['checkbox-input'] = needEmailCheckbox;
+
       const emailInput = createElem('input', 'form__item input--payment', personalDetails) as HTMLInputElement;
       emailInput.name = emailInput.type = 'email';
       emailInput.placeholder = 'E-mail';
-      emailInput.required = true;
+      emailInput.required = emailInput.disabled = true;
       emailInput.pattern = '.+@\\w+\\.\\w+';
+      this.emailInputs['email-input'] = emailInput;
       popupContent?.prepend(personalDetails);
+
+      needEmailCheckbox.addEventListener('input', (e) =>
+        this.checkNeedEmailInput(e.target as HTMLInputElement, emailInput)
+      );
     }
   }
 
@@ -67,18 +86,34 @@ class ModalPayment {
     e.preventDefault();
     if (!this.canPay) return;
 
-    const popupMessage = createElem('div', 'popup popup-message', document.body);
-    popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
+    const main = document.querySelector('.main-container') as HTMLElement;
+
+    const popupWindow = popup.querySelector('.popup__content') as HTMLElement;
+    popupWindow.classList.add('loading');
+    popupWindow.style.height = `${popupWindow.offsetHeight}px`;
+    load(popupWindow);
 
     if (isAnonim) {
-      moneyFetch.commission(this.commissionSum, operationId);
-    }
+      moneyFetch.commission(COMMISSION_AMOUNT, operationId).then(() => {
+        const popupMessage = createElem('div', 'popup popup-message', document.body);
+        popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
 
-    setTimeout(() => {
-      popupMessage.remove();
-      popup.remove();
-      renderPayment.renderPaymentsPage();
-    }, 3000);
+        popup.remove();
+
+        setTimeout(() => {
+          popupMessage.remove();
+          transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
+        }, 3000);
+      });
+
+      if ((this.emailInputs['checkbox-input'] as HTMLInputElement)?.checked) {
+        const anonimEmail = (this.emailInputs['email-input'] as HTMLInputElement)?.value;
+        console.log('anonimEmail=', anonimEmail);
+      }
+    } else {
+      const popupMessage = createElem('div', 'popup popup-message', document.body);
+      popupMessage.innerHTML = this.modalInfoMessage(this.langs[config.lang].modalInfoMessage);
+    }
   }
 
   checkForm(e: Event): void {
@@ -153,6 +188,10 @@ class ModalPayment {
         this.btnConfirm.classList.add('unable');
       }
     }
+  }
+
+  checkNeedEmailInput(checkboxInput: HTMLInputElement, emailInput: HTMLInputElement): void {
+    emailInput.disabled = !checkboxInput.checked;
   }
 
   modalPaymentTemplate(): string {

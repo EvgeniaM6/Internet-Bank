@@ -2,6 +2,41 @@
   width: 100%;
   padding: 20px;
 
+  .back {
+    border-bottom: solid 1px $third;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+
+    &__btn {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      border: none;
+      opacity: .7;
+      cursor: pointer;
+      transition: all .3s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &__arrow {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      background-image: url(../assets/img/icons/arrow_back.svg);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin-right: 5px;
+    }
+
+    &__text {
+      font-size: 16px;
+    }
+  }
+
   &__info {
     display: flex;
     padding: 10px 0px;
@@ -39,37 +74,53 @@
   &__commission {
     margin-bottom: 20px;
   }
-}
 
-.form-paym {
+  .form-paym {
+    
+    &__label {
+      margin-bottom: 5px;
+    }
   
-  &__label {
-    margin-bottom: 5px;
-  }
+    &__input {
+      padding: 6px 12px;
+      border: solid 2px $third;
+      border-radius: 8px;
+      font-size: 18px;
+      width: 250px;
+    }
+  
+    &__btn.btn-colored,
+    &__btn-card.btn-colored {
+      width: 250px;
+      height: auto;
+      padding: 5px 0;
+      display: block;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+  
+      &.unable {
+        background-color: $color-btn-unable;
+        cursor: default;
+  
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
 
-  &__input {
-    padding: 6px 12px;
-    border: solid 2px #e3b824;
-    border-radius: 8px;
-    font-size: 18px;
-    width: 250px;
-  }
+    .form-sum {
+      position: relative;
 
-  &__btn.btn-colored,
-  &__btn-card.btn-colored {
-    width: 250px;
-    height: auto;
-    padding: 5px 0;
-    display: block;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-
-    &.unable {
-      background-color: #717171;
-      cursor: default;
-
-      &:hover {
-        opacity: 1;
+      &__currency {
+        position: absolute;
+        top: 31px;
+        left: 220px;
+        width: 22px;
+        height: 22px;
+        background: url(../assets/img/icons/dollar.svg) 50% 0%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
       }
     }
   }

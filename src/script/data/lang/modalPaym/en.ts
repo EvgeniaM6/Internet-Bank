@@ -10,4 +10,5 @@ export default {
   commis__start: 'The amount of commission for your payment will be ',
   commis__end: ' USD',
   cardDataValidity: 'Month cannot be more than 12',
+  'form__email-label': 'I want to be sent a check for the operation',
 };

@@ -10,4 +10,5 @@ export default {
   commis__start: 'Сумма комиссии за Ваш платеж составит ',
   commis__end: ' дол.США',
   cardDataValidity: 'Месяц не может быть больше 12',
+  'form__email-label': 'Я хочу, чтобы мне прислали чек по операции',
 };

@@ -1,7 +1,7 @@
 import config from '../../data/config';
 import { INDEX_START_SERVICES } from '../../data/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
-import { IMainRes } from '../../data/types';
+import { EPages, IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
 import en from '../../data/lang/payment/en';
@@ -26,6 +26,8 @@ class RenderPayment {
     window.scrollTo(0, 0);
     const paymentPage = createElem('div', 'main__payment-page', this.main);
     const filtersContainer = createElem('div', 'filters', paymentPage);
+
+    config.page = EPages.SERVICES;
 
     paymentPage.append(this.operationsContainer);
 
@@ -111,11 +113,11 @@ class RenderPayment {
     inputAllOperationsElem.checked = this.selectedCategoryFilter === 'all';
     this.elemsForUpdatingText[`category_all`] = inputAllOperationsElem;
 
-    const label = createElem('label', 'filter__label', filterAllItemElem, 'All') as HTMLLabelElement;
+    const label = createElem('label', 'filter__label', filterAllItemElem) as HTMLLabelElement;
     label.htmlFor = 'all';
 
-    const operationsNumElem = createElem('span', 'filter__numbers', filterAllItemElem);
-    createElem('span', null, operationsNumElem, `(${this.countFilterValues()})`);
+    createElem('span', 'filter__label-title', label, 'All');
+    createElem('span', 'filter__label-numbers', label, `(${this.countFilterValues()})`);
 
     const filterValues = this.getFiltersList();
     filterValues.forEach((filterValue) => {
@@ -152,11 +154,11 @@ class RenderPayment {
     inputElem.checked = this.selectedCategoryFilter === filterValue.toLowerCase();
     this.elemsForUpdatingText[`radio_${key}`] = inputElem;
 
-    const label = createElem('label', 'filter__label', filterItemElem, filterValue) as HTMLLabelElement;
+    const label = createElem('label', 'filter__label', filterItemElem) as HTMLLabelElement;
     label.htmlFor = filterValue.toLowerCase();
 
-    const operationsNumElem = createElem('span', 'filter__numbers', filterItemElem);
-    createElem('span', null, operationsNumElem, `(${this.countFilterValues(filterValue)})`);
+    createElem('span', 'filter__label-title', label, filterValue);
+    createElem('span', 'filter__label-numbers', label, `(${this.countFilterValues(filterValue)})`);
     return filterItemElem;
   }
 
@@ -183,7 +185,8 @@ class RenderPayment {
     const filterValue = (event.target as HTMLInputElement).id;
     this.selectedCategoryFilter = filterValue;
 
-    this.updatePaymentCards();
+    transition(this.operationsContainer, this.updatePaymentCards.bind(this));
+    // this.updatePaymentCards();
   }
 
   updatePaymentCards(): void {

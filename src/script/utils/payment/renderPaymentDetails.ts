@@ -7,8 +7,10 @@ import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
 import { modalPayment } from './modalPayment';
 import { renderPayment } from './renderPayment';
-import en from '../../data/lang/paymDetails/en';
-import ru from '../../data/lang/paymDetails/ru';
+import en from '../../data/lang/payment/en';
+import ru from '../../data/lang/payment/ru';
+import { transition } from '../transition';
+import { load } from '../load';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -28,6 +30,12 @@ class RenderPaymentDetails {
     this.main.className = 'container main-container';
     window.scrollTo(0, 0);
     const operation = createElem('div', 'operation', this.main);
+
+    const backBtnBlock = createElem('div', 'operation__back back', operation);
+    const backBtn = createElem('button', 'back__btn', backBtnBlock);
+    createElem('div', 'back__arrow', backBtn);
+    createElem('div', 'back__text', backBtn, this.langs[config.lang].back__text);
+    backBtn.addEventListener('click', () => this.backToAllServices());
 
     const operationInfo = createElem('div', 'operation__info', operation);
 
@@ -56,6 +64,7 @@ class RenderPaymentDetails {
 
     const sumBlock = createElem('div', 'operation__form-block form-sum', payForm);
     const sumLabel = createElem('label', 'form-sum__label form-paym__label', sumBlock) as HTMLLabelElement;
+    createElem('div', 'form-sum__currency', sumBlock) as HTMLLabelElement;
 
     const sumInput = createElem('input', 'form-sum__input form-paym__input', sumBlock) as HTMLInputElement;
     sumInput.id = sumLabel.htmlFor = 'sum';
@@ -121,15 +130,19 @@ class RenderPaymentDetails {
 
     const token = this.getCurrentToken();
 
+    load(this.main);
+
     moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then((resp) => {
       const popupMessage = createElem('div', 'popup popup-message', document.body);
 
-      const message = resp.success ? this.langs[config.lang].modalInfoMessage : '';
+      const message = resp.success
+        ? this.langs[config.lang].paidByCardMessage
+        : this.langs[config.lang].errorPayByCardMessage;
       popupMessage.innerHTML = modalPayment.modalInfoMessage(message);
 
       setTimeout(() => {
         popupMessage.remove();
-        renderPayment.renderPaymentsPage();
+        transition(this.main, renderPayment.renderPaymentsPage.bind(renderPayment));
       }, 3000);
     });
   }
@@ -220,6 +233,11 @@ class RenderPaymentDetails {
   getCurrentToken(): string {
     const token = sessionStorage.getItem('token') || '';
     return token;
+  }
+
+  backToAllServices(): void {
+    const main = document.querySelector('.main') as HTMLElement;
+    transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
   }
 }
 
