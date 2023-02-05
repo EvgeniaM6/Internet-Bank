@@ -1,6 +1,7 @@
 export default {
   modalInfoMessage: 'Your payment has been confirmed!',
   errorPayByCardMessage: 'Oops! Something went wrong',
+  errorNotEnoughMoney: 'Oops! No enough money!',
   cardInputTitle: 'enter 16 digits',
   cvvInputTitle: 'enter 3 digits',
   'btn--col-3': 'Confirm',

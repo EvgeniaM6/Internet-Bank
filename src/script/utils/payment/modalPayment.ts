@@ -14,7 +14,7 @@ import { COMMISSION_AMOUNT } from '../../data/constants';
 import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
-import { EOperation } from '../../data/types';
+import { EOperation, IMainRes } from '../../data/types';
 
 class ModalPayment {
   value?: string;
@@ -39,6 +39,9 @@ class ModalPayment {
 
       const cardDataValidThru = form.querySelector('#valid-thru') as HTMLInputElement;
       cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
+
+      const cardNumberInput = form.querySelector('.card-number') as HTMLElement;
+      this.emailInputs['card-number'] = cardNumberInput;
     }
 
     const btnConfirmBlock = createElem('div', 'form__btn', form) as HTMLElement;
@@ -93,33 +96,34 @@ class ModalPayment {
     popupContent.style.height = `${popupContent.offsetHeight}px`;
     load(popupContent);
 
+    const cardNumberElem = this.emailInputs['card-number'] as HTMLInputElement;
+    const cardNumber = cardNumberElem ? cardNumberElem.value : '';
+
     if (isAnonim) {
-      moneyFetch.commission(COMMISSION_AMOUNT, operationId).then(async (resp) => {
-        const message = resp.success
-          ? this.langs[config.lang].modalInfoMessage
-          : this.langs[config.lang].errorPayByCardMessage;
-
-        this.modalInfoMessage(message, popup);
+      moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
+        console.log('tryPayByCard=', payCardResp.success);
+        if (!payCardResp.success) {
+          this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+        } else {
+          moneyFetch.commission(COMMISSION_AMOUNT, operationId).then((resp) => {
+            console.log('commission=', resp.success);
+            this.checkRespose(resp, popup, paymentSum, operationId);
+          });
+        }
       });
-
-      if ((this.emailInputs['checkbox-input'] as HTMLInputElement)?.checked) {
-        const anonimEmail = (this.emailInputs['email-input'] as HTMLInputElement)?.value;
-        console.log('anonimEmail=', anonimEmail);
-      }
     } else {
       if (isNotCard) {
         const token = this.getCurrentToken();
 
-        moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then(async (resp) => {
-          const message = resp.success
-            ? this.langs[config.lang].modalInfoMessage
-            : this.langs[config.lang].errorPayByCardMessage;
-
-          this.modalInfoMessage(message, popup);
+        moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then((resp) => {
+          console.log('changeMainMoney=', resp.success);
+          this.checkRespose(resp, popup, paymentSum, operationId);
         });
       } else {
-        const message = this.langs[config.lang].modalInfoMessage;
-        this.modalInfoMessage(message, popup);
+        moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
+          console.log('tryPayByCard=', payCardResp.success);
+          this.checkRespose(payCardResp, popup, paymentSum, operationId);
+        });
       }
     }
   }
@@ -311,6 +315,30 @@ class ModalPayment {
         transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
       }, 3000);
     });
+  }
+
+  checkRespose(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number, respMess?: string): void {
+    let message = resp.success
+      ? this.langs[config.lang].modalInfoMessage
+      : this.langs[config.lang].errorPayByCardMessage;
+
+    if (!resp.success || !(this.emailInputs['checkbox-input'] as HTMLInputElement)?.checked) {
+      if (respMess === 'No enough money!') {
+        message = this.langs[config.lang].errorNotEnoughMoney;
+      }
+
+      this.modalInfoMessage(message, popup);
+    } else {
+      const anonimEmail = (this.emailInputs['email-input'] as HTMLInputElement)?.value;
+      console.log('anonimEmail=', anonimEmail);
+
+      moneyFetch.sendCheckToEmail(paymentSum, operationId, anonimEmail).then((emailResp) => {
+        console.log('sendCheckToEmail=', emailResp.success);
+        message = emailResp ? this.langs[config.lang].modalInfoMessage : this.langs[config.lang].errorPayByCardMessage;
+
+        this.modalInfoMessage(message, popup);
+      });
+    }
   }
 }
 

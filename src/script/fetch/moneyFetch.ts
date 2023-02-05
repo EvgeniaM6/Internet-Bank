@@ -135,6 +135,21 @@ class MoneyFetch extends Fetch {
     const result: IMainRes = await this.mainFetch(req, path);
     return result;
   }
+
+  async tryPayByCard(card: string) {
+    const path = '/money/card';
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        card,
+      }),
+    };
+    const result: IMainRes = await this.mainFetch(req, path);
+    return result;
+  }
 }
 
 export const moneyFetch = new MoneyFetch();
