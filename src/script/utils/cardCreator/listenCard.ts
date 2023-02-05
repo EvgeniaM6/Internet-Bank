@@ -1,4 +1,5 @@
 import cardFetch from '../../fetch/cardFetch';
+import { userFetch } from '../../fetch/userFetch';
 import { buildCard } from './buildCard';
 import cardConfig from './cardConfig';
 
@@ -45,8 +46,12 @@ class ListenCard {
     cardCreate.addEventListener('click', async (e) => {
       e.preventDefault();
       if (cardName.value.length) {
+        const token = sessionStorage.getItem('token');
+        if(!token) return;
+
         const link = await cardFetch();
         window.open(link);
+        await userFetch.saveCard(link, token);
       }
     });
   }
