@@ -101,6 +101,22 @@ class UserFetch extends Fetch {
     return result;
   }
 
+  async saveCard(link: string, token: string) {
+    const path = '/user/card';
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: {
+        link
+      }
+    };
+    const result: IMainRes = await this.mainFetch(req, path);
+    return result;
+  }
+
   async services() {
     const path = '/action/services';
     const req = {
