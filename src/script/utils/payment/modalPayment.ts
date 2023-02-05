@@ -39,40 +39,43 @@ class ModalPayment {
     const cardDataValidThru = popup.querySelector('#valid-thru') as HTMLInputElement;
     cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
 
+    const popupContent = popup.querySelector('.popup__content');
+    const personalDetails = createElem('div', 'form__person-details');
+    createElem('h2', 'form__title modal-personal', personalDetails, this.langs[config.lang]['modal-personal']);
+
+    const needEmailCheckboxBlock = createElem('div', 'form__email', personalDetails);
+    const needEmailCheckbox = createElem('input', 'form__email-input', needEmailCheckboxBlock) as HTMLInputElement;
+    needEmailCheckbox.type = 'checkbox';
+    const needEmailCheckboxLabel = createElem(
+      'label',
+      'form__email-label',
+      needEmailCheckboxBlock,
+      this.langs[config.lang]['form__email-label']
+    ) as HTMLLabelElement;
+    needEmailCheckbox.id = needEmailCheckboxLabel.htmlFor = 'need-email';
+    this.emailInputs['checkbox-input'] = needEmailCheckbox;
+
+    const emailInput = createElem('input', 'form__item input--payment', personalDetails) as HTMLInputElement;
+    emailInput.name = emailInput.type = 'email';
+    emailInput.placeholder = 'E-mail';
+    emailInput.required = emailInput.disabled = true;
+    emailInput.pattern = '.+@\\w+\\.\\w+';
+    this.emailInputs['email-input'] = emailInput;
+    popupContent?.prepend(personalDetails);
+
+    needEmailCheckbox.addEventListener('input', (e) =>
+      this.checkNeedEmailInput(e.target as HTMLInputElement, emailInput)
+    );
+
     if (isAnonim) {
-      const popupContent = popup.querySelector('.popup__content');
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
       createElem('span', 'commis__sum', commissionBlock, `${COMMISSION_AMOUNT}`);
       createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
       popupContent?.prepend(commissionBlock);
-
-      const personalDetails = createElem('div', 'form__person-details');
-      createElem('h2', 'form__title modal-personal', personalDetails, this.langs[config.lang]['modal-personal']);
-
-      const needEmailCheckboxBlock = createElem('div', 'form__email', personalDetails);
-      const needEmailCheckbox = createElem('input', 'form__email-input', needEmailCheckboxBlock) as HTMLInputElement;
-      needEmailCheckbox.type = 'checkbox';
-      const needEmailCheckboxLabel = createElem(
-        'label',
-        'form__email-label',
-        needEmailCheckboxBlock,
-        this.langs[config.lang]['form__email-label']
-      ) as HTMLLabelElement;
-      needEmailCheckbox.id = needEmailCheckboxLabel.htmlFor = 'need-email';
-      this.emailInputs['checkbox-input'] = needEmailCheckbox;
-
-      const emailInput = createElem('input', 'form__item input--payment', personalDetails) as HTMLInputElement;
-      emailInput.name = emailInput.type = 'email';
-      emailInput.placeholder = 'E-mail';
-      emailInput.required = emailInput.disabled = true;
-      emailInput.pattern = '.+@\\w+\\.\\w+';
-      this.emailInputs['email-input'] = emailInput;
-      popupContent?.prepend(personalDetails);
-
-      needEmailCheckbox.addEventListener('input', (e) =>
-        this.checkNeedEmailInput(e.target as HTMLInputElement, emailInput)
-      );
+    } else {
+      emailInput.value = config.currentEmail;
+      emailInput.disabled = false;
     }
   }
 

@@ -118,6 +118,23 @@ class MoneyFetch extends Fetch {
     const result: IMainRes = await this.mainFetch(req, path, query);
     return result;
   }
+
+  async sendCheckToEmail(money: number, operationID: number, email: string) {
+    const path = '/money/check';
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        money,
+        operationID,
+        email,
+      }),
+    };
+    const result: IMainRes = await this.mainFetch(req, path);
+    return result;
+  }
 }
 
 export const moneyFetch = new MoneyFetch();
