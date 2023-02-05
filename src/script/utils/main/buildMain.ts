@@ -91,6 +91,22 @@ class BuildMain {
     </ul>
     <div class="account-container"></div>`;
   }
+
+  admin() {
+    const main = document.querySelector('.main-container');
+    const admin = document.querySelector('.header__nav-admin');
+    if (!main || !admin) return;
+
+    admin.classList.add('header__nav_active');
+    main.innerHTML = `<ul class="admin__list">
+      <li class="admin__list-item">User list</li>
+      <li class="admin__list-item">Edit password</li>
+      <li class="admin__list-item">Currency</li>
+      <li class="admin__list-item">Last operations</li>
+      <li class="admin__list-item">Delete account</li>
+    </ul>
+    <div class="admin-container"></div>`;
+  }
 }
 
 export const buildMain = new BuildMain();

@@ -1,5 +1,6 @@
 import config from '../../data/config';
 import { EPages } from '../../data/types';
+import { adminFetch } from '../../fetch/adminFetch';
 import { openWebSocket } from '../../fetch/webSocket';
 import { buildCard } from '../cardCreator/buildCard';
 import { listenCard } from '../cardCreator/listenCard';
@@ -11,9 +12,19 @@ class CreateMain {
   header() {
     const token = sessionStorage.getItem('token');
     if (token) {
-      buildHeader.logHeader();
-      listenHeader.log();
-      return;
+      let isAsmin: boolean;
+      const data = adminFetch.check(token);
+      data.then((rez) => {
+        isAsmin = rez.success;
+        if (isAsmin) {
+          buildHeader.adminHeader();
+          listenHeader.log();
+          return;
+        }
+        buildHeader.logHeader();
+        listenHeader.log();
+        return;
+      });
     }
 
     buildHeader.anonimHeader();

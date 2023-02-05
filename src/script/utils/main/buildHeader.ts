@@ -56,6 +56,19 @@ class BuildHeader {
     list.appendChild(cardCreator);
     list.appendChild(account);
   }
+
+  adminHeader() {
+    this.logHeader();
+    const list = document.querySelector('.header__ul');
+    if (!list) return;
+
+    const admin = document.createElement('li');
+    admin.classList.add('header__nav-item');
+    admin.classList.add('header__nav-admin');
+    admin.textContent = 'Administration';
+
+    list.appendChild(admin);
+  }
 }
 
 export const buildHeader = new BuildHeader();
