@@ -105,7 +105,7 @@ class ModalPayment {
         if (!payCardResp.success) {
           this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
         } else {
-          moneyFetch.commission(COMMISSION_AMOUNT, operationId).then((resp) => {
+          moneyFetch.commission(paymentSum, operationId).then((resp) => {
             console.log('commission=', resp.success);
             this.checkRespose(resp, popup, paymentSum, operationId);
           });
