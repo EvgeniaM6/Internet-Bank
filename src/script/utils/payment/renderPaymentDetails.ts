@@ -1,8 +1,6 @@
 import config from '../../data/config';
 import { operationInputData } from '../../data/constants';
 import { TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
-import { EOperation } from '../../data/types';
-import { moneyFetch } from '../../fetch/moneyFetch';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
 import { modalPayment } from './modalPayment';
@@ -10,8 +8,6 @@ import { renderPayment } from './renderPayment';
 import en from '../../data/lang/payment/en';
 import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
-import { load } from '../load';
-import { listenHeader } from '../main/listenHeader';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -129,24 +125,7 @@ class RenderPaymentDetails {
     if (!this.canPay) return;
     const paymentSum = +(sumInput as HTMLInputElement).value;
 
-    const token = this.getCurrentToken();
-
-    load(this.main);
-
-    moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then(async (resp) => {
-      const popupMessage = createElem('div', 'popup popup-message', document.body);
-
-      const message = resp.success
-        ? this.langs[config.lang].paidByCardMessage
-        : this.langs[config.lang].errorPayByCardMessage;
-      popupMessage.innerHTML = modalPayment.modalInfoMessage(message);
-      await listenHeader.updateInfo();
-
-      setTimeout(() => {
-        popupMessage.remove();
-        transition(this.main, renderPayment.renderPaymentsPage.bind(renderPayment));
-      }, 3000);
-    });
+    this.renderAnonimPayment(paymentSum, operationId, false, true);
   }
 
   payByCard(e: Event, sumInput: HTMLInputElement, operationId: number): void {
@@ -228,8 +207,8 @@ class RenderPaymentDetails {
     });
   }
 
-  renderAnonimPayment(paymentSum: number, operationId: number, isAnonim: boolean): void {
-    modalPayment.renderModalPayment(paymentSum, operationId, isAnonim);
+  renderAnonimPayment(paymentSum: number, operationId: number, isAnonim: boolean, isNotCard?: boolean): void {
+    modalPayment.renderModalPayment(paymentSum, operationId, isAnonim, !!isNotCard);
   }
 
   getCurrentToken(): string {
