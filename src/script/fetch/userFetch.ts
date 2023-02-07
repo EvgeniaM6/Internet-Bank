@@ -83,6 +83,7 @@ class UserFetch extends Fetch {
       method,
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
       },
     };
     if (method === EMethod.PUT) {

@@ -15,16 +15,15 @@ class BuildHeader {
     <button class="header__burger">Menu</button>
     <nav class="header__nav">
         <ul class="header__ul">
-            <li class="header__nav-item header__nav-about">About</li>
-            <li class="header__nav-item">Services</li>
-            <li class="header__nav-item">Quiz</li>
-            <li class="header__nav-item">Statistics</li>
+            <li class="header__nav-item header__nav-about" id="About">About</li>
+            <li class="header__nav-item" id="Services">Services</li>
+            <li class="header__nav-item" id="Quiz">Quiz</li>
+            <li class="header__nav-item" id="Statistics">Statistics</li>
         </ul>
         <button class="header__burger-close">&#10006;</button>
     </nav>
     <div class="header__down">
         <div class="header__login">Log In</div>
-        <small>Users online: <span class="users-online__count"></span></small>
     </div>`;
   }
 
@@ -41,10 +40,17 @@ class BuildHeader {
     account.classList.add('header__nav-item');
     account.classList.add('header__nav-account');
     account.textContent = 'Account';
+    account.id = 'Account';
 
     const cardCreator = document.createElement('li');
     cardCreator.classList.add('header__nav-item');
     cardCreator.textContent = 'Card Creator';
+    cardCreator.id = 'Card_Creator';
+
+    const stocks = document.createElement('li');
+    cardCreator.classList.add('header__nav-item');
+    cardCreator.textContent = 'Stocks';
+    cardCreator.id = 'Stocks';
 
     const money = document.createElement('p');
     money.classList.add('header__money');
@@ -54,6 +60,7 @@ class BuildHeader {
     }
     headerUp.appendChild(money);
 
+    list.appendChild(stocks);
     list.appendChild(cardCreator);
     list.appendChild(account);
   }
@@ -67,6 +74,7 @@ class BuildHeader {
     admin.classList.add('header__nav-item');
     admin.classList.add('header__nav-admin');
     admin.textContent = 'Administration';
+    admin.id = 'Administration';
 
     list.appendChild(admin);
   }
