@@ -89,7 +89,9 @@ class BuildMain {
       <li class="account__list-item">Last operations</li>
       <li class="account__list-item">Delete account</li>
     </ul>
-    <div class="account-container"></div>`;
+    <div class="account-container">
+      <p>We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
+    </div>`;
   }
 
   admin() {
@@ -105,7 +107,8 @@ class BuildMain {
       <li class="admin__list-item">Last operations</li>
       <li class="admin__list-item">Delete account</li>
     </ul>
-    <div class="admin-container"></div>`;
+    <div class="admin-container">
+    </div>`;
   }
 }
 

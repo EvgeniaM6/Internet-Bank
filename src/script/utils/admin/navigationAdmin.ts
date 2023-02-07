@@ -1,5 +1,5 @@
 import { buildAdmin } from './buildAdmin';
-/* import { listenAccount } from './listenAccount'; */
+import { listenAdmin } from './listenAdmin';
 
 export function navigationAdmin() {
   const nav = document.querySelectorAll('.admin__list-item');

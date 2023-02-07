@@ -37,7 +37,6 @@ export function navigationAccount() {
 
       if (item.textContent === 'Last operations') {
         buildAccount.showLastOperations();
-        //listenAccount.currency();
         return;
       }
     });

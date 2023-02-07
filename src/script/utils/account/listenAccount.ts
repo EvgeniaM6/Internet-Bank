@@ -5,6 +5,8 @@ import { createAuth } from '../auth/createAuth';
 import { buildAccount } from './buildAccount';
 import { buildMain } from '../main/buildMain';
 import { navigationAccount } from './navigationAccount';
+import { userFetch } from '../../fetch/userFetch';
+import { EMethod } from '../../data/types';
 
 class ListenAccount {
   editAccount() {
@@ -26,14 +28,6 @@ class ListenAccount {
     let valName: boolean;
     let valEmail: boolean;
 
-    refreshName.addEventListener('blur', () => {
-      valName = validate(refreshName, config.regex.username);
-    });
-
-    refreshEmail.addEventListener('blur', () => {
-      valEmail = validate(refreshEmail, config.regex.email);
-    });
-
     const token = sessionStorage.getItem('token');
 
     buttonCancel.addEventListener('click', () => {
@@ -43,6 +37,8 @@ class ListenAccount {
     });
 
     buttonSubmit.addEventListener('click', async () => {
+      valName = validate(refreshName, config.regex.username);
+      valEmail = validate(refreshEmail, config.regex.email);
       const name = refreshName.value;
       const email = refreshEmail.value;
       config.regex.username = name;
@@ -58,13 +54,13 @@ class ListenAccount {
           },
           body: JSON.stringify({
             username: name,
-            password: config.password,
+            currentPassword: config.password,
             email: email,
           }),
         })
       ).json();
 
-      note.innerHTML = 'Note: Your login and e-mail changed successfully! To return to account page press "Back"';
+      note.innerHTML = 'Note: Your login and e-mail have changed successfully! To return to account page press "Back"';
     });
   }
 
@@ -74,8 +70,10 @@ class ListenAccount {
     const confirmPass = document.getElementById('edit-confirmpass');
     const buttonSubmit = document.querySelector('.edit__button-submit');
     const buttonCancel = document.querySelector('.edit__button-cancel');
+    const note = document.querySelector('.edit__notification');
 
     if (
+      !note ||
       !buttonSubmit ||
       !buttonCancel ||
       !(oldPass instanceof HTMLInputElement) ||
@@ -114,12 +112,12 @@ class ListenAccount {
       if (!oldPassword || !newPassword || !confirmPassword || !token) return;
 
       if (oldPassword !== config.password) {
-        alert('неверный пароль');
+        note.innerHTML = 'Note: Incorrect password';
         return;
       }
 
       if (newPassword !== confirmPassword) {
-        alert('пароли не совпадают');
+        note.innerHTML = 'Note: You have different passwords';
         return;
       }
 
@@ -132,10 +130,12 @@ class ListenAccount {
           },
           body: JSON.stringify({
             username: config.currentUser,
-            password: newPassword,
+            currentPassword: newPassword,
           }),
         })
       ).json();
+
+      note.innerHTML = 'Note: Your password has changed successfully! To return to account page press "Back"';
     });
   }
 
@@ -189,8 +189,15 @@ class ListenAccount {
     const del = document.querySelector('.operations-delete');
     const createRadio = document.querySelector('.createC');
     const delRadio = document.querySelector('.deleteC');
+    const buttonCancel = document.querySelector('.currency-cancel');
 
-    if (!create || !del || !createRadio || !delRadio) return;
+    if (!create || !del || !createRadio || !delRadio || !buttonCancel) return;
+
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
 
     create.addEventListener('click', () => {
       createRadio.classList.add('createC-active');
@@ -211,14 +218,21 @@ class ListenAccount {
     const buttonSubmit = document.querySelector('.createcurrency-submit');
     const buttonCancel = document.querySelector('.createcurrency-cancel');
     const currency = document.getElementById('edit-createcurrency');
+    const note = document.querySelector('.edit__notification');
 
-    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
+    if (!note || !buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
 
     const token = sessionStorage.getItem('token');
 
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
+
     buttonSubmit.addEventListener('click', async () => {
-      (
-        await fetch(`http://127.0.0.1:3000/money/account`, {
+      const data = (
+        await fetch(`http://127.0.0.1:3000/securemoney/account`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -229,7 +243,13 @@ class ListenAccount {
             currency: currency.value,
           }),
         })
-      ).json();
+      ).status;
+
+      if (data === 400) {
+        note.innerHTML = 'Note: You already have such a foreign currency account';
+        return;
+      }
+      note.innerHTML = 'Note: Foreign currency account was created successfully';
     });
   }
 
@@ -237,14 +257,21 @@ class ListenAccount {
     const buttonSubmit = document.querySelector('.deletecurrency-submit');
     const buttonCancel = document.querySelector('.deletecurrency-cancel');
     const currency = document.getElementById('edit-deletecurrency');
+    const note = document.querySelector('.edit__notification');
 
-    if (!buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
+    if (!note || !buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
 
     const token = sessionStorage.getItem('token');
 
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
+
     buttonSubmit.addEventListener('click', async () => {
-      (
-        await fetch(`http://127.0.0.1:3000/money/account`, {
+      const data = (
+        await fetch(`http://127.0.0.1:3000/securemoney/account`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -255,7 +282,25 @@ class ListenAccount {
             currency: currency.value,
           }),
         })
-      ).json();
+      ).status;
+
+      if (data === 400) {
+        note.innerHTML = "Note: You don't have such a foreign currency account";
+        return;
+      }
+      note.innerHTML = 'Note: Foreign currency account was deleted successfully';
+    });
+  }
+
+  showLastOperations() {
+    const buttonCancel = document.querySelector('.lastfive-cancel');
+
+    if (!buttonCancel) return;
+
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
     });
   }
 }
