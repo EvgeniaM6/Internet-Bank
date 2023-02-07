@@ -11,8 +11,9 @@ export default function(data: IMarketStocks[]) {
     const price = item.querySelector('.stocks__market-price');
     const count = item.querySelector('.stocks__market-count');
 
-    if (!price || !count) return;
+    if (!(price instanceof HTMLElement) || !count) return;
 
+    price.style.color = Number(price.textContent?.slice(1)) > stock.money ? 'red' : 'green';
     price.textContent = `$${stock.money.toFixed(3)}`;
     count.textContent = stock.number.toString();
   })

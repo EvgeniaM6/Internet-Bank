@@ -16,12 +16,12 @@ class BuildStock{
     if (!userList) return;
 
     if (!userStocks.length) {
-      userList.innerHTML = `<h3>User Stocks</h3>
-      <p>You haven't any stocks</p>`;
+      userList.innerHTML = `<h3 class="stocks__user-h">User Stocks</h3>
+      <p class="stocks__user-empty">You haven't any stocks</p>`;
       return;
     }
 
-    userList.innerHTML = `<h3>User Stocks</h3>
+    userList.innerHTML = `<h3 class="stocks__user-h">User Stocks</h3>
     <p class="stocks__user-header">
         <span class="stocks__user-header-name">Name</span>
         <span class="stocks__user-header-count">Count</span>
@@ -51,7 +51,7 @@ class BuildStock{
     const marketList = document.querySelector('.stocks__market');
     if (!marketList) return;
 
-    marketList.innerHTML = `<h3>Stocks Market</h3>
+    marketList.innerHTML = `<h3 class="stocks__market-h">Stocks Market</h3>
     <p class="stocks__market-header">
         <span class="stocks__market-header-name">Name</span>
         <span class="stocks__market-header-count">Count</span>

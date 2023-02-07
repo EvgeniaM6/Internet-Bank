@@ -1,3 +1,4 @@
+import config from "../../data/config";
 import { EOperation } from "../../data/types";
 import stocksFetch from "../../fetch/stocksFetch";
 import buttonController from "../buttonController";
@@ -38,7 +39,7 @@ class ListenStocks{
         const buttonList = document.querySelectorAll('.stocks__button') as NodeListOf<HTMLButtonElement>;
         if (!status) return;
 
-        status.textContent = 'Deal...';
+        status.textContent =config.lang === 'en' ? 'Deal...' : 'Сделка...';
         buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
@@ -46,7 +47,7 @@ class ListenStocks{
         buttonController.able(buttonList);
 
         setTimeout(() => {
-          status.textContent = 'Ready to deal';
+          status.textContent =config.lang === 'en' ? 'Ready to deal' : 'Открыто';
         }, 3000);
 
         if (result.success) {
@@ -90,7 +91,7 @@ class ListenStocks{
         const buttonList = document.querySelectorAll('.stocks__button') as NodeListOf<HTMLButtonElement>;
         if (!status) return;
 
-        status.textContent = 'Deal...';
+        status.textContent = config.lang === 'en' ? 'Deal...' : 'Сделка...';
         buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.REMOVE, stockName, value);
@@ -98,7 +99,7 @@ class ListenStocks{
         buttonController.able(buttonList);
 
         setTimeout(() => {
-          status.textContent = 'Ready to deal';
+          status.textContent =config.lang === 'en' ? 'Ready to deal' : 'Открыто';
         }, 3000);
 
         if (result.success) {
