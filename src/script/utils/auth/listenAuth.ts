@@ -86,7 +86,16 @@ class ListenAuth {
     });
 
     document.addEventListener('keyup', (e) => {
-      if (e.code === 'Enter') login.click();
+      if (e.code !== 'Enter') return;
+      const reset = document.querySelector('.reset__button-reset');
+      const login = document.querySelector('.login__button-login');
+      const reg = document.querySelector('.reg__button-reg');
+      const verify = document.querySelector('.verify__button-confirm');
+
+      if (reset instanceof HTMLElement) reset.click();
+      if (login instanceof HTMLElement) login.click();
+      if (reg instanceof HTMLElement) reg.click();
+      if (verify instanceof HTMLElement) verify.click();
     });
   }
 
@@ -135,10 +144,6 @@ class ListenAuth {
           errorLabel.textContent = result.message;
         });
       });
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === 'Enter') reset.click();
     });
   }
 
@@ -217,10 +222,6 @@ class ListenAuth {
         });
       });
     });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === 'Enter') reg.click();
-    });
   }
 
   afterRegistration() {
@@ -286,10 +287,6 @@ class ListenAuth {
           errorLabel.textContent = result.message;
         });
       });
-    });
-
-    document.addEventListener('keyup', (e) => {
-      if (e.code === 'Enter') confirm.click();
     });
   }
 }

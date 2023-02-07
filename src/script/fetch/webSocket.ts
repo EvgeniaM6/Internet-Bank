@@ -11,11 +11,11 @@ export function openWebSocket() {
 
   socket.onmessage = (e) => {
     console.log('Get data from WS');
-    const userCount = document.querySelector('.users-online__count');
-    if (!userCount) return;
+    //const userCount = document.querySelector('.users-online__count');
+    //if (!userCount) return;
 
     console.log(e.data);
-    userCount.textContent = e.data;
+    //userCount.textContent = e.data;
   };
 
   const login = document.querySelector('.header__login');
