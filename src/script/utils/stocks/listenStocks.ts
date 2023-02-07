@@ -1,5 +1,6 @@
 import { EOperation } from "../../data/types";
 import stocksFetch from "../../fetch/stocksFetch";
+import buttonController from "../buttonController";
 import { listenHeader } from "../main/listenHeader";
 import createStocks from "./createStocks";
 
@@ -34,12 +35,16 @@ class ListenStocks{
         const value = Number(input.value);
 
         const status = stock.querySelector('.stocks__market-status');
+        const buttonList = document.querySelectorAll('.stocks__button') as NodeListOf<HTMLButtonElement>;
         if (!status) return;
 
         status.textContent = 'Deal...';
+        buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
         status.textContent = result.message;
+        buttonController.able(buttonList);
+
         setTimeout(() => {
           status.textContent = 'Ready to deal';
         }, 3000);
@@ -82,12 +87,16 @@ class ListenStocks{
         const value = Number(input.value);
 
         const status = stock.querySelector('.stocks__user-status');
+        const buttonList = document.querySelectorAll('.stocks__button') as NodeListOf<HTMLButtonElement>;
         if (!status) return;
 
         status.textContent = 'Deal...';
+        buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.REMOVE, stockName, value);
         status.textContent = result.message;
+        buttonController.able(buttonList);
+
         setTimeout(() => {
           status.textContent = 'Ready to deal';
         }, 3000);

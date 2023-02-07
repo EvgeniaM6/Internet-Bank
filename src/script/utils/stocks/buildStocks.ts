@@ -21,7 +21,12 @@ class BuildStock{
       return;
     }
 
-    userList.innerHTML = `<h3>User Stocks</h3>`;
+    userList.innerHTML = `<h3>User Stocks</h3>
+    <p class="stocks__user-header">
+        <span class="stocks__user-header-name">Name</span>
+        <span class="stocks__user-header-count">Count</span>
+    </p>`;
+
     userStocks.forEach((el) => {
       const div = document.createElement('div');
       div.classList.add('stocks__user-item', `${el.name.replaceAll(' ', '_')}`);
@@ -34,7 +39,7 @@ class BuildStock{
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__user-payment">
-          <button class="stocks__user-button">Sell</button>
+          <button class="stocks__user-button stocks__button">Sell</button>
           <p class="stocks__user-status">Ready to deal</p>
       </div>`;
 
@@ -46,7 +51,12 @@ class BuildStock{
     const marketList = document.querySelector('.stocks__market');
     if (!marketList) return;
 
-    marketList.innerHTML = `<h3>Stocks Market</h3>`;
+    marketList.innerHTML = `<h3>Stocks Market</h3>
+    <p class="stocks__market-header">
+        <span class="stocks__market-header-name">Name</span>
+        <span class="stocks__market-header-count">Count</span>
+        <span class="stocks__market-header-price">Price</span>
+    </p>`;
 
     marketStocks.forEach((el) => {
       const div = document.createElement('div');
@@ -61,7 +71,7 @@ class BuildStock{
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__market-payment">
-        <button class="stocks__market-button">Buy</button>
+        <button class="stocks__market-button stocks__button">Buy</button>
         <p class="stocks__market-status">Ready to deal<p>
       </div>`;
 
