@@ -1,4 +1,6 @@
 import config from '../data/config';
+import { IMarketStocks } from '../data/types';
+import updateStocks from '../utils/stocks/updateStocks';
 
 export function openWebSocket() {
   const socket = new WebSocket(`${config.wss}`);
@@ -11,11 +13,9 @@ export function openWebSocket() {
 
   socket.onmessage = (e) => {
     console.log('Get data from WS');
-    //const userCount = document.querySelector('.users-online__count');
-    //if (!userCount) return;
-
     console.log(e.data);
-    //userCount.textContent = e.data;
+    const data: IMarketStocks[] = JSON.parse(e.data);
+    updateStocks(data);
   };
 
   const login = document.querySelector('.header__login');

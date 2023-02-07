@@ -10,6 +10,7 @@ import { transition } from '../transition';
 import { buildMain } from './buildMain';
 import { createMain } from './createMain';
 import { navigationAdmin } from '../admin/navigationAdmin';
+import createStocks from '../stocks/createStocks';
 
 class ListenHeader {
   async updateInfo() {
@@ -77,38 +78,43 @@ class ListenHeader {
         await this.updateInfo();
         this.removeActiveClass();
         el.classList.add('header__nav_active');
-        if (el.textContent === EPages.STATISTICS) {
+        if (el.id === EPages.STATISTICS) {
           await createStatistics.operations();
           return;
         }
 
-        if (el.textContent === EPages.CARD_CREATOR) {
+        if (el.id === EPages.CARD_CREATOR) {
           transition(main, createMain.cardCreater);
           return;
         }
 
-        if (el.textContent === EPages.ABOUT) {
+        if (el.id === EPages.ABOUT) {
           transition(main, createMain.about);
           return;
         }
 
-        if (el.textContent === EPages.ACCOUNT) {
+        if (el.id === EPages.ACCOUNT) {
           buildMain.account();
           navigationAccount();
           return;
         }
 
-        if (el.textContent === EPages.ADMIN) {
+        if (el.id === EPages.STOCKS) {
+          await createStocks.main();
+          return;
+        }
+
+        if (el.id === EPages.ADMIN) {
           buildMain.admin();
           navigationAdmin();
           return;
         }
 
-        if (el.textContent === EPages.SERVICES) {
+        if (el.id === EPages.SERVICES) {
           transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
           return;
         }
-        alert(el.textContent);
+        alert(el.id);
       });
     });
   }
