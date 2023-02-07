@@ -16,9 +16,9 @@ class BuildHeader {
     <nav class="header__nav">
         <ul class="header__ul">
             <li class="header__nav-item header__nav-about" id="About">About</li>
-            <li class="header__nav-item" id="Services">Services</li>
-            <li class="header__nav-item" id="Quiz">Quiz</li>
-            <li class="header__nav-item" id="Statistics">Statistics</li>
+            <li class="header__nav-item header__nav-services" id="Services">Services</li>
+            <li class="header__nav-item header__nav-quiz" id="Quiz">Quiz</li>
+            <li class="header__nav-item header__nav-stat" id="Statistics">Statistics</li>
         </ul>
         <button class="header__burger-close">&#10006;</button>
     </nav>
@@ -35,6 +35,7 @@ class BuildHeader {
     if (!list || !logout || !headerUp) return;
 
     logout.textContent = 'Log Out';
+    logout.classList.add('header__logout');
 
     const account = document.createElement('li');
     account.classList.add('header__nav-item');
@@ -44,13 +45,15 @@ class BuildHeader {
 
     const cardCreator = document.createElement('li');
     cardCreator.classList.add('header__nav-item');
+    cardCreator.classList.add('header__nav-card');
     cardCreator.textContent = 'Card Creator';
     cardCreator.id = 'Card_Creator';
 
     const stocks = document.createElement('li');
-    cardCreator.classList.add('header__nav-item');
-    cardCreator.textContent = 'Stocks';
-    cardCreator.id = 'Stocks';
+    stocks.classList.add('header__nav-item');
+    stocks.classList.add('header__nav-stocks');
+    stocks.textContent = 'Stocks';
+    stocks.id = 'Stocks';
 
     const money = document.createElement('p');
     money.classList.add('header__money');
