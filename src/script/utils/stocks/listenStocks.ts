@@ -30,13 +30,15 @@ class ListenStocks{
         const token = sessionStorage.getItem('token');
         if (!token) return;
 
-        const stockName = button.id.replaceAll('_', ' ');
+        const stockName = stock.id.replaceAll('_', ' ');
         const value = Number(input.value);
-        const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
 
         const status = stock.querySelector('.stocks__market-status');
         if (!status) return;
 
+        status.textContent = 'Deal...';
+
+        const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
         status.textContent = result.message;
         setTimeout(() => {
           status.textContent = 'Ready to deal';
@@ -76,13 +78,15 @@ class ListenStocks{
         const token = sessionStorage.getItem('token');
         if (!token) return;
 
-        const stockName = button.id.replaceAll('_', ' ');
+        const stockName = stock.id.replaceAll('_', ' ');
         const value = Number(input.value);
-        const result = await stocksFetch.buyOrSell(token, EOperation.REMOVE, stockName, value);
 
         const status = stock.querySelector('.stocks__user-status');
         if (!status) return;
 
+        status.textContent = 'Deal...';
+
+        const result = await stocksFetch.buyOrSell(token, EOperation.REMOVE, stockName, value);
         status.textContent = result.message;
         setTimeout(() => {
           status.textContent = 'Ready to deal';

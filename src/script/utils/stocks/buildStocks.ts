@@ -16,14 +16,16 @@ class BuildStock{
     if (!userList) return;
 
     if (!userStocks.length) {
-      userList.innerHTML = `<p>You haven't any stocks</p>`;
+      userList.innerHTML = `<h3>User Stocks</h3>
+      <p>You haven't any stocks</p>`;
       return;
     }
 
-    userList.innerHTML = ``;
+    userList.innerHTML = `<h3>User Stocks</h3>`;
     userStocks.forEach((el) => {
       const div = document.createElement('div');
-      div.classList.add('stocks__user-item');
+      div.classList.add('stocks__user-item', `${el.name.replaceAll(' ', '_')}`);
+      div.id = `${el.name.replaceAll(' ', '_')}`;
       div.innerHTML = `<p class="stocks__user-name">${el.name}</p>
       <p class="stocks__user-count">${el.number}</p>
       <div class="stocks__user-controls">
@@ -32,7 +34,7 @@ class BuildStock{
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__user-payment">
-          <button class="stocks__user-button" id="${el.name.replaceAll(' ', '_')}">Sell</button>
+          <button class="stocks__user-button">Sell</button>
           <p class="stocks__user-status">Ready to deal</p>
       </div>`;
 
@@ -44,11 +46,12 @@ class BuildStock{
     const marketList = document.querySelector('.stocks__market');
     if (!marketList) return;
 
-    marketList.innerHTML = ``;
+    marketList.innerHTML = `<h3>Stocks Market</h3>`;
 
     marketStocks.forEach((el) => {
       const div = document.createElement('div');
-      div.classList.add('stocks__market-item');
+      div.classList.add('stocks__market-item', `${el.name.replaceAll(' ', '_')}`);
+      div.id = `${el.name.replaceAll(' ', '_')}`;
       div.innerHTML = `<p class="stocks__market-name">${el.name}</p>
       <p class="stocks__market-count">${el.number}</p>
       <p class="stocks__market-price">$${el.money.toFixed(3)}</p>
@@ -58,7 +61,7 @@ class BuildStock{
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__market-payment">
-        <button class="stocks__market-button" id="${el.name.replaceAll(' ', '_')}">Buy</button>
+        <button class="stocks__market-button">Buy</button>
         <p class="stocks__market-status">Ready to deal<p>
       </div>`;
 
