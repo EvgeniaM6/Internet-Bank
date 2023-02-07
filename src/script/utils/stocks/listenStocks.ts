@@ -1,5 +1,6 @@
 import { EOperation } from "../../data/types";
 import stocksFetch from "../../fetch/stocksFetch";
+import { listenHeader } from "../main/listenHeader";
 import createStocks from "./createStocks";
 
 class ListenStocks{
@@ -33,13 +34,17 @@ class ListenStocks{
         const value = Number(input.value);
         const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
 
-        const status = document.querySelector('.stocks__market-status');
+        const status = stock.querySelector('.stocks__market-status');
         if (!status) return;
 
         status.textContent = result.message;
+        setTimeout(() => {
+          status.textContent = 'Ready to deal';
+        }, 3000);
 
         if (result.success) {
           await createStocks.user();
+          await listenHeader.updateInfo();
         }
       })
     })
@@ -75,13 +80,17 @@ class ListenStocks{
         const value = Number(input.value);
         const result = await stocksFetch.buyOrSell(token, EOperation.REMOVE, stockName, value);
 
-        const status = document.querySelector('.stocks__user-status');
+        const status = stock.querySelector('.stocks__user-status');
         if (!status) return;
 
         status.textContent = result.message;
+        setTimeout(() => {
+          status.textContent = 'Ready to deal';
+        }, 3000);
 
         if (result.success) {
           await createStocks.user();
+          await listenHeader.updateInfo();
         }
       })
     })

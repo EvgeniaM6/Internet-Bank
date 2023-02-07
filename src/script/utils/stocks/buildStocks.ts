@@ -28,12 +28,12 @@ class BuildStock{
       <p class="stocks__user-count">${el.number}</p>
       <div class="stocks__user-controls">
           <button class="item__minus">-</button>
-          <input type="number" name="" id="" class="item__value" max="${el.number}" min="1">
+          <input type="number" name="" id="" class="item__value" max="${el.number}" min="1" value="1">
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__user-payment">
           <button class="stocks__user-button" id="${el.name.replaceAll(' ', '_')}">Sell</button>
-          <p class="stocks__user-status">Status</p>
+          <p class="stocks__user-status">Ready to deal</p>
       </div>`;
 
       userList.appendChild(div);
@@ -51,15 +51,15 @@ class BuildStock{
       div.classList.add('stocks__market-item');
       div.innerHTML = `<p class="stocks__market-name">${el.name}</p>
       <p class="stocks__market-count">${el.number}</p>
-      <p class="stocks__market-price">${el.money}</p>
+      <p class="stocks__market-price">$${el.money.toFixed(3)}</p>
       <div class="stocks__market-controls">
           <button class="item__minus">-</button>
-          <input type="number" name="" id="" class="item__value" max="${el.number}" min="1">
+          <input type="number" name="" id="" class="item__value" max="${el.number}" min="1" value="1">
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__market-payment">
         <button class="stocks__market-button" id="${el.name.replaceAll(' ', '_')}">Buy</button>
-        <p class="stocks__market-status">Status<p>
+        <p class="stocks__market-status">Ready to deal<p>
       </div>`;
 
       marketList.appendChild(div);

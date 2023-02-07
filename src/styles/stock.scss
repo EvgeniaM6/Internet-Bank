@@ -1,0 +1,82 @@
+.stocks {
+  &__container {
+    font-size: 16px;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__user,
+  &__market {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__user-item,
+  &__market-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border: 1px $third solid;
+    border-radius: 5px;
+  }
+
+  &__market-name,
+  &__user-name {
+    width: 80px;
+    text-align: left;
+  }
+
+  &__market-payment,
+  &__user-payment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+  }
+
+  &__market-button,
+  &__user-button {
+    width: 80px;
+    height: 22px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: $third;
+    color: $white;
+    cursor: pointer;
+    transition: .2s;
+    &:hover {
+      opacity: .8;
+    }
+  }
+
+  &__market-status,
+  &__user-status {
+    text-align: center;
+  }
+
+}
+
+.item__minus,
+.item__plus {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: $third;
+  color: $white;
+  cursor: pointer;
+  transition: .2s;
+  &:hover {
+    opacity: .8;
+  }
+}
+
+.item__value {
+  text-align: center;
+}
