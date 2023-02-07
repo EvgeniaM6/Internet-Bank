@@ -18,6 +18,11 @@ class ListenStocks{
 
       if (!counter || !button || !minus || !plus || !(input instanceof HTMLInputElement)) return;
 
+      input.addEventListener('blur', () => {
+        if(input.value > input.max) input.value = input.max;
+        if(input.value < input.min) input.value = input.min;
+      })
+
       minus.addEventListener('click', () => {
         if (input.value === input.min) return;
         input.value = `${Number(input.value) - 1}`;
@@ -69,6 +74,11 @@ class ListenStocks{
       const input = stock.querySelector('.item__value');
 
       if (!counter || !button || !minus || !plus || !(input instanceof HTMLInputElement)) return;
+
+      input.addEventListener('blur', () => {
+        if(input.value > input.max) input.value = input.max;
+        if(input.value < input.min) input.value = input.min;
+      })
 
       minus.addEventListener('click', () => {
         if (input.value === input.min) return;
