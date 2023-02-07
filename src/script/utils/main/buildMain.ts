@@ -1,3 +1,5 @@
+import { EAccountLinks } from "../../data/types";
+
 class BuildMain {
   about() {
     const main = document.querySelector('.main-container');
@@ -83,13 +85,15 @@ class BuildMain {
 
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
-      <li class="account__list-item">Edit account</li>
-      <li class="account__list-item">Edit password</li>
-      <li class="account__list-item">Currency</li>
-      <li class="account__list-item">Last operations</li>
-      <li class="account__list-item">Delete account</li>
+      <li class="account__list-item">${EAccountLinks.edit}</li>
+      <li class="account__list-item">${EAccountLinks.changePassword}</li>
+      <li class="account__list-item">${EAccountLinks.currency}</li>
+      <li class="account__list-item">${EAccountLinks.lastFive}</li>
+      <li class="account__list-item">${EAccountLinks.delete}</li>
     </ul>
-    <div class="account-container"></div>`;
+    <div class="account-container">
+      <p>We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
+    </div>`;
   }
 
   admin() {
@@ -105,7 +109,8 @@ class BuildMain {
       <li class="admin__list-item">Last operations</li>
       <li class="admin__list-item">Delete account</li>
     </ul>
-    <div class="admin-container"></div>`;
+    <div class="admin-container">
+    </div>`;
   }
 }
 

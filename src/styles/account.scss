@@ -9,7 +9,9 @@
   font-size: 24px;
 }
 
-.account__list-item {
+.account__list-item,
+.operations-create,
+.operations-delete {
   cursor: pointer;
 }
 
@@ -35,7 +37,8 @@
 
 #edit__email-container,
 #edit__confirmpass-container,
-.clarify__question {
+.clarify__question,
+.edit__remove-container {
   margin-bottom: 20px;
 }
 
@@ -45,7 +48,8 @@
 .edit__newpass-input,
 .edit__confirmpass-input,
 #edit-createcurrency,
-#edit-deletecurrency {
+#edit-deletecurrency,
+#edit-remove {
   width: 200px;
   height: 25px;
   border-radius: 6px;
@@ -53,7 +57,8 @@
 }
 
 .edit__button-container,
-.clarify__button-container {
+.clarify__button-container,
+.remove__button-container {
   display: flex;
   justify-content: space-between;
 }
@@ -67,7 +72,11 @@
 .deletecurrency-submit,
 .deletecurrency-cancel,
 .clarify-submit,
-.clarify-cancel {
+.clarify-cancel,
+.currency-cancel,
+.lastfive-cancel,
+.remove-submit,
+.remove-cancel {
   width: 33%;
   height: 30px;
   border-radius: 15px;
@@ -120,4 +129,14 @@ td {
 th:last-child,
 td:last-child {
   border-right: none;
+}
+
+.edit__notification {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 80%;
+}
+
+.operations__table {
+  margin-bottom: 20px;
 }

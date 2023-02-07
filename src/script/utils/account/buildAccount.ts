@@ -1,4 +1,5 @@
 import config from '../../data/config';
+import { listenAccount } from './listenAccount';
 
 class BuildAccount {
   editAccount() {
@@ -43,6 +44,7 @@ class BuildAccount {
         <button class="edit__button-submit password-submit">Submit</button>
         <button class="edit__button-cancel password-cancel">Back</button>
       </div>
+      <p class="edit__notification"></p>
       </div>`;
   }
 
@@ -61,14 +63,15 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="remove__question">Enter your password</p>
+    account.innerHTML = `<p class="remove__question">Enter your password:</p>
       <div class="edit__remove-container">
         <input type="password" name="remove" id="edit-remove" class="edit__remove-input">
       </div>
       <div class="remove__button-container">
-        <button class="remove__button-submit remove-submit">Submit</button>
+        <button class="remove__button-submit remove-submit">Remove</button>
         <button class="remove__button-cancel remove-cancel">Cancel</button>
-      </div>`;
+      </div>
+      <p class="edit__notification"></p>`;
   }
 
   currency() {
@@ -80,7 +83,11 @@ class BuildAccount {
       <div class="operations-create"><span class="createC"></span>Create currency</div>
       <div class="operations-delete"><span class="deleteC"></span>Delete currency</div>
     </div>
-    <div class="currency-container"></div>`;
+    <div class="currency-container">
+      <div class="edit__button-container">
+        <button class="edit__button-cancel currency-cancel">Back</button>
+      </div>
+    </div>`;
   }
 
   createCurrency() {
@@ -101,6 +108,8 @@ class BuildAccount {
       <div class="edit__button-container">
         <button class="edit__button-submit createcurrency-submit">Submit</button>
         <button class="edit__button-cancel createcurrency-cancel">Back</button>
+      </div>
+      <p class="edit__notification"></p>
       </div>`;
   }
 
@@ -122,6 +131,8 @@ class BuildAccount {
       <div class="edit__button-container">
         <button class="edit__button-submit deletecurrency-submit">Submit</button>
         <button class="edit__button-cancel deletecurrency-cancel">Back</button>
+      </div>
+      <p class="edit__notification"></p>
       </div>`;
   }
 
@@ -146,7 +157,10 @@ class BuildAccount {
       account.innerHTML = `<table class="operations__table">
       <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th><th>id</th></tr></thead>
       <tbody class="operations__tbody"></tbody>
-      </table>`;
+      </table>
+      <div class="edit__button-container">
+        <button class="edit__button-cancel lastfive-cancel">Back</button>
+      </div>`;
 
       const tbody = <Element>document.querySelector('.operations__tbody');
 
@@ -160,6 +174,8 @@ class BuildAccount {
 
         tbody.appendChild(row);
       }
+
+      listenAccount.showLastOperations();
     });
   }
 }
