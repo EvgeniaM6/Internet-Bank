@@ -82,15 +82,17 @@ class UserFetch extends Fetch {
     const req: any = {
       method,
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     };
     if (method === EMethod.PUT) {
-      req.body = {
-        username,
-        password,
-        email,
-      };
+      req.body = JSON.stringify({
+        username: username,
+        currentPassword: password,
+        email: email,
+        password: password,
+      });
     }
     if (method === EMethod.DELETE) {
       req.body = {
@@ -101,17 +103,34 @@ class UserFetch extends Fetch {
     return result;
   }
 
+  async changePassword(token: string, password?: string, currentPassword?: string) {
+    const path = '/user';
+    const req = {
+      method: EMethod.PUT,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        currentPassword: currentPassword,
+        password: password,
+      }),
+    };
+    const result: IUserInfo = await this.mainFetch(req, path);
+    return result;
+  }
+
   async saveCard(link: string, token: string) {
     const path = '/user/card';
     const req = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: {
-        link
-      }
+        link,
+      },
     };
     const result: IMainRes = await this.mainFetch(req, path);
     return result;

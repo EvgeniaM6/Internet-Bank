@@ -99,3 +99,11 @@ export interface IOperationList {
 export interface IOperationRes extends IMainRes {
   operations?: IOperationList;
 }
+
+export enum EAccountLinks {
+  edit = 'Edit account',
+  changePassword = 'Change password',
+  delete = 'Delete account',
+  currency = 'Currency',
+  lastFive = 'Last operations',
+}
