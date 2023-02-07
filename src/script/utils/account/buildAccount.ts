@@ -63,14 +63,15 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="remove__question">Enter your password</p>
+    account.innerHTML = `<p class="remove__question">Enter your password:</p>
       <div class="edit__remove-container">
         <input type="password" name="remove" id="edit-remove" class="edit__remove-input">
       </div>
       <div class="remove__button-container">
-        <button class="remove__button-submit remove-submit">Submit</button>
+        <button class="remove__button-submit remove-submit">Remove</button>
         <button class="remove__button-cancel remove-cancel">Cancel</button>
-      </div>`;
+      </div>
+      <p class="edit__notification"></p>`;
   }
 
   currency() {

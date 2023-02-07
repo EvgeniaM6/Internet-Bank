@@ -85,12 +85,8 @@ class BuildAdmin {
 
       listenAdmin.lockUser();
     });
-
-    
     //listenAdmin.unlockUser();
   }
-
-
 }
 
 export const buildAdmin = new BuildAdmin();

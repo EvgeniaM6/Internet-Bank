@@ -1,5 +1,6 @@
 import { buildAccount } from './buildAccount';
 import { listenAccount } from './listenAccount';
+import { EAccountLinks } from '../../data/types';
 
 export function navigationAccount() {
   const nav = document.querySelectorAll('.account__list-item');
@@ -11,31 +12,31 @@ export function navigationAccount() {
       nav.forEach((el) => el.classList.remove('account__list-item_active'));
       item.classList.add('account__list-item_active');
 
-      if (item.textContent === 'Edit account') {
+      if (item.textContent === EAccountLinks.edit) {
         buildAccount.editAccount();
         listenAccount.editAccount();
         return;
       }
 
-      if (item.textContent === 'Edit password') {
+      if (item.textContent === EAccountLinks.changePassword) {
         buildAccount.editPassword();
         listenAccount.editPassword();
         return;
       }
 
-      if (item.textContent === 'Delete account') {
+      if (item.textContent === EAccountLinks.delete) {
         buildAccount.clarifyAccount();
         listenAccount.clarifyAccount();
         return;
       }
 
-      if (item.textContent === 'Currency') {
+      if (item.textContent === EAccountLinks.currency) {
         buildAccount.currency();
         listenAccount.currency();
         return;
       }
 
-      if (item.textContent === 'Last operations') {
+      if (item.textContent === EAccountLinks.lastFive) {
         buildAccount.showLastOperations();
         return;
       }

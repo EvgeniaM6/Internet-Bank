@@ -45,20 +45,7 @@ class ListenAccount {
 
       if (!valEmail || !valName || !token) return;
 
-      (
-        await fetch(`http://127.0.0.1:3000/user`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            username: name,
-            currentPassword: config.password,
-            email: email,
-          }),
-        })
-      ).json();
+      userFetch.user(EMethod.PUT, token, name, email, config.password);
 
       note.innerHTML = 'Note: Your login and e-mail have changed successfully! To return to account page press "Back"';
     });
@@ -121,19 +108,7 @@ class ListenAccount {
         return;
       }
 
-      (
-        await fetch(`http://127.0.0.1:3000/user`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            username: config.currentUser,
-            currentPassword: newPassword,
-          }),
-        })
-      ).json();
+      userFetch.changePassword(token, newPassword, oldPassword);
 
       note.innerHTML = 'Note: Your password has changed successfully! To return to account page press "Back"';
     });
@@ -143,15 +118,24 @@ class ListenAccount {
     const buttonSubmit = document.querySelector('.remove__button-submit');
     const buttonCancel = document.querySelector('.remove__button-cancel');
     const password = document.getElementById('edit-remove');
+    const note = document.querySelector('.edit__notification');
 
     const token = sessionStorage.getItem('token');
 
-    if (!buttonSubmit || !buttonCancel || !(password instanceof HTMLInputElement)) return;
+    if (!note || !buttonSubmit || !buttonCancel || !(password instanceof HTMLInputElement)) return;
+
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
 
     buttonSubmit.addEventListener('click', async () => {
       const passwordValue: string = password.value;
+
       if (passwordValue !== config.password) {
-        alert('неверный пароль');
+        note.innerHTML = 'Note: Incorrect password';
+        return;
       }
 
       (
@@ -177,6 +161,12 @@ class ListenAccount {
     const buttonCancel = document.querySelector('.clarify__button-cancel');
 
     if (!buttonSubmit || !buttonCancel) return;
+
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
 
     buttonSubmit.addEventListener('click', () => {
       buildAccount.deleteAccount();

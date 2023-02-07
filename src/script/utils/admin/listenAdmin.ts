@@ -22,8 +22,6 @@ class ListenAdmin {
 
     const token = sessionStorage.getItem('token');
 
-    console.log('lock')
-
     lock.addEventListener('click', async () => {
       (
         await fetch(`http://127.0.0.1:3000/admin/user`, {
@@ -48,7 +46,7 @@ class ListenAdmin {
     const name = document.querySelector('.user__info_name');
 
     if (!lock || !name) return;
-    
+
     lock.addEventListener('click', async () => {
       (
         await fetch(`http://127.0.0.1:3000/admin/user`, {
