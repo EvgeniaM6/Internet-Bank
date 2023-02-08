@@ -1,11 +1,11 @@
-import config from "../../data/config";
-import { EOperation } from "../../data/types";
-import stocksFetch from "../../fetch/stocksFetch";
-import buttonController from "../buttonController";
-import { listenHeader } from "../main/listenHeader";
-import createStocks from "./createStocks";
+import config from '../../data/config';
+import { EOperation } from '../../data/types';
+import stocksFetch from '../../fetch/stocksFetch';
+import buttonController from '../buttonController';
+import { listenHeader } from '../main/listenHeader';
+import createStocks from './createStocks';
 
-class ListenStocks{
+class ListenStocks {
   market() {
     const marketList = document.querySelectorAll('.stocks__market-item');
 
@@ -19,22 +19,22 @@ class ListenStocks{
       if (!counter || !button || !minus || !plus || !(input instanceof HTMLInputElement)) return;
 
       input.addEventListener('blur', () => {
-        if(input.value > input.max) input.value = input.max;
-        if(input.value < input.min) input.value = input.min;
-      })
+        if (input.value > input.max) input.value = input.max;
+        if (input.value < input.min) input.value = input.min;
+      });
 
       minus.addEventListener('click', () => {
         if (input.value === input.min) return;
         input.value = `${Number(input.value) - 1}`;
-      })
+      });
 
       plus.addEventListener('click', () => {
         if (input.value === input.max) return;
         input.value = `${Number(input.value) + 1}`;
-      })
+      });
 
-      button.addEventListener('click', async() => {
-        const token = sessionStorage.getItem('token');
+      button.addEventListener('click', async () => {
+        const token = localStorage.getItem('token');
         if (!token) return;
 
         const stockName = stock.id.replaceAll('_', ' ');
@@ -44,7 +44,7 @@ class ListenStocks{
         const buttonList = document.querySelectorAll('.stocks__button') as NodeListOf<HTMLButtonElement>;
         if (!status) return;
 
-        status.textContent =config.lang === 'en' ? 'Deal...' : 'Сделка...';
+        status.textContent = config.lang === 'en' ? 'Deal...' : 'Сделка...';
         buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
@@ -52,15 +52,15 @@ class ListenStocks{
         buttonController.able(buttonList);
 
         setTimeout(() => {
-          status.textContent =config.lang === 'en' ? 'Ready to deal' : 'Открыто';
+          status.textContent = config.lang === 'en' ? 'Ready to deal' : 'Открыто';
         }, 3000);
 
         if (result.success) {
           await createStocks.user();
           await listenHeader.updateInfo();
         }
-      })
-    })
+      });
+    });
   }
 
   user() {
@@ -76,22 +76,22 @@ class ListenStocks{
       if (!counter || !button || !minus || !plus || !(input instanceof HTMLInputElement)) return;
 
       input.addEventListener('blur', () => {
-        if(input.value > input.max) input.value = input.max;
-        if(input.value < input.min) input.value = input.min;
-      })
+        if (input.value > input.max) input.value = input.max;
+        if (input.value < input.min) input.value = input.min;
+      });
 
       minus.addEventListener('click', () => {
         if (input.value === input.min) return;
         input.value = `${Number(input.value) - 1}`;
-      })
+      });
 
       plus.addEventListener('click', () => {
         if (input.value === input.max) return;
         input.value = `${Number(input.value) + 1}`;
-      })
+      });
 
-      button.addEventListener('click', async() => {
-        const token = sessionStorage.getItem('token');
+      button.addEventListener('click', async () => {
+        const token = localStorage.getItem('token');
         if (!token) return;
 
         const stockName = stock.id.replaceAll('_', ' ');
@@ -109,15 +109,15 @@ class ListenStocks{
         buttonController.able(buttonList);
 
         setTimeout(() => {
-          status.textContent =config.lang === 'en' ? 'Ready to deal' : 'Открыто';
+          status.textContent = config.lang === 'en' ? 'Ready to deal' : 'Открыто';
         }, 3000);
 
         if (result.success) {
           await createStocks.user();
           await listenHeader.updateInfo();
         }
-      })
-    })
+      });
+    });
   }
 }
 

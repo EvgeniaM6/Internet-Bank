@@ -46,8 +46,8 @@ class ListenCard {
     cardCreate.addEventListener('click', async (e) => {
       e.preventDefault();
       if (cardName.value.length) {
-        const token = sessionStorage.getItem('token');
-        if(!token) return;
+        const token = localStorage.getItem('token');
+        if (!token) return;
 
         const link = await cardFetch();
         window.open(link);

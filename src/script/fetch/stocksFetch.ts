@@ -1,5 +1,5 @@
-import { EOperation, IGetStocks, IMainRes } from "../data/types";
-import Fetch from "./mainFetch";
+import { EOperation, IGetStocks, IMainRes } from '../data/types';
+import Fetch from './mainFetch';
 
 class StocksFetch extends Fetch {
   async getData(token: string) {
@@ -8,7 +8,7 @@ class StocksFetch extends Fetch {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
     const result: IGetStocks = await this.mainFetch(req, path);
@@ -22,7 +22,7 @@ class StocksFetch extends Fetch {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         stockName,

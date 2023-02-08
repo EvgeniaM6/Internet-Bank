@@ -1,21 +1,19 @@
 import config from '../../data/config';
 import { EMethod, EPages } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
-import { navigationAccount } from '../account/navigationAccount';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { renderPayment } from '../payment/renderPayment';
 import { createStatistics } from '../statistics/createStatistics';
 import { transition } from '../transition';
-import { buildMain } from './buildMain';
 import { createMain } from './createMain';
-import { navigationAdmin } from '../admin/navigationAdmin';
 import createStocks from '../stocks/createStocks';
+import pushState from '../../router/pushState';
 
 class ListenHeader {
   async updateInfo() {
     const money = document.querySelector('.header__money');
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (!token || !money) return;
     const result = await userFetch.user(EMethod.GET, token);
     if (!result.userConfig?.email || !result.userConfig.username || !result.userConfig.money) return;
@@ -23,7 +21,7 @@ class ListenHeader {
     config.currentUser = result.userConfig.username;
 
     const currMoney = result.userConfig.money;
-    sessionStorage.setItem('money', `${currMoney}`);
+    localStorage.setItem('money', `${currMoney}`);
     money.textContent = `$${Number(currMoney).toFixed(2)}`;
   }
 
@@ -62,15 +60,17 @@ class ListenHeader {
       await this.updateInfo();
       this.removeActiveClass();
       transition(main, createMain.about);
+      pushState.about();
     });
 
     login.addEventListener('click', () => {
-      sessionStorage.removeItem('token');
+      localStorage.removeItem('token');
       transition(page, () => {
         buildAuth.main();
         createAuth.login();
         main.style.marginLeft = '0';
       });
+      pushState.login();
     });
 
     nav.forEach((el) => {
@@ -80,38 +80,43 @@ class ListenHeader {
         el.classList.add('header__nav_active');
         if (el.id === EPages.STATISTICS) {
           await createStatistics.operations();
+          pushState.statistic();
           return;
         }
 
         if (el.id === EPages.CARD_CREATOR) {
           transition(main, createMain.cardCreater);
+          pushState.cardCreator();
           return;
         }
 
         if (el.id === EPages.ABOUT) {
           transition(main, createMain.about);
+          pushState.about();
           return;
         }
 
         if (el.id === EPages.ACCOUNT) {
-          buildMain.account();
-          navigationAccount();
+          transition(main, createMain.account);
+          pushState.account();
           return;
         }
 
         if (el.id === EPages.STOCKS) {
           await createStocks.main();
+          pushState.stocks();
           return;
         }
 
         if (el.id === EPages.ADMIN) {
-          buildMain.admin();
-          navigationAdmin();
+          transition(main, createMain.admin);
+          pushState.admin();
           return;
         }
 
         if (el.id === EPages.SERVICES) {
           transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
+          pushState.services();
           return;
         }
         alert(el.id);

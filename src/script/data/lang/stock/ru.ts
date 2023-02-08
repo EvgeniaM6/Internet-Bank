@@ -9,4 +9,4 @@ export default {
   'stocks__market-button': 'Купить',
   'stocks__market-status': 'Открыто',
   'stocks__user-status': 'Открыто',
-}
+};

@@ -15,10 +15,10 @@ class BuildHeader {
     <button class="header__burger">Menu</button>
     <nav class="header__nav">
         <ul class="header__ul">
-            <li class="header__nav-item header__nav-about" id="About">About</li>
-            <li class="header__nav-item header__nav-services" id="Services">Services</li>
-            <li class="header__nav-item header__nav-quiz" id="Quiz">Quiz</li>
-            <li class="header__nav-item header__nav-stat" id="Statistics">Statistics</li>
+            <li class="header__nav-item header__nav-about" id="about">About</li>
+            <li class="header__nav-item header__nav-services" id="services">Services</li>
+            <li class="header__nav-item header__nav-quiz" id="quiz">Quiz</li>
+            <li class="header__nav-item header__nav-stat" id="statistics">Statistics</li>
         </ul>
         <button class="header__burger-close">&#10006;</button>
     </nav>
@@ -41,23 +41,23 @@ class BuildHeader {
     account.classList.add('header__nav-item');
     account.classList.add('header__nav-account');
     account.textContent = 'Account';
-    account.id = 'Account';
+    account.id = 'account';
 
     const cardCreator = document.createElement('li');
     cardCreator.classList.add('header__nav-item');
     cardCreator.classList.add('header__nav-card');
     cardCreator.textContent = 'Card Creator';
-    cardCreator.id = 'Card_Creator';
+    cardCreator.id = 'card';
 
     const stocks = document.createElement('li');
     stocks.classList.add('header__nav-item');
     stocks.classList.add('header__nav-stocks');
     stocks.textContent = 'Stocks';
-    stocks.id = 'Stocks';
+    stocks.id = 'stocks';
 
     const money = document.createElement('p');
     money.classList.add('header__money');
-    const currMoney = sessionStorage.getItem('money');
+    const currMoney = localStorage.getItem('money');
     if (currMoney) {
       money.textContent = `$${Number(currMoney).toFixed(2)}`;
     }
@@ -77,7 +77,7 @@ class BuildHeader {
     admin.classList.add('header__nav-item');
     admin.classList.add('header__nav-admin');
     admin.textContent = 'Administration';
-    admin.id = 'Administration';
+    admin.id = 'admin';
 
     list.appendChild(admin);
   }

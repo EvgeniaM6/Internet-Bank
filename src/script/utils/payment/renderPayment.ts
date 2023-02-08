@@ -27,8 +27,6 @@ class RenderPayment {
     const paymentPage = createElem('div', 'main__payment-page', this.main);
     const filtersContainer = createElem('div', 'filters', paymentPage);
 
-    config.page = EPages.SERVICES;
-
     paymentPage.append(this.operationsContainer);
 
     userFetch.services().then((response: IMainRes) => {

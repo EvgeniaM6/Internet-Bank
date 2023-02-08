@@ -1,13 +1,13 @@
 export enum EPages {
-  ADMIN = 'Administration',
-  AUTH = 'auth',
-  ABOUT = 'About',
-  SERVICES = 'Services',
-  STOCKS = 'Stocks',
-  ACCOUNT = 'Account',
-  QUIZ = 'Quiz',
-  STATISTICS = 'Statistics',
-  CARD_CREATOR = 'Card_Creator',
+  ADMIN = 'admin',
+  AUTH = 'login',
+  ABOUT = 'about',
+  SERVICES = 'services',
+  STOCKS = 'stocks',
+  ACCOUNT = 'account',
+  QUIZ = 'quiz',
+  STATISTICS = 'statistics',
+  CARD_CREATOR = 'card',
 }
 
 export enum EOperation {
@@ -101,7 +101,6 @@ export interface IOperationRes extends IMainRes {
   operations?: IOperationList;
 }
 
-
 export interface IUserStocks {
   name: string;
   number: number;
@@ -114,6 +113,7 @@ export interface IMarketStocks extends IUserStocks {
 export interface IGetStocks extends IMainRes {
   stocks: IMarketStocks[];
   userStocks: IUserStocks[];
+}
 
 export enum EAccountLinks {
   edit = 'Edit account',
@@ -121,5 +121,4 @@ export enum EAccountLinks {
   delete = 'Delete account',
   currency = 'Currency',
   lastFive = 'Last operations',
-
 }
