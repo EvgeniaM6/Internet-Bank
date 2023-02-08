@@ -63,7 +63,9 @@ class BuildCard {
     };">
         <div style="width:100%;height:100%;${
           cardConfig.color ? `background-color:${cardConfig.color}` : ''
-        };background-image:url(${cardConfig.link});background-size: cover;filter: blur(${cardConfig.blur}px) brightness(${cardConfig.brightness}%);"></div>
+        };background-image:url(${cardConfig.link});background-size: cover;filter: blur(${
+      cardConfig.blur
+    }px) brightness(${cardConfig.brightness}%);"></div>
         <img src="https://raw.githubusercontent.com/kkolite/online-store/develop/src/assets/png/${
           cardConfig.system
         }.png" alt="" style="width:80px;position:absolute;bottom:30px;right:30px">

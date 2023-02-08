@@ -82,6 +82,7 @@ class Router {
         pushState.login();
         return;
       }
+      createMain.header();
       this.about();
       pushState.about();
       listenHeader.updateInfo();
