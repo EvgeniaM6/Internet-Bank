@@ -1,13 +1,13 @@
 export enum EPages {
-  ADMIN = 'Administration',
-  AUTH = 'auth',
-  ABOUT = 'About',
-  SERVICES = 'Services',
-  STOCKS = 'Stocks',
-  ACCOUNT = 'Account',
-  QUIZ = 'Quiz',
-  STATISTICS = 'Statistics',
-  CARD_CREATOR = 'Card_Creator',
+  ADMIN = 'admin',
+  AUTH = 'login',
+  ABOUT = 'about',
+  SERVICES = 'services',
+  STOCKS = 'stocks',
+  ACCOUNT = 'account',
+  QUIZ = 'quiz',
+  STATISTICS = 'statistics',
+  CARD_CREATOR = 'card',
 }
 
 export enum EOperation {

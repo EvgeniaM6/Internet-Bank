@@ -271,9 +271,9 @@ class ListenAuth {
             });
           }
           if (result.token && result.userConfig?.money) {
-            sessionStorage.setItem('token', result.token);
-            sessionStorage.setItem('money', `${result.userConfig.money}`);
-            sessionStorage.setItem('username', result.userConfig.username);
+            localStorage.setItem('token', result.token);
+            localStorage.setItem('money', `${result.userConfig.money}`);
+            localStorage.setItem('username', result.userConfig.username);
           }
           transition(page, createMain.afterLogin);
           return;

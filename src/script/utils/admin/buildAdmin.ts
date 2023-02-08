@@ -4,7 +4,7 @@ import { listenAdmin } from './listenAdmin';
 
 class BuildAdmin {
   async showUserList() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const data = (
       await fetch(`http://127.0.0.1:3000/admin/database`, {
@@ -48,7 +48,7 @@ class BuildAdmin {
     const admin = document.querySelector('.admin-container');
     if (!admin) return;
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const data = (
       await fetch(`http://127.0.0.1:3000/admin/user?username=${user.textContent}`, {

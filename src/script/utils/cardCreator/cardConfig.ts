@@ -5,4 +5,6 @@ export default {
   text: '',
   link: '',
   code: '',
+  blur: 0,
+  brightness: 100,
 };

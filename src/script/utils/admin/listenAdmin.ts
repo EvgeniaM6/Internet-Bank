@@ -23,7 +23,7 @@ class ListenAdmin {
 
     if (!lock || !name) return;
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     lock.addEventListener('click', async () => {
       (

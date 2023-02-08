@@ -137,7 +137,7 @@ class BuildAccount {
   }
 
   async showLastOperations() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const data = (
       await fetch(`http://127.0.0.1:3000/user`, {

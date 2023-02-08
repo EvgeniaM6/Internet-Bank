@@ -1,6 +1,6 @@
-import { IMarketStocks } from "../../data/types";
+import { IMarketStocks } from '../../data/types';
 
-export default function(data: IMarketStocks[]) {
+export default function (data: IMarketStocks[]) {
   const market = document.querySelector('.stocks__market');
   if (!(market instanceof HTMLElement)) return;
 
@@ -16,5 +16,5 @@ export default function(data: IMarketStocks[]) {
     price.style.color = Number(price.textContent?.slice(1)) > stock.money ? 'red' : 'green';
     price.textContent = `$${stock.money.toFixed(3)}`;
     count.textContent = stock.number.toString();
-  })
+  });
 }

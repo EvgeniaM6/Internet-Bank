@@ -38,7 +38,7 @@ class ListenAccount {
     let valName: boolean;
     let valEmail: boolean;
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     cancel();
 
@@ -88,7 +88,7 @@ class ListenAccount {
       valEmail = validate(confirmPass, config.regex.password);
     });
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     cancel();
 
@@ -120,7 +120,7 @@ class ListenAccount {
     const password = document.getElementById('edit-remove');
     const note = document.querySelector('.edit__notification');
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     if (!note || !buttonSubmit || !buttonCancel || !(password instanceof HTMLInputElement)) return;
 
@@ -212,7 +212,7 @@ class ListenAccount {
 
     if (!note || !buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     buttonCancel.addEventListener('click', () => {
       buildMain.account();
@@ -251,7 +251,7 @@ class ListenAccount {
 
     if (!note || !buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     buttonCancel.addEventListener('click', () => {
       buildMain.account();

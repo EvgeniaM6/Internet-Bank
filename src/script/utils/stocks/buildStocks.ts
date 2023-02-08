@@ -1,6 +1,6 @@
-import { IMarketStocks, IUserStocks } from "../../data/types";
+import { IMarketStocks, IUserStocks } from '../../data/types';
 
-class BuildStock{
+class BuildStock {
   main() {
     const main = document.querySelector('.main-container');
     if (!main) return;
@@ -44,7 +44,7 @@ class BuildStock{
       </div>`;
 
       userList.appendChild(div);
-    })
+    });
   }
 
   buildMarketList(marketStocks: IMarketStocks[]) {
@@ -76,7 +76,7 @@ class BuildStock{
       </div>`;
 
       marketList.appendChild(div);
-    })
+    });
   }
 }
 

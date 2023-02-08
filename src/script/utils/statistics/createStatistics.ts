@@ -19,7 +19,6 @@ class CreateStatistics {
     transition(main, () => {
       buildStatistics.operations(stats, operations);
       window.scrollTo(0, 0);
-      config.page = EPages.STATISTICS;
     });
   }
 }

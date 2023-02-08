@@ -7,7 +7,7 @@ export function openWebSocket() {
 
   socket.onopen = () => {
     console.log('WebSocket open');
-    const key = sessionStorage.getItem('token') || 'anonim';
+    const key = localStorage.getItem('token') || 'anonim';
     socket.send(key);
   };
 
