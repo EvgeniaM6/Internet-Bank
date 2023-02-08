@@ -10,6 +10,8 @@ class ListenCard {
     const cardColor = document.querySelector('.card__color');
     const cardText = document.querySelector('.card__text');
     const cardLink = document.querySelector('.card__link');
+    const cardBlur = document.querySelector('.card__blur');
+    const cardBrightness = document.querySelector('.card__brightness');
     const cardButton = document.querySelector('.card__button');
     const cardCreate = document.querySelector('.card__create');
 
@@ -19,6 +21,8 @@ class ListenCard {
       !(cardColor instanceof HTMLInputElement) ||
       !(cardText instanceof HTMLInputElement) ||
       !(cardLink instanceof HTMLInputElement) ||
+      !(cardBlur instanceof HTMLInputElement) ||
+      !(cardBrightness instanceof HTMLInputElement) ||
       !cardButton ||
       !cardCreate
     )
@@ -35,6 +39,8 @@ class ListenCard {
       cardConfig.color = cardColor.value;
       cardConfig.text = cardText.value;
       cardConfig.link = cardLink.value;
+      cardConfig.blur = +cardBlur.value;
+      cardConfig.brightness = +cardBrightness.value;
       if (cardName.value.length) {
         const cardPrev = document.querySelector('.card__prev');
         if (!cardPrev) return;
