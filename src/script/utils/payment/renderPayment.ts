@@ -1,5 +1,10 @@
 import config from '../../data/config';
-import { INDEX_START_SERVICES } from '../../data/constants';
+import {
+  ID_CURRENCY_REFILL_SERVICE,
+  ID_CURRENCY_SELL_SERVICE,
+  INDEX_START_BANK_SERVICES,
+  INDEX_START_SERVICES,
+} from '../../data/constants/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
 import { EPages, IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
@@ -34,7 +39,12 @@ class RenderPayment {
       this.elemsForUpdatingText = {};
 
       Object.keys(operationsObj).forEach((operationId) => {
-        if (+operationId < INDEX_START_SERVICES) return;
+        const isAnonim =
+          !this.getCurrentToken() && +operationId > INDEX_START_BANK_SERVICES && +operationId < INDEX_START_SERVICES;
+        const isCurrencyDuplucateService =
+          +operationId === ID_CURRENCY_REFILL_SERVICE || +operationId === ID_CURRENCY_SELL_SERVICE;
+        if (isAnonim || isCurrencyDuplucateService) return;
+
         this.operationsResp[operationId] = operationsObj[operationId];
       });
 
@@ -70,8 +80,7 @@ class RenderPayment {
   }
 
   renderPayment(operationId: number): void {
-    const main = document.querySelector('.main') as HTMLElement;
-    transition(main, renderPaymentDetails.renderPayment.bind(renderPaymentDetails, operationId));
+    transition(this.main, renderPaymentDetails.renderPayment.bind(renderPaymentDetails, operationId));
   }
 
   updatePaymentCardsText(): void {
@@ -184,7 +193,6 @@ class RenderPayment {
     this.selectedCategoryFilter = filterValue;
 
     transition(this.operationsContainer, this.updatePaymentCards.bind(this));
-    // this.updatePaymentCards();
   }
 
   updatePaymentCards(): void {
@@ -201,6 +209,11 @@ class RenderPayment {
     });
 
     this.updatePaymentCardsText();
+  }
+
+  getCurrentToken(): string {
+    const token = sessionStorage.getItem('token') || '';
+    return token;
   }
 }
 

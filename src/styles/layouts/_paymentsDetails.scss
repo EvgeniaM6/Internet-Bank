@@ -68,7 +68,21 @@
       display: flex;
       flex-direction: column;
       margin-bottom: 20px;
+      position: relative;
+
     }
+  }
+
+  &__currency {
+    position: absolute;
+    top: 31px;
+    left: 220px;
+    width: 22px;
+    height: 22px;
+    background: url(../assets/img/icons/dollar.svg) 50% 0%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   &__commission {
@@ -105,22 +119,6 @@
         &:hover {
           opacity: 1;
         }
-      }
-    }
-
-    .form-sum {
-      position: relative;
-
-      &__currency {
-        position: absolute;
-        top: 31px;
-        left: 220px;
-        width: 22px;
-        height: 22px;
-        background: url(../assets/img/icons/dollar.svg) 50% 0%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
       }
     }
   }

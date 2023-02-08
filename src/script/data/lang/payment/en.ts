@@ -1,4 +1,4 @@
-import { COMMISSION_AMOUNT } from '../../constants';
+import { COMMISSION_AMOUNT } from '../../constants/constants';
 
 export default {
   'card__category-text': 'Category:',

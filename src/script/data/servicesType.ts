@@ -20,10 +20,12 @@ export type TElemsForUpdateText = {
 };
 
 export type TOperationInputData = {
-  [key: string]: TInputData;
+  [key: string]: TInputData[];
 };
 
-type TInputData = {
+export type TInputData = {
+  inputType: string;
+  optionDefalt?: TTextByLang;
   regex: string;
   placeholder: string;
   hint: TTextByLang;
@@ -40,4 +42,16 @@ type TTexts = {
 
 export type TLang = {
   [key: string]: TTexts;
+};
+
+export type TAccOptions = {
+  name: TTextByLang;
+  isDisabled: boolean;
+};
+
+export type TPaymentDetails = {
+  operationId: number;
+  operationSum: number;
+  currFrom?: string;
+  currTo?: string;
 };

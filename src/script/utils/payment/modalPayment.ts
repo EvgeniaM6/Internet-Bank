@@ -6,11 +6,11 @@ import visaCard from '../../../assets/img/payment-system/visa.png';
 import mastercardCard from '../../../assets/img/payment-system/mastercard.png';
 import en from '../../data/lang/modalPaym/en';
 import ru from '../../data/lang/modalPaym/ru';
-import { TElemsForUpdateText, TLang } from '../../data/servicesType';
+import { TElemsForUpdateText, TLang, TPaymentDetails } from '../../data/servicesType';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import config from '../../data/config';
 import { validate } from '../validate';
-import { COMMISSION_AMOUNT } from '../../data/constants';
+import { COMMISSION_AMOUNT } from '../../data/constants/constants';
 import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
@@ -26,7 +26,7 @@ class ModalPayment {
   };
   emailInputs: TElemsForUpdateText = {};
 
-  renderModalPayment(paymentSum: number, operationId: number, isAnonim: boolean, isNotCard: boolean): void {
+  renderModalPayment(paymentDetails: TPaymentDetails, isAnonim: boolean, isNotCard: boolean): void {
     const popup = createElem('div', 'popup', document.body);
     popup.addEventListener('click', (e) => this.closePopUp(e));
 
@@ -55,9 +55,15 @@ class ModalPayment {
     this.btnConfirm = btnConfirm;
     this.checkInputsValidity(form);
 
-    form.addEventListener('submit', (e) => {
-      this.confirmPayment(e, operationId, isAnonim, popup, !!isNotCard, paymentSum);
-    });
+    if (paymentDetails.operationId === 2) {
+      form.onsubmit = (e) => {
+        // this.currencyExchange(e, paymentDetails, isAnonim, popup, !!isNotCard);
+      };
+    } else {
+      form.onsubmit = (e) => {
+        this.confirmPayment(e, paymentDetails, isAnonim, popup, !!isNotCard);
+      };
+    }
     form.addEventListener('input', (e) => this.checkForm(e));
 
     this.renderEmailInput(form, isAnonim);
@@ -82,11 +88,10 @@ class ModalPayment {
 
   confirmPayment(
     e: Event,
-    operationId: number,
+    paymentDetails: TPaymentDetails,
     isAnonim: boolean,
     popup: HTMLElement,
-    isNotCard: boolean,
-    paymentSum: number
+    isNotCard: boolean
   ): void {
     e.preventDefault();
     if (!this.canPay) return;
@@ -105,9 +110,9 @@ class ModalPayment {
         if (!payCardResp.success) {
           this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
         } else {
-          moneyFetch.commission(paymentSum, operationId).then((resp) => {
+          moneyFetch.commission(paymentDetails.operationSum, paymentDetails.operationId).then((resp) => {
             console.log('commission=', resp.success);
-            this.checkRespose(resp, popup, paymentSum, operationId);
+            this.checkRespose(resp, popup, paymentDetails.operationSum, paymentDetails.operationId);
           });
         }
       });
@@ -115,14 +120,16 @@ class ModalPayment {
       if (isNotCard) {
         const token = this.getCurrentToken();
 
-        moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then((resp) => {
-          console.log('changeMainMoney=', resp.success);
-          this.checkRespose(resp, popup, paymentSum, operationId);
-        });
+        moneyFetch
+          .changeMainMoney(paymentDetails.operationSum, EOperation.REMOVE, token, paymentDetails.operationId)
+          .then((resp) => {
+            console.log('changeMainMoney=', resp.success);
+            this.checkRespose(resp, popup, paymentDetails.operationSum, paymentDetails.operationId);
+          });
       } else {
         moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
           console.log('tryPayByCard=', payCardResp.success);
-          this.checkRespose(payCardResp, popup, paymentSum, operationId);
+          this.checkRespose(payCardResp, popup, paymentDetails.operationSum, paymentDetails.operationId);
         });
       }
     }
@@ -318,13 +325,12 @@ class ModalPayment {
   }
 
   checkRespose(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number, respMess?: string): void {
-    let message = resp.success
-      ? this.langs[config.lang].modalInfoMessage
-      : this.langs[config.lang].errorPayByCardMessage;
+    const currLang = this.langs[config.lang];
+    let message = resp.success ? currLang.modalInfoMessage : currLang.errorPayByCardMessage;
 
     if (!resp.success || !(this.emailInputs['checkbox-input'] as HTMLInputElement)?.checked) {
       if (respMess === 'No enough money!') {
-        message = this.langs[config.lang].errorNotEnoughMoney;
+        message = currLang.errorNotEnoughMoney;
       }
 
       this.modalInfoMessage(message, popup);
@@ -334,7 +340,7 @@ class ModalPayment {
 
       moneyFetch.sendCheckToEmail(paymentSum, operationId, anonimEmail).then((emailResp) => {
         console.log('sendCheckToEmail=', emailResp.success);
-        message = emailResp ? this.langs[config.lang].modalInfoMessage : this.langs[config.lang].errorPayByCardMessage;
+        message = emailResp ? currLang.modalInfoMessage : currLang.errorPayByCardMessage;
 
         this.modalInfoMessage(message, popup);
       });
