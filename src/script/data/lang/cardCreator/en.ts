@@ -4,6 +4,8 @@ export default {
   'card__color-label': 'Background color',
   'card__text-label': 'Text color',
   'card__link-label': 'Background link',
+  'card__blur-label': 'Blur',
+  'card__brightness-label': 'Brightness',
   card__button: 'Preview',
   card__create: 'Create!',
   'c__i-one': 'Choose card system',

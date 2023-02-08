@@ -1,7 +1,8 @@
-import config from '../../data/config';
-import { EPages } from '../../data/types';
 import { adminFetch } from '../../fetch/adminFetch';
 import { openWebSocket } from '../../fetch/webSocket';
+import pushState from '../../router/pushState';
+import { navigationAccount } from '../account/navigationAccount';
+import { navigationAdmin } from '../admin/navigationAdmin';
 import { buildCard } from '../cardCreator/buildCard';
 import { listenCard } from '../cardCreator/listenCard';
 import { buildHeader } from './buildHeader';
@@ -10,7 +11,7 @@ import { listenHeader } from './listenHeader';
 
 class CreateMain {
   header() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
       let isAsmin: boolean;
       const data = adminFetch.check(token);
@@ -34,7 +35,7 @@ class CreateMain {
   afterLogin() {
     createMain.header();
     buildMain.about();
-    config.page = EPages.ABOUT;
+    pushState.about();
     //list
 
     openWebSocket();
@@ -43,13 +44,22 @@ class CreateMain {
   about() {
     buildMain.about();
     window.scrollTo(0, 0);
-    config.page = EPages.ABOUT;
     //list
   }
 
   cardCreater() {
     buildCard.main();
     listenCard.main();
+  }
+
+  account() {
+    buildMain.account();
+    navigationAccount();
+  }
+
+  admin() {
+    buildMain.admin();
+    navigationAdmin();
   }
 }
 

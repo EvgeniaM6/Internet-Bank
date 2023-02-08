@@ -1,4 +1,4 @@
-import { EAccountLinks } from "../../data/types";
+import { EAccountLinks } from '../../data/types';
 
 class BuildMain {
   about() {

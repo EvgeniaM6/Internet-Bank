@@ -212,7 +212,7 @@ class RenderPaymentDetails {
   }
 
   getCurrentToken(): string {
-    const token = sessionStorage.getItem('token') || '';
+    const token = localStorage.getItem('token') || '';
     return token;
   }
 

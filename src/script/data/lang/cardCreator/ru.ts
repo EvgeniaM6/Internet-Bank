@@ -4,6 +4,8 @@ export default {
   'card__color-label': 'Цвет фона',
   'card__text-label': 'Цвет текста',
   'card__link-label': 'Ссылка на ваше изображение',
+  'card__blur-label': 'Размытие',
+  'card__brightness-label': 'Яркость',
   card__button: 'Превью',
   card__create: 'Создать!',
   'c__i-one': 'Выберите платежную систему',
