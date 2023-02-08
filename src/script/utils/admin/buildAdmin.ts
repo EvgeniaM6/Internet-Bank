@@ -61,12 +61,12 @@ class BuildAdmin {
     ).json();
 
     data.then((rez) => {
-      admin.innerHTML = `<p class="users__info user__info_name">${rez.userConfig.username}</p>
+      admin.innerHTML = `<h2 class="users__info user__info_name">${rez.userConfig.username}</h2>
       <p class="users__info"> E-mail: ${rez.userConfig.email}</p>
       <p class="users__info"> Is user admin: ${rez.userConfig.isAdmin ? 'yes' : 'no'}</p>
       <p class="users__info"> Is user blocked: ${rez.userConfig.isBlock ? 'yes' : 'no'}</p>
       <table class="operations__table">
-        <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th><th>id</th></tr></thead>
+        <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
         <tbody class="operations__tbody"></tbody>
       </table>
       <div class="edit__button-container">
@@ -78,17 +78,20 @@ class BuildAdmin {
       for (let i = 0; i < rez.userConfig.lastFive.length; i++) {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${i + 1}</td>
-        <td>${rez.userConfig.lastFive[i].date}</td>
+        <td>${rez.userConfig.lastFive[i].date.slice(0, 10)}</td>
         <td>${rez.userConfig.lastFive[i].operationID}</td>
-        <td>${rez.userConfig.lastFive[i].money}</td>
-        <td>${rez.userConfig.lastFive[i]._id}</td>`;
+        <td>${rez.userConfig.lastFive[i].money.fixed(2)}</td>`;
 
         tbody.appendChild(row);
       }
 
-      listenAdmin.lockUser();
+      const lockButton = document.querySelector('.user-lock');
+
+      if (!lockButton) return;
+      if (lockButton.textContent === 'Lock user') {
+        listenAdmin.lockUser(true);
+      } else listenAdmin.lockUser(false);
     });
-    //listenAdmin.unlockUser();
   }
 
   async showBankInfo() {
