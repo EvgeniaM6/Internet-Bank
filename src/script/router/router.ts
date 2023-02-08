@@ -1,6 +1,7 @@
 import config from '../data/config';
 import { EPages } from '../data/types';
 import { adminFetch } from '../fetch/adminFetch';
+import { openWebSocket } from '../fetch/webSocket';
 import { buildAuth } from '../utils/auth/buildAuth';
 import { createAuth } from '../utils/auth/createAuth';
 import { createMain } from '../utils/main/createMain';
@@ -72,14 +73,17 @@ class Router {
       listenHeader.updateInfo();
     }
 
+    const token = localStorage.getItem('token');
+    if (token) openWebSocket();
+
     if (page === '' || page === 'index.html') {
-      const token = localStorage.getItem('token');
       if (!token) {
         this.login();
         pushState.login();
         return;
       }
-      createMain.afterLogin();
+      this.about();
+      pushState.about();
       listenHeader.updateInfo();
     }
     switch (page) {
