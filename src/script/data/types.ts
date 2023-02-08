@@ -101,7 +101,6 @@ export interface IOperationRes extends IMainRes {
   operations?: IOperationList;
 }
 
-
 export interface IUserStocks {
   name: string;
   number: number;
@@ -114,6 +113,7 @@ export interface IMarketStocks extends IUserStocks {
 export interface IGetStocks extends IMainRes {
   stocks: IMarketStocks[];
   userStocks: IUserStocks[];
+}
 
 export enum EAccountLinks {
   edit = 'Edit account',
@@ -121,5 +121,10 @@ export enum EAccountLinks {
   delete = 'Delete account',
   currency = 'Currency',
   lastFive = 'Last operations',
+}
 
+export enum EAdminLinks {
+  user = 'User list',
+  stat = "Operation's statistics",
+  bankInfo = 'Bank information',
 }

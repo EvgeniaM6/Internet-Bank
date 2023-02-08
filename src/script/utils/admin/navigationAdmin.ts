@@ -1,3 +1,4 @@
+import { EAdminLinks } from '../../data/types';
 import { buildAdmin } from './buildAdmin';
 import { listenAdmin } from './listenAdmin';
 
@@ -13,6 +14,12 @@ export function navigationAdmin() {
 
       if (item.textContent === 'User list') {
         buildAdmin.showUserList();
+        //listenAdmin.showUserList();
+        return;
+      }
+
+      if (item.textContent === `${EAdminLinks.bankInfo}`) {
+        buildAdmin.showBankInfo();
         //listenAdmin.showUserList();
         return;
       }

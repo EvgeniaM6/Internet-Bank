@@ -8,17 +8,27 @@ import { navigationAccount } from './navigationAccount';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
 
+function cancel() {
+  const buttonCancel = document.querySelector('.edit__button-cancel');
+
+  if (!buttonCancel) return;
+
+  buttonCancel.addEventListener('click', () => {
+    buildMain.account();
+    navigationAccount();
+    return;
+  });
+}
+
 class ListenAccount {
   editAccount() {
     const refreshName = document.getElementById('edit-user');
     const refreshEmail = document.getElementById('edit-email');
     const buttonSubmit = document.querySelector('.edit__button-submit');
-    const buttonCancel = document.querySelector('.edit__button-cancel');
     const note = document.querySelector('.edit__notification');
 
     if (
       !buttonSubmit ||
-      !buttonCancel ||
       !note ||
       !(refreshName instanceof HTMLInputElement) ||
       !(refreshEmail instanceof HTMLInputElement)
@@ -30,11 +40,7 @@ class ListenAccount {
 
     const token = sessionStorage.getItem('token');
 
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       valName = validate(refreshName, config.regex.username);
@@ -56,13 +62,11 @@ class ListenAccount {
     const newPass = document.getElementById('edit-newpass');
     const confirmPass = document.getElementById('edit-confirmpass');
     const buttonSubmit = document.querySelector('.edit__button-submit');
-    const buttonCancel = document.querySelector('.edit__button-cancel');
     const note = document.querySelector('.edit__notification');
 
     if (
       !note ||
       !buttonSubmit ||
-      !buttonCancel ||
       !(oldPass instanceof HTMLInputElement) ||
       !(newPass instanceof HTMLInputElement) ||
       !(confirmPass instanceof HTMLInputElement)
@@ -86,11 +90,7 @@ class ListenAccount {
 
     const token = sessionStorage.getItem('token');
 
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;

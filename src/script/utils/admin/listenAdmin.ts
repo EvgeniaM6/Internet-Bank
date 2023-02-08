@@ -4,14 +4,17 @@ import { buildAdmin } from './buildAdmin';
 class ListenAdmin {
   showUserList() {
     const users = document.querySelectorAll('.td-user');
+    const create = document.querySelector('.user-create');
 
-    if (!users) return;
+    if (!users || !create) return;
 
     users.forEach((user) => {
       user.addEventListener('click', async () => {
         buildAdmin.showUserData(user);
       });
     });
+
+    create.addEventListener('click', buildAdmin.newUser);
   }
 
   lockUser() {
