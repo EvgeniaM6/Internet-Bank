@@ -1,20 +1,37 @@
-.admin__list {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
+.admin-container {
   width: 100%;
-  height: 50px;
-  margin-bottom: 30px;
-  list-style: none;
+  padding: 20px;
+}
+
+.admin__title {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 36px;
+}
+
+.admin__information_bank {
+  margin-bottom: 25px;
+}
+
+.admin__information_title {
+  margin-bottom: 15px;
   font-size: 24px;
 }
 
-.admin__list-item {
-  cursor: pointer;
+.admin__information_detail {
+  margin-bottom: 10px;
+  padding-left: 15px;
 }
 
-.admin__list-item_active {
-  color: $third;
+.admin__users {
+  max-width: 768px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.admin__users_buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 .users__info {
@@ -26,17 +43,19 @@
   width: 24px;
 }
 
-.users__table {
+.admin__users_table {
   margin-bottom: 20px;
+  width: 768px;
 }
 
-.td-user {
+.admin__users_user {
   cursor: pointer;
 }
 
 .user-cancel,
-.user-create {
-  width: 33%;
+.user-create,
+.admin__information_button {
+  width: 150px;
   height: 30px;
   border-radius: 15px;
   border-width: 0px;

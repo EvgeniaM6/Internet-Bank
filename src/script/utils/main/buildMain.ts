@@ -1,4 +1,6 @@
 import { EAccountLinks, EAdminLinks } from '../../data/types';
+import { buildAdmin } from '../admin/buildAdmin';
+import { listenAdmin } from '../admin/listenAdmin';
 
 class BuildMain {
   about() {
@@ -102,14 +104,19 @@ class BuildMain {
     if (!main || !admin) return;
 
     admin.classList.add('header__nav_active');
-    main.innerHTML = `<ul class="admin__list">
-      <li class="admin__list-item">${EAdminLinks.bankInfo}</li>
-      <li class="admin__list-item">${EAdminLinks.user}</li>
-      <li class="admin__list-item">Last operations</li>
-      <li class="admin__list-item">Delete account</li>
-    </ul>
-    <div class="admin-container">
+    main.innerHTML = `<div class="admin-container">
+      <h2 class="admin__title">Administration</h2>
+      <div class="admin__information_bank">
+        <h3 class="admin__information_title">Bank information</h3>
+        <p class="admin__information_detail">Bank account: <span class="admin__information_account"></span></p>
+        <p class="admin__information_detail">Money: <span class="admin__information_money"></span>$</p>
+      </div>
+      <h3 class="admin__information_title">To get information about users press button:</h3>
+      <button class="admin__information_button">List of users</button>
     </div>`;
+
+    buildAdmin.showBankInfo();
+    listenAdmin.showBankInfo();
   }
 }
 

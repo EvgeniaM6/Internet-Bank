@@ -2,8 +2,16 @@ import config from '../../data/config';
 import { buildAdmin } from './buildAdmin';
 
 class ListenAdmin {
+  showBankInfo() {
+    const button = document.querySelector('.admin__information_button');
+
+    if (!button) return;
+
+    button.addEventListener('click', buildAdmin.showUserList);
+  }
+
   showUserList() {
-    const users = document.querySelectorAll('.td-user');
+    const users = document.querySelectorAll('.admin__users_user');
     const create = document.querySelector('.user-create');
 
     if (!users || !create) return;

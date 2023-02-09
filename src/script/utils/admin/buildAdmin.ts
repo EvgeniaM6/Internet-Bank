@@ -20,23 +20,30 @@ class BuildAdmin {
       const admin = document.querySelector('.admin-container');
       if (!admin) return;
 
-      admin.innerHTML = `<table class="users__table">
-      <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Blocked</th></tr></thead>
-      <tbody class="users__tbody"></tbody>
-      </table>
-      <div class="edit__button-container">
-        <button class="edit__button-create user-create">New user</button>
-        <button class="edit__button-cancel user-cancel">Back</button>
+      admin.innerHTML = `<div class="admin__users">
+        <h2 class="admin__title">List of users</h2>
+        <table class="admin__users_table">
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Blocked</th></tr></thead>
+        <tbody class="admin__users_tbody"></tbody>
+        </table>
+        <div class="admin__users_buttons">
+          <button class="edit__button-create user-create">New user</button>
+          <button class="edit__button-cancel user-cancel">Back</button>
+        </div>
       </div>`;
 
-      const tbody = <Element>document.querySelector('.users__tbody');
+      const tbody = <Element>document.querySelector('.admin__users_tbody');
 
       for (let i = 0; i < rez.safeDatabase.length; i++) {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${i + 1}</td>
-        <td class="td-user">${rez.safeDatabase[i].username}</td>
+        <td class="admin__users_user">${rez.safeDatabase[i].username}</td>
         <td>${rez.safeDatabase[i].email}</td>
-        <td>${rez.safeDatabase[i].isBlock ? '<img src="./assets/icons8-ok.svg" alt="ok" class="blocked">' : '<img src="./assets/icons8-cancel.svg" alt="cancel" class="blocked">'}</td>`;
+        <td>${
+          rez.safeDatabase[i].isBlock
+            ? '<img src="./assets/img/icons/icons8-ok.svg" alt="ok" class="blocked">'
+            : '<img src="./assets/img/icons/icons8-cancel.svg" alt="cancel" class="blocked">'
+        }</td>`;
 
         tbody.appendChild(row);
       }
@@ -95,10 +102,11 @@ class BuildAdmin {
   }
 
   async showBankInfo() {
-    const admin = document.querySelector('.admin-container');
-    if (!admin) return;
+    const account = document.querySelector('.admin__information_account');
+    const money = document.querySelector('.admin__information_money');
+    if (!account || !money) return;
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const data = (
       await fetch(`http://127.0.0.1:3000/admin/bank`, {
@@ -111,8 +119,8 @@ class BuildAdmin {
     ).json();
 
     data.then((rez) => {
-      admin.innerHTML = `<p class="users__info user__info_name">${rez.bank.name}</p>
-      <p class="users__info"> E-mail: ${rez.bank.money}</p>`;
+      account.innerHTML = rez.bank.name;
+      money.innerHTML = `${(+rez.bank.money).toFixed(2)}`;
     });
   }
 

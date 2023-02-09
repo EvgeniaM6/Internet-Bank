@@ -10,8 +10,8 @@
 }
 
 .account__list-item,
-.operations-create,
-.operations-delete {
+.account__currency_operations-create,
+.account__currency_operations-delete {
   cursor: pointer;
 }
 
@@ -19,64 +19,51 @@
   color: $third;
 }
 
-#account-edit {
+#account__edit {
   width: 294px;
   text-align: right;
 }
 
-#account-pass {
+#account__password {
   width: 360px;
   text-align: right;
 }
 
-#edit__username-container,
-#edit__oldpass-container,
-#edit__newpass-container {
+#account__edit_username,
+#account__password_oldpassword,
+#account__password_newpassword {
   margin-bottom: 10px;
 }
 
-#edit__email-container,
-#edit__confirmpass-container,
-.clarify__question,
-.edit__remove-container {
+#account__edit_email,
+#account__password_confirmpassword,
+.account__clarify_question,
+.account__remove {
   margin-bottom: 20px;
 }
 
-.edit__username-input,
-.edit__email-input,
-.edit__oldpass-input,
-.edit__newpass-input,
-.edit__confirmpass-input,
-#edit-createcurrency,
-#edit-deletecurrency,
-#edit-remove {
+.account__edit_username-input,
+.account__edit_email-input,
+.account__password_oldpassword-input,
+.account__password_newpassword-input,
+.account__password_confirmpassword-input,
+#account__currency_create-select,
+#account__currency_delete-select,
+#remove-password {
   width: 200px;
   height: 25px;
   border-radius: 6px;
   border: 1px #d8c307 solid;
 }
 
-.edit__button-container,
-.clarify__button-container,
-.remove__button-container {
+.account__buttons {
   display: flex;
   justify-content: space-between;
 }
 
-.account-submit,
-.account-cancel,
-.password-submit,
-.password-cancel,
-.createcurrency-submit,
-.createcurrency-cancel,
-.deletecurrency-submit,
-.deletecurrency-cancel,
-.clarify-submit,
-.clarify-cancel,
-.currency-cancel,
-.lastfive-cancel,
-.remove-submit,
-.remove-cancel {
+.button-submit,
+.button-cancel,
+.lastfive-cancel {
   width: 33%;
   height: 30px;
   border-radius: 15px;
@@ -87,19 +74,19 @@
   transition: 0.2s;
 }
 
-.operations__title {
+.account__currency_title {
   margin-bottom: 15px;
   text-align: center;
 }
 
-.operations {
+.account__currency_operations {
   display: flex;
   gap: 50px;
   margin-bottom: 25px;
 }
 
-.createC,
-.deleteC {
+.create-currency,
+.delete-currency {
   display: inline-block;
   margin-right: 5px;
   width: 12px;
@@ -108,13 +95,13 @@
   border-radius: 50%;
 }
 
-.createC-active,
-.deleteC-active {
+.create-currency-active,
+.delete-currency-active {
   background: #d8c307;
 }
 
-#edit__createcurrency-container,
-#edit__deletecurrency-container {
+#account__currency_create-container,
+#account__currency_delete-container {
   margin-bottom: 20px;
 }
 
@@ -131,12 +118,12 @@ td:last-child {
   border-right: none;
 }
 
-.edit__notification {
+.account__notification {
   margin-top: 20px;
   text-align: left;
   font-size: 80%;
 }
 
-.operations__table {
+.account__operations_table {
   margin-bottom: 20px;
 }

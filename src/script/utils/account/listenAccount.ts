@@ -9,7 +9,7 @@ import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
 
 function cancel() {
-  const buttonCancel = document.querySelector('.edit__button-cancel');
+  const buttonCancel = document.querySelector('.button-cancel');
 
   if (!buttonCancel) return;
 
@@ -24,8 +24,8 @@ class ListenAccount {
   editAccount() {
     const refreshName = document.getElementById('edit-user');
     const refreshEmail = document.getElementById('edit-email');
-    const buttonSubmit = document.querySelector('.edit__button-submit');
-    const note = document.querySelector('.edit__notification');
+    const buttonSubmit = document.querySelector('.account__edit_button-submit');
+    const note = document.querySelector('.account__notification');
 
     if (
       !buttonSubmit ||
@@ -58,11 +58,11 @@ class ListenAccount {
   }
 
   editPassword() {
-    const oldPass = document.getElementById('edit-oldpass');
-    const newPass = document.getElementById('edit-newpass');
-    const confirmPass = document.getElementById('edit-confirmpass');
-    const buttonSubmit = document.querySelector('.edit__button-submit');
-    const note = document.querySelector('.edit__notification');
+    const oldPass = document.getElementById('password-oldpass');
+    const newPass = document.getElementById('password-newpass');
+    const confirmPass = document.getElementById('password-confirmpass');
+    const buttonSubmit = document.querySelector('.account__password_button-submit');
+    const note = document.querySelector('.account__notification');
 
     if (
       !note ||
@@ -115,20 +115,15 @@ class ListenAccount {
   }
 
   deleteAccount() {
-    const buttonSubmit = document.querySelector('.remove__button-submit');
-    const buttonCancel = document.querySelector('.remove__button-cancel');
-    const password = document.getElementById('edit-remove');
-    const note = document.querySelector('.edit__notification');
+    const buttonSubmit = document.querySelector('.account__remove_button-submit');
+    const password = document.getElementById('remove-password');
+    const note = document.querySelector('.account__notification');
 
     const token = localStorage.getItem('token');
 
-    if (!note || !buttonSubmit || !buttonCancel || !(password instanceof HTMLInputElement)) return;
+    if (!note || !buttonSubmit || !(password instanceof HTMLInputElement)) return;
 
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const passwordValue: string = password.value;
@@ -157,8 +152,8 @@ class ListenAccount {
   }
 
   clarifyAccount() {
-    const buttonSubmit = document.querySelector('.clarify__button-submit');
-    const buttonCancel = document.querySelector('.clarify__button-cancel');
+    const buttonSubmit = document.querySelector('.account__clarify_button-submit');
+    const buttonCancel = document.querySelector('.account__clarify_button-cancel');
 
     if (!buttonSubmit || !buttonCancel) return;
 
@@ -175,50 +170,40 @@ class ListenAccount {
   }
 
   currency() {
-    const create = document.querySelector('.operations-create');
-    const del = document.querySelector('.operations-delete');
-    const createRadio = document.querySelector('.createC');
-    const delRadio = document.querySelector('.deleteC');
-    const buttonCancel = document.querySelector('.currency-cancel');
+    const create = document.querySelector('.account__currency_operations-create');
+    const del = document.querySelector('.account__currency_operations-delete');
+    const createRadio = document.querySelector('.create-currency');
+    const delRadio = document.querySelector('.delete-currency');
 
-    if (!create || !del || !createRadio || !delRadio || !buttonCancel) return;
+    if (!create || !del || !createRadio || !delRadio) return;
 
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
 
     create.addEventListener('click', () => {
-      createRadio.classList.add('createC-active');
-      delRadio.classList.remove('deleteC-active');
+      createRadio.classList.add('create-currency-active');
+      delRadio.classList.remove('delete-currency-active');
       buildAccount.createCurrency();
       listenAccount.createCurrency();
     });
 
     del.addEventListener('click', () => {
-      createRadio.classList.remove('createC-active');
-      delRadio.classList.add('deleteC-active');
+      createRadio.classList.remove('create-currency-active');
+      delRadio.classList.add('delete-currency-active');
       buildAccount.deleteCurrency();
       listenAccount.deleteCurrency();
     });
   }
 
   createCurrency() {
-    const buttonSubmit = document.querySelector('.createcurrency-submit');
-    const buttonCancel = document.querySelector('.createcurrency-cancel');
-    const currency = document.getElementById('edit-createcurrency');
-    const note = document.querySelector('.edit__notification');
+    const buttonSubmit = document.querySelector('.account__currency_button-submit');
+    const currency = document.getElementById('account__currency_create-select');
+    const note = document.querySelector('.account__notification');
 
-    if (!note || !buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
+    if (!note || !buttonSubmit || !(currency instanceof HTMLSelectElement)) return;
 
     const token = localStorage.getItem('token');
 
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const data = (
@@ -244,20 +229,15 @@ class ListenAccount {
   }
 
   deleteCurrency() {
-    const buttonSubmit = document.querySelector('.deletecurrency-submit');
-    const buttonCancel = document.querySelector('.deletecurrency-cancel');
-    const currency = document.getElementById('edit-deletecurrency');
-    const note = document.querySelector('.edit__notification');
+    const buttonSubmit = document.querySelector('.account__currency_button-submit');
+    const currency = document.getElementById('account__currency_delete-select');
+    const note = document.querySelector('.account__notification');
 
-    if (!note || !buttonSubmit || !buttonCancel || !(currency instanceof HTMLSelectElement)) return;
+    if (!note || !buttonSubmit || !(currency instanceof HTMLSelectElement)) return;
 
     const token = localStorage.getItem('token');
 
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const data = (
@@ -283,15 +263,7 @@ class ListenAccount {
   }
 
   showLastOperations() {
-    const buttonCancel = document.querySelector('.lastfive-cancel');
-
-    if (!buttonCancel) return;
-
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
   }
 }
 
