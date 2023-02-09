@@ -20,3 +20,28 @@
 .users__info {
   padding-bottom: 10px;
 }
+
+.blocked {
+  height: 24px;
+  width: 24px;
+}
+
+.users__table {
+  margin-bottom: 20px;
+}
+
+.td-user {
+  cursor: pointer;
+}
+
+.user-cancel,
+.user-create {
+  width: 33%;
+  height: 30px;
+  border-radius: 15px;
+  border-width: 0px;
+  color: #fffffc;
+  background-color: #d8c307;
+  cursor: pointer;
+  transition: 0.2s;
+}

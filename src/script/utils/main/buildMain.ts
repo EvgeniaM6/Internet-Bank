@@ -1,4 +1,4 @@
-import { EAccountLinks } from '../../data/types';
+import { EAccountLinks, EAdminLinks } from '../../data/types';
 
 class BuildMain {
   about() {
@@ -103,9 +103,8 @@ class BuildMain {
 
     admin.classList.add('header__nav_active');
     main.innerHTML = `<ul class="admin__list">
-      <li class="admin__list-item">User list</li>
-      <li class="admin__list-item">Edit password</li>
-      <li class="admin__list-item">Currency</li>
+      <li class="admin__list-item">${EAdminLinks.bankInfo}</li>
+      <li class="admin__list-item">${EAdminLinks.user}</li>
       <li class="admin__list-item">Last operations</li>
       <li class="admin__list-item">Delete account</li>
     </ul>

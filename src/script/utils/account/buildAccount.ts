@@ -150,12 +150,11 @@ class BuildAccount {
     ).json();
 
     data.then((rez) => {
-      console.log(rez.userConfig.lastFive);
       const account = document.querySelector('.account-container');
       if (!account) return;
 
       account.innerHTML = `<table class="operations__table">
-      <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th><th>id</th></tr></thead>
+      <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
       <tbody class="operations__tbody"></tbody>
       </table>
       <div class="edit__button-container">
@@ -167,10 +166,9 @@ class BuildAccount {
       for (let i = 0; i < rez.userConfig.lastFive.length; i++) {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${i + 1}</td>
-        <td>${rez.userConfig.lastFive[i].date}</td>
+        <td>${rez.userConfig.lastFive[i].date.slice(0, 10)}</td>
         <td>${rez.userConfig.lastFive[i].operationID}</td>
-        <td>${rez.userConfig.lastFive[i].money}</td>
-        <td>${rez.userConfig.lastFive[i]._id}</td>`;
+        <td>${rez.userConfig.lastFive[i].money.fixed(2)}</td>`;
 
         tbody.appendChild(row);
       }
