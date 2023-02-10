@@ -48,10 +48,10 @@ class BuildMain {
             <img src="https://media.licdn.com/dms/image/D4D03AQFZ1H3nzIJK_A/profile-displayphoto-shrink_400_400/0/1670695287244?e=1680739200&v=beta&t=74kmj5qkEgQFssMxYMIBcvOFBLtZ1oiACYBJP7yUfWA" alt="egor-photo" class="about__author-photo">
             <div class="about__author-info">
                 <p class="about__author-name egor">Egor Litavar</p>
-                <small class="about__author-resp egor-resp">Back-end, Database, Authorization, Bank Services</small>
-                <p class="about__author-text egor-text">Lorem ipsum dolor sit amet, consectetur 
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.</p>
+                <small class="about__author-resp egor-resp">Back-end, Authorization, Statistics, Stocks, Routing</small>
+                <p class="about__author-text egor-text">23 yo, Minsk. Have Air Traffic Controller diploma.
+                 Likes to work on interesting and challenging projects.
+                  RS School student since spring 2022.</p>
             </div>
         </div>
         <div class="about__andrei about__author-container">
@@ -68,7 +68,7 @@ class BuildMain {
             <img src="https://avatars.githubusercontent.com/u/93492831?v=4" alt="evgeniya-photo" class="about__author-photo">
             <div class="about__author-info">
                 <p class="about__author-name evgeniya">Yevheniia Miniukova</p>
-                <small class="about__author-resp evgeniya-resp">Bank Services, Other Services, Financial Quiz</small>
+                <small class="about__author-resp evgeniya-resp">Bank Services, Other Services, Financial Quiz, RU/EN Lang</small>
                 <p class="about__author-text evgeniya-text">Lorem ipsum dolor sit amet, consectetur 
                 adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
                 dolore magna aliqua..</p>
