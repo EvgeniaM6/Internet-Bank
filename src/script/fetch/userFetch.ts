@@ -1,3 +1,4 @@
+import config from '../data/config';
 import { EMethod, IAfterReg, IMainRes, IOperationRes, IUserInfo, IVerify } from '../data/types';
 import Fetch from './mainFetch';
 
@@ -128,9 +129,9 @@ class UserFetch extends Fetch {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: {
+      body: JSON.stringify({
         link,
-      },
+      }),
     };
     const result: IMainRes = await this.mainFetch(req, path);
     return result;
