@@ -27,7 +27,7 @@ class BuildMain {
             <li class="high_five">Other Services (Netflix, Booking, Orange and etc.)</li>
             <li class="high_six">Financial Quiz</li>
             <li class="high_seven">Card Constructor</li>
-            <li class="high_eight">Chat-bot</li>
+            <li class="high_eight">Stocks market</li>
             <li class="high_nine">Statistics</li>
             <li class="high_ten">Day/Night Mode</li>
             <li class="high_eleven">Languages: RU and EN</li>
@@ -37,9 +37,9 @@ class BuildMain {
         <h3 class="about__stack_h">Stack</h3>
         <ul>
             <li class="stack_one">Front-end: HTML5, SCSS, TypeScript</li>
-            <li class="stack_two">Back-end: Node.js / Express</li>
-            <li class="stack_three">Database: Mongo DB</li>
-            <li class="stack_four">API: Currency (API Ninjas)</li>
+            <li class="stack_two">Back-end: Node.js / Express: WebSocket, JWT, NodeEmailer etc.</li>
+            <li class="stack_three">Database: Mongo DB (Mongoose)</li>
+            <li class="stack_four">API: Currency (API Ninjas), DOMtoImage (HCTI API)</li>
         </ul>
     </section>
     <section class="about__authors about__section">
