@@ -1,6 +1,7 @@
 export default {
-  server: 'http://127.0.0.1:3000',
-  wss: 'ws://127.0.0.1:8000',
+  //internet-bank-server-production.up.railway.app
+  server: 'https://internet-bank-server-production.up.railway.app',
+  wss: 'wss://internet-bank-server-production.up.railway.app',
   currentUser: '',
   currentEmail: '',
   userMoney: 0,

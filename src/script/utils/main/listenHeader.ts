@@ -57,9 +57,9 @@ class ListenHeader {
     });
 
     logo.addEventListener('click', async () => {
-      await this.updateInfo();
       this.removeActiveClass();
       transition(main, createMain.about);
+      await this.updateInfo();
       pushState.about();
     });
 
@@ -75,51 +75,50 @@ class ListenHeader {
 
     nav.forEach((el) => {
       el.addEventListener('click', async () => {
-        await this.updateInfo();
         this.removeActiveClass();
         el.classList.add('header__nav_active');
         if (el.id === EPages.STATISTICS) {
           await createStatistics.operations();
           pushState.statistic();
-          return;
+          //return;
         }
 
         if (el.id === EPages.CARD_CREATOR) {
           transition(main, createMain.cardCreater);
           pushState.cardCreator();
-          return;
+          //return;
         }
 
         if (el.id === EPages.ABOUT) {
           transition(main, createMain.about);
           pushState.about();
-          return;
+          //return;
         }
 
         if (el.id === EPages.ACCOUNT) {
           transition(main, createMain.account);
           pushState.account();
-          return;
+          //return;
         }
 
         if (el.id === EPages.STOCKS) {
           await createStocks.main();
           pushState.stocks();
-          return;
+          //return;
         }
 
         if (el.id === EPages.ADMIN) {
           transition(main, createMain.admin);
           pushState.admin();
-          return;
+          //return;
         }
 
         if (el.id === EPages.SERVICES) {
           transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
           pushState.services();
-          return;
+          //return;
         }
-        alert(el.id);
+        await this.updateInfo();
       });
     });
   }
