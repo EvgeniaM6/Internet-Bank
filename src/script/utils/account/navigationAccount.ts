@@ -15,11 +15,6 @@ export function navigationAccount() {
       if (item.textContent === EAccountLinks.edit) {
         buildAccount.editAccount();
         listenAccount.editAccount();
-        return;
-      }
-
-      if (item.textContent === EAccountLinks.changePassword) {
-        buildAccount.editPassword();
         listenAccount.editPassword();
         return;
       }

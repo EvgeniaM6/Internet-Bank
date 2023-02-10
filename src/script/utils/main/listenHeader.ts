@@ -38,9 +38,38 @@ class ListenHeader {
     const page = document.querySelector('.page');
     const burger = document.querySelector('.header__burger');
     const closeBurger = document.querySelector('.header__burger-close');
+    const theme = document.querySelector('.header__switch_theme');
+    const switchTheme = document.querySelector('.header__theme');
 
-    if (!burger || !closeBurger || !logo || !login || !(main instanceof HTMLElement) || !(page instanceof HTMLElement))
+    if (
+      !burger ||
+      !closeBurger ||
+      !logo ||
+      !login ||
+      !(main instanceof HTMLElement) ||
+      !(page instanceof HTMLElement) ||
+      !theme ||
+      !switchTheme
+    )
       return;
+
+    theme.addEventListener('click', () => {
+      if (config.theme === 'light') config.theme = 'dark';
+      else config.theme = 'light';
+      const body = document.querySelector('.page');
+      const footerLogo = document.querySelector('.footer__logo');
+      const author = document.querySelector('.footer__authors');
+
+      if (body) body.classList.toggle('page-dark');
+      if (footerLogo) footerLogo.classList.toggle('footer__logo-dark');
+      if (author) author.classList.toggle('footer__authors-dark');
+
+      const td = document.querySelectorAll('td');
+      const th = document.querySelectorAll('th');
+
+      td.forEach((el) => el.classList.toggle('table-dark'));
+      th.forEach((el) => el.classList.toggle('table-dark'));
+    });
 
     burger.addEventListener('click', () => {
       const nav = document.querySelector('.header__nav');

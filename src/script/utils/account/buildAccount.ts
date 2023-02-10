@@ -7,6 +7,7 @@ class BuildAccount {
     if (!account) return;
 
     account.innerHTML = `<div id="account__edit">
+        <h2 class="account__edit_title">Edit login or password</h2>
         <div id="account__edit_username">
           <label for="user" class="account__edit_username-label">Username</label>
           <input type="text" name="user" id="edit-user" class="account__edit_username-input" value="${config.currentUser}">
@@ -15,11 +16,35 @@ class BuildAccount {
           <label for="email" class="account__edit_email-label">E-mail</label>
           <input type="email" name="email" id="edit-email" class="account__edit_email-input" value="${config.currentEmail}">
         </div>
+        <div id="account__edit_password">
+          <label for="password" class="account__edit_password-label">Password</label>
+          <input type="password" name="password" id="edit-password" class="account__edit_password-input">
+        </div>
         <div class="account__buttons">
           <button class="account__edit_button-submit button-submit">Submit</button>
           <button class="account__edit_button-cancel button-cancel">Back</button>
         </div>
         <p class="account__notification"></p>
+      </div>
+      <div id="account__password">
+      <h2 class="account__password_title">Change password</h2>
+      <div id="account__password_oldpassword">
+        <label for="oldpass" class="account__password_oldpassword-label">Old password</label>
+        <input type="password" name="oldpass" id="password-oldpass" class="account__password_oldpassword-input">
+      </div>
+      <div id="account__password_newpassword">
+        <label for="newpass" class="account__password_newpassword-label">New password</label>
+        <input type="password" name="newpass" id="password-newpass" class="account__password_newpassword-input">
+      </div>
+      <div id="account__password_confirmpassword">
+        <label for="confirmpass" class="account__password_confirmpassword-label">Confirm password</label>
+        <input type="password" name="confirmpass" id="password-confirmpass" class="account__password_confirmpassword-input">
+      </div>
+      <div class="account__buttons">
+        <button class="account__password_button-submit button-submit">Submit</button>
+        <button class="account__password_button-cancel button-cancel">Back</button>
+      </div>
+      <p class="account__notification_password"></p>
       </div>`;
   }
 
@@ -173,6 +198,13 @@ class BuildAccount {
         tbody.appendChild(row);
       }
 
+      const td = document.querySelectorAll('td');
+      const th = document.querySelectorAll('th');
+
+      if (config.theme === 'dark') {
+        td.forEach((el) => el.classList.add('table-dark'));
+        th.forEach((el) => el.classList.add('table-dark'));
+      }
       listenAccount.showLastOperations();
     });
   }

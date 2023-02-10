@@ -24,6 +24,9 @@ class BuildHeader {
     </nav>
     <div class="header__down">
         <div class="header__login">Log In</div>
+        <div class="header__switch_theme">
+          <img src="/assets/img/icons/moon.svg" alt="moon" class="header__theme">
+        </div>
     </div>`;
   }
 

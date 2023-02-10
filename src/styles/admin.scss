@@ -29,9 +29,14 @@
   text-align: center;
 }
 
-.admin__users_buttons {
+.admin__users_buttons,
+.admin__user-buttons {
   display: flex;
   justify-content: space-between;
+}
+
+.admin__user-buttons {
+  margin-top: 15px;
 }
 
 .users__info {

@@ -10,6 +10,11 @@
   border: 2px $third solid;
   width: 520px;
 
+  &-dark {
+    background-color: $black;
+    color: $white;
+  }
+
   &__container {
     display: flex;
     flex-direction: column;

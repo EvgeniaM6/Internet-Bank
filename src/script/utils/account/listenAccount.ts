@@ -62,7 +62,7 @@ class ListenAccount {
     const newPass = document.getElementById('password-newpass');
     const confirmPass = document.getElementById('password-confirmpass');
     const buttonSubmit = document.querySelector('.account__password_button-submit');
-    const note = document.querySelector('.account__notification');
+    const note = document.querySelector('.account__notification_password');
 
     if (
       !note ||
@@ -90,7 +90,15 @@ class ListenAccount {
 
     const token = localStorage.getItem('token');
 
-    cancel();
+    const buttonCancel = document.querySelector('.account__password_button-cancel');
+
+    if (!buttonCancel) return;
+
+    buttonCancel.addEventListener('click', () => {
+      buildMain.account();
+      navigationAccount();
+      return;
+    });
 
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;

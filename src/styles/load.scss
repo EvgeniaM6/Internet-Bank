@@ -13,6 +13,10 @@
         text-align: center;
         animation: preloader-rotate 1s infinite linear;
     }
+
+    &-dark {
+      background-color: $black;
+    }
 }
 
 @keyframes preloader-rotate {

@@ -88,7 +88,6 @@ class BuildMain {
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
       <li class="account__list-item">${EAccountLinks.edit}</li>
-      <li class="account__list-item">${EAccountLinks.changePassword}</li>
       <li class="account__list-item">${EAccountLinks.currency}</li>
       <li class="account__list-item">${EAccountLinks.lastFive}</li>
       <li class="account__list-item">${EAccountLinks.delete}</li>

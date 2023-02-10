@@ -20,22 +20,29 @@
 }
 
 #account__edit {
-  width: 294px;
-  text-align: right;
+  margin-bottom: 50px;
 }
 
-#account__password {
+#account__password,
+#account__edit {
   width: 360px;
   text-align: right;
 }
 
+.account__edit_title,
+.account__password_title {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
 #account__edit_username,
+#account__edit_email,
 #account__password_oldpassword,
 #account__password_newpassword {
   margin-bottom: 10px;
 }
 
-#account__edit_email,
+#account__edit_password,
 #account__password_confirmpassword,
 .account__clarify_question,
 .account__remove {
@@ -44,6 +51,7 @@
 
 .account__edit_username-input,
 .account__edit_email-input,
+.account__edit_password-input,
 .account__password_oldpassword-input,
 .account__password_newpassword-input,
 .account__password_confirmpassword-input,
@@ -113,8 +121,15 @@ td {
   border-right: 1px dashed black;
 }
 
+.table-dark {
+  border-bottom: 1px dashed $white;
+  border-right: 1px dashed $white;
+}
+
 th:last-child,
-td:last-child {
+td:last-child,
+th.table-dark:last-child,
+td.table-dark:last-child {
   border-right: none;
 }
 

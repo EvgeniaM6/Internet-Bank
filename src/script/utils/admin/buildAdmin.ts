@@ -1,6 +1,6 @@
-import { EMethod } from '../../data/types';
 import { buildAuth } from '../auth/buildAuth';
 import { listenAdmin } from './listenAdmin';
+import config from '../../data/config';
 
 class BuildAdmin {
   async showUserList() {
@@ -41,11 +41,19 @@ class BuildAdmin {
         <td>${rez.safeDatabase[i].email}</td>
         <td>${
           rez.safeDatabase[i].isBlock
-            ? '<img src="./assets/img/icons/icons8-ok.svg" alt="ok" class="blocked">'
-            : '<img src="./assets/img/icons/icons8-cancel.svg" alt="cancel" class="blocked">'
+            ? '<img src="./assets/icons8-ok.svg" alt="ok" class="blocked">'
+            : '<img src="./assets/icons8-cancel.svg" alt="cancel" class="blocked">'
         }</td>`;
 
         tbody.appendChild(row);
+      }
+
+      const td = document.querySelectorAll('td');
+      const th = document.querySelectorAll('th');
+
+      if (config.theme === 'dark') {
+        td.forEach((el) => el.classList.add('table-dark'));
+        th.forEach((el) => el.classList.add('table-dark'));
       }
       listenAdmin.showUserList();
     });
@@ -76,9 +84,14 @@ class BuildAdmin {
         <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
         <tbody class="operations__tbody"></tbody>
       </table>
-      <div class="edit__button-container">
-        <button class="edit__button-cancel user-lock">${rez.userConfig.isBlock ? 'Unlock user' : 'Lock user'}</button>
-      </div>`;
+      <div class="admin__user-buttons">
+        <button class="admin__user_button-lock user-lock">${
+          rez.userConfig.isBlock ? 'Unlock user' : 'Lock user'
+        }</button>
+        <button class="admin__user_button-remove">Remove user</button>
+        <button class="admin__user_button-back">To list of users</button>
+      </div>
+      <div class="account-container"></div>`;
 
       const tbody = <Element>document.querySelector('.operations__tbody');
 
@@ -87,9 +100,17 @@ class BuildAdmin {
         row.innerHTML = `<td>${i + 1}</td>
         <td>${rez.userConfig.lastFive[i].date.slice(0, 10)}</td>
         <td>${rez.userConfig.lastFive[i].operationID}</td>
-        <td>${rez.userConfig.lastFive[i].money.fixed(2)}</td>`;
+        <td>${rez.userConfig.lastFive[i].money.toFixed(2)}</td>`;
 
         tbody.appendChild(row);
+      }
+
+      const td = document.querySelectorAll('td');
+      const th = document.querySelectorAll('th');
+
+      if (config.theme === 'dark') {
+        td.forEach((el) => el.classList.add('table-dark'));
+        th.forEach((el) => el.classList.add('table-dark'));
       }
 
       const lockButton = document.querySelector('.user-lock');
@@ -98,6 +119,8 @@ class BuildAdmin {
       if (lockButton.textContent === 'Lock user') {
         listenAdmin.lockUser(true);
       } else listenAdmin.lockUser(false);
+
+      listenAdmin.showUserData();
     });
   }
 

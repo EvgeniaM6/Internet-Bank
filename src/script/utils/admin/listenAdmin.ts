@@ -1,4 +1,6 @@
 import config from '../../data/config';
+import { buildAccount } from '../account/buildAccount';
+import { listenAccount } from '../account/listenAccount';
 import { buildAdmin } from './buildAdmin';
 
 class ListenAdmin {
@@ -50,6 +52,13 @@ class ListenAdmin {
 
       buildAdmin.showUserData(name);
     });
+  }
+
+  showUserData() {
+    const admin = document.querySelector('.admin__user_button-remove');
+    if (!admin) return;
+
+    admin.addEventListener('click', buildAccount.deleteAccount);
   }
 }
 
