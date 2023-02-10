@@ -23,24 +23,23 @@
   padding-left: 15px;
 }
 
-.admin__users {
+.admin__users,
+.admin__user {
   max-width: 768px;
   margin: 0 auto;
   text-align: center;
 }
 
 .admin__users_buttons,
-.admin__user-buttons {
+.admin__user_buttons {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 50px;
 }
 
-.admin__user-buttons {
-  margin-top: 15px;
-}
-
-.users__info {
+.admin__user_info {
   padding-bottom: 10px;
+  text-align: left;
 }
 
 .blocked {
@@ -48,7 +47,12 @@
   width: 24px;
 }
 
-.admin__users_table {
+.admin__user_operations-title {
+  margin-bottom: 15px;
+}
+
+.admin__users_table,
+.admin__user_operations {
   margin-bottom: 20px;
   width: 768px;
 }
@@ -59,7 +63,10 @@
 
 .user-cancel,
 .user-create,
-.admin__information_button {
+.admin__information_button,
+.admin__user_button-lock,
+.admin__user_button-remove,
+.admin__user_button-back {
   width: 150px;
   height: 30px;
   border-radius: 15px;

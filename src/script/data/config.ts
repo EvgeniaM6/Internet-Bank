@@ -4,7 +4,6 @@ export default {
   currentUser: '',
   currentEmail: '',
   userMoney: 0,
-  password: '',
   lang: 'en',
   page: '',
   theme: 'light',

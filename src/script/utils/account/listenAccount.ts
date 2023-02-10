@@ -24,36 +24,42 @@ class ListenAccount {
   editAccount() {
     const refreshName = document.getElementById('edit-user');
     const refreshEmail = document.getElementById('edit-email');
+    const refreshPass = document.getElementById('edit-password');
     const buttonSubmit = document.querySelector('.account__edit_button-submit');
     const note = document.querySelector('.account__notification');
-
+    const token = localStorage.getItem('token');
     if (
+      !token ||
       !buttonSubmit ||
       !note ||
       !(refreshName instanceof HTMLInputElement) ||
-      !(refreshEmail instanceof HTMLInputElement)
+      !(refreshEmail instanceof HTMLInputElement) ||
+      !(refreshPass instanceof HTMLInputElement)
     )
       return;
 
     let valName: boolean;
     let valEmail: boolean;
 
-    const token = localStorage.getItem('token');
-
-    cancel();
-
     buttonSubmit.addEventListener('click', async () => {
       valName = validate(refreshName, config.regex.username);
       valEmail = validate(refreshEmail, config.regex.email);
       const name = refreshName.value;
       const email = refreshEmail.value;
-      config.regex.username = name;
 
       if (!valEmail || !valName || !token) return;
 
-      userFetch.user(EMethod.PUT, token, name, email, config.password);
-
-      note.innerHTML = 'Note: Your login and e-mail have changed successfully! To return to account page press "Back"';
+      userFetch.checkPassword(refreshPass, token).then((rez) => {
+        if (rez.success) {
+          userFetch.user(EMethod.PUT, token, name, email, refreshPass.value).then((rez) => {
+            if (rez.success) {
+              config.regex.username = name;
+              note.innerHTML =
+                'Note: Your login and e-mail have changed successfully! To return to account page press "Back"';
+            }
+          });
+        } else note.innerHTML = 'Note: Incorrect password';
+      });
     });
   }
 
@@ -90,15 +96,7 @@ class ListenAccount {
 
     const token = localStorage.getItem('token');
 
-    const buttonCancel = document.querySelector('.account__password_button-cancel');
-
-    if (!buttonCancel) return;
-
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;
@@ -106,19 +104,20 @@ class ListenAccount {
       const confirmPassword = confirmPass.value;
       if (!oldPassword || !newPassword || !confirmPassword || !token) return;
 
-      if (oldPassword !== config.password) {
-        note.innerHTML = 'Note: Incorrect password';
-        return;
-      }
+      userFetch.checkPassword(oldPass, token).then((rez) => {
+        if (rez.success) {
+          if (newPassword !== confirmPassword) {
+            note.innerHTML = 'Note: You have different passwords';
+            return;
+          }
 
-      if (newPassword !== confirmPassword) {
-        note.innerHTML = 'Note: You have different passwords';
-        return;
-      }
-
-      userFetch.changePassword(token, newPassword, oldPassword);
-
-      note.innerHTML = 'Note: Your password has changed successfully! To return to account page press "Back"';
+          userFetch.changePassword(token, newPassword, oldPassword).then((rez) => {
+            if (rez.success) {
+              note.innerHTML = 'Note: Your password has changed successfully! To return to account page press "Back"';
+            }
+          });
+        } else note.innerHTML = 'Note: Incorrect password';
+      });
     });
   }
 
@@ -129,31 +128,19 @@ class ListenAccount {
 
     const token = localStorage.getItem('token');
 
-    if (!note || !buttonSubmit || !(password instanceof HTMLInputElement)) return;
+    if (!token || !note || !buttonSubmit || !(password instanceof HTMLInputElement)) return;
 
     cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const passwordValue: string = password.value;
 
-      if (passwordValue !== config.password) {
+      if (passwordValue !== '') {
         note.innerHTML = 'Note: Incorrect password';
         return;
       }
 
-      (
-        await fetch(`http://127.0.0.1:3000/user`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            password: passwordValue,
-          }),
-        })
-      ).json();
-
+      userFetch.user(EMethod.DELETE, token, undefined, undefined, passwordValue);
       buildAuth.main();
       createAuth.login();
     });

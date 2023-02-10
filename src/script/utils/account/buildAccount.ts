@@ -1,4 +1,6 @@
 import config from '../../data/config';
+import { EMethod } from '../../data/types';
+import { userFetch } from '../../fetch/userFetch';
 import { listenAccount } from './listenAccount';
 
 class BuildAccount {
@@ -22,7 +24,6 @@ class BuildAccount {
         </div>
         <div class="account__buttons">
           <button class="account__edit_button-submit button-submit">Submit</button>
-          <button class="account__edit_button-cancel button-cancel">Back</button>
         </div>
         <p class="account__notification"></p>
       </div>

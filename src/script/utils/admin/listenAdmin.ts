@@ -58,7 +58,10 @@ class ListenAdmin {
     const admin = document.querySelector('.admin__user_button-remove');
     if (!admin) return;
 
-    admin.addEventListener('click', buildAccount.deleteAccount);
+    admin.addEventListener('click', () => {
+      buildAccount.deleteAccount();
+      
+    });
   }
 }
 

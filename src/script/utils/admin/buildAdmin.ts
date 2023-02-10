@@ -76,24 +76,27 @@ class BuildAdmin {
     ).json();
 
     data.then((rez) => {
-      admin.innerHTML = `<h2 class="users__info user__info_name">${rez.userConfig.username}</h2>
-      <p class="users__info"> E-mail: ${rez.userConfig.email}</p>
-      <p class="users__info"> Is user admin: ${rez.userConfig.isAdmin ? 'yes' : 'no'}</p>
-      <p class="users__info"> Is user blocked: ${rez.userConfig.isBlock ? 'yes' : 'no'}</p>
-      <table class="operations__table">
+      admin.innerHTML = `<div class="admin__user">
+      <h2 class="admin__title admimn__user_name">${rez.userConfig.username}</h2>
+      <p class="admin__user_info"> E-mail: ${rez.userConfig.email}</p>
+      <p class="admin__user_info"> Is user admin: ${rez.userConfig.isAdmin ? 'yes' : 'no'}</p>
+      <p class="admin__user_info"> Is user blocked: ${rez.userConfig.isBlock ? 'yes' : 'no'}</p>
+      <h3 class="admin__user_operations-title">Last operations</h3>
+      <table class="admin__user_operations">
         <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
-        <tbody class="operations__tbody"></tbody>
+        <tbody class="admin__user_tbody"></tbody>
       </table>
-      <div class="admin__user-buttons">
+      <div class="admin__user_buttons">
         <button class="admin__user_button-lock user-lock">${
           rez.userConfig.isBlock ? 'Unlock user' : 'Lock user'
         }</button>
         <button class="admin__user_button-remove">Remove user</button>
         <button class="admin__user_button-back">To list of users</button>
       </div>
-      <div class="account-container"></div>`;
+      <div class="account-container"></div>
+      </div>`;
 
-      const tbody = <Element>document.querySelector('.operations__tbody');
+      const tbody = <Element>document.querySelector('.admin__user_tbody');
 
       for (let i = 0; i < rez.userConfig.lastFive.length; i++) {
         const row = document.createElement('tr');
