@@ -96,9 +96,9 @@ class UserFetch extends Fetch {
       });
     }
     if (method === EMethod.DELETE) {
-      req.body = {
-        password,
-      };
+      req.body = JSON.stringify({
+        password: password,
+      });
     }
     const result: IUserInfo = await this.mainFetch(req, path);
     return result;
@@ -144,6 +144,24 @@ class UserFetch extends Fetch {
     };
     const result: IOperationRes = await this.mainFetch(req, path);
     return result;
+  }
+
+  async checkPassword(element: HTMLInputElement, token: string) {
+    const password = element.value;
+
+    const data = await fetch(`${config.server}/action/login`, {
+      method: EMethod.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        username: config.currentUser,
+        password: password,
+      }),
+    });
+
+    return data.json();
   }
 }
 

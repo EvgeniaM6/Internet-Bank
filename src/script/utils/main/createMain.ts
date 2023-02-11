@@ -2,7 +2,7 @@ import { adminFetch } from '../../fetch/adminFetch';
 import { openWebSocket } from '../../fetch/webSocket';
 import pushState from '../../router/pushState';
 import { navigationAccount } from '../account/navigationAccount';
-import { navigationAdmin } from '../admin/navigationAdmin';
+//import { navigationAdmin } from '../admin/navigationAdmin';
 import { buildCard } from '../cardCreator/buildCard';
 import { listenCard } from '../cardCreator/listenCard';
 import { buildHeader } from './buildHeader';
@@ -59,7 +59,7 @@ class CreateMain {
 
   admin() {
     buildMain.admin();
-    navigationAdmin();
+    //navigationAdmin();
   }
 }
 

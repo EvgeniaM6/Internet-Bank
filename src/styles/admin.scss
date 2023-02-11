@@ -1,24 +1,45 @@
-.admin__list {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
+.admin-container {
   width: 100%;
-  height: 50px;
-  margin-bottom: 30px;
-  list-style: none;
+  padding: 20px;
+}
+
+.admin__title {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 36px;
+}
+
+.admin__information_bank {
+  margin-bottom: 25px;
+}
+
+.admin__information_title {
+  margin-bottom: 15px;
   font-size: 24px;
 }
 
-.admin__list-item {
-  cursor: pointer;
+.admin__information_detail {
+  margin-bottom: 10px;
+  padding-left: 15px;
 }
 
-.admin__list-item_active {
-  color: $third;
+.admin__users,
+.admin__user {
+  max-width: 768px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.users__info {
+.admin__users_buttons,
+.admin__user_buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.admin__user_info {
   padding-bottom: 10px;
+  text-align: left;
 }
 
 .blocked {
@@ -26,17 +47,27 @@
   width: 24px;
 }
 
-.users__table {
-  margin-bottom: 20px;
+.admin__user_operations-title {
+  margin-bottom: 15px;
 }
 
-.td-user {
+.admin__users_table,
+.admin__user_operations {
+  margin-bottom: 20px;
+  width: 768px;
+}
+
+.admin__users_user {
   cursor: pointer;
 }
 
 .user-cancel,
-.user-create {
-  width: 33%;
+.user-create,
+.admin__information_button,
+.admin__user_button-lock,
+.admin__user_button-remove,
+.admin__user_button-back {
+  width: 150px;
   height: 30px;
   border-radius: 15px;
   border-width: 0px;
@@ -44,4 +75,27 @@
   background-color: #d8c307;
   cursor: pointer;
   transition: 0.2s;
+}
+
+.admin__remove_question,
+.admin__remove,
+.admin__buttons {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+#rem-password {
+  width: 250px;
+  height: 25px;
+  border-radius: 6px;
+  border: 1px #d8c307 solid;
+}
+
+.admin__remove_button-submit,
+.admin__remove_button-cancel {
+  width: 100px;
+}
+
+.admin__remove_button-submit {
+  margin-right: 45px;
 }

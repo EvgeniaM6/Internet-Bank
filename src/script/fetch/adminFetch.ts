@@ -51,9 +51,9 @@ class AdminFetch extends Fetch {
       };
     }
     if (method === EMethod.DELETE) {
-      req.body = {
-        username,
-      };
+      req.body = JSON.stringify({
+        username: username,
+      });
     }
     const result: IMainRes | IUserInfo = await this.mainFetch(req, path, query);
     return result;

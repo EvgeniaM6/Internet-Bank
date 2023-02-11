@@ -1,3 +1,5 @@
+import config from '../../data/config';
+
 class BuildAuth {
   main() {
     const main = document.querySelector('.main-container');
@@ -11,6 +13,11 @@ class BuildAuth {
     main.innerHTML = `<div class="auth">
 		<h2 class="auth__h">Welcome to RS Bank!</h2>
 		<div class="auth__container"></div>`;
+
+    const auth = document.querySelector('.auth');
+    if (auth) {
+      if (config.theme === 'dark') auth.classList.add('auth-dark');
+    }
   }
   login() {
     const auth = document.querySelector('.auth__container');

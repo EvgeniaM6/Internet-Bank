@@ -5,9 +5,9 @@ export default {
   currentUser: '',
   currentEmail: '',
   userMoney: 0,
-  password: '',
   lang: 'en',
   page: '',
+  theme: 'light',
   regex: {
     username: '^[a-zA-Z0-9]+$',
     password: '^[a-zA-Z0-9]{8,20}$',

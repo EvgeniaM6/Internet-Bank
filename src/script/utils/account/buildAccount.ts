@@ -1,4 +1,6 @@
 import config from '../../data/config';
+import { EMethod } from '../../data/types';
+import { userFetch } from '../../fetch/userFetch';
 import { listenAccount } from './listenAccount';
 
 class BuildAccount {
@@ -6,45 +8,44 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<div id="account-edit">
-        <div id="edit__username-container">
-          <label for="user" class="edit__username-label">Username</label>
-          <input type="text" name="user" id="edit-user" class="edit__username-input" value="${config.currentUser}">
+    account.innerHTML = `<div id="account__edit">
+        <h2 class="account__edit_title">Edit login or password</h2>
+        <div id="account__edit_username">
+          <label for="user" class="account__edit_username-label">Login</label>
+          <input type="text" name="user" id="edit-user" class="account__edit_username-input" value="${config.currentUser}">
         </div>
-        <div id="edit__email-container">
-          <label for="email" class="edit__email-label">E-mail</label>
-          <input type="email" name="email" id="edit-email" class="edit__email-input" value="${config.currentEmail}">
+        <div id="account__edit_email">
+          <label for="email" class="account__edit_email-label">E-mail</label>
+          <input type="email" name="email" id="edit-email" class="account__edit_email-input" value="${config.currentEmail}">
         </div>
-        <div class="edit__button-container">
-          <button class="edit__button-submit account-submit">Submit</button>
-          <button class="edit__button-cancel account-cancel">Back</button>
+        <div id="account__edit_password">
+          <label for="password" class="account__edit_password-label">Password</label>
+          <input type="password" name="password" id="edit-password" class="account__edit_password-input">
         </div>
-        <p class="edit__notification"></p>
-      </div>`;
-  }
-
-  editPassword() {
-    const account = document.querySelector('.account-container');
-    if (!account) return;
-
-    account.innerHTML = `<div id="account-pass">
-      <div id="edit__oldpass-container">
-        <label for="oldpass" class="edit__oldpass-label">Old password</label>
-        <input type="password" name="oldpass" id="edit-oldpass" class="edit__oldpass-input">
+        <div class="account__buttons">
+          <button class="account__edit_button-submit button-submit">Submit</button>
+        </div>
+        <p class="account__notification"></p>
       </div>
-      <div id="edit__newpass-container">
-        <label for="newpass" class="edit__newpass-label">New password</label>
-        <input type="password" name="newpass" id="edit-newpass" class="edit__newpass-input">
+      <div id="account__password">
+      <h2 class="account__password_title">Change password</h2>
+      <div id="account__password_oldpassword">
+        <label for="oldpass" class="account__password_oldpassword-label">Old password</label>
+        <input type="password" name="oldpass" id="password-oldpass" class="account__password_oldpassword-input">
       </div>
-      <div id="edit__confirmpass-container">
-        <label for="confirmpass" class="edit__confirmpass-label">Confirm password</label>
-        <input type="password" name="confirmpass" id="edit-confirmpass" class="edit__confirmpass-input">
+      <div id="account__password_newpassword">
+        <label for="newpass" class="account__password_newpassword-label">New password</label>
+        <input type="password" name="newpass" id="password-newpass" class="account__password_newpassword-input">
       </div>
-      <div class="edit__button-container">
-        <button class="edit__button-submit password-submit">Submit</button>
-        <button class="edit__button-cancel password-cancel">Back</button>
+      <div id="account__password_confirmpassword">
+        <label for="confirmpass" class="account__password_confirmpassword-label">Confirm password</label>
+        <input type="password" name="confirmpass" id="password-confirmpass" class="account__password_confirmpassword-input">
       </div>
-      <p class="edit__notification"></p>
+      <div class="account__buttons">
+        <button class="account__password_button-submit button-submit">Submit</button>
+        <button class="account__password_button-cancel button-cancel">Back</button>
+      </div>
+      <p class="account__notification_password"></p>
       </div>`;
   }
 
@@ -52,10 +53,10 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="clarify__question">Do you really want to remove your account</p>
-      <div class="clarify__button-container">
-        <button class="clarify__button-submit clarify-submit">Remove</button>
-        <button class="clarify__button-cancel clarify-cancel">Back</button>
+    account.innerHTML = `<p class="account__clarify_question">Do you really want to remove your account</p>
+      <div class="account__buttons">
+        <button class="account__clarify_button-submit button-submit">Remove</button>
+        <button class="account__clarify_button-cancel button-cancel">Back</button>
       </div>`;
   }
 
@@ -63,76 +64,92 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="remove__question">Enter your password:</p>
-      <div class="edit__remove-container">
-        <input type="password" name="remove" id="edit-remove" class="edit__remove-input">
+    account.innerHTML = `<p class="account__remove_question">Enter your password:</p>
+      <div class="account__remove">
+        <input type="password" name="remove" id="remove-password" class="account__remove-input">
       </div>
-      <div class="remove__button-container">
-        <button class="remove__button-submit remove-submit">Remove</button>
-        <button class="remove__button-cancel remove-cancel">Cancel</button>
+      <div class="account__buttons">
+        <button class="account__remove_button-submit button-submit">Remove</button>
+        <button class="account__remove_button-cancel button-cancel">Cancel</button>
       </div>
-      <p class="edit__notification"></p>`;
+      <p class="account__notification"></p>`;
   }
 
   currency() {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="operations__title">Choose operation:</p>
-    <div class="operations">
-      <div class="operations-create"><span class="createC"></span>Create currency</div>
-      <div class="operations-delete"><span class="deleteC"></span>Delete currency</div>
+    account.innerHTML = `<p class="account__currency_title">Choose operation:</p>
+    <div class="account__currency_operations">
+      <div class="account__currency_operations-create"><span class="create-currency"></span>Create currency</div>
+      <div class="account__currency_operations-delete"><span class="delete-currency"></span>Delete currency</div>
     </div>
-    <div class="currency-container">
-      <div class="edit__button-container">
-        <button class="edit__button-cancel currency-cancel">Back</button>
+    <div class="account__currency">
+      <div class="account__buttons">
+        <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
-    </div>`;
+    </div>
+    <div class="account__currency_current"></div>`;
+
+    const currencyAccount = document.querySelector('.account__currency_current');
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      userFetch.user(EMethod.GET, token).then((rez) => {
+        if (rez.userConfig?.accounts) {
+          for (let i = 0; i < rez.userConfig.accounts.length; i++) {
+            const elem = document.createElement('p');
+            elem.innerHTML = `${rez.userConfig.accounts[i].currency}: ${rez.userConfig.accounts[i].money}`;
+            currencyAccount?.appendChild(elem);
+          }
+        }
+      });
+    }
   }
 
   createCurrency() {
-    const account = document.querySelector('.currency-container');
+    const account = document.querySelector('.account__currency');
     if (!account) return;
 
-    account.innerHTML = `<div id="account-createCurr">
-      <div id="edit__createcurrency-container">
-        <label class="edit__createcurrency-label">Choose currency</label>
+    account.innerHTML = `<div id="account__currency_create">
+      <div id="account__currency_create-container">
+        <label class="account__currency_create-label">Choose currency</label>
         
-        <select id="edit-createcurrency" class="edit__createcurrency-input">
+        <select id="account__currency_create-select" class="account__currency_create-input">
           <option value="EUR" selected>EUR</option>
           <option value="GBP">GBP</option>
           <option value="BYN">BYN</option>
           <option value="UAH">UAH</option>
         </select>
       </div>
-      <div class="edit__button-container">
-        <button class="edit__button-submit createcurrency-submit">Submit</button>
-        <button class="edit__button-cancel createcurrency-cancel">Back</button>
+      <div class="account__buttons">
+        <button class="account__currency_button-submit button-submit">Submit</button>
+        <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
-      <p class="edit__notification"></p>
+      <p class="account__notification"></p>
       </div>`;
   }
 
   deleteCurrency() {
-    const account = document.querySelector('.currency-container');
+    const account = document.querySelector('.account__currency');
     if (!account) return;
 
-    account.innerHTML = `<div id="account-deleteCurr">
-      <div id="edit__deletecurrency-container">
-        <label class="edit__deletecurrency-label">Choose currency</label>
+    account.innerHTML = `<div id="account__currency_delete">
+      <div id="account__currency_delete-container">
+        <label class="account__currency_delete-label">Choose currency</label>
           
-        <select id="edit-deletecurrency" class="edit__deletecurrency-input">
+        <select id="account__currency_delete-select" class="account__currency_delete-input">
           <option value="EUR" selected>EUR</option>
           <option value="GBP">GBP</option>
           <option value="BYN">BYN</option>
           <option value="UAH">UAH</option>
         </select>
       </div>
-      <div class="edit__button-container">
-        <button class="edit__button-submit deletecurrency-submit">Submit</button>
-        <button class="edit__button-cancel deletecurrency-cancel">Back</button>
+      <div class="account__buttons">
+        <button class="account__currency_button-submit button-submit">Submit</button>
+        <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
-      <p class="edit__notification"></p>
+      <p class="account__notification"></p>
       </div>`;
   }
 
@@ -153,26 +170,33 @@ class BuildAccount {
       const account = document.querySelector('.account-container');
       if (!account) return;
 
-      account.innerHTML = `<table class="operations__table">
-      <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
-      <tbody class="operations__tbody"></tbody>
+      account.innerHTML = `<table class="account__operations_table">
+      <thead><tr><th>#</th><th class="account__operations_date">date</th><th class="account__operations_opId">operationID</th><th  class="account__operations_money>money</th></tr></thead>
+      <tbody class="account__operations_tbody"></tbody>
       </table>
-      <div class="edit__button-container">
-        <button class="edit__button-cancel lastfive-cancel">Back</button>
+      <div class="account__buttons">
+        <button class="account__operations_button-cancel button-cancel">Back</button>
       </div>`;
 
-      const tbody = <Element>document.querySelector('.operations__tbody');
+      const tbody = <Element>document.querySelector('.account__operations_tbody');
 
       for (let i = 0; i < rez.userConfig.lastFive.length; i++) {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${i + 1}</td>
         <td>${rez.userConfig.lastFive[i].date.slice(0, 10)}</td>
         <td>${rez.userConfig.lastFive[i].operationID}</td>
-        <td>${rez.userConfig.lastFive[i].money.fixed(2)}</td>`;
+        <td>${rez.userConfig.lastFive[i].money.toFixed(2)}</td>`;
 
         tbody.appendChild(row);
       }
 
+      const td = document.querySelectorAll('td');
+      const th = document.querySelectorAll('th');
+
+      if (config.theme === 'dark') {
+        td.forEach((el) => el.classList.add('table-dark'));
+        th.forEach((el) => el.classList.add('table-dark'));
+      }
       listenAccount.showLastOperations();
     });
   }

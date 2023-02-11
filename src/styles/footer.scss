@@ -32,6 +32,16 @@
       }
     }
   }
+
+  &__authors-dark {
+    a{
+      color: $white;
+    }
+  }
+
+  &__logo-dark {
+    filter: invert(100%);
+  }
 }
 
 @media screen and (max-width: 900px) {

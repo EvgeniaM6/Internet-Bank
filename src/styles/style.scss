@@ -33,6 +33,7 @@ $third: #d8c307;
 @import './layouts/payments';
 @import './layouts/paymentsDetails';
 @import './layouts/modalPayment';
+@import './dark.scss';
 
 .invalid {
   border: 2px red solid

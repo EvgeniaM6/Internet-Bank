@@ -1,4 +1,7 @@
-import { EAccountLinks, EAdminLinks } from '../../data/types';
+import { EAccountLinks, EAdminLinks, EMethod } from '../../data/types';
+import { userFetch } from '../../fetch/userFetch';
+import { buildAdmin } from '../admin/buildAdmin';
+import { listenAdmin } from '../admin/listenAdmin';
 
 class BuildMain {
   about() {
@@ -85,15 +88,36 @@ class BuildMain {
 
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
-      <li class="account__list-item">${EAccountLinks.edit}</li>
-      <li class="account__list-item">${EAccountLinks.changePassword}</li>
-      <li class="account__list-item">${EAccountLinks.currency}</li>
-      <li class="account__list-item">${EAccountLinks.lastFive}</li>
-      <li class="account__list-item">${EAccountLinks.delete}</li>
+      <li class="account__list-item account__list-edit">${EAccountLinks.edit}</li>
+      <li class="account__list-item account__list-currency">${EAccountLinks.currency}</li>
+      <li class="account__list-item account__list-operations">${EAccountLinks.lastFive}</li>
+      <li class="account__list-item account__list-delete">${EAccountLinks.delete}</li>
     </ul>
     <div class="account-container">
-      <p>We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
+      <p class="account__description">We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
+      <h3 class="account__ttl">Your credit cards<h3>
+      <div class="account__cards"></div>
     </div>`;
+
+    const cards = document.querySelector('.account__cards');
+    const token = localStorage.getItem('token');
+
+    if (!cards || !token) return;
+
+    const data = userFetch.user(EMethod.GET, token);
+    console.log(data);
+    data.then((rez) => {
+      if (rez.userConfig?.cards) {
+        for (let i = 0; i < rez.userConfig?.cards.length; i++) {
+          const element = document.createElement('img');
+          element.classList.add('account__cards_card');
+          element.setAttribute('src', rez.userConfig?.cards[i]);
+          element.setAttribute('alt', 'card');
+
+          cards.appendChild(element);
+        }
+      }
+    });
   }
 
   admin() {
@@ -102,14 +126,19 @@ class BuildMain {
     if (!main || !admin) return;
 
     admin.classList.add('header__nav_active');
-    main.innerHTML = `<ul class="admin__list">
-      <li class="admin__list-item">${EAdminLinks.bankInfo}</li>
-      <li class="admin__list-item">${EAdminLinks.user}</li>
-      <li class="admin__list-item">Last operations</li>
-      <li class="admin__list-item">Delete account</li>
-    </ul>
-    <div class="admin-container">
+    main.innerHTML = `<div class="admin-container">
+      <h2 class="admin__title">Administration</h2>
+      <div class="admin__information_bank">
+        <h3 class="admin__information_title">Bank information</h3>
+        <p class="admin__information_detail">Bank account: <span class="admin__information_account"></span></p>
+        <p class="admin__information_detail">Money: <span class="admin__information_money"></span>$</p>
+      </div>
+      <h3 class="admin__information_title">To get information about users press button:</h3>
+      <button class="admin__information_button">List of users</button>
     </div>`;
+
+    buildAdmin.showBankInfo();
+    listenAdmin.showBankInfo();
   }
 }
 

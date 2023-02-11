@@ -47,6 +47,14 @@ export interface IUserConfig {
 // Check
 export interface IUser extends IUserConfig {
   lastFive: object[];
+  accounts: ICurrency[];
+  cards: string[];
+}
+
+export interface ICurrency {
+  currency: string;
+  money: number;
+  _id: string;
 }
 
 export interface IVerify extends IMainRes {
