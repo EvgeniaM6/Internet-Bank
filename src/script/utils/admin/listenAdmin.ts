@@ -2,6 +2,7 @@ import config from '../../data/config';
 import { EMethod } from '../../data/types';
 import { adminFetch } from '../../fetch/adminFetch';
 import { userFetch } from '../../fetch/userFetch';
+import { buildMain } from '../main/buildMain';
 import { buildAdmin } from './buildAdmin';
 
 class ListenAdmin {
@@ -16,8 +17,9 @@ class ListenAdmin {
   showUserList() {
     const users = document.querySelectorAll('.admin__users_user');
     const create = document.querySelector('.user-create');
+    const back = document.querySelector('.user-cancel');
 
-    if (!users || !create) return;
+    if (!users || !create || !back) return;
 
     users.forEach((user) => {
       user.addEventListener('click', async () => {
@@ -26,6 +28,7 @@ class ListenAdmin {
     });
 
     create.addEventListener('click', buildAdmin.newUser);
+    back.addEventListener('click', buildMain.admin);
   }
 
   lockUser(locked: boolean) {
@@ -98,8 +101,7 @@ class ListenAdmin {
     back.addEventListener('click', () => {
       buildAdmin.showUserList();
       this.showUserList();
-    })
-
+    });
 
     if (lockButton.textContent === 'Lock user') {
       this.lockUser(true);

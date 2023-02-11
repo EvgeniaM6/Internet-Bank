@@ -116,13 +116,6 @@ class BuildAdmin {
         th.forEach((el) => el.classList.add('table-dark'));
       }
 
-/*       const lockButton = document.querySelector('.user-lock');
-
-      if (!lockButton) return;
-      if (lockButton.textContent === 'Lock user') {
-        listenAdmin.lockUser(true);
-      } else listenAdmin.lockUser(false);
-*/
       listenAdmin.showUserData();
     });
   }
