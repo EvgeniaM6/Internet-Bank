@@ -76,3 +76,26 @@
   cursor: pointer;
   transition: 0.2s;
 }
+
+.admin__remove_question,
+.admin__remove,
+.admin__buttons {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+#rem-password {
+  width: 250px;
+  height: 25px;
+  border-radius: 6px;
+  border: 1px #d8c307 solid;
+}
+
+.admin__remove_button-submit,
+.admin__remove_button-cancel {
+  width: 100px;
+}
+
+.admin__remove_button-submit {
+  margin-right: 45px;
+}

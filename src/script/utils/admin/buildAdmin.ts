@@ -116,13 +116,13 @@ class BuildAdmin {
         th.forEach((el) => el.classList.add('table-dark'));
       }
 
-      const lockButton = document.querySelector('.user-lock');
+/*       const lockButton = document.querySelector('.user-lock');
 
       if (!lockButton) return;
       if (lockButton.textContent === 'Lock user') {
         listenAdmin.lockUser(true);
       } else listenAdmin.lockUser(false);
-
+*/
       listenAdmin.showUserData();
     });
   }
@@ -157,6 +157,21 @@ class BuildAdmin {
     admin.innerHTML = `<div class="auth__container"><div>`;
 
     buildAuth.registration();
+  }
+
+  deleteAccount() {
+    const account = document.querySelector('.account-container');
+    if (!account) return;
+
+    account.innerHTML = `<p class="admin__remove_question">To remove user enter your password:</p>
+      <div class="admin__remove">
+        <input type="password" name="remove" id="rem-password" class="admin__remove-input">
+      </div>
+      <div class="admin__buttons">
+        <button class="button-submit admin__remove_button-submit">Remove</button>
+        <button class="button-cancel admin__remove_button-cancel">Cancel</button>
+      </div>
+      <p class="admin__notification"></p>`;
   }
 }
 
