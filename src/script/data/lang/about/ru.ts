@@ -23,7 +23,8 @@ export default {
   'about__authors-h': 'Авторы',
   egor: 'Егор Литавор',
   'egor-resp': 'Back-end, Authorization, Statistics, Stocks, Routing',
-  'egor-text': '23 года, Минск. Есть диплом авиадиспетчера. Любит работать над интересными и сложными проектами. Студент RS School с весны 2022 года.',
+  'egor-text':
+    '23 года, Минск. Есть диплом авиадиспетчера. Любит работать над интересными и сложными проектами. Студент RS School с весны 2022 года.',
   andrei: 'Andrei Shamanouski',
   'andrei-resp': 'User Panel, Admin Panel, Day/Night Mode',
   'andrei-text': '',

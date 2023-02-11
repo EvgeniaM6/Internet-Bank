@@ -2,6 +2,7 @@ export default {
   modalInfoMessage: 'Ваш платеж подтвержден',
   errorPayByCardMessage: 'Упс! Что-то пошло не так',
   errorNotEnoughMoney: 'Упс! Недостаточно денег!',
+  errorNoUser: 'Упс! Пользователь не найден!',
   cardInputTitle: 'введите 16 цифр',
   cvvInputTitle: 'введите 3 цифры',
   'btn--col-3': 'Подтвердить',

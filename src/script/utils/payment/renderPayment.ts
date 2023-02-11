@@ -1,13 +1,22 @@
 import config from '../../data/config';
-import { INDEX_START_SERVICES } from '../../data/constants';
+import {
+  ID_COMMISSION_SERVICE,
+  ID_CURRENCY_REFILL_SERVICE,
+  ID_CURRENCY_SELL_SERVICE,
+  ID_STOCKS_BUY_SERVICE,
+  ID_STOCKS_SELL_SERVICE,
+  INDEX_START_BANK_SERVICES,
+  INDEX_START_SERVICES,
+} from '../../data/constants/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
-import { EPages, IMainRes } from '../../data/types';
+import { IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
 import en from '../../data/lang/payment/en';
 import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
+import { load } from '../load';
 
 class RenderPayment {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -21,20 +30,29 @@ class RenderPayment {
   };
 
   renderPaymentsPage(): void {
-    this.main.innerHTML = '';
-    this.main.className = 'container main-container';
-    window.scrollTo(0, 0);
-    const paymentPage = createElem('div', 'main__payment-page', this.main);
-    const filtersContainer = createElem('div', 'filters', paymentPage);
-
-    paymentPage.append(this.operationsContainer);
+    load(this.main);
 
     userFetch.services().then((response: IMainRes) => {
+      this.main.innerHTML = '';
+      this.main.className = 'container main-container';
+      window.scrollTo(0, 0);
+      const paymentPage = createElem('div', 'main__payment-page', this.main);
+      const filtersContainer = createElem('div', 'filters', paymentPage);
+
+      paymentPage.append(this.operationsContainer);
+
       const operationsObj = (response as IServices).operations as IServiceObj;
       this.elemsForUpdatingText = {};
 
       Object.keys(operationsObj).forEach((operationId) => {
-        if (+operationId < INDEX_START_SERVICES) return;
+        const isAnonim =
+          !this.getCurrentToken() && +operationId > INDEX_START_BANK_SERVICES && +operationId < INDEX_START_SERVICES;
+        const isCurrencyDuplucateService =
+          +operationId === ID_CURRENCY_REFILL_SERVICE || +operationId === ID_CURRENCY_SELL_SERVICE;
+        const isCommissionService = +operationId === ID_COMMISSION_SERVICE;
+        const isStockService = +operationId === ID_STOCKS_BUY_SERVICE || +operationId === ID_STOCKS_SELL_SERVICE;
+        if (isAnonim || isCurrencyDuplucateService || isCommissionService || isStockService) return;
+
         this.operationsResp[operationId] = operationsObj[operationId];
       });
 
@@ -97,7 +115,6 @@ class RenderPayment {
 
     const filterElem = createElem('div', 'filter');
     const filterForm = createElem('form', 'filter__form', filterElem) as HTMLFormElement;
-    filterForm.name = filterType;
 
     createElem('div', 'filter__title', filterForm, this.langs[config.lang].filter__title);
     const filterList = createElem('div', 'filter__list', filterForm);
@@ -105,7 +122,7 @@ class RenderPayment {
     const filterAllItemElem = createElem('div', 'filter__item', filterList);
 
     const inputAllOperationsElem = createElem('input', 'filter__input', filterAllItemElem) as HTMLInputElement;
-    inputAllOperationsElem.id = 'all';
+    inputAllOperationsElem.id = inputAllOperationsElem.value = 'all';
     inputAllOperationsElem.name = filterType;
     inputAllOperationsElem.type = 'radio';
     inputAllOperationsElem.checked = this.selectedCategoryFilter === 'all';
@@ -122,7 +139,8 @@ class RenderPayment {
       const filterItemElem = this.createFilterItemElem(filterType, filterValue);
       filterList.append(filterItemElem);
     });
-    filterForm.addEventListener('change', (e) => this.filterOperations(e));
+
+    filterForm.addEventListener('change', () => this.filterOperations(filterForm));
 
     container.append(filterElem);
   }
@@ -144,16 +162,16 @@ class RenderPayment {
   createFilterItemElem(filterType: string, filterValue: string): HTMLElement {
     const filterItemElem = createElem('div', 'filter__item');
     const key = `${filterType.toLowerCase()}_${filterValue.toLowerCase().replace(/ /g, '*')}`;
+    filterValue = `${filterValue}`;
 
     const inputElem = createElem('input', 'filter__input', filterItemElem) as HTMLInputElement;
-    inputElem.id = filterValue.toLowerCase();
     inputElem.name = filterType.toLowerCase();
     inputElem.type = 'radio';
-    inputElem.checked = this.selectedCategoryFilter === filterValue.toLowerCase();
+    inputElem.checked = this.selectedCategoryFilter.toLowerCase() === filterValue.toLowerCase();
     this.elemsForUpdatingText[`radio_${key}`] = inputElem;
 
     const label = createElem('label', 'filter__label', filterItemElem) as HTMLLabelElement;
-    label.htmlFor = filterValue.toLowerCase();
+    inputElem.id = inputElem.value = label.htmlFor = `${filterValue.toLowerCase()}`;
 
     createElem('span', 'filter__label-title', label, filterValue);
     createElem('span', 'filter__label-numbers', label, `(${this.countFilterValues(filterValue)})`);
@@ -178,22 +196,20 @@ class RenderPayment {
     return valuesAmount;
   }
 
-  filterOperations(event: Event): void {
-    event.stopPropagation();
-    const filterValue = (event.target as HTMLInputElement).id;
+  filterOperations(filterForm: HTMLFormElement): void {
+    const filterValue = filterForm.category.value;
     this.selectedCategoryFilter = filterValue;
 
     transition(this.operationsContainer, this.updatePaymentCards.bind(this));
-    // this.updatePaymentCards();
   }
 
   updatePaymentCards(): void {
     this.operationsContainer.innerHTML = '';
 
     const filteredOperationsIdArr = Object.keys(this.operationsResp).filter((operationId) => {
-      return this.selectedCategoryFilter === 'all'
-        ? true
-        : this.operationsResp[operationId].category.toLowerCase() === this.selectedCategoryFilter.toLowerCase();
+      const categInResp = this.operationsResp[operationId].category.toLowerCase();
+
+      return this.selectedCategoryFilter === 'all' ? true : categInResp === this.selectedCategoryFilter.toLowerCase();
     });
 
     filteredOperationsIdArr.forEach((operationId) => {
@@ -201,6 +217,11 @@ class RenderPayment {
     });
 
     this.updatePaymentCardsText();
+  }
+
+  getCurrentToken(): string {
+    const token = localStorage.getItem('token') || '';
+    return token;
   }
 }
 

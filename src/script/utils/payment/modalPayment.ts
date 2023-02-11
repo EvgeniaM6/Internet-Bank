@@ -6,15 +6,27 @@ import visaCard from '../../../assets/img/payment-system/visa.png';
 import mastercardCard from '../../../assets/img/payment-system/mastercard.png';
 import en from '../../data/lang/modalPaym/en';
 import ru from '../../data/lang/modalPaym/ru';
-import { TElemsForUpdateText, TLang } from '../../data/servicesType';
+import { TElemsForUpdateText, TLang, TPaymentDetails } from '../../data/servicesType';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import config from '../../data/config';
 import { validate } from '../validate';
-import { COMMISSION_AMOUNT } from '../../data/constants';
+import {
+  COMMISSION_AMOUNT,
+  COMMISSION_EXCHANGE_AMOUNT,
+  ID_CURRENCY_COMMON_EXCHANGE,
+  ID_CURRENCY_REFILL_SERVICE,
+  ID_CURRENCY_SELL_SERVICE,
+  ID_REFILL_SERVICE,
+  ID_REMOVE_SERVICE,
+  ID_TRANSFER_SERVICE,
+  INDEX_START_BANK_SERVICES,
+} from '../../data/constants/constants';
 import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
-import { EOperation, IMainRes } from '../../data/types';
+import { EMethod, EOperation, IMainRes } from '../../data/types';
+import { MAIN_CURRENCY } from '../../data/constants/currency';
+import { userFetch } from '../../fetch/userFetch';
 
 class ModalPayment {
   value?: string;
@@ -26,7 +38,7 @@ class ModalPayment {
   };
   emailInputs: TElemsForUpdateText = {};
 
-  renderModalPayment(paymentSum: number, operationId: number, isAnonim: boolean, isNotCard: boolean): void {
+  renderModalPayment(paymentDetails: TPaymentDetails, isAnonim: boolean, isNotCard: boolean): void {
     const popup = createElem('div', 'popup', document.body);
     popup.addEventListener('click', (e) => this.closePopUp(e));
 
@@ -55,19 +67,37 @@ class ModalPayment {
     this.btnConfirm = btnConfirm;
     this.checkInputsValidity(form);
 
-    form.addEventListener('submit', (e) => {
-      this.confirmPayment(e, operationId, isAnonim, popup, !!isNotCard, paymentSum);
-    });
+    const isAnonimExchange = paymentDetails.operationId === INDEX_START_BANK_SERVICES;
+    const isClientExchange = paymentDetails.operationId === ID_CURRENCY_COMMON_EXCHANGE;
+    const isRefill = paymentDetails.operationId === ID_REFILL_SERVICE;
+    const isRemove = paymentDetails.operationId === ID_REMOVE_SERVICE;
+    const isTransfer = paymentDetails.operationId === ID_TRANSFER_SERVICE;
+    if (isAnonimExchange || isClientExchange) {
+      form.onsubmit = (e) => {
+        this.currencyExchange(e, paymentDetails, popup);
+      };
+    } else if (isRefill || isRemove) {
+      form.onsubmit = (e) => {
+        this.changeMainAcc(e, paymentDetails, popup);
+      };
+    } else if (isTransfer) {
+      form.onsubmit = (e) => {
+        this.transerMoney(e, paymentDetails, popup);
+      };
+    } else {
+      form.onsubmit = (e) => {
+        this.confirmPayment(e, paymentDetails, isAnonim, popup, !!isNotCard);
+      };
+    }
     form.addEventListener('input', (e) => this.checkForm(e));
 
     this.renderEmailInput(form, isAnonim);
 
-    console.log('isAnonim=', isAnonim, 'config.currentEmail=', config.currentEmail);
-
     if (isAnonim) {
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
-      createElem('span', 'commis__sum', commissionBlock, `${COMMISSION_AMOUNT}`);
+      const isExchange = isAnonimExchange ? `${COMMISSION_EXCHANGE_AMOUNT}` : `${COMMISSION_AMOUNT}`;
+      createElem('span', 'commis__sum', commissionBlock, isExchange);
       createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
       popupContent.prepend(commissionBlock);
     }
@@ -82,50 +112,51 @@ class ModalPayment {
 
   confirmPayment(
     e: Event,
-    operationId: number,
+    paymentDetails: TPaymentDetails,
     isAnonim: boolean,
     popup: HTMLElement,
-    isNotCard: boolean,
-    paymentSum: number
+    isNotCard: boolean
   ): void {
     e.preventDefault();
     if (!this.canPay) return;
 
-    const popupContent = popup.querySelector('.popup__content') as HTMLElement;
-    popupContent.classList.add('loading');
-    popupContent.style.height = `${popupContent.offsetHeight}px`;
-    load(popupContent);
+    this.startLoadingModalPayment(popup);
 
     const cardNumberElem = this.emailInputs['card-number'] as HTMLInputElement;
     const cardNumber = cardNumberElem ? cardNumberElem.value : '';
 
+    const { operationId, operationSum } = paymentDetails;
+
     if (isAnonim) {
       moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
-        console.log('tryPayByCard=', payCardResp.success);
+        console.log('tryPayByCard=', payCardResp);
         if (!payCardResp.success) {
           this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-        } else {
-          moneyFetch.commission(COMMISSION_AMOUNT, operationId).then((resp) => {
-            console.log('commission=', resp.success);
-            this.checkRespose(resp, popup, paymentSum, operationId);
-          });
+          return;
         }
-      });
-    } else {
-      if (isNotCard) {
-        const token = this.getCurrentToken();
 
-        moneyFetch.changeMainMoney(paymentSum, EOperation.REMOVE, token, operationId).then((resp) => {
-          console.log('changeMainMoney=', resp.success);
-          this.checkRespose(resp, popup, paymentSum, operationId);
+        moneyFetch.commission(operationSum, operationId).then((resp) => {
+          console.log('commission=', resp);
+          this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
         });
-      } else {
-        moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
-          console.log('tryPayByCard=', payCardResp.success);
-          this.checkRespose(payCardResp, popup, paymentSum, operationId);
-        });
-      }
+      });
+      return;
     }
+
+    if (isNotCard) {
+      const token = this.getCurrentToken();
+
+      moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
+        console.log('changeMainMoney=', resp);
+        this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
+      });
+      return;
+    }
+
+    moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
+      console.log('tryPayByCard=', payCardResp);
+      this.checkResponseForEmailSending(payCardResp, popup, operationSum, operationId);
+    });
   }
 
   checkForm(e: Event): void {
@@ -235,8 +266,8 @@ class ModalPayment {
       emailInput.value = config.currentEmail;
     }
 
-    needEmailCheckbox.addEventListener('input', (e) =>
-      this.checkNeedEmailInput(e.target as HTMLInputElement, emailInput)
+    needEmailCheckbox.addEventListener('input', () =>
+      this.checkNeedEmailInput(needEmailCheckbox as HTMLInputElement, emailInput)
     );
 
     popupContent?.prepend(personalDetails);
@@ -308,7 +339,7 @@ class ModalPayment {
     popup.remove();
 
     listenHeader.updateInfo().then(() => {
-      const main = document.querySelector('.main-container') as HTMLElement;
+      const main = document.querySelector('.main') as HTMLElement;
 
       setTimeout(() => {
         popupMessage.remove();
@@ -317,14 +348,18 @@ class ModalPayment {
     });
   }
 
-  checkRespose(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number, respMess?: string): void {
-    let message = resp.success
-      ? this.langs[config.lang].modalInfoMessage
-      : this.langs[config.lang].errorPayByCardMessage;
+  checkResponseForEmailSending(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number): void {
+    const currLang = this.langs[config.lang];
+    let message = resp.success ? currLang.modalInfoMessage : currLang.errorPayByCardMessage;
+    const respMess = resp.message;
 
     if (!resp.success || !(this.emailInputs['checkbox-input'] as HTMLInputElement)?.checked) {
-      if (respMess === 'No enough money!') {
-        message = this.langs[config.lang].errorNotEnoughMoney;
+      if (
+        respMess === 'No enough money!' ||
+        respMess === 'Error! Not enough money' ||
+        respMess === 'Not enough money'
+      ) {
+        message = currLang.errorNotEnoughMoney;
       }
 
       this.modalInfoMessage(message, popup);
@@ -333,12 +368,160 @@ class ModalPayment {
       console.log('anonimEmail=', anonimEmail);
 
       moneyFetch.sendCheckToEmail(paymentSum, operationId, anonimEmail).then((emailResp) => {
-        console.log('sendCheckToEmail=', emailResp.success);
-        message = emailResp ? this.langs[config.lang].modalInfoMessage : this.langs[config.lang].errorPayByCardMessage;
+        console.log('sendCheckToEmail=', emailResp);
+        message = emailResp ? currLang.modalInfoMessage : currLang.errorPayByCardMessage;
 
         this.modalInfoMessage(message, popup);
       });
     }
+  }
+
+  startLoadingModalPayment(popup: HTMLElement): void {
+    const popupContent = popup.querySelector('.popup__content') as HTMLElement;
+    popupContent.classList.add('loading');
+    popupContent.style.height = `${popupContent.offsetHeight}px`;
+    load(popupContent);
+  }
+
+  currencyExchange(e: Event, paymentDetails: TPaymentDetails, popup: HTMLElement): void {
+    e.preventDefault();
+    if (!this.canPay) return;
+
+    const token = localStorage.getItem('token');
+    const isAnonim = !token;
+
+    const { operationSum, currFrom, currTo } = paymentDetails;
+    if (!currTo) return;
+
+    let operationId: number;
+    if (!currFrom) {
+      operationId = INDEX_START_BANK_SERVICES;
+    } else if (currFrom === MAIN_CURRENCY) {
+      operationId = ID_CURRENCY_REFILL_SERVICE;
+    } else if (currTo === MAIN_CURRENCY) {
+      operationId = ID_CURRENCY_SELL_SERVICE;
+    } else {
+      operationId = ID_CURRENCY_COMMON_EXCHANGE;
+    }
+
+    const cardNumberElem = this.emailInputs['card-number'] as HTMLInputElement;
+    const cardNumber = cardNumberElem ? cardNumberElem.value : '';
+
+    this.startLoadingModalPayment(popup);
+
+    switch (operationId) {
+      case INDEX_START_BANK_SERVICES:
+        moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
+          console.log('tryPayByCard=', payCardResp);
+          if (!payCardResp.success) {
+            this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+            return;
+          }
+
+          moneyFetch.anonimExchange(operationSum, currTo, isAnonim).then((resp) => {
+            console.log('anonimExchange=', resp);
+            this.checkResponse(resp, popup, operationSum, operationId);
+          });
+        });
+        break;
+      case ID_CURRENCY_COMMON_EXCHANGE:
+        if (!currFrom || !token) return;
+        moneyFetch.clientExchange(operationSum, currFrom, currTo, token).then((resp) => {
+          console.log('clientExchange=', resp);
+          this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
+        });
+        break;
+      case ID_CURRENCY_REFILL_SERVICE:
+        if (!token) return;
+        moneyFetch
+          .moneyAccount(EMethod.PUT, config.currentUser, currTo, token, operationSum, EOperation.ADD)
+          .then((resp) => {
+            if (!resp) return;
+            console.log('moneyAccount ADD=', resp);
+            this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
+          });
+        break;
+      case ID_CURRENCY_SELL_SERVICE:
+        if (!currFrom || !token) return;
+        moneyFetch
+          .moneyAccount(EMethod.PUT, config.currentUser, currFrom, token, operationSum, EOperation.REMOVE)
+          .then((resp) => {
+            if (!resp) return;
+            console.log('moneyAccount REMOVE=', resp);
+            this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
+          });
+        break;
+    }
+  }
+
+  changeMainAcc(e: Event, paymentDetails: TPaymentDetails, popup: HTMLElement): void {
+    e.preventDefault();
+    if (!this.canPay) return;
+
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    this.startLoadingModalPayment(popup);
+
+    const { operationId, operationSum } = paymentDetails;
+
+    const cardNumberElem = this.emailInputs['card-number'] as HTMLInputElement;
+    const cardNumber = cardNumberElem ? cardNumberElem.value : '';
+
+    if (operationId === ID_REFILL_SERVICE) {
+      moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
+        console.log('tryPayByCard=', payCardResp);
+        if (!payCardResp.success) {
+          this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+          return;
+        }
+
+        moneyFetch.changeMainMoney(operationSum, EOperation.ADD, token, operationId).then((resp) => {
+          console.log('changeMainMoney=', resp);
+          this.checkResponse(resp, popup, operationSum, operationId);
+        });
+      });
+    } else {
+      moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
+        console.log('changeMainMoney=', resp);
+        this.checkResponse(resp, popup, operationSum, operationId);
+      });
+    }
+  }
+
+  transerMoney(e: Event, paymentDetails: TPaymentDetails, popup: HTMLElement): void {
+    e.preventDefault();
+    if (!this.canPay) return;
+
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const { userTo, operationSum, operationId } = paymentDetails;
+    if (!userTo) return;
+
+    this.startLoadingModalPayment(popup);
+
+    userFetch.isOurUser(userTo).then((resp) => {
+      console.log('isOurUser=', resp);
+      if (!resp.success) {
+        this.modalInfoMessage(this.langs[config.lang].errorNoUser, popup);
+        return;
+      }
+
+      moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
+        console.log('transfer=', resp);
+        this.checkResponse(resp, popup, operationSum, operationId);
+      });
+    });
+  }
+
+  checkResponse(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number): void {
+    if (!resp.success) {
+      this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+      return;
+    }
+
+    this.checkResponseForEmailSending(resp, popup, paymentSum, operationId);
   }
 }
 

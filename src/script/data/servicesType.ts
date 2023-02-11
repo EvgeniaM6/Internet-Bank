@@ -20,14 +20,18 @@ export type TElemsForUpdateText = {
 };
 
 export type TOperationInputData = {
-  [key: string]: TInputData;
+  [key: string]: TInputData[];
 };
 
-type TInputData = {
-  regex: string;
+export type TInputData = {
+  name: string;
+  inputType: string;
+  optionDefalt?: TTextByLang;
+  regex?: string;
   placeholder: string;
   hint: TTextByLang;
   labelText: TTextByLang;
+  maxLeng?: number;
 };
 
 type TTextByLang = {
@@ -40,4 +44,17 @@ type TTexts = {
 
 export type TLang = {
   [key: string]: TTexts;
+};
+
+export type TAccOptions = {
+  name: TTextByLang;
+  isDisabled: boolean;
+};
+
+export type TPaymentDetails = {
+  userTo?: string;
+  operationId: number;
+  operationSum: number;
+  currFrom?: string;
+  currTo?: string;
 };

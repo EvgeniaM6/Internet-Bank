@@ -84,8 +84,9 @@ class MoneyFetch extends Fetch {
     return result;
   }
 
-  async anonimExchange(money: number, currencyOne: string) {
+  async anonimExchange(money: number, currencyOne: string, isClient?: boolean) {
     const path = '/money/exchange';
+    const query = isClient ? '?client=true' : '';
     const req = {
       method: 'POST',
       headers: {
@@ -96,7 +97,7 @@ class MoneyFetch extends Fetch {
         currencyOne,
       }),
     };
-    const result: IMainRes = await this.mainFetch(req, path);
+    const result: IMainRes = await this.mainFetch(req, path, query);
     return result;
   }
 

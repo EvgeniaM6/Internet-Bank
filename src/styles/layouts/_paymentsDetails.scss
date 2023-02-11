@@ -68,10 +68,25 @@
       display: flex;
       flex-direction: column;
       margin-bottom: 20px;
+      position: relative;
+
     }
   }
 
-  &__commission {
+  &__currency {
+    position: absolute;
+    top: 31px;
+    left: 220px;
+    width: 22px;
+    height: 22px;
+    background: url(../assets/img/icons/dollar.svg) 50% 0%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &__commission,
+  &__commission-exch {
     margin-bottom: 20px;
   }
 
@@ -80,15 +95,19 @@
     &__label {
       margin-bottom: 5px;
     }
-  
+
     &__input {
       padding: 6px 12px;
       border: solid 2px $third;
       border-radius: 8px;
       font-size: 18px;
       width: 250px;
+
+      &.invalid {
+        border: solid 2px $color-input-invalid;
+      }
     }
-  
+
     &__btn.btn-colored,
     &__btn-card.btn-colored {
       width: 250px;
@@ -105,22 +124,6 @@
         &:hover {
           opacity: 1;
         }
-      }
-    }
-
-    .form-sum {
-      position: relative;
-
-      &__currency {
-        position: absolute;
-        top: 31px;
-        left: 220px;
-        width: 22px;
-        height: 22px;
-        background: url(../assets/img/icons/dollar.svg) 50% 0%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
       }
     }
   }
