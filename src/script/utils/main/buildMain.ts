@@ -88,13 +88,13 @@ class BuildMain {
 
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
-      <li class="account__list-item">${EAccountLinks.edit}</li>
-      <li class="account__list-item">${EAccountLinks.currency}</li>
-      <li class="account__list-item">${EAccountLinks.lastFive}</li>
-      <li class="account__list-item">${EAccountLinks.delete}</li>
+      <li class="account__list-item account__list-edit">${EAccountLinks.edit}</li>
+      <li class="account__list-item account__list-currency">${EAccountLinks.currency}</li>
+      <li class="account__list-item account__list-operations">${EAccountLinks.lastFive}</li>
+      <li class="account__list-item account__list-delete">${EAccountLinks.delete}</li>
     </ul>
     <div class="account-container">
-      <p>We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
+      <p class="account__description">We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
       <h3 class="account__ttl">Your credit cards<h3>
       <div class="account__cards"></div>
     </div>`;
