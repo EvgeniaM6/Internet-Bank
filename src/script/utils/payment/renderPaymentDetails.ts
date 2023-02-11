@@ -1,5 +1,13 @@
 import config from '../../data/config';
-import { INDEX_START_SERVICES, operationInputData } from '../../data/constants/constants';
+import {
+  ID_CURRENCY_COMMON_EXCHANGE,
+  ID_REFILL_SERVICE,
+  ID_REMOVE_SERVICE,
+  ID_TRANSFER_SERVICE,
+  INDEX_START_BANK_SERVICES,
+  INDEX_START_SERVICES,
+  OPERATION_INPUT_DATA,
+} from '../../data/constants/constants';
 import { TElemsForUpdateText, TInputData, TLang, TPaymentDetails, TServiceDetails } from '../../data/servicesType';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
@@ -10,6 +18,7 @@ import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
+import { FOREIGN_CURRENCY, MAIN_CURRENCY } from '../../data/constants/currency';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -64,40 +73,36 @@ class RenderPaymentDetails {
   }
 
   renderCommonService(operationId: number, operationContainer: HTMLElement): void {
-    const payDetails = createElem('div', 'operation__details') as HTMLFormElement;
+    const payDetails = createElem('div', 'operation__details');
     const payForm = createElem('form', 'operation__form form-paym', payDetails) as HTMLFormElement;
-    payForm.name = `service`;
+    payForm.name = `${operationId}`;
 
     this.renderInput('sum', payForm);
     this.renderInput(`${operationId}`, payForm);
 
+    const currLang = this.langs[config.lang];
+
     if (!this.getCurrentToken()) {
-      createElem(
-        'div',
-        'operation__commission',
-        payDetails,
-        this.langs[config.lang].operation__commission
-      ) as HTMLFormElement;
-    } else {
-      const btnPay = createElem(
-        'button',
-        'form-paym__btn btn-colored unable',
-        payDetails,
-        this.langs[config.lang]['form-paym__btn']
-      );
+      const isCommissExchange = operationId === INDEX_START_BANK_SERVICES;
+      const commissionClassName = isCommissExchange ? 'operation__commission-exch' : 'operation__commission';
+      const comissionText = currLang[commissionClassName];
+
+      createElem('div', commissionClassName, payDetails, comissionText);
+    } else if (operationId !== INDEX_START_BANK_SERVICES && operationId !== ID_REFILL_SERVICE) {
+      const btnPay = createElem('button', 'form-paym__btn btn-colored unable', payDetails, currLang['form-paym__btn']);
       this.elemsForUpdatingText.btnPay = btnPay;
-      btnPay.addEventListener('click', (e) => this.pay(e, payForm, operationId));
+      btnPay.onclick = (e) => this.pay(e, payForm, operationId);
     }
 
-    if (operationId !== 2) {
-      const btnPayByCard = createElem(
-        'button',
-        'form-paym__btn-card btn-colored unable',
-        payDetails,
-        this.langs[config.lang][`form-paym__btn-card`]
-      );
+    if (
+      operationId !== ID_CURRENCY_COMMON_EXCHANGE &&
+      operationId !== ID_REMOVE_SERVICE &&
+      operationId !== ID_TRANSFER_SERVICE
+    ) {
+      const btnText = currLang[`form-paym__btn-card`];
+      const btnPayByCard = createElem('button', 'form-paym__btn-card btn-colored unable', payDetails, btnText);
       this.elemsForUpdatingText.btnPayCard = btnPayByCard;
-      btnPayByCard.addEventListener('click', (e) => this.payByCard(e, payForm, operationId));
+      btnPayByCard.onclick = (e) => this.payByCard(e, payForm, operationId);
     }
 
     operationContainer.append(payDetails);
@@ -106,21 +111,30 @@ class RenderPaymentDetails {
   pay(e: Event, payForm: HTMLFormElement, operationId: number): void {
     e.preventDefault();
     if (!this.canPay) return;
-    const sumInput = Array.from(payForm.elements).find((elem) => elem.id.split('_')[0] === 'sum');
+    const formElemsArr = Array.from(payForm.elements);
+    const sumInput = formElemsArr.find((elem) => elem.id.split('_')[0] === 'sum');
     const operationSum = +(sumInput as HTMLInputElement).value;
     const paymentDetails: TPaymentDetails = { operationSum, operationId };
 
+    this.saveSelectElemsToDetails(paymentDetails, formElemsArr);
+
+    const userNameInput = formElemsArr.find((elem) => (elem as HTMLInputElement).name === 'user');
+    if (userNameInput) {
+      paymentDetails.userTo = (userNameInput as HTMLInputElement).value;
+    }
     this.renderAnonimPayment(paymentDetails, false, true);
   }
 
   payByCard(e: Event, payForm: HTMLFormElement, operationId: number): void {
     e.preventDefault();
     if (!this.canPay) return;
-    const sumInput = Array.from(payForm.elements).find((elem) => elem.id.split('_')[0] === 'sum');
+    const formElemsArr = Array.from(payForm.elements);
+    const sumInput = formElemsArr.find((elem) => elem.id.split('_')[0] === 'sum');
     const operationSum = +(sumInput as HTMLInputElement).value;
     const isAnonim = !this.getCurrentToken();
     const paymentDetails: TPaymentDetails = { operationSum, operationId };
 
+    this.saveSelectElemsToDetails(paymentDetails, formElemsArr);
     this.renderAnonimPayment(paymentDetails, isAnonim);
   }
 
@@ -135,9 +149,13 @@ class RenderPaymentDetails {
           inputEl.classList.add('invalid');
         }
         return false;
-      } else if (+inputId[0] === 2) {
+      } else if ((+inputId[0] === 1 || +inputId[0] === 2) && inputEl instanceof HTMLSelectElement) {
         return !!(inputEl as HTMLSelectElement).selectedIndex;
       } else {
+        if (+inputId[0] === 1 && (inputEl as HTMLInputElement).name === 'card') {
+          modalPayment.maskCardNumber.call(inputEl);
+        }
+
         const inputPattern = (inputEl as HTMLInputElement).pattern;
         if (!inputPattern) return true;
 
@@ -153,36 +171,34 @@ class RenderPaymentDetails {
       this.checkOptions(selectElemsArr as HTMLSelectElement[]);
     }
 
-    const buttonPay = this.elemsForUpdatingText.btnPay;
+    const btnsArr = [];
     const buttonPayCard = this.elemsForUpdatingText.btnPayCard;
-    if (!buttonPayCard) return;
-
-    if (this.canPay) {
-      buttonPayCard.classList.remove('unable');
-      if (buttonPay) {
-        buttonPay.classList.remove('unable');
-      }
-    } else {
-      if (!buttonPayCard.classList.contains('unable')) {
-        buttonPayCard.classList.add('unable');
-      }
-
-      if (buttonPay) {
-        if (!buttonPay.classList.contains('unable')) {
-          buttonPay.classList.add('unable');
-        }
-      }
+    if (buttonPayCard) {
+      btnsArr.push(buttonPayCard);
     }
+    const buttonPay = this.elemsForUpdatingText.btnPay;
+    if (buttonPay) {
+      btnsArr.push(buttonPay);
+    }
+
+    btnsArr.forEach((btnElem) => {
+      if (this.canPay) {
+        btnElem.classList.remove('unable');
+      } else {
+        if (btnElem.classList.contains('unable')) return;
+        btnElem.classList.add('unable');
+      }
+    });
   }
 
   updatePaymentText(): void {
     if (!this.currentOperationData) return;
 
     Object.keys(this.elemsForUpdatingText).forEach((key) => {
-      const keysArr = key.split('_');
+      const [elemType, operationId, inputIdx] = key.split('_');
       const elem = this.elemsForUpdatingText[key];
 
-      switch (keysArr[0]) {
+      switch (elemType) {
         case 'title':
           {
             const keyForText = config.lang === 'en' ? 'name' : 'ruName';
@@ -191,14 +207,14 @@ class RenderPaymentDetails {
           break;
         case 'input':
           {
-            if (+keysArr[1] >= 14) {
-              elem.title = operationInputData[keysArr[1]][+keysArr[2]].hint[config.lang];
+            if (+operationId >= INDEX_START_SERVICES) {
+              elem.title = OPERATION_INPUT_DATA[operationId][+inputIdx].hint[config.lang];
             }
           }
           break;
         case 'label':
           {
-            elem.textContent = operationInputData[keysArr[1]][+keysArr[2]].labelText[config.lang];
+            elem.textContent = OPERATION_INPUT_DATA[operationId][+inputIdx].labelText[config.lang];
           }
           break;
         default:
@@ -221,13 +237,12 @@ class RenderPaymentDetails {
   }
 
   renderInput(inputType: string, formElem: HTMLFormElement): void {
-    const inputsData = operationInputData[inputType];
-    console.log('inputsData=', inputsData);
+    const inputsData = OPERATION_INPUT_DATA[inputType];
 
     inputsData.forEach((inputData, i) => {
       const dataBlock = createElem('div', 'operation__form-block form-data');
       const dataLabel = createElem('label', 'form-data__label form-paym__label', dataBlock) as HTMLLabelElement;
-      if (inputType === 'sum') {
+      if (inputType === 'sum' && formElem.name !== '2') {
         createElem('div', 'operation__currency', dataBlock) as HTMLLabelElement;
       }
 
@@ -235,18 +250,24 @@ class RenderPaymentDetails {
       const dataInput = createElem(tagElemName, 'form-paym__input', dataBlock);
       const inputId = `${inputType}_${i}`;
       dataInput.id = dataLabel.htmlFor = inputId;
-      console.log('dataInput=', dataInput);
 
       if (inputData.inputType === 'select') {
-        console.log('select!');
         (dataInput as HTMLSelectElement).name = `${i}`;
         this.renderOptions(inputData, dataInput as HTMLSelectElement);
-        console.log('initial dataInput val=', (dataInput as HTMLSelectElement).value);
       } else {
-        (dataInput as HTMLInputElement).type = inputData.inputType;
+        const inpType = inputData.inputType;
+        (dataInput as HTMLInputElement).type = inpType;
         (dataInput as HTMLInputElement).required = true;
         (dataInput as HTMLInputElement).placeholder = inputData.placeholder;
-        console.log('initial dataInput val=', (dataInput as HTMLInputElement).value);
+        (dataInput as HTMLInputElement).name = inputData.name;
+        const pattern = inputData.regex;
+        if (pattern) {
+          (dataInput as HTMLInputElement).pattern = pattern;
+        }
+        const maxLeng = inputData.maxLeng;
+        if (maxLeng) {
+          (dataInput as HTMLInputElement).maxLength = maxLeng;
+        }
       }
 
       this.elemsForUpdatingText[`input_${inputId}`] = dataInput;
@@ -259,24 +280,43 @@ class RenderPaymentDetails {
   }
 
   renderOptions(inputData: TInputData, selectElem: HTMLSelectElement): void {
+    const isAnonimExchange = inputData.name === 'currency';
+
     const optionDefaultText = inputData.optionDefalt;
     if (optionDefaultText) {
-      const optionDefaultElem = createElem(
-        'option',
-        'form-paym__option',
-        selectElem,
-        optionDefaultText[config.lang]
-      ) as HTMLOptionElement;
-      optionDefaultElem.disabled = true;
+      this.renderOption(optionDefaultText[config.lang], selectElem, isAnonimExchange, true);
     }
 
-    userFetch.user(EMethod.GET, this.getCurrentToken()).then((resp) => {
-      resp.userConfig?.accounts.forEach((userCurrencyAcc) => {
-        const optionText = `My acc in ${userCurrencyAcc.currency}`;
-        const option = createElem('option', 'form-paym__option', selectElem, optionText) as HTMLOptionElement;
-        option.value = userCurrencyAcc;
+    if (isAnonimExchange) {
+      FOREIGN_CURRENCY.forEach((currency) => {
+        this.renderOption(currency, selectElem, isAnonimExchange);
       });
-    });
+    } else {
+      this.renderOption(MAIN_CURRENCY, selectElem, isAnonimExchange);
+
+      userFetch.user(EMethod.GET, this.getCurrentToken()).then((resp) => {
+        resp.userConfig?.accounts.forEach((userCurrencyAcc) => {
+          this.renderOption(userCurrencyAcc.currency, selectElem, isAnonimExchange);
+        });
+      });
+    }
+  }
+
+  renderOption(currency: string, selectElem: HTMLSelectElement, isAnonimExchange: boolean, isDefault?: boolean): void {
+    let clasName: string;
+    if (isDefault) {
+      clasName = isAnonimExchange ? `option-default-anonim` : `option-default-${selectElem.id}`;
+    } else {
+      clasName = isAnonimExchange ? `option-anonim_${currency}` : `option_${currency}`;
+    }
+
+    const optionText = this.langs[config.lang][clasName];
+    const option = createElem('option', `form-paym__option ${clasName}`, selectElem, optionText) as HTMLOptionElement;
+    if (isDefault) {
+      option.disabled = true;
+    } else {
+      option.value = currency;
+    }
   }
 
   checkOptions(selectElemsArr: HTMLSelectElement[]): void {
@@ -295,6 +335,19 @@ class RenderPaymentDetails {
         });
       });
     });
+  }
+
+  saveSelectElemsToDetails(paymentDetails: TPaymentDetails, formElemsArr: Element[]): void {
+    const formSelectElemsArr = formElemsArr.filter((elem) => elem instanceof HTMLSelectElement);
+    if (formSelectElemsArr.length) {
+      const selectValuesArr = formSelectElemsArr.map((elem) => (elem as HTMLSelectElement).value);
+      if (formSelectElemsArr.length === 2) {
+        paymentDetails.currFrom = selectValuesArr[0];
+        paymentDetails.currTo = selectValuesArr[1];
+      } else {
+        paymentDetails.currTo = selectValuesArr[0];
+      }
+    }
   }
 }
 

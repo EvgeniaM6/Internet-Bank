@@ -1,12 +1,13 @@
 import config from '../../data/config';
 import {
+  ID_COMMISSION_SERVICE,
   ID_CURRENCY_REFILL_SERVICE,
   ID_CURRENCY_SELL_SERVICE,
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
 } from '../../data/constants/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
-import { EPages, IMainRes } from '../../data/types';
+import { IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
 import en from '../../data/lang/payment/en';
@@ -43,7 +44,8 @@ class RenderPayment {
           !this.getCurrentToken() && +operationId > INDEX_START_BANK_SERVICES && +operationId < INDEX_START_SERVICES;
         const isCurrencyDuplucateService =
           +operationId === ID_CURRENCY_REFILL_SERVICE || +operationId === ID_CURRENCY_SELL_SERVICE;
-        if (isAnonim || isCurrencyDuplucateService) return;
+        const isCommissionService = +operationId === ID_COMMISSION_SERVICE;
+        if (isAnonim || isCurrencyDuplucateService || isCommissionService) return;
 
         this.operationsResp[operationId] = operationsObj[operationId];
       });
@@ -80,7 +82,8 @@ class RenderPayment {
   }
 
   renderPayment(operationId: number): void {
-    transition(this.main, renderPaymentDetails.renderPayment.bind(renderPaymentDetails, operationId));
+    const main = document.querySelector('.main') as HTMLElement;
+    transition(main, renderPaymentDetails.renderPayment.bind(renderPaymentDetails, operationId));
   }
 
   updatePaymentCardsText(): void {
@@ -189,7 +192,9 @@ class RenderPayment {
 
   filterOperations(event: Event): void {
     event.stopPropagation();
+    // console.log('event.target=', event.target);
     const filterValue = (event.target as HTMLInputElement).id;
+    // console.log('filterValue=', filterValue);
     this.selectedCategoryFilter = filterValue;
 
     transition(this.operationsContainer, this.updatePaymentCards.bind(this));
@@ -199,6 +204,8 @@ class RenderPayment {
     this.operationsContainer.innerHTML = '';
 
     const filteredOperationsIdArr = Object.keys(this.operationsResp).filter((operationId) => {
+      // console.log('category=', this.operationsResp[operationId].category.toLowerCase());
+      // console.log('selectedCategory=', this.selectedCategoryFilter.toLowerCase());
       return this.selectedCategoryFilter === 'all'
         ? true
         : this.operationsResp[operationId].category.toLowerCase() === this.selectedCategoryFilter.toLowerCase();
@@ -212,7 +219,7 @@ class RenderPayment {
   }
 
   getCurrentToken(): string {
-    const token = sessionStorage.getItem('token') || '';
+    const token = localStorage.getItem('token') || '';
     return token;
   }
 }

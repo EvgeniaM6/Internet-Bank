@@ -24,12 +24,14 @@ export type TOperationInputData = {
 };
 
 export type TInputData = {
+  name: string;
   inputType: string;
   optionDefalt?: TTextByLang;
-  regex: string;
+  regex?: string;
   placeholder: string;
   hint: TTextByLang;
   labelText: TTextByLang;
+  maxLeng?: number;
 };
 
 type TTextByLang = {
@@ -50,6 +52,7 @@ export type TAccOptions = {
 };
 
 export type TPaymentDetails = {
+  userTo?: string;
   operationId: number;
   operationSum: number;
   currFrom?: string;

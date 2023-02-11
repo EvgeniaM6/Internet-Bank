@@ -1,16 +1,23 @@
 import { TOperationInputData } from '../servicesType';
 
 export const INDEX_START_BANK_SERVICES = 1;
+export const ID_CURRENCY_COMMON_EXCHANGE = 2;
 export const ID_CURRENCY_REFILL_SERVICE = 3;
 export const ID_CURRENCY_SELL_SERVICE = 4;
+export const ID_REFILL_SERVICE = 5;
+export const ID_REMOVE_SERVICE = 6;
+export const ID_COMMISSION_SERVICE = 7;
+export const ID_TRANSFER_SERVICE = 8;
 export const INDEX_START_SERVICES = 14;
 
 export const COMMISSION_AMOUNT = 2;
+export const COMMISSION_EXCHANGE_AMOUNT = 3;
 export const FRACTION_LENGTH = 2;
 
-export const operationInputData: TOperationInputData = {
+export const OPERATION_INPUT_DATA: TOperationInputData = {
   sum: [
     {
+      name: 'sum',
       inputType: 'number',
       regex: `^\\d+(\\.\\d\\d)?$`,
       placeholder: '10.00',
@@ -26,7 +33,9 @@ export const operationInputData: TOperationInputData = {
   ],
   1: [
     {
-      inputType: 'number',
+      name: 'card',
+      inputType: 'text',
+      maxLeng: 19,
       regex: `\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}`,
       placeholder: '0000 0000 0000 0000',
       hint: {
@@ -34,19 +43,36 @@ export const operationInputData: TOperationInputData = {
         ru: 'введите 16 цифр',
       },
       labelText: {
-        en: 'Card number',
-        ru: 'Номер карты',
+        en: 'Card number to refill',
+        ru: 'Номер карты для пополнения',
+      },
+    },
+    {
+      name: 'currency',
+      inputType: 'select',
+      optionDefalt: {
+        en: 'Currency to withdraw',
+        ru: 'Валюта для списания',
+      },
+      placeholder: '',
+      hint: {
+        en: '',
+        ru: '',
+      },
+      labelText: {
+        en: 'Card currency to withdraw',
+        ru: 'Валюта карточки для списания',
       },
     },
   ],
   2: [
     {
+      name: 'account',
       inputType: 'select',
       optionDefalt: {
         en: 'Account to withdraw',
         ru: 'Счет для списания',
       },
-      regex: ``,
       placeholder: '',
       hint: {
         en: '',
@@ -58,12 +84,12 @@ export const operationInputData: TOperationInputData = {
       },
     },
     {
+      name: 'account',
       inputType: 'select',
       optionDefalt: {
         en: 'Account to refill',
         ru: 'Счет для пополнения',
       },
-      regex: ``,
       placeholder: '',
       hint: {
         en: '',
@@ -75,8 +101,42 @@ export const operationInputData: TOperationInputData = {
       },
     },
   ],
+  5: [],
+  6: [
+    {
+      name: 'card',
+      inputType: 'text',
+      maxLeng: 19,
+      regex: `\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}`,
+      placeholder: '0000 0000 0000 0000',
+      hint: {
+        en: 'enter 16 digits',
+        ru: 'введите 16 цифр',
+      },
+      labelText: {
+        en: 'Card number to refill',
+        ru: 'Номер карты для пополнения',
+      },
+    },
+  ],
+  8: [
+    {
+      name: 'user',
+      inputType: 'text',
+      placeholder: 'mikle123',
+      hint: {
+        en: 'enter username',
+        ru: 'введите имя пользователя',
+      },
+      labelText: {
+        en: 'Username for receiving funds',
+        ru: 'Имя пользователя для получения средств',
+      },
+    },
+  ],
   14: [
     {
+      name: 'phone',
       inputType: 'text',
       regex: `^\\+\\d{9}\\d*`,
       placeholder: '+123456789',
@@ -92,6 +152,7 @@ export const operationInputData: TOperationInputData = {
   ],
   15: [
     {
+      name: 'contract',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -107,6 +168,7 @@ export const operationInputData: TOperationInputData = {
   ],
   16: [
     {
+      name: 'contract',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -122,6 +184,7 @@ export const operationInputData: TOperationInputData = {
   ],
   17: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -137,6 +200,7 @@ export const operationInputData: TOperationInputData = {
   ],
   18: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -152,6 +216,7 @@ export const operationInputData: TOperationInputData = {
   ],
   19: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -167,6 +232,7 @@ export const operationInputData: TOperationInputData = {
   ],
   20: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -182,6 +248,7 @@ export const operationInputData: TOperationInputData = {
   ],
   21: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -197,6 +264,7 @@ export const operationInputData: TOperationInputData = {
   ],
   22: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -212,6 +280,7 @@ export const operationInputData: TOperationInputData = {
   ],
   23: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -227,6 +296,7 @@ export const operationInputData: TOperationInputData = {
   ],
   24: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -242,6 +312,7 @@ export const operationInputData: TOperationInputData = {
   ],
   25: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -257,6 +328,7 @@ export const operationInputData: TOperationInputData = {
   ],
   26: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -272,6 +344,7 @@ export const operationInputData: TOperationInputData = {
   ],
   27: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -287,6 +360,7 @@ export const operationInputData: TOperationInputData = {
   ],
   28: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
@@ -302,6 +376,7 @@ export const operationInputData: TOperationInputData = {
   ],
   29: [
     {
+      name: 'account',
       inputType: 'text',
       regex: `^\\d{9}\\d*`,
       placeholder: '123456789',
