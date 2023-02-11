@@ -1,4 +1,5 @@
-import { EAccountLinks, EAdminLinks } from '../../data/types';
+import { EAccountLinks, EAdminLinks, EMethod } from '../../data/types';
+import { userFetch } from '../../fetch/userFetch';
 import { buildAdmin } from '../admin/buildAdmin';
 import { listenAdmin } from '../admin/listenAdmin';
 
@@ -94,7 +95,29 @@ class BuildMain {
     </ul>
     <div class="account-container">
       <p>We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
+      <h3 class="account__ttl">Your credit cards<h3>
+      <div class="account__cards"></div>
     </div>`;
+
+    const cards = document.querySelector('.account__cards');
+    const token = localStorage.getItem('token');
+
+    if (!cards || !token) return;
+
+    const data = userFetch.user(EMethod.GET, token);
+    console.log(data);
+    data.then((rez) => {
+      if (rez.userConfig?.cards) {
+        for (let i = 0; i < rez.userConfig?.cards.length; i++) {
+          const element = document.createElement('img');
+          element.classList.add('account__cards_card');
+          element.setAttribute('src', rez.userConfig?.cards[i]);
+          element.setAttribute('alt', 'card');
+
+          cards.appendChild(element);
+        }
+      }
+    });
   }
 
   admin() {

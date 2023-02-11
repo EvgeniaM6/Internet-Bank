@@ -142,3 +142,19 @@ td.table-dark:last-child {
 .account__operations_table {
   margin-bottom: 20px;
 }
+
+.account__ttl {
+  margin: 20px;
+}
+
+.account__cards {
+  display: flex;
+  gap: 50px;
+}
+
+.account__cards_card {
+  display: block;
+  border-radius: 6px;
+  width: 170px;
+  height: 110px;
+}

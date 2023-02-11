@@ -135,14 +135,16 @@ class ListenAccount {
     buttonSubmit.addEventListener('click', async () => {
       const passwordValue: string = password.value;
 
-      if (passwordValue !== '') {
-        note.innerHTML = 'Note: Incorrect password';
-        return;
-      }
-
-      userFetch.user(EMethod.DELETE, token, undefined, undefined, passwordValue);
-      buildAuth.main();
-      createAuth.login();
+      userFetch.checkPassword(password, token).then((rez) => {
+        if (rez.success) {
+          userFetch.user(EMethod.DELETE, token, undefined, undefined, passwordValue).then((rez) => {
+            if (rez.success) {
+              buildAuth.main();
+              createAuth.login();
+            }
+          });
+        } else note.innerHTML = 'Note: Incorrect password';
+      });
     });
   }
 

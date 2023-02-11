@@ -113,7 +113,23 @@ class BuildAccount {
       <div class="account__buttons">
         <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
-    </div>`;
+    </div>
+    <div class="account__currency_current"></div>`;
+
+    const currencyAccount = document.querySelector('.account__currency_current');
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      userFetch.user(EMethod.GET, token).then((rez) => {
+        if (rez.userConfig?.accounts) {
+          for (let i = 0; i < rez.userConfig.accounts.length; i++) {
+            const elem = document.createElement('p');
+            elem.innerHTML = `${rez.userConfig.accounts[i].currency}: ${rez.userConfig.accounts[i].money}`;
+            currencyAccount?.appendChild(elem);
+          }
+        }
+      });
+    }
   }
 
   createCurrency() {
