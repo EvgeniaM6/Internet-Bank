@@ -336,7 +336,7 @@ class ModalPayment {
     popup.remove();
 
     listenHeader.updateInfo().then(() => {
-      const main = document.querySelector('.main-container') as HTMLElement;
+      const main = document.querySelector('.main') as HTMLElement;
 
       setTimeout(() => {
         popupMessage.remove();

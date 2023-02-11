@@ -233,7 +233,8 @@ class RenderPaymentDetails {
   }
 
   backToAllServices(): void {
-    transition(this.main, renderPayment.renderPaymentsPage.bind(renderPayment));
+    const main = document.querySelector('.main') as HTMLElement;
+    transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
   }
 
   renderInput(inputType: string, formElem: HTMLFormElement): void {

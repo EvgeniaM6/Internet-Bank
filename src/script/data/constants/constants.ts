@@ -8,6 +8,8 @@ export const ID_REFILL_SERVICE = 5;
 export const ID_REMOVE_SERVICE = 6;
 export const ID_COMMISSION_SERVICE = 7;
 export const ID_TRANSFER_SERVICE = 8;
+export const ID_STOCKS_BUY_SERVICE = 9;
+export const ID_STOCKS_SELL_SERVICE = 10;
 export const INDEX_START_SERVICES = 14;
 
 export const COMMISSION_AMOUNT = 2;
