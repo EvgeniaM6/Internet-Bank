@@ -125,35 +125,38 @@ class ModalPayment {
     const cardNumberElem = this.emailInputs['card-number'] as HTMLInputElement;
     const cardNumber = cardNumberElem ? cardNumberElem.value : '';
 
+    const { operationId, operationSum } = paymentDetails;
+
     if (isAnonim) {
       moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
         console.log('tryPayByCard=', payCardResp);
         if (!payCardResp.success) {
           this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-        } else {
-          moneyFetch.commission(paymentDetails.operationSum, paymentDetails.operationId).then((resp) => {
-            console.log('commission=', resp);
-            this.checkResponse(resp, popup, paymentDetails.operationSum, paymentDetails.operationId);
-          });
+          return;
         }
-      });
-    } else {
-      if (isNotCard) {
-        const token = this.getCurrentToken();
 
-        moneyFetch
-          .changeMainMoney(paymentDetails.operationSum, EOperation.REMOVE, token, paymentDetails.operationId)
-          .then((resp) => {
-            console.log('changeMainMoney=', resp);
-            this.checkResponse(resp, popup, paymentDetails.operationSum, paymentDetails.operationId);
-          });
-      } else {
-        moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
-          console.log('tryPayByCard=', payCardResp);
-          this.checkResponse(payCardResp, popup, paymentDetails.operationSum, paymentDetails.operationId);
+        moneyFetch.commission(operationSum, operationId).then((resp) => {
+          console.log('commission=', resp);
+          this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
         });
-      }
+      });
+      return;
     }
+
+    if (isNotCard) {
+      const token = this.getCurrentToken();
+
+      moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
+        console.log('changeMainMoney=', resp);
+        this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
+      });
+      return;
+    }
+
+    moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
+      console.log('tryPayByCard=', payCardResp);
+      this.checkResponseForEmailSending(payCardResp, popup, operationSum, operationId);
+    });
   }
 
   checkForm(e: Event): void {
@@ -345,7 +348,7 @@ class ModalPayment {
     });
   }
 
-  checkResponse(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number): void {
+  checkResponseForEmailSending(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number): void {
     const currLang = this.langs[config.lang];
     let message = resp.success ? currLang.modalInfoMessage : currLang.errorPayByCardMessage;
     const respMess = resp.message;
@@ -385,7 +388,7 @@ class ModalPayment {
     if (!this.canPay) return;
 
     const token = localStorage.getItem('token');
-    if (!token) return;
+    const isAnonim = !token;
 
     const { operationSum, currFrom, currTo } = paymentDetails;
     if (!currTo) return;
@@ -412,49 +415,40 @@ class ModalPayment {
           console.log('tryPayByCard=', payCardResp);
           if (!payCardResp.success) {
             this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-          } else {
-            moneyFetch.anonimExchange(operationSum, currTo).then((resp) => {
-              console.log('anonimExchange=', resp);
-              if (!resp.success) {
-                this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-              } else {
-                if (token) {
-                  this.checkResponse(resp, popup, operationSum, operationId);
-                } else {
-                  moneyFetch.commission(paymentDetails.operationSum, paymentDetails.operationId).then((resp) => {
-                    console.log('commission=', resp);
-                    this.checkResponse(resp, popup, operationSum, operationId);
-                  });
-                }
-              }
-            });
+            return;
           }
+
+          moneyFetch.anonimExchange(operationSum, currTo, isAnonim).then((resp) => {
+            console.log('anonimExchange=', resp);
+            this.checkResponse(resp, popup, operationSum, operationId);
+          });
         });
         break;
       case ID_CURRENCY_COMMON_EXCHANGE:
-        if (!currFrom) return;
+        if (!currFrom || !token) return;
         moneyFetch.clientExchange(operationSum, currFrom, currTo, token).then((resp) => {
           console.log('clientExchange=', resp);
-          this.checkResponse(resp, popup, operationSum, operationId);
+          this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
         });
         break;
       case ID_CURRENCY_REFILL_SERVICE:
+        if (!token) return;
         moneyFetch
           .moneyAccount(EMethod.PUT, config.currentUser, currTo, token, operationSum, EOperation.ADD)
           .then((resp) => {
             if (!resp) return;
             console.log('moneyAccount ADD=', resp);
-            this.checkResponse(resp, popup, operationSum, operationId);
+            this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
           });
         break;
       case ID_CURRENCY_SELL_SERVICE:
-        if (!currFrom) return;
+        if (!currFrom || !token) return;
         moneyFetch
           .moneyAccount(EMethod.PUT, config.currentUser, currFrom, token, operationSum, EOperation.REMOVE)
           .then((resp) => {
             if (!resp) return;
             console.log('moneyAccount REMOVE=', resp);
-            this.checkResponse(resp, popup, operationSum, operationId);
+            this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
           });
         break;
     }
@@ -467,6 +461,8 @@ class ModalPayment {
     const token = localStorage.getItem('token');
     if (!token) return;
 
+    this.startLoadingModalPayment(popup);
+
     const { operationId, operationSum } = paymentDetails;
 
     const cardNumberElem = this.emailInputs['card-number'] as HTMLInputElement;
@@ -477,25 +473,18 @@ class ModalPayment {
         console.log('tryPayByCard=', payCardResp);
         if (!payCardResp.success) {
           this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-        } else {
-          moneyFetch.changeMainMoney(operationSum, EOperation.ADD, token, operationId).then((resp) => {
-            console.log('changeMainMoney=', resp);
-            if (!resp.success) {
-              this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-            } else {
-              this.checkResponse(resp, popup, operationSum, operationId);
-            }
-          });
+          return;
         }
+
+        moneyFetch.changeMainMoney(operationSum, EOperation.ADD, token, operationId).then((resp) => {
+          console.log('changeMainMoney=', resp);
+          this.checkResponse(resp, popup, operationSum, operationId);
+        });
       });
     } else {
       moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
         console.log('changeMainMoney=', resp);
-        if (!resp.success) {
-          this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-        } else {
-          this.checkResponse(resp, popup, operationSum, operationId);
-        }
+        this.checkResponse(resp, popup, operationSum, operationId);
       });
     }
   }
@@ -510,21 +499,29 @@ class ModalPayment {
     const { userTo, operationSum, operationId } = paymentDetails;
     if (!userTo) return;
 
+    this.startLoadingModalPayment(popup);
+
     userFetch.isOurUser(userTo).then((resp) => {
       console.log('isOurUser=', resp);
-      if (!resp) {
+      if (!resp.success) {
         this.modalInfoMessage(this.langs[config.lang].errorNoUser, popup);
-      } else {
-        moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
-          console.log('transfer=', resp);
-          if (!resp.success) {
-            this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
-          } else {
-            this.checkResponse(resp, popup, operationSum, operationId);
-          }
-        });
+        return;
       }
+
+      moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
+        console.log('transfer=', resp);
+        this.checkResponse(resp, popup, operationSum, operationId);
+      });
     });
+  }
+
+  checkResponse(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number): void {
+    if (!resp.success) {
+      this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+      return;
+    }
+
+    this.checkResponseForEmailSending(resp, popup, paymentSum, operationId);
   }
 }
 

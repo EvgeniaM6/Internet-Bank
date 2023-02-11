@@ -74,7 +74,7 @@ class UserFetch extends Fetch {
     const req = {
       method: 'GET',
     };
-    const result: boolean = await this.mainFetch(req, path, query);
+    const result: IMainRes = await this.mainFetch(req, path, query);
     return result;
   }
 
