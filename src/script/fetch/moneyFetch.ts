@@ -47,7 +47,10 @@ class MoneyFetch extends Fetch {
     const path = '/securemoney/account';
     const query = operation ? `?operation=${operation}` : '';
     if (operation && method !== EMethod.PUT) {
-      return;
+      return {
+        message: 'What operation?',
+        success: false,
+      };
     }
     const reqBody: any = {
       username,

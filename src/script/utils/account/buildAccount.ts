@@ -155,50 +155,51 @@ class BuildAccount {
 
   async showLastOperations() {
     const token = localStorage.getItem('token');
+    if (!token) return;
 
-    const data = (
-      await fetch(`http://127.0.0.1:3000/user`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    ).json();
+    const data = await userFetch.user(EMethod.GET, token);
+    if (!data.userConfig) return;
 
-    data.then((rez) => {
-      const account = document.querySelector('.account-container');
-      if (!account) return;
+    const account = document.querySelector('.account-container');
+    if (!account) return;
+    //console.log(data);
 
-      account.innerHTML = `<table class="account__operations_table">
-      <thead><tr><th>#</th><th class="account__operations_date">date</th><th class="account__operations_opId">operationID</th><th  class="account__operations_money>money</th></tr></thead>
-      <tbody class="account__operations_tbody"></tbody>
-      </table>
-      <div class="account__buttons">
-        <button class="account__operations_button-cancel button-cancel">Back</button>
-      </div>`;
+    account.innerHTML = `<table class="account__operations_table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th class="account__operations_date">date</th>
+        <th class="account__operations_opId">operationID</th>
+        <th class="account__operations_money">money</th>
+      </tr>
+    </thead>
+    <tbody class="account__operations_tbody"></tbody>
+    </table>
+    <div class="account__buttons">
+      <button class="account__operations_button-cancel button-cancel">Back</button>
+    </div>`;
 
-      const tbody = <Element>document.querySelector('.account__operations_tbody');
+    const tbody = <Element>document.querySelector('.account__operations_tbody');
 
-      for (let i = 0; i < rez.userConfig.lastFive.length; i++) {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${i + 1}</td>
-        <td>${rez.userConfig.lastFive[i].date.slice(0, 10)}</td>
-        <td>${rez.userConfig.lastFive[i].operationID}</td>
-        <td>${rez.userConfig.lastFive[i].money.toFixed(2)}</td>`;
+    //console.log(tbody);
+    for (let i = 0; i < data.userConfig.lastFive.length; i++) {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${i + 1}</td>
+      <td>${data.userConfig.lastFive[i].date.slice(0, 10)}</td>
+      <td>${data.userConfig.lastFive[i].operationID}</td>
+      <td>${data.userConfig.lastFive[i].money.toFixed(2)}</td>`;
 
-        tbody.appendChild(row);
-      }
+      tbody.appendChild(row);
+    }
 
-      const td = document.querySelectorAll('td');
-      const th = document.querySelectorAll('th');
+    const td = document.querySelectorAll('td');
+    const th = document.querySelectorAll('th');
 
-      if (config.theme === 'dark') {
-        td.forEach((el) => el.classList.add('table-dark'));
-        th.forEach((el) => el.classList.add('table-dark'));
-      }
-      listenAccount.showLastOperations();
-    });
+    if (config.theme === 'dark') {
+      td.forEach((el) => el.classList.add('table-dark'));
+      th.forEach((el) => el.classList.add('table-dark'));
+    }
+    listenAccount.showLastOperations();
   }
 }
 

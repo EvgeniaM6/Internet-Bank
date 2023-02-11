@@ -7,6 +7,7 @@ import { buildMain } from '../main/buildMain';
 import { navigationAccount } from './navigationAccount';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
+import { moneyFetch } from '../../fetch/moneyFetch';
 
 function cancel() {
   const buttonCancel = document.querySelector('.button-cancel');
@@ -199,25 +200,14 @@ class ListenAccount {
     if (!note || !buttonSubmit || !(currency instanceof HTMLSelectElement)) return;
 
     const token = localStorage.getItem('token');
+    if (!token) return;
 
     cancel();
 
     buttonSubmit.addEventListener('click', async () => {
-      const data = (
-        await fetch(`http://127.0.0.1:3000/securemoney/account`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            username: config.currentUser,
-            currency: currency.value,
-          }),
-        })
-      ).status;
+      const data = await moneyFetch.moneyAccount(EMethod.POST, config.currentUser, currency.value, token);
 
-      if (data === 400) {
+      if (!data.success) {
         note.innerHTML = 'Note: You already have such a foreign currency account';
         return;
       }
@@ -233,25 +223,14 @@ class ListenAccount {
     if (!note || !buttonSubmit || !(currency instanceof HTMLSelectElement)) return;
 
     const token = localStorage.getItem('token');
+    if (!token) return;
 
     cancel();
 
     buttonSubmit.addEventListener('click', async () => {
-      const data = (
-        await fetch(`http://127.0.0.1:3000/securemoney/account`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            username: config.currentUser,
-            currency: currency.value,
-          }),
-        })
-      ).status;
+      const data = await moneyFetch.moneyAccount(EMethod.DELETE, config.currentUser, currency.value, token);
 
-      if (data === 400) {
+      if (!data.success) {
         note.innerHTML = "Note: You don't have such a foreign currency account";
         return;
       }

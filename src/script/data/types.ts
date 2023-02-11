@@ -46,7 +46,11 @@ export interface IUserConfig {
 
 // Check
 export interface IUser extends IUserConfig {
-  lastFive: object[];
+  lastFive: {
+    operationID: number;
+    money: number;
+    date: string;
+  }[];
   accounts: ICurrency[];
   cards: string[];
 }
