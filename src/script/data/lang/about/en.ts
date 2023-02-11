@@ -23,7 +23,8 @@ export default {
   'about__authors-h': 'Authors',
   egor: 'Egor Litavar',
   'egor-resp': 'Back-end, Authorization, Statistics, Stocks, Routing',
-  'egor-text': '23 yo, Minsk. Have Air Traffic Controller diploma. Likes to work on interesting and challenging projects. RS School student since spring 2022.',
+  'egor-text':
+    '23 yo, Minsk. Have Air Traffic Controller diploma. Likes to work on interesting and challenging projects. RS School student since spring 2022.',
   andrei: 'Andrei Shamanouski',
   'andrei-resp': 'User Panel, Admin Panel, Day/Night Mode',
   'andrei-text': '',
