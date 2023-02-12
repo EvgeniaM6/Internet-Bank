@@ -17,7 +17,7 @@ class CreateStocks {
       transition(main, () => {
         buildStocks.main();
 
-        buildStocks.buildUserList(result.userStocks);
+        buildStocks.buildUserList(result.userStocks, result.stocks);
         listenStocks.user();
 
         buildStocks.buildMarketList(result.stocks);
@@ -31,7 +31,7 @@ class CreateStocks {
     if (!token) return;
 
     await stocksFetch.getData(token).then((result) => {
-      buildStocks.buildUserList(result.userStocks);
+      buildStocks.buildUserList(result.userStocks, result.stocks);
       listenStocks.user();
     });
   }

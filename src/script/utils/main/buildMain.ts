@@ -7,7 +7,10 @@ class BuildMain {
   about() {
     const main = document.querySelector('.main-container');
     const aboutHead = document.querySelector('.header__nav-about');
-    if (!main || !aboutHead) return;
+    const body = document.querySelector('.main');
+    if (!main || !aboutHead || !body) return;
+
+    body.classList.remove('main-auth');
 
     aboutHead.classList.add('header__nav_active');
 

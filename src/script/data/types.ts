@@ -116,9 +116,12 @@ export interface IOperationRes extends IMainRes {
 export interface IUserStocks {
   name: string;
   number: number;
+  price: number;
 }
 
-export interface IMarketStocks extends IUserStocks {
+export interface IMarketStocks {
+  name: string;
+  number: number;
   money: number;
 }
 

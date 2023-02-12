@@ -5,6 +5,7 @@
   transition: .2s;
   justify-content: space-between;
   min-height: 100vh;
+  margin-left: 230px;
 }
 
 .main-container {
@@ -16,13 +17,13 @@
 }
 
 .main-auth {
-  justify-content: center;
-  //min-height: 100vh;
+  margin-left: 0;
 }
 
 @media screen and (max-width: 768px) {
   .main {
     margin-top: 85px;
+    margin-left: 0;
   }
 
   .main-auth {

@@ -6,7 +6,7 @@ class BuildHeader {
     const main = document.querySelector('.main');
     if (!header || !(main instanceof HTMLElement)) return;
 
-    if (document.documentElement.clientWidth > 767) main.style.marginLeft = '230px';
+    //if (document.documentElement.clientWidth > 767) main.style.marginLeft = '230px';
 
     header.classList.add('header');
     header.innerHTML = `<div class="header__up">
