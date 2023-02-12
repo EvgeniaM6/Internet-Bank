@@ -11,7 +11,7 @@ class BuildStock {
     </div>`;
   }
 
-  buildUserList(userStocks: IUserStocks[]) {
+  buildUserList(userStocks: IUserStocks[], marketStocks: IMarketStocks[]) {
     const userList = document.querySelector('.stocks__user');
     if (!userList) return;
 
@@ -25,14 +25,20 @@ class BuildStock {
     <p class="stocks__user-header">
         <span class="stocks__user-header-name">Name</span>
         <span class="stocks__user-header-count">Count</span>
+        <span class="stocks__user-header-profit">Profit</span>
     </p>`;
 
     userStocks.forEach((el) => {
+      const stock = marketStocks.find((stock) => el.name === stock.name);
+      if (!stock) return;
+
+      const profit = stock.money - el.price;
       const div = document.createElement('div');
       div.classList.add('stocks__user-item', `${el.name.replaceAll(' ', '_')}`);
       div.id = `${el.name.replaceAll(' ', '_')}`;
       div.innerHTML = `<p class="stocks__user-name">${el.name}</p>
       <p class="stocks__user-count">${el.number}</p>
+      <p class="stock__user-profit" id="${el.price.toFixed(3)}" style="color:${profit > 0 ? 'green' : 'red'}">$${profit.toFixed(3)}</p>
       <div class="stocks__user-controls">
           <button class="item__minus">-</button>
           <input type="number" name="" id="" class="item__value" max="${el.number}" min="1" value="1">

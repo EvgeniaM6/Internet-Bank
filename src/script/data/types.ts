@@ -46,7 +46,11 @@ export interface IUserConfig {
 
 // Check
 export interface IUser extends IUserConfig {
-  lastFive: object[];
+  lastFive: {
+    operationID: number;
+    money: number;
+    date: string;
+  }[];
   accounts: ICurrency[];
   cards: string[];
 }
@@ -112,9 +116,12 @@ export interface IOperationRes extends IMainRes {
 export interface IUserStocks {
   name: string;
   number: number;
+  price: number;
 }
 
-export interface IMarketStocks extends IUserStocks {
+export interface IMarketStocks {
+  name: string;
+  number: number;
   money: number;
 }
 

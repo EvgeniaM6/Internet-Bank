@@ -18,7 +18,7 @@
   &__user-header {
     display: flex;
     justify-content: space-between;
-    width: 35%;
+    width: 46%;
   }
 
   &__market-header {
@@ -29,12 +29,12 @@
 
   &__market {
     min-width: 430px;
-    width: 55%;
+    width: 52%;
   }
 
   &__user {
     min-width: 320px;
-    width: 40%;
+    width: 45%;
   }
 
   &__user-item,
@@ -51,7 +51,7 @@
   &__user-name,
   &__user-header-name 
   &__market-header-name {
-    width: 80px;
+    width: 73px;
     text-align: left;
   }
 
@@ -138,7 +138,8 @@
       width: 100%;
     }
 
-    &__market-header {
+    &__market-header,
+    &__user-header {
       width: 52%;
     }
 
@@ -147,6 +148,7 @@
       width: 70px;
     }
 
+    &__user-controls,
     &__market-controls {
       display: flex;
       flex-direction: column-reverse;

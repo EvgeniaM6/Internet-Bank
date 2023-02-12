@@ -3,13 +3,16 @@ import config from '../../data/config';
 class BuildAuth {
   main() {
     const main = document.querySelector('.main-container');
+    const body = document.querySelector('.main');
     const header = document.querySelector('header');
-    if (!main || !header) return;
+    if (!main || !header || !body) return;
 
     header.classList.remove('header');
     header.innerHTML = '';
 
-    main.className = 'container main-container main-auth';
+    body.classList.add('main-auth');
+
+    main.className = 'container main-container';
     main.innerHTML = `<div class="auth">
 		<h2 class="auth__h">Welcome to RS Bank!</h2>
 		<div class="auth__container"></div>`;
