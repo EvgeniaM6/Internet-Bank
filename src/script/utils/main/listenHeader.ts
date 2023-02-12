@@ -79,7 +79,17 @@ class ListenHeader {
       const blur = document.querySelector('.card__blur');
       const brightness = document.querySelector('.card__brightness');
 
-      if (!blur || !brightness || !header) return;
+      const nav = document.querySelector('.header__nav');
+      if (!nav || !header) return;
+      if (config.theme === 'dark') {
+        nav.classList.add('page-dark');
+        header.classList.add('page-dark');
+      } else {
+        nav.classList.remove('page-dark');
+        header.classList.remove('page-dark');
+      }
+
+      if (!blur || !brightness) return;
 
       if (config.theme === 'dark') {
         blur.classList.add('page-dark');
@@ -87,18 +97,6 @@ class ListenHeader {
       } else {
         blur.classList.remove('page-dark');
         brightness.classList.remove('page-dark');
-      }
-
-      const nav = document.querySelector('.header__nav');
-      console.log('navigation1');
-      if (!nav) return;
-      console.log('navigation2');
-      if (config.theme === 'dark') {
-        nav.classList.add('page-dark');
-        header.classList.add('page-dark');
-      } else {
-        nav.classList.remove('page-dark');
-        header.classList.remove('page-dark');
       }
     });
 
