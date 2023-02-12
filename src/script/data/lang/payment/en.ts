@@ -1,14 +1,14 @@
-import { COMMISSION_AMOUNT, COMMISSION_EXCHANGE_AMOUNT } from '../../constants/constants';
+import { COMMISSION_AMOUNT, COMMISSION_EXCHANGE_AMOUNT } from '../../constants';
 
 export default {
-  'card__category-text': 'Category:',
+  'serv-card__category-text': 'Category:',
   filter__title: 'Choose category:',
-  card__btn: 'pay',
+  'serv-card__btn': 'pay',
   'operation__category-text': 'Category:',
   'form-paym__btn': 'pay from my account ',
   'form-paym__btn-card': 'pay by card',
   operation__commission: `Commission for this operation is ${COMMISSION_AMOUNT} USD`,
-  'operation__commission-exch': `Commission for this operation is ${COMMISSION_EXCHANGE_AMOUNT} USD`,
+  'operation__commission-exch': `Commission for this operation is ${COMMISSION_EXCHANGE_AMOUNT}% of the payment`,
   back__text: 'Back to all services',
   'option-default-anonim': 'Currency to withdraw',
   'option-default-2_0': 'Account to withdraw',

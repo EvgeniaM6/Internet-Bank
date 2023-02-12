@@ -1,13 +1,15 @@
 import config from '../../data/config';
 import {
+  FOREIGN_CURRENCY,
   ID_CURRENCY_COMMON_EXCHANGE,
   ID_REFILL_SERVICE,
   ID_REMOVE_SERVICE,
   ID_TRANSFER_SERVICE,
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
+  MAIN_CURRENCY,
   OPERATION_INPUT_DATA,
-} from '../../data/constants/constants';
+} from '../../data/constants';
 import { TElemsForUpdateText, TInputData, TLang, TPaymentDetails, TServiceDetails } from '../../data/servicesType';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
@@ -18,7 +20,6 @@ import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
-import { FOREIGN_CURRENCY, MAIN_CURRENCY } from '../../data/constants/currency';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -86,7 +87,7 @@ class RenderPaymentDetails {
 
     const currLang = this.langs[config.lang];
 
-    if (!this.getCurrentToken()) {
+    if (!localStorage.getItem('token')) {
       const isCommissExchange = operationId === INDEX_START_BANK_SERVICES;
       const commissionClassName = isCommissExchange ? 'operation__commission-exch' : 'operation__commission';
       const comissionText = currLang[commissionClassName];
@@ -135,7 +136,7 @@ class RenderPaymentDetails {
     const formElemsArr = Array.from(payForm.elements);
     const sumInput = formElemsArr.find((elem) => elem.id.split('_')[0] === 'sum');
     const operationSum = +(sumInput as HTMLInputElement).value;
-    const isAnonim = !this.getCurrentToken();
+    const isAnonim = !localStorage.getItem('token');
     const paymentDetails: TPaymentDetails = { operationSum, operationId };
 
     this.saveSelectElemsToDetails(paymentDetails, formElemsArr);
@@ -143,6 +144,7 @@ class RenderPaymentDetails {
   }
 
   checkInputsValidity(payForm: HTMLFormElement): void {
+    this.checkBtnsAbility(false);
     const formElemsArr = Array.from(payForm.elements);
 
     this.canPay = formElemsArr.every((inputEl) => {
@@ -168,6 +170,12 @@ class RenderPaymentDetails {
       }
     });
 
+    const userNameInput = payForm.user as HTMLInputElement;
+    if (userNameInput && userNameInput.value) {
+      this.checkUserInput(userNameInput);
+      return;
+    }
+
     const selectElemsArr = formElemsArr.filter((inputEl) => {
       return inputEl instanceof HTMLSelectElement;
     });
@@ -175,24 +183,7 @@ class RenderPaymentDetails {
       this.checkOptions(selectElemsArr as HTMLSelectElement[]);
     }
 
-    const btnsArr = [];
-    const buttonPayCard = this.elemsForUpdatingText.btnPayCard;
-    if (buttonPayCard) {
-      btnsArr.push(buttonPayCard);
-    }
-    const buttonPay = this.elemsForUpdatingText.btnPay;
-    if (buttonPay) {
-      btnsArr.push(buttonPay);
-    }
-
-    btnsArr.forEach((btnElem) => {
-      if (this.canPay) {
-        btnElem.classList.remove('unable');
-      } else {
-        if (btnElem.classList.contains('unable')) return;
-        btnElem.classList.add('unable');
-      }
-    });
+    this.checkBtnsAbility(this.canPay);
   }
 
   updatePaymentText(): void {
@@ -229,11 +220,6 @@ class RenderPaymentDetails {
 
   renderAnonimPayment(paymentDetails: TPaymentDetails, isAnonim: boolean, isNotCard?: boolean): void {
     modalPayment.renderModalPayment(paymentDetails, isAnonim, !!isNotCard);
-  }
-
-  getCurrentToken(): string {
-    const token = localStorage.getItem('token') || '';
-    return token;
   }
 
   backToAllServices(): void {
@@ -299,7 +285,9 @@ class RenderPaymentDetails {
     } else {
       this.renderOption(MAIN_CURRENCY, selectElem, isAnonimExchange);
 
-      userFetch.user(EMethod.GET, this.getCurrentToken()).then((resp) => {
+      const token = localStorage.getItem('token') || '';
+
+      userFetch.user(EMethod.GET, token).then((resp) => {
         resp.userConfig?.accounts.forEach((userCurrencyAcc) => {
           this.renderOption(userCurrencyAcc.currency, selectElem, isAnonimExchange);
         });
@@ -353,6 +341,49 @@ class RenderPaymentDetails {
         paymentDetails.currTo = selectValuesArr[0];
       }
     }
+  }
+
+  checkBtnsAbility(canPay: boolean): void {
+    const btnsArr = [];
+    const buttonPayCard = this.elemsForUpdatingText.btnPayCard;
+    if (buttonPayCard) {
+      btnsArr.push(buttonPayCard);
+    }
+    const buttonPay = this.elemsForUpdatingText.btnPay;
+    if (buttonPay) {
+      btnsArr.push(buttonPay);
+    }
+
+    btnsArr.forEach((btnElem) => {
+      if (canPay) {
+        btnElem.classList.remove('unable');
+      } else {
+        if (btnElem.classList.contains('unable')) return;
+        btnElem.classList.add('unable');
+      }
+    });
+  }
+
+  checkUserInput(userNameInput: HTMLInputElement): void {
+    const focusedElem = document.activeElement;
+    const isUserInputFocused = focusedElem === userNameInput;
+
+    if (userNameInput.value === config.currentUser) {
+      this.canPay = false;
+      return;
+    }
+
+    userNameInput.disabled = true;
+    userFetch.isOurUser(userNameInput.value).then((resp) => {
+      console.log('isOurUser=', resp);
+      userNameInput.disabled = false;
+      if (isUserInputFocused) {
+        userNameInput.focus();
+      }
+      this.canPay = this.canPay ? resp.success : this.canPay;
+
+      this.checkBtnsAbility(this.canPay);
+    });
   }
 }
 

@@ -1,21 +1,5 @@
 import { TOperationInputData } from '../servicesType';
 
-export const INDEX_START_BANK_SERVICES = 1;
-export const ID_CURRENCY_COMMON_EXCHANGE = 2;
-export const ID_CURRENCY_REFILL_SERVICE = 3;
-export const ID_CURRENCY_SELL_SERVICE = 4;
-export const ID_REFILL_SERVICE = 5;
-export const ID_REMOVE_SERVICE = 6;
-export const ID_COMMISSION_SERVICE = 7;
-export const ID_TRANSFER_SERVICE = 8;
-export const ID_STOCKS_BUY_SERVICE = 9;
-export const ID_STOCKS_SELL_SERVICE = 10;
-export const INDEX_START_SERVICES = 14;
-
-export const COMMISSION_AMOUNT = 2;
-export const COMMISSION_EXCHANGE_AMOUNT = 3;
-export const FRACTION_LENGTH = 2;
-
 export const OPERATION_INPUT_DATA: TOperationInputData = {
   sum: [
     {
@@ -125,6 +109,7 @@ export const OPERATION_INPUT_DATA: TOperationInputData = {
     {
       name: 'user',
       inputType: 'text',
+      regex: `^.{2,}$`,
       placeholder: 'mikle123',
       hint: {
         en: 'enter username',

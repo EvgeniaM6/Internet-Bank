@@ -7,7 +7,7 @@ import {
   ID_STOCKS_SELL_SERVICE,
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
-} from '../../data/constants/constants';
+} from '../../data/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
@@ -44,14 +44,16 @@ class RenderPayment {
       const operationsObj = (response as IServices).operations as IServiceObj;
       this.elemsForUpdatingText = {};
 
+      const isAnonim = !localStorage.getItem('token');
+
       Object.keys(operationsObj).forEach((operationId) => {
-        const isAnonim =
-          !this.getCurrentToken() && +operationId > INDEX_START_BANK_SERVICES && +operationId < INDEX_START_SERVICES;
+        const isNotForAnonimServ =
+          isAnonim && +operationId > INDEX_START_BANK_SERVICES && +operationId < INDEX_START_SERVICES;
         const isCurrencyDuplucateService =
           +operationId === ID_CURRENCY_REFILL_SERVICE || +operationId === ID_CURRENCY_SELL_SERVICE;
         const isCommissionService = +operationId === ID_COMMISSION_SERVICE;
         const isStockService = +operationId === ID_STOCKS_BUY_SERVICE || +operationId === ID_STOCKS_SELL_SERVICE;
-        if (isAnonim || isCurrencyDuplucateService || isCommissionService || isStockService) return;
+        if (isNotForAnonimServ || isCurrencyDuplucateService || isCommissionService || isStockService) return;
 
         this.operationsResp[operationId] = operationsObj[operationId];
       });
@@ -62,25 +64,26 @@ class RenderPayment {
   }
 
   renderPaymentCard(operationId: string, container: HTMLElement): void {
-    const card = createElem('div', 'operations__card card');
+    const card = createElem('div', 'operations__card serv-card');
 
-    const mainInfo = createElem('div', 'card__main', card);
+    const mainInfo = createElem('div', 'serv-card__main', card);
 
-    const operationImgBlock = createElem('div', 'card__img', mainInfo);
+    const operationImgBlock = createElem('div', 'serv-card__img', mainInfo);
     const logo = this.operationsResp[operationId].logo;
     if (logo) {
       operationImgBlock.style.backgroundColor = 'transparent';
       operationImgBlock.style.backgroundImage = `url(${logo})`;
     }
 
-    const operationName = createElem('p', 'card__title', mainInfo);
+    const operationName = createElem('p', 'serv-card__title', mainInfo);
     this.elemsForUpdatingText[`${operationId}_operation-title`] = operationName;
 
-    const operationCategory = createElem('p', 'card__category', mainInfo);
-    createElem('span', 'card__category-text', operationCategory, this.langs[config.lang]['card__category-text']);
-    createElem('span', 'card__category-type', operationCategory, this.operationsResp[operationId].category);
+    const operationCategory = createElem('p', 'serv-card__category', mainInfo);
+    const categoryTxtContent = this.langs[config.lang]['serv-card__category-text'];
+    createElem('span', 'serv-card__category-text', operationCategory, categoryTxtContent);
+    createElem('span', 'serv-card__category-type', operationCategory, this.operationsResp[operationId].category);
 
-    const btn = createElem('button', 'card__btn btn-colored', card, this.langs[config.lang].card__btn);
+    const btn = createElem('button', 'serv-card__btn btn-colored', card, this.langs[config.lang]['serv-card__btn']);
 
     btn.addEventListener('click', () => this.renderPayment(+operationId));
 
@@ -119,20 +122,8 @@ class RenderPayment {
     createElem('div', 'filter__title', filterForm, this.langs[config.lang].filter__title);
     const filterList = createElem('div', 'filter__list', filterForm);
 
-    const filterAllItemElem = createElem('div', 'filter__item', filterList);
-
-    const inputAllOperationsElem = createElem('input', 'filter__input', filterAllItemElem) as HTMLInputElement;
-    inputAllOperationsElem.id = inputAllOperationsElem.value = 'all';
-    inputAllOperationsElem.name = filterType;
-    inputAllOperationsElem.type = 'radio';
-    inputAllOperationsElem.checked = this.selectedCategoryFilter === 'all';
-    this.elemsForUpdatingText[`category_all`] = inputAllOperationsElem;
-
-    const label = createElem('label', 'filter__label', filterAllItemElem) as HTMLLabelElement;
-    label.htmlFor = 'all';
-
-    createElem('span', 'filter__label-title', label, 'All');
-    createElem('span', 'filter__label-numbers', label, `(${this.countFilterValues()})`);
+    const filterAllItemElem = this.createFilterItemElem(filterType, 'All');
+    filterList.append(filterAllItemElem);
 
     const filterValues = this.getFiltersList();
     filterValues.forEach((filterValue) => {
@@ -162,7 +153,6 @@ class RenderPayment {
   createFilterItemElem(filterType: string, filterValue: string): HTMLElement {
     const filterItemElem = createElem('div', 'filter__item');
     const key = `${filterType.toLowerCase()}_${filterValue.toLowerCase().replace(/ /g, '*')}`;
-    filterValue = `${filterValue}`;
 
     const inputElem = createElem('input', 'filter__input', filterItemElem) as HTMLInputElement;
     inputElem.name = filterType.toLowerCase();
@@ -178,13 +168,14 @@ class RenderPayment {
     return filterItemElem;
   }
 
-  countFilterValues(filterValue?: string): number {
+  countFilterValues(filterValue: string): number {
     let valuesAmount;
     const operationIdArr = Object.keys(this.operationsResp);
+    const filterVal = filterValue.toLowerCase();
 
-    if (filterValue) {
+    if (filterVal !== 'all') {
       valuesAmount = operationIdArr.reduce((acc, operationId) => {
-        if (this.operationsResp[operationId].category.toLowerCase() === filterValue.toLowerCase()) {
+        if (this.operationsResp[operationId].category.toLowerCase() === filterVal) {
           acc += 1;
         }
         return acc;
@@ -217,11 +208,6 @@ class RenderPayment {
     });
 
     this.updatePaymentCardsText();
-  }
-
-  getCurrentToken(): string {
-    const token = localStorage.getItem('token') || '';
-    return token;
   }
 }
 

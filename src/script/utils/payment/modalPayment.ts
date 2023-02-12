@@ -1,4 +1,4 @@
-import { createElem } from '../../utilities/index';
+import { calculateCommissionSum, createElem } from '../../utilities';
 import { renderPayment } from './renderPayment';
 import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
@@ -12,7 +12,6 @@ import config from '../../data/config';
 import { validate } from '../validate';
 import {
   COMMISSION_AMOUNT,
-  COMMISSION_EXCHANGE_AMOUNT,
   ID_CURRENCY_COMMON_EXCHANGE,
   ID_CURRENCY_REFILL_SERVICE,
   ID_CURRENCY_SELL_SERVICE,
@@ -20,13 +19,12 @@ import {
   ID_REMOVE_SERVICE,
   ID_TRANSFER_SERVICE,
   INDEX_START_BANK_SERVICES,
-} from '../../data/constants/constants';
+  MAIN_CURRENCY,
+} from '../../data/constants';
 import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
 import { EMethod, EOperation, IMainRes } from '../../data/types';
-import { MAIN_CURRENCY } from '../../data/constants/currency';
-import { userFetch } from '../../fetch/userFetch';
 
 class ModalPayment {
   value?: string;
@@ -50,28 +48,27 @@ class ModalPayment {
       form.innerHTML = this.modalPaymentTemplate();
 
       const cardDataValidThru = form.querySelector('#valid-thru') as HTMLInputElement;
-      cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
+      cardDataValidThru?.addEventListener('invalid', () => this.showValidity(cardDataValidThru));
 
       const cardNumberInput = form.querySelector('.card-number') as HTMLElement;
       this.emailInputs['card-number'] = cardNumberInput;
     }
 
-    const btnConfirmBlock = createElem('div', 'form__btn', form) as HTMLElement;
-    const btnConfirm = createElem(
-      'button',
-      'btn btn--col-3 btn-colored unable',
-      btnConfirmBlock,
-      this.langs[config.lang]['btn--col-3']
-    ) as HTMLButtonElement;
+    const btnConfirmBlock = createElem('div', 'form__btn', form);
+    const btnConfirmText = this.langs[config.lang]['btn--col-3'];
+    const btnConfirmClassName = 'btn btn--col-3 btn-colored unable';
+    const btnConfirm = createElem('button', btnConfirmClassName, btnConfirmBlock, btnConfirmText) as HTMLButtonElement;
     btnConfirm.type = 'submit';
     this.btnConfirm = btnConfirm;
     this.checkInputsValidity(form);
 
-    const isAnonimExchange = paymentDetails.operationId === INDEX_START_BANK_SERVICES;
-    const isClientExchange = paymentDetails.operationId === ID_CURRENCY_COMMON_EXCHANGE;
-    const isRefill = paymentDetails.operationId === ID_REFILL_SERVICE;
-    const isRemove = paymentDetails.operationId === ID_REMOVE_SERVICE;
-    const isTransfer = paymentDetails.operationId === ID_TRANSFER_SERVICE;
+    const { operationId, operationSum } = paymentDetails;
+
+    const isAnonimExchange = operationId === INDEX_START_BANK_SERVICES;
+    const isClientExchange = operationId === ID_CURRENCY_COMMON_EXCHANGE;
+    const isRefill = operationId === ID_REFILL_SERVICE;
+    const isRemove = operationId === ID_REMOVE_SERVICE;
+    const isTransfer = operationId === ID_TRANSFER_SERVICE;
     if (isAnonimExchange || isClientExchange) {
       form.onsubmit = (e) => {
         this.currencyExchange(e, paymentDetails, popup);
@@ -82,7 +79,7 @@ class ModalPayment {
       };
     } else if (isTransfer) {
       form.onsubmit = (e) => {
-        this.transerMoney(e, paymentDetails, popup);
+        this.transferMoney(e, paymentDetails, popup);
       };
     } else {
       form.onsubmit = (e) => {
@@ -96,7 +93,7 @@ class ModalPayment {
     if (isAnonim) {
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
-      const isExchange = isAnonimExchange ? `${COMMISSION_EXCHANGE_AMOUNT}` : `${COMMISSION_AMOUNT}`;
+      const isExchange = isAnonimExchange ? `${calculateCommissionSum(operationSum)}` : `${COMMISSION_AMOUNT}`;
       createElem('span', 'commis__sum', commissionBlock, isExchange);
       createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
       popupContent.prepend(commissionBlock);
@@ -144,7 +141,8 @@ class ModalPayment {
     }
 
     if (isNotCard) {
-      const token = this.getCurrentToken();
+      const token = localStorage.getItem('token');
+      if (!token) return;
 
       moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
         console.log('changeMainMoney=', resp);
@@ -273,11 +271,6 @@ class ModalPayment {
     popupContent?.prepend(personalDetails);
   }
 
-  getCurrentToken(): string {
-    const token = localStorage.getItem('token') || '';
-    return token;
-  }
-
   modalPaymentTemplate(): string {
     return `
       <div class="form__card-details">
@@ -388,7 +381,7 @@ class ModalPayment {
     if (!this.canPay) return;
 
     const token = localStorage.getItem('token');
-    const isAnonim = !token;
+    const isClient = !!token;
 
     const { operationSum, currFrom, currTo } = paymentDetails;
     if (!currTo) return;
@@ -418,7 +411,7 @@ class ModalPayment {
             return;
           }
 
-          moneyFetch.anonimExchange(operationSum, currTo, isAnonim).then((resp) => {
+          moneyFetch.anonimExchange(operationSum, currTo, isClient).then((resp) => {
             console.log('anonimExchange=', resp);
             this.checkResponse(resp, popup, operationSum, operationId);
           });
@@ -489,7 +482,7 @@ class ModalPayment {
     }
   }
 
-  transerMoney(e: Event, paymentDetails: TPaymentDetails, popup: HTMLElement): void {
+  transferMoney(e: Event, paymentDetails: TPaymentDetails, popup: HTMLElement): void {
     e.preventDefault();
     if (!this.canPay) return;
 
@@ -501,17 +494,9 @@ class ModalPayment {
 
     this.startLoadingModalPayment(popup);
 
-    userFetch.isOurUser(userTo).then((resp) => {
-      console.log('isOurUser=', resp);
-      if (!resp.success) {
-        this.modalInfoMessage(this.langs[config.lang].errorNoUser, popup);
-        return;
-      }
-
-      moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
-        console.log('transfer=', resp);
-        this.checkResponse(resp, popup, operationSum, operationId);
-      });
+    moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
+      console.log('transfer=', resp);
+      this.checkResponse(resp, popup, operationSum, operationId);
     });
   }
 

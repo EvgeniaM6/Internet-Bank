@@ -18,6 +18,11 @@
     padding: 20px;
     border-radius: 5px;
 
+    @include media-mobile {
+      width: 94%;
+      padding: 10px;
+    }
+
     &.loading {
       max-height: 500px;
       display: flex;
@@ -57,11 +62,19 @@
     flex-direction: column;
     align-items: center;
     margin: 0 0 20px 0;
+
+    @include media-mobile {
+      margin: 0;
+    }
   }
 
   &__email {
     font-size: 18px;
     margin-bottom: 5px;
+
+    @include media-mobile {
+      font-size: 16px;
+    }
 
     &-label {
       display: inline-flex;
@@ -205,5 +218,9 @@
 
   &:disabled {
     border-color: #00000080;
+  }
+
+  @include media-mobile {
+    font-size: 16px;
   }
 }
