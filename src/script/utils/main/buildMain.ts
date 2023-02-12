@@ -98,7 +98,7 @@ class BuildMain {
     </ul>
     <div class="account-container">
       <p class="account__description">We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
-      <h3 class="account__ttl">Your credit cards<h3>
+      <h3 class="account__ttl">Your credit cards</h3>
       <div class="account__cards"></div>
     </div>`;
 

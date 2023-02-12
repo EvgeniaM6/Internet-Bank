@@ -1,3 +1,7 @@
+.account-container {
+  padding: 0 10px;
+}
+
 .account__list {
   display: flex;
   justify-content: space-between;
@@ -27,6 +31,10 @@
 #account__edit {
   width: 360px;
   text-align: right;
+}
+
+#account__edit {
+  margin-bottom: 15px;
 }
 
 .account__edit_title,
@@ -149,7 +157,9 @@ td.table-dark:last-child {
 
 .account__cards {
   display: flex;
+  flex-wrap: wrap;
   gap: 50px;
+  margin-bottom: 15px;
 }
 
 .account__cards_card {
@@ -157,4 +167,42 @@ td.table-dark:last-child {
   border-radius: 6px;
   width: 170px;
   height: 110px;
+}
+
+@media (max-width: 900px) {
+  .account__list {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .account__list {
+    flex-wrap: wrap;
+  }
+
+  .account__list-item {
+    width: 50%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 410px) {
+  .account-container {
+    padding: 0 5px;
+  }
+
+  .account__cards {
+    display: flex;
+    justify-content: center;
+  }
+
+  .account__operations_table {
+    font-size: 13px;
+  }
+
+  #account__password,
+  #account__edit {
+    width: 310px;
+    font-size: 13px;
+}
 }
