@@ -24,6 +24,7 @@
   .main {
     margin-top: 85px;
     margin-left: 0;
+    min-height: calc(100vh - 85px);
   }
 
   .main-auth {

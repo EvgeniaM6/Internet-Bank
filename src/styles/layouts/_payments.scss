@@ -3,8 +3,7 @@
   padding: 10px;
 
   .filters {
-    border: solid 5px $third;
-    border-radius: 20px;
+    border-bottom: solid 1px $third;
     margin-bottom: 10px;
     padding: 5px;
 
@@ -12,6 +11,10 @@
     
       &__form {
         display: flex;
+
+        @include media-mobile {
+          flex-direction: column;
+        }
       }
     
       &__title {
@@ -20,6 +23,12 @@
         text-transform: uppercase;
         font-size: 20px;
         text-align: end;
+
+        @include media-mobile {
+          text-align: center;
+          margin-right: 0;
+          margin-bottom: 8px;
+        }
       }
     
       &__list {
@@ -56,6 +65,7 @@
 
         &-title {
           margin-right: 3px;
+          text-transform: capitalize;
         }
       }
     
@@ -91,17 +101,29 @@
   
   .operations {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 10px;
     transition: 0.2s;
+
+    @include media-laptop {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    @include media-big-tablet {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include media-mobile {
+      grid-template-columns: 1fr;
+    }
   
-    .card {
+    .serv-card {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
       padding: 10px;
-      border-radius: 20px;
+      border-radius: 10px;
       border: 2px solid $third;
   
       &__main {

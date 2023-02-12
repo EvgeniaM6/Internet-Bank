@@ -2,6 +2,10 @@
   width: 100%;
   padding: 20px;
 
+  @include media-tablet {
+    padding-top: 0;
+  }
+
   .back {
     border-bottom: solid 1px $third;
     padding-bottom: 5px;

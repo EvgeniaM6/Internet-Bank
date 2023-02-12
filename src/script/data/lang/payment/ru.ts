@@ -1,14 +1,14 @@
-import { COMMISSION_AMOUNT, COMMISSION_EXCHANGE_AMOUNT } from '../../constants/constants';
+import { COMMISSION_AMOUNT, COMMISSION_EXCHANGE_AMOUNT } from '../../constants';
 
 export default {
-  'card__category-text': 'Категория:',
+  'serv-card__category-text': 'Категория:',
   filter__title: 'Выберите категорию:',
-  card__btn: 'оплатить',
+  'serv-card__btn': 'оплатить',
   'operation__category-text': 'Категория:',
   'form-paym__btn': 'оплатить со своего счета',
   'form-paym__btn-card': 'оплатить картой',
   operation__commission: `Комиссия за данную операцию составляет ${COMMISSION_AMOUNT} USD`,
-  'operation__commission-exch': `Комиссия за данную операцию составляет ${COMMISSION_EXCHANGE_AMOUNT} USD`,
+  'operation__commission-exch': `Комиссия за данную операцию составляет ${COMMISSION_EXCHANGE_AMOUNT}% от платежа`,
   back__text: 'Вернуться ко всем сервисам',
   'option-default-anonim': 'Валюта для списания',
   'option-default-2_0': 'Счет для списания',
