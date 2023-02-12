@@ -62,7 +62,9 @@ class ListenHeader {
       const header = document.querySelector('.header');
       const footerLogo = document.querySelector('.footer__logo');
       const author = document.querySelector('.footer__authors');
+      const backTxt = document.querySelector('.back__text');
 
+      if (backTxt) backTxt.classList.toggle('page-dark');
       if (body) body.classList.toggle('page-dark');
       if (footerLogo) footerLogo.classList.toggle('footer__logo-dark');
       if (author) author.classList.toggle('footer__authors-dark');

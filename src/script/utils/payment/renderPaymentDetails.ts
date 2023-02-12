@@ -42,7 +42,11 @@ class RenderPaymentDetails {
     const backBtnBlock = createElem('div', 'operation__back back', operation);
     const backBtn = createElem('button', 'back__btn', backBtnBlock);
     createElem('div', 'back__arrow', backBtn);
-    createElem('div', 'back__text', backBtn, this.langs[config.lang].back__text);
+    if (config.theme === 'dark') {
+      createElem('div', 'back__text page-dark', backBtn, this.langs[config.lang].back__text);
+    } else {
+      createElem('div', 'back__text', backBtn, this.langs[config.lang].back__text);
+    }
     backBtn.addEventListener('click', () => this.backToAllServices());
 
     const operationInfo = createElem('div', 'operation__info', operation);
