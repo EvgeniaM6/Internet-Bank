@@ -1,3 +1,4 @@
+import { calculateCommissionSum } from './calcCommission';
 import { createElem } from './createElem';
 
-export { createElem };
+export { calculateCommissionSum, createElem };

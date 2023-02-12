@@ -62,25 +62,26 @@ class RenderPayment {
   }
 
   renderPaymentCard(operationId: string, container: HTMLElement): void {
-    const card = createElem('div', 'operations__card card');
+    const card = createElem('div', 'operations__card serv-card');
 
-    const mainInfo = createElem('div', 'card__main', card);
+    const mainInfo = createElem('div', 'serv-card__main', card);
 
-    const operationImgBlock = createElem('div', 'card__img', mainInfo);
+    const operationImgBlock = createElem('div', 'serv-card__img', mainInfo);
     const logo = this.operationsResp[operationId].logo;
     if (logo) {
       operationImgBlock.style.backgroundColor = 'transparent';
       operationImgBlock.style.backgroundImage = `url(${logo})`;
     }
 
-    const operationName = createElem('p', 'card__title', mainInfo);
+    const operationName = createElem('p', 'serv-card__title', mainInfo);
     this.elemsForUpdatingText[`${operationId}_operation-title`] = operationName;
 
-    const operationCategory = createElem('p', 'card__category', mainInfo);
-    createElem('span', 'card__category-text', operationCategory, this.langs[config.lang]['card__category-text']);
-    createElem('span', 'card__category-type', operationCategory, this.operationsResp[operationId].category);
+    const operationCategory = createElem('p', 'serv-card__category', mainInfo);
+    const categoryTxtContent = this.langs[config.lang]['serv-card__category-text'];
+    createElem('span', 'serv-card__category-text', operationCategory, categoryTxtContent);
+    createElem('span', 'serv-card__category-type', operationCategory, this.operationsResp[operationId].category);
 
-    const btn = createElem('button', 'card__btn btn-colored', card, this.langs[config.lang].card__btn);
+    const btn = createElem('button', 'serv-card__btn btn-colored', card, this.langs[config.lang]['serv-card__btn']);
 
     btn.addEventListener('click', () => this.renderPayment(+operationId));
 

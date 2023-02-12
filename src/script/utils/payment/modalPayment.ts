@@ -1,4 +1,4 @@
-import { createElem } from '../../utilities/index';
+import { calculateCommissionSum, createElem } from '../../utilities/index';
 import { renderPayment } from './renderPayment';
 import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
@@ -67,11 +67,13 @@ class ModalPayment {
     this.btnConfirm = btnConfirm;
     this.checkInputsValidity(form);
 
-    const isAnonimExchange = paymentDetails.operationId === INDEX_START_BANK_SERVICES;
-    const isClientExchange = paymentDetails.operationId === ID_CURRENCY_COMMON_EXCHANGE;
-    const isRefill = paymentDetails.operationId === ID_REFILL_SERVICE;
-    const isRemove = paymentDetails.operationId === ID_REMOVE_SERVICE;
-    const isTransfer = paymentDetails.operationId === ID_TRANSFER_SERVICE;
+    const { operationId, operationSum } = paymentDetails;
+
+    const isAnonimExchange = operationId === INDEX_START_BANK_SERVICES;
+    const isClientExchange = operationId === ID_CURRENCY_COMMON_EXCHANGE;
+    const isRefill = operationId === ID_REFILL_SERVICE;
+    const isRemove = operationId === ID_REMOVE_SERVICE;
+    const isTransfer = operationId === ID_TRANSFER_SERVICE;
     if (isAnonimExchange || isClientExchange) {
       form.onsubmit = (e) => {
         this.currencyExchange(e, paymentDetails, popup);
@@ -82,7 +84,7 @@ class ModalPayment {
       };
     } else if (isTransfer) {
       form.onsubmit = (e) => {
-        this.transerMoney(e, paymentDetails, popup);
+        this.transferMoney(e, paymentDetails, popup);
       };
     } else {
       form.onsubmit = (e) => {
@@ -96,7 +98,7 @@ class ModalPayment {
     if (isAnonim) {
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
-      const isExchange = isAnonimExchange ? `${COMMISSION_EXCHANGE_AMOUNT}` : `${COMMISSION_AMOUNT}`;
+      const isExchange = isAnonimExchange ? `${calculateCommissionSum(operationSum)}` : `${COMMISSION_AMOUNT}`;
       createElem('span', 'commis__sum', commissionBlock, isExchange);
       createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
       popupContent.prepend(commissionBlock);
@@ -144,7 +146,7 @@ class ModalPayment {
     }
 
     if (isNotCard) {
-      const token = this.getCurrentToken();
+      const token = localStorage.getItem('token') || '';
 
       moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
         console.log('changeMainMoney=', resp);
@@ -271,11 +273,6 @@ class ModalPayment {
     );
 
     popupContent?.prepend(personalDetails);
-  }
-
-  getCurrentToken(): string {
-    const token = localStorage.getItem('token') || '';
-    return token;
   }
 
   modalPaymentTemplate(): string {
@@ -489,7 +486,7 @@ class ModalPayment {
     }
   }
 
-  transerMoney(e: Event, paymentDetails: TPaymentDetails, popup: HTMLElement): void {
+  transferMoney(e: Event, paymentDetails: TPaymentDetails, popup: HTMLElement): void {
     e.preventDefault();
     if (!this.canPay) return;
 
@@ -501,17 +498,9 @@ class ModalPayment {
 
     this.startLoadingModalPayment(popup);
 
-    userFetch.isOurUser(userTo).then((resp) => {
-      console.log('isOurUser=', resp);
-      if (!resp.success) {
-        this.modalInfoMessage(this.langs[config.lang].errorNoUser, popup);
-        return;
-      }
-
-      moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
-        console.log('transfer=', resp);
-        this.checkResponse(resp, popup, operationSum, operationId);
-      });
+    moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
+      console.log('transfer=', resp);
+      this.checkResponse(resp, popup, operationSum, operationId);
     });
   }
 
