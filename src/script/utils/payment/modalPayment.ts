@@ -141,7 +141,8 @@ class ModalPayment {
     }
 
     if (isNotCard) {
-      const token = localStorage.getItem('token') || '';
+      const token = localStorage.getItem('token');
+      if (!token) return;
 
       moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
         console.log('changeMainMoney=', resp);
