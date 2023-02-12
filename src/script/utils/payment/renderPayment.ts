@@ -7,7 +7,7 @@ import {
   ID_STOCKS_SELL_SERVICE,
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
-} from '../../data/constants/constants';
+} from '../../data/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';

@@ -1,4 +1,4 @@
-import { COMMISSION_AMOUNT, COMMISSION_EXCHANGE_AMOUNT } from '../../constants/constants';
+import { COMMISSION_AMOUNT, COMMISSION_EXCHANGE_AMOUNT } from '../../constants';
 
 export default {
   'serv-card__category-text': 'Категория:',

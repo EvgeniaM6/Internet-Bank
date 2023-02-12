@@ -1,4 +1,4 @@
-import { calculateCommissionSum, createElem } from '../../utilities/index';
+import { calculateCommissionSum, createElem } from '../../utilities';
 import { renderPayment } from './renderPayment';
 import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
@@ -12,7 +12,6 @@ import config from '../../data/config';
 import { validate } from '../validate';
 import {
   COMMISSION_AMOUNT,
-  COMMISSION_EXCHANGE_AMOUNT,
   ID_CURRENCY_COMMON_EXCHANGE,
   ID_CURRENCY_REFILL_SERVICE,
   ID_CURRENCY_SELL_SERVICE,
@@ -20,13 +19,12 @@ import {
   ID_REMOVE_SERVICE,
   ID_TRANSFER_SERVICE,
   INDEX_START_BANK_SERVICES,
-} from '../../data/constants/constants';
+  MAIN_CURRENCY,
+} from '../../data/constants';
 import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
 import { EMethod, EOperation, IMainRes } from '../../data/types';
-import { MAIN_CURRENCY } from '../../data/constants/currency';
-import { userFetch } from '../../fetch/userFetch';
 
 class ModalPayment {
   value?: string;
@@ -42,7 +40,7 @@ class ModalPayment {
     const popup = createElem('div', 'popup', document.body);
     popup.addEventListener('click', (e) => this.closePopUp(e));
 
-    const popupContent = createElem('div', 'popup__content', popup) as HTMLElement;
+    const popupContent = createElem('div', 'popup__content', popup);
     const form = createElem('form', 'form', popupContent) as HTMLFormElement;
     form.id = 'payment-form';
 
@@ -50,19 +48,16 @@ class ModalPayment {
       form.innerHTML = this.modalPaymentTemplate();
 
       const cardDataValidThru = form.querySelector('#valid-thru') as HTMLInputElement;
-      cardDataValidThru?.addEventListener('invalid', (e) => this.showValidity(e.target as HTMLInputElement));
+      cardDataValidThru?.addEventListener('invalid', () => this.showValidity(cardDataValidThru));
 
       const cardNumberInput = form.querySelector('.card-number') as HTMLElement;
       this.emailInputs['card-number'] = cardNumberInput;
     }
 
-    const btnConfirmBlock = createElem('div', 'form__btn', form) as HTMLElement;
-    const btnConfirm = createElem(
-      'button',
-      'btn btn--col-3 btn-colored unable',
-      btnConfirmBlock,
-      this.langs[config.lang]['btn--col-3']
-    ) as HTMLButtonElement;
+    const btnConfirmBlock = createElem('div', 'form__btn', form);
+    const btnConfirmText = this.langs[config.lang]['btn--col-3'];
+    const btnConfirmClassName = 'btn btn--col-3 btn-colored unable';
+    const btnConfirm = createElem('button', btnConfirmClassName, btnConfirmBlock, btnConfirmText) as HTMLButtonElement;
     btnConfirm.type = 'submit';
     this.btnConfirm = btnConfirm;
     this.checkInputsValidity(form);

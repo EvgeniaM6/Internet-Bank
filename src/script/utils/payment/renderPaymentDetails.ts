@@ -1,13 +1,15 @@
 import config from '../../data/config';
 import {
+  FOREIGN_CURRENCY,
   ID_CURRENCY_COMMON_EXCHANGE,
   ID_REFILL_SERVICE,
   ID_REMOVE_SERVICE,
   ID_TRANSFER_SERVICE,
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
+  MAIN_CURRENCY,
   OPERATION_INPUT_DATA,
-} from '../../data/constants/constants';
+} from '../../data/constants';
 import { TElemsForUpdateText, TInputData, TLang, TPaymentDetails, TServiceDetails } from '../../data/servicesType';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
@@ -18,7 +20,6 @@ import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
-import { FOREIGN_CURRENCY, MAIN_CURRENCY } from '../../data/constants/currency';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -167,25 +168,7 @@ class RenderPaymentDetails {
 
     const userNameInput = payForm.user as HTMLInputElement;
     if (userNameInput && userNameInput.value) {
-      const focusedElem = document.activeElement;
-      const isUserInputFocused = focusedElem === userNameInput;
-
-      if (userNameInput.value === config.currentUser) {
-        this.canPay = false;
-        return;
-      }
-
-      userNameInput.disabled = true;
-      userFetch.isOurUser(userNameInput.value).then((resp) => {
-        console.log('isOurUser=', resp);
-        userNameInput.disabled = false;
-        if (isUserInputFocused) {
-          userNameInput.focus();
-        }
-        this.canPay = this.canPay ? resp.success : this.canPay;
-
-        this.checkBtnsAbility(this.canPay);
-      });
+      this.checkUserInput(userNameInput);
       return;
     }
 
@@ -374,6 +357,28 @@ class RenderPaymentDetails {
         if (btnElem.classList.contains('unable')) return;
         btnElem.classList.add('unable');
       }
+    });
+  }
+
+  checkUserInput(userNameInput: HTMLInputElement): void {
+    const focusedElem = document.activeElement;
+    const isUserInputFocused = focusedElem === userNameInput;
+
+    if (userNameInput.value === config.currentUser) {
+      this.canPay = false;
+      return;
+    }
+
+    userNameInput.disabled = true;
+    userFetch.isOurUser(userNameInput.value).then((resp) => {
+      console.log('isOurUser=', resp);
+      userNameInput.disabled = false;
+      if (isUserInputFocused) {
+        userNameInput.focus();
+      }
+      this.canPay = this.canPay ? resp.success : this.canPay;
+
+      this.checkBtnsAbility(this.canPay);
     });
   }
 }
