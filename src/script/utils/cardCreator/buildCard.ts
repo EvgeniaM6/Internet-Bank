@@ -1,4 +1,5 @@
 import cardConfig from './cardConfig';
+import config from '../../data/config';
 
 class BuildCard {
   main() {
@@ -55,6 +56,19 @@ class BuildCard {
         </form>
         <div class="card__prev"></div>
     </div>`;
+
+    const blur = document.querySelector('.card__blur');
+    const brightness = document.querySelector('.card__brightness');
+
+    if (!blur || !brightness) return;
+
+    if (config.theme === 'dark') {
+      blur.classList.add('page-dark');
+      brightness.classList.add('page-dark');
+    } else {
+      blur.classList.remove('page-dark');
+      brightness.classList.remove('page-dark');
+    }
   }
 
   card() {

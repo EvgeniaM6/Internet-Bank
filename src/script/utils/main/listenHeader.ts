@@ -57,18 +57,49 @@ class ListenHeader {
       if (config.theme === 'light') config.theme = 'dark';
       else config.theme = 'light';
       const body = document.querySelector('.page');
+      const header = document.querySelector('.header');
       const footerLogo = document.querySelector('.footer__logo');
       const author = document.querySelector('.footer__authors');
 
       if (body) body.classList.toggle('page-dark');
       if (footerLogo) footerLogo.classList.toggle('footer__logo-dark');
       if (author) author.classList.toggle('footer__authors-dark');
+      if (header) {
+        if (header.classList.contains('page-dark')) {
+          header.classList.remove('page-dark');
+        } else header.classList.add('page-dark');
+      }
 
       const td = document.querySelectorAll('td');
       const th = document.querySelectorAll('th');
 
       td.forEach((el) => el.classList.toggle('table-dark'));
       th.forEach((el) => el.classList.toggle('table-dark'));
+
+      const blur = document.querySelector('.card__blur');
+      const brightness = document.querySelector('.card__brightness');
+
+      if (!blur || !brightness || !header) return;
+
+      if (config.theme === 'dark') {
+        blur.classList.add('page-dark');
+        brightness.classList.add('page-dark');
+      } else {
+        blur.classList.remove('page-dark');
+        brightness.classList.remove('page-dark');
+      }
+
+      const nav = document.querySelector('.header__nav');
+      console.log('navigation1');
+      if (!nav) return;
+      console.log('navigation2');
+      if (config.theme === 'dark') {
+        nav.classList.add('page-dark');
+        header.classList.add('page-dark');
+      } else {
+        nav.classList.remove('page-dark');
+        header.classList.remove('page-dark');
+      }
     });
 
     burger.addEventListener('click', () => {
@@ -76,6 +107,12 @@ class ListenHeader {
       if (!nav) return;
 
       nav.classList.add('header__nav_burger');
+
+      if (config.theme === 'dark') {
+        nav.classList.add('page-dark');
+      } else {
+        nav.classList.remove('page-dark');
+      }
     });
 
     closeBurger.addEventListener('click', () => {
