@@ -1,6 +1,8 @@
 import { buildAuth } from '../auth/buildAuth';
 import { listenAdmin } from './listenAdmin';
 import config from '../../data/config';
+import yes from '../../../assets/img/icons/ok.svg';
+import no from '../../../assets/img/icons/cancel.svg';
 
 class BuildAdmin {
   async showUserList() {
@@ -41,8 +43,8 @@ class BuildAdmin {
         <td>${rez.safeDatabase[i].email}</td>
         <td>${
           rez.safeDatabase[i].isBlock
-            ? '<img src="./assets/icons8-ok.svg" alt="ok" class="blocked">'
-            : '<img src="./assets/icons8-cancel.svg" alt="cancel" class="blocked">'
+            ? `<img src="${yes}" alt="ok" class="blocked">`
+            : `<img src="${no}" alt="cancel" class="blocked">`
         }</td>`;
 
         tbody.appendChild(row);
