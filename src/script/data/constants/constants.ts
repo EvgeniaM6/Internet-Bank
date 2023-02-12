@@ -125,6 +125,7 @@ export const OPERATION_INPUT_DATA: TOperationInputData = {
     {
       name: 'user',
       inputType: 'text',
+      regex: `\\.+`,
       placeholder: 'mikle123',
       hint: {
         en: 'enter username',

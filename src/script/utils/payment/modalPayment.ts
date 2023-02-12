@@ -388,7 +388,7 @@ class ModalPayment {
     if (!this.canPay) return;
 
     const token = localStorage.getItem('token');
-    const isAnonim = !token;
+    const isClient = !!token;
 
     const { operationSum, currFrom, currTo } = paymentDetails;
     if (!currTo) return;
@@ -418,7 +418,7 @@ class ModalPayment {
             return;
           }
 
-          moneyFetch.anonimExchange(operationSum, currTo, isAnonim).then((resp) => {
+          moneyFetch.anonimExchange(operationSum, currTo, isClient).then((resp) => {
             console.log('anonimExchange=', resp);
             this.checkResponse(resp, popup, operationSum, operationId);
           });
