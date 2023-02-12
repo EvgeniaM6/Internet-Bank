@@ -101,12 +101,43 @@
 }
 
 @media (max-width: 1040px) {
-  .admin__users {
+  .admin__users,
+  .admin__user {
     max-width: 500px;
   }
 
-  .admin__users_table {
+  .admin__users_table,
+  .admin__user_operations {
     width: 500px;
     font-size: 15px;
+  }
+
+  .admin__user_button-lock,
+  .admin__user_button-remove,
+  .admin__user_button-back {
+    width: 120px;
+  }
+}
+
+@media (max-width: 550px) {
+  .admin-container {
+    padding: 5px;
+  }
+
+  .admin__users,
+  .admin__user {
+    max-width: 310px;
+  }
+
+  .admin__users_table,
+  .admin__user_operations {
+    width: 310px;
+    font-size: 13px;
+  }
+
+  .admin__user_button-lock,
+  .admin__user_button-remove,
+  .admin__user_button-back {
+    width: 100px;
   }
 }
