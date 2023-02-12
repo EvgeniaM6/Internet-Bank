@@ -46,6 +46,15 @@
   &__login {
     cursor: pointer;
   }
+  &__theme {
+    filter: invert(100%);
+    width: 40px;
+    height: 40px;
+  }
+
+  &__theme-dark {
+    filter: invert(0);
+  }
 }
 
 @media screen and (max-width: 768px) {

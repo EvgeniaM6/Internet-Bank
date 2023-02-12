@@ -9,6 +9,8 @@ import { transition } from '../transition';
 import { createMain } from './createMain';
 import createStocks from '../stocks/createStocks';
 import pushState from '../../router/pushState';
+import moon from '../../../assets/img/icons/moon.svg';
+import sun from '../../../assets/img/icons/carbon_sun.svg';
 
 class ListenHeader {
   async updateInfo() {
@@ -82,9 +84,11 @@ class ListenHeader {
       const nav = document.querySelector('.header__nav');
       if (!nav || !header) return;
       if (config.theme === 'dark') {
+        theme.innerHTML = `<img src="${sun}" alt="moon" class="header__theme header__theme-dark">`;
         nav.classList.add('page-dark');
         header.classList.add('page-dark');
       } else {
+        theme.innerHTML = `<img src="${moon}" alt="moon" class="header__theme">`;
         nav.classList.remove('page-dark');
         header.classList.remove('page-dark');
       }

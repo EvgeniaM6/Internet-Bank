@@ -99,3 +99,14 @@
 .admin__remove_button-submit {
   margin-right: 45px;
 }
+
+@media (max-width: 1040px) {
+  .admin__users {
+    max-width: 500px;
+  }
+
+  .admin__users_table {
+    width: 500px;
+    font-size: 15px;
+  }
+}

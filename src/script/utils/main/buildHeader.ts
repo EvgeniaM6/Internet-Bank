@@ -1,4 +1,4 @@
-import config from '../../data/config';
+import moon from '../../../assets/img/icons/moon.svg';
 
 class BuildHeader {
   anonimHeader() {
@@ -25,7 +25,7 @@ class BuildHeader {
     <div class="header__down">
         <div class="header__login">Log In</div>
         <div class="header__switch_theme">
-          <img src="/assets/img/icons/moon.svg" alt="moon" class="header__theme">
+          <img src="${moon}" alt="moon" class="header__theme">
         </div>
     </div>`;
   }
