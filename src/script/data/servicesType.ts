@@ -11,7 +11,7 @@ export interface IServiceObj {
 export type TServiceDetails = {
   name: string;
   ruName: string;
-  category: string;
+  category: TTextByLang;
   logo?: string;
 };
 
@@ -34,7 +34,7 @@ export type TInputData = {
   maxLeng?: number;
 };
 
-type TTextByLang = {
+export type TTextByLang = {
   [key: string]: string;
 };
 

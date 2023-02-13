@@ -15,6 +15,7 @@ class ListenStocks {
       const minus = stock.querySelector('.item__minus');
       const plus = stock.querySelector('.item__plus');
       const input = stock.querySelector('.item__value');
+      const isEnglish = config.lang === 'en';
 
       if (!counter || !button || !minus || !plus || !(input instanceof HTMLInputElement)) return;
 
@@ -44,15 +45,15 @@ class ListenStocks {
         const buttonList = document.querySelectorAll('.stocks__button') as NodeListOf<HTMLButtonElement>;
         if (!status) return;
 
-        status.textContent = config.lang === 'en' ? 'Deal...' : 'Сделка...';
+        status.textContent = isEnglish ? 'Deal...' : 'Сделка...';
         buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
-        status.textContent = result.message;
+        status.textContent = isEnglish ? result.message : result.success ? 'Успех!' : 'Ошибка';
         buttonController.able(buttonList);
 
         setTimeout(() => {
-          status.textContent = config.lang === 'en' ? 'Ready to deal' : 'Открыто';
+          status.textContent = isEnglish ? 'Ready to deal' : 'Открыто';
         }, 3000);
 
         if (result.success) {
@@ -65,6 +66,7 @@ class ListenStocks {
 
   user() {
     const userList = document.querySelectorAll('.stocks__user-item');
+    const isEnglish = config.lang === 'en';
 
     userList.forEach((stock) => {
       const counter = stock.querySelector('.stocks__user-count');
@@ -101,15 +103,15 @@ class ListenStocks {
         const buttonList = document.querySelectorAll('.stocks__button') as NodeListOf<HTMLButtonElement>;
         if (!status) return;
 
-        status.textContent = config.lang === 'en' ? 'Deal...' : 'Сделка...';
+        status.textContent = isEnglish ? 'Deal...' : 'Сделка...';
         buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.REMOVE, stockName, value);
-        status.textContent = result.message;
+        status.textContent = isEnglish ? result.message : result.success ? 'Успех!' : 'Ошибка';
         buttonController.able(buttonList);
 
         setTimeout(() => {
-          status.textContent = config.lang === 'en' ? 'Ready to deal' : 'Открыто';
+          status.textContent = isEnglish ? 'Ready to deal' : 'Открыто';
         }, 3000);
 
         if (result.success) {

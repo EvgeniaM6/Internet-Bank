@@ -1,4 +1,5 @@
 export default {
+  header__burger: 'Menu',
   'header__nav-about': 'About',
   'header__nav-services': 'Services',
   'header__nav-quiz': 'Quiz',
