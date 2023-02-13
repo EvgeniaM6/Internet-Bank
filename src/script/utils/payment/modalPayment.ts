@@ -40,7 +40,11 @@ class ModalPayment {
     const popup = createElem('div', 'popup', document.body);
     popup.addEventListener('click', (e) => this.closePopUp(e));
 
-    const popupContent = createElem('div', `${config.theme === 'dark' ? 'popup__content page-dark' : 'popup__content'}`, popup) as HTMLElement;
+    const popupContent = createElem(
+      'div',
+      `${config.theme === 'dark' ? 'popup__content page-dark' : 'popup__content'}`,
+      popup
+    ) as HTMLElement;
     const form = createElem('form', 'form', popupContent) as HTMLFormElement;
     form.id = 'payment-form';
 
