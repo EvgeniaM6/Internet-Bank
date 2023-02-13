@@ -17,7 +17,7 @@ export default {
   high_eleven: 'Languages: RU and EN',
   about__stack_h: 'Stack',
   stack_one: 'Front-end: HTML5, SCSS, TypeScript',
-  stack_two: 'Back-end: Node.js / Express: WebSocket, JWT, NodeEmailer etc.',
+  stack_two: 'Back-end: Node.js / Express (WebSocket, JWT, NodeEmailer, etc.)',
   stack_three: 'Database: Mongo DB',
   stack_four: 'API: Currency (API Ninjas), DOMtoImage (HCTI API)',
   'about__authors-h': 'Authors',
@@ -26,9 +26,9 @@ export default {
   'egor-text':
     '23 yo, Minsk. Have Air Traffic Controller diploma. Likes to work on interesting and challenging projects. RS School student since spring 2022.',
   andrei: 'Andrei Shamanouski',
-  'andrei-resp': 'User Panel, Admin Panel, Day/Night Mode',
+  'andrei-resp': 'User and Admin Panels, Day/Night Mode, Financial Quiz',
   'andrei-text': '',
-  evgeniya: 'Andrei Shamanouski',
-  'evgeniya-resp': 'User Panel, Admin Panel, Day/Night Mode',
+  evgeniya: 'Yevheniia Miniukova',
+  'evgeniya-resp': 'Services, RU/EN Lang',
   'evgeniya-text': '',
 };
