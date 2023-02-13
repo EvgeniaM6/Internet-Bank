@@ -8,7 +8,14 @@ import {
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
 } from '../../data/constants';
-import { IServiceObj, IServices, TElemsForUpdateText, TLang, TServiceDetails } from '../../data/servicesType';
+import {
+  IServiceObj,
+  IServices,
+  TElemsForUpdateText,
+  TLang,
+  TServiceDetails,
+  TTextByLang,
+} from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
@@ -81,7 +88,9 @@ class RenderPayment {
     const operationCategory = createElem('p', 'serv-card__category', mainInfo);
     const categoryTxtContent = this.langs[config.lang]['serv-card__category-text'];
     createElem('span', 'serv-card__category-text', operationCategory, categoryTxtContent);
-    createElem('span', 'serv-card__category-type', operationCategory, this.operationsResp[operationId].category);
+    const categoryTxt = this.operationsResp[operationId].category[config.lang];
+    const categoryTitle = createElem('span', 'serv-card__category-type', operationCategory, categoryTxt);
+    this.elemsForUpdatingText[`${operationId}_category-type`] = categoryTitle;
 
     const btn = createElem('button', 'serv-card__btn btn-colored', card, this.langs[config.lang]['serv-card__btn']);
 
@@ -98,13 +107,27 @@ class RenderPayment {
   updatePaymentCardsText(): void {
     const keyForText = config.lang === 'en' ? 'name' : 'ruName';
 
+    const operationsRespValues = Object.values(this.operationsResp);
+
     Object.keys(this.elemsForUpdatingText).forEach((key) => {
-      const [operationId, elemType] = key.split('_');
+      const [operationId, elemType, filterVal] = key.split('_');
+      const elemForUpdate = this.elemsForUpdatingText[key];
 
       if (elemType === 'operation-title') {
-        const elemForUpdate = this.elemsForUpdatingText[key];
         const textForElem = this.operationsResp[operationId][keyForText];
         elemForUpdate.textContent = textForElem;
+      } else if (elemType === 'category-type') {
+        const textForElem = this.operationsResp[operationId].category[config.lang];
+        elemForUpdate.textContent = textForElem;
+      } else if (elemType === 'category-title') {
+        if (!operationsRespValues) return;
+
+        const textDataForElem = operationsRespValues.find(
+          (operationData) => operationData.category.en.toLowerCase() === filterVal
+        );
+        if (!textDataForElem) return;
+
+        elemForUpdate.textContent = textDataForElem.category[config.lang];
       }
     });
   }
@@ -122,7 +145,8 @@ class RenderPayment {
     createElem('div', 'filter__title', filterForm, this.langs[config.lang].filter__title);
     const filterList = createElem('div', 'filter__list', filterForm);
 
-    const filterAllItemElem = this.createFilterItemElem(filterType, 'All');
+    const filterAllTxtData = { en: this.langs.en['radio-all'], ru: this.langs.ru['radio-all'] };
+    const filterAllItemElem = this.createFilterItemElem(filterType, filterAllTxtData);
     filterList.append(filterAllItemElem);
 
     const filterValues = this.getFiltersList();
@@ -136,12 +160,12 @@ class RenderPayment {
     container.append(filterElem);
   }
 
-  getFiltersList(): Array<string> {
-    const values: Array<string> = [];
+  getFiltersList(): Array<TTextByLang> {
+    const values: Array<TTextByLang> = [];
 
     Object.keys(this.operationsResp).forEach((operationId) => {
       const operationCategory = this.operationsResp[operationId].category;
-      const hasValue = values.some((value) => value.toLowerCase() === operationCategory.toLowerCase());
+      const hasValue = values.some((value) => value.en.toLowerCase() === operationCategory.en.toLowerCase());
       if (!hasValue) {
         values.push(operationCategory);
       }
@@ -150,21 +174,28 @@ class RenderPayment {
     return values;
   }
 
-  createFilterItemElem(filterType: string, filterValue: string): HTMLElement {
+  createFilterItemElem(filterType: string, filterValue: TTextByLang): HTMLElement {
     const filterItemElem = createElem('div', 'filter__item');
-    const key = `${filterType.toLowerCase()}_${filterValue.toLowerCase().replace(/ /g, '*')}`;
+    const key = `${filterType.toLowerCase()}_${filterValue.en.toLowerCase().replace(/ /g, '*')}`;
 
     const inputElem = createElem('input', 'filter__input', filterItemElem) as HTMLInputElement;
+    const isAllCategoryRadio = filterValue.en.toLowerCase() === 'all';
+    if (isAllCategoryRadio) {
+      inputElem.classList.add('radio-all');
+    }
     inputElem.name = filterType.toLowerCase();
     inputElem.type = 'radio';
-    inputElem.checked = this.selectedCategoryFilter.toLowerCase() === filterValue.toLowerCase();
+    inputElem.checked = this.selectedCategoryFilter.toLowerCase() === filterValue.en.toLowerCase();
     this.elemsForUpdatingText[`radio_${key}`] = inputElem;
 
     const label = createElem('label', 'filter__label', filterItemElem) as HTMLLabelElement;
-    inputElem.id = inputElem.value = label.htmlFor = `${filterValue.toLowerCase()}`;
+    inputElem.id = inputElem.value = label.htmlFor = `${filterValue.en.toLowerCase()}`;
 
-    createElem('span', 'filter__label-title', label, filterValue);
-    createElem('span', 'filter__label-numbers', label, `(${this.countFilterValues(filterValue)})`);
+    const labelTxt = createElem('span', 'filter__label-title', label, filterValue[config.lang]);
+    if (!isAllCategoryRadio) {
+      this.elemsForUpdatingText[`0_category-title_${filterValue.en.toLowerCase()}`] = labelTxt;
+    }
+    createElem('span', 'filter__label-numbers', label, `(${this.countFilterValues(filterValue.en)})`);
     return filterItemElem;
   }
 
@@ -175,7 +206,7 @@ class RenderPayment {
 
     if (filterVal !== 'all') {
       valuesAmount = operationIdArr.reduce((acc, operationId) => {
-        if (this.operationsResp[operationId].category.toLowerCase() === filterVal) {
+        if (this.operationsResp[operationId].category.en.toLowerCase() === filterVal) {
           acc += 1;
         }
         return acc;
@@ -198,7 +229,7 @@ class RenderPayment {
     this.operationsContainer.innerHTML = '';
 
     const filteredOperationsIdArr = Object.keys(this.operationsResp).filter((operationId) => {
-      const categInResp = this.operationsResp[operationId].category.toLowerCase();
+      const categInResp = this.operationsResp[operationId].category.en.toLowerCase();
 
       return this.selectedCategoryFilter === 'all' ? true : categInResp === this.selectedCategoryFilter.toLowerCase();
     });

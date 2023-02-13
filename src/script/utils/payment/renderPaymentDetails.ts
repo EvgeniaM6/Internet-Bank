@@ -70,7 +70,9 @@ class RenderPaymentDetails {
       operationCategory,
       this.langs[config.lang]['operation__category-text']
     );
-    createElem('span', 'operation__category-type', operationCategory, this.currentOperationData.category);
+    const categotyTxt = this.currentOperationData.category[config.lang];
+    const categotyType = createElem('span', 'operation__category-type', operationCategory, categotyTxt);
+    this.elemsForUpdatingText[`category_${operationId}`] = categotyType;
 
     this.renderCommonService(operationId, operation);
 
@@ -201,16 +203,15 @@ class RenderPaymentDetails {
           }
           break;
         case 'input':
-          {
-            if (+operationId >= INDEX_START_SERVICES) {
-              elem.title = OPERATION_INPUT_DATA[operationId][+inputIdx].hint[config.lang];
-            }
-          }
+          if (+operationId < INDEX_START_SERVICES) break;
+          elem.title = OPERATION_INPUT_DATA[operationId][+inputIdx].hint[config.lang];
           break;
         case 'label':
-          {
-            elem.textContent = OPERATION_INPUT_DATA[operationId][+inputIdx].labelText[config.lang];
-          }
+          elem.textContent = OPERATION_INPUT_DATA[operationId][+inputIdx].labelText[config.lang];
+          break;
+        case 'category':
+          if (!this.currentOperationData) break;
+          elem.textContent = this.currentOperationData.category[config.lang];
           break;
         default:
           break;
