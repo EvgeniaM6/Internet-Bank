@@ -23,4 +23,5 @@ export default {
   'option-anonim_GBP': 'Карта в GBP',
   'option-anonim_BYN': 'Карта в BYN',
   'option-anonim_UAH': 'Карта в UAH',
+  'radio-all': 'Все',
 };

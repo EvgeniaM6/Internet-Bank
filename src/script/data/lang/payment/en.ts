@@ -23,4 +23,5 @@ export default {
   'option-anonim_GBP': 'Card in GBP',
   'option-anonim_BYN': 'Card in BYN',
   'option-anonim_UAH': 'Card in UAH',
+  'radio-all': 'All',
 };
