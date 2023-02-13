@@ -4,4 +4,4 @@ export default {
   //'stat__operation-name': '',
   'stat__operation-count': 'Count: ',
   'stat__operation-money': 'Sum Money: ',
-}
+};

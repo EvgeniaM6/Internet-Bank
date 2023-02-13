@@ -18,7 +18,7 @@ class BuildStock {
 
     if (!userStocks.length) {
       userList.innerHTML = `<h3 class="stocks__user-h">${config.lang === 'en' ? 'User Stocks' : 'Ваши Акции'}</h3>
-      <p class="stocks__user-empty">${config.lang === 'en' ? 'You haven\'t any stocks' : 'У вас нет акций'}</p>`;
+      <p class="stocks__user-empty">${config.lang === 'en' ? "You haven't any stocks" : 'У вас нет акций'}</p>`;
       return;
     }
 

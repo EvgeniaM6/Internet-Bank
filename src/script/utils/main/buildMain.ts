@@ -20,26 +20,52 @@ class BuildMain {
 
     const about = document.createElement('div');
     about.classList.add('about');
-    about.innerHTML = `<h2 class="about__h">${config.lang === 'en' ? 'RS Bank - clone of Internet Bank' : 'RS Bank - клон Интернет-Банка'}</h2>
-    <p class="about__text">${config.lang === 'en' ? `Our RS School 2022Q3 final project is a clone of the Internet bank. 
+    about.innerHTML = `<h2 class="about__h">${
+      config.lang === 'en' ? 'RS Bank - clone of Internet Bank' : 'RS Bank - клон Интернет-Банка'
+    }</h2>
+    <p class="about__text">${
+      config.lang === 'en'
+        ? `Our RS School 2022Q3 final project is a clone of the Internet bank. 
     Today, almost all financial transactions can be performed remotely via the Internet. 
-    So we decided to create bank web-application` : `Наш проект - клон интернет-банка. На сегодняшний день практически все 
+    So we decided to create bank web-application`
+        : `Наш проект - клон интернет-банка. На сегодняшний день практически все 
     финаносвые операции можно выполнить удаленно через интернет. 
-    Мы решили создать свое веб-приложение банка.`}</p>
+    Мы решили создать свое веб-приложение банка.`
+    }</p>
     <section class="about__highlights about__section">
         <h3 class="about__highlights-h">${config.lang === 'en' ? 'Opportunities' : 'Возможности'}</h3>
         <ul>
-            <li class="high_one">${config.lang === 'en' ? 'Authorization (incl. registration, password reset and two-factor authentication)' : 'Авторизация (в т.ч. регистрация, сброс пароля и двухэтапная верификация)'}</li>
-            <li class="high_two">${config.lang === 'en' ? 'User Panel (info update, account delete and etc.)' : 'Личный кабинет (изменение данных, удаление аккаунта и т.д.)'}</li>
-            <li class="high_three">${config.lang === 'en' ? 'Admin Panel (bank management)' : 'Кабинет админа (управление банком)'}</li>
-            <li class="high_four">${config.lang === 'en' ? 'Bank Services (accounts, money exchage, money transfers between clients and etc.)' : 'Банковские услуги (счета, обмен валюты, перевод между клиентами и т.д.)'}</li>
-            <li class="high_five">${config.lang === 'en' ? 'Other Services (Netflix, Booking, Orange and etc.)' : 'Прочие услуги (Netflix, Booking, Orange и др.)'}</li>
+            <li class="high_one">${
+              config.lang === 'en'
+                ? 'Authorization (incl. registration, password reset and two-factor authentication)'
+                : 'Авторизация (в т.ч. регистрация, сброс пароля и двухэтапная верификация)'
+            }</li>
+            <li class="high_two">${
+              config.lang === 'en'
+                ? 'User Panel (info update, account delete and etc.)'
+                : 'Личный кабинет (изменение данных, удаление аккаунта и т.д.)'
+            }</li>
+            <li class="high_three">${
+              config.lang === 'en' ? 'Admin Panel (bank management)' : 'Кабинет админа (управление банком)'
+            }</li>
+            <li class="high_four">${
+              config.lang === 'en'
+                ? 'Bank Services (accounts, money exchage, money transfers between clients and etc.)'
+                : 'Банковские услуги (счета, обмен валюты, перевод между клиентами и т.д.)'
+            }</li>
+            <li class="high_five">${
+              config.lang === 'en'
+                ? 'Other Services (Netflix, Booking, Orange and etc.)'
+                : 'Прочие услуги (Netflix, Booking, Orange и др.)'
+            }</li>
             <li class="high_six">${config.lang === 'en' ? 'Financial Quiz' : 'Викторина по финансовой грамотности'}</li>
             <li class="high_seven">${config.lang === 'en' ? 'Card Constructor' : 'Конструктор дизайна карточки'}</li>
             <li class="high_eight">${config.lang === 'en' ? 'Stocks market' : 'Биржа акций'}</li>
             <li class="high_nine">${config.lang === 'en' ? 'Statistics' : 'Статистика'}</li>
             <li class="high_ten">${config.lang === 'en' ? 'Day/Night Mode' : 'Дневная/Ночная темы'}</li>
-            <li class="high_eleven">${config.lang === 'en' ? 'Languages: RU and EN' : 'Языки: русский и английский'}</li>
+            <li class="high_eleven">${
+              config.lang === 'en' ? 'Languages: RU and EN' : 'Языки: русский и английский'
+            }</li>
         </ul>
     </section>
     <section class="about__stack about__section">
@@ -58,33 +84,49 @@ class BuildMain {
             <div class="about__author-info">
                 <p class="about__author-name egor">${config.lang === 'en' ? 'Egor Litavar' : 'Егор Литавор'}</p>
                 <small class="about__author-resp egor-resp">Back-end, Authorization, Statistics, Stocks, Card Creator</small>
-                <p class="about__author-text egor-text">${config.lang === 'en' ? `23 yo, Minsk. Have Air Traffic Controller diploma.
+                <p class="about__author-text egor-text">${
+                  config.lang === 'en'
+                    ? `23 yo, Minsk. Have Air Traffic Controller diploma.
                 Likes to work on interesting and challenging projects.
-                 RS School student since spring 2022.` : ``}</p>
+                 RS School student since spring 2022.`
+                    : ``
+                }</p>
             </div>
         </div>
         <div class="about__andrei about__author-container">
             <img src="https://avatars.githubusercontent.com/u/96068842?v=4" alt="andrei-photo" class="about__author-photo">
             <div class="about__author-info">
-                <p class="about__author-name andrei">${config.lang === 'en' ? 'Andrei Shamanouski' : 'Andrei Shamanouski'}</p>
+                <p class="about__author-name andrei">${
+                  config.lang === 'en' ? 'Andrei Shamanouski' : 'Andrei Shamanouski'
+                }</p>
                 <small class="about__author-resp andrei-resp">User and Admin Panels, Day/Night Mode, Financial Quiz</small>
-                <p class="about__author-text andrei-text">${config.lang === 'en' ? `Lorem ipsum dolor sit amet, consectetur 
+                <p class="about__author-text andrei-text">${
+                  config.lang === 'en'
+                    ? `Lorem ipsum dolor sit amet, consectetur 
                 adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.` : `Lorem ipsum dolor sit amet, consectetur 
+                dolore magna aliqua.`
+                    : `Lorem ipsum dolor sit amet, consectetur 
                 adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.`}</p>
+                dolore magna aliqua.`
+                }</p>
             </div>
         </div>
         <div class="about__evgeniya about__author-container">
             <img src="https://avatars.githubusercontent.com/u/93492831?v=4" alt="evgeniya-photo" class="about__author-photo">
             <div class="about__author-info">
-                <p class="about__author-name evgeniya">${config.lang === 'en' ? 'Yevheniia Miniukova' : 'Yevheniia Miniukova'}</p>
+                <p class="about__author-name evgeniya">${
+                  config.lang === 'en' ? 'Yevheniia Miniukova' : 'Yevheniia Miniukova'
+                }</p>
                 <small class="about__author-resp evgeniya-resp">Services, RU/EN Lang</small>
-                <p class="about__author-text evgeniya-text">${config.lang === 'en' ? `Lorem ipsum dolor sit amet, consectetur 
+                <p class="about__author-text evgeniya-text">${
+                  config.lang === 'en'
+                    ? `Lorem ipsum dolor sit amet, consectetur 
                 adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.` : `Lorem ipsum dolor sit amet, consectetur 
+                dolore magna aliqua.`
+                    : `Lorem ipsum dolor sit amet, consectetur 
                 adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.`}</p>
+                dolore magna aliqua.`
+                }</p>
             </div>
         </div>
     </section>`;

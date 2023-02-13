@@ -19,11 +19,15 @@ class BuildCard {
                 </select>
             </div>
             <div class="card__info-item">
-                <label for="" class="card__name-label">${config.lang === 'en' ? 'Your name' : 'Ваше имя и фамилия'}</label>
+                <label for="" class="card__name-label">${
+                  config.lang === 'en' ? 'Your name' : 'Ваше имя и фамилия'
+                }</label>
                 <input type="text" name="" id="" class="card__name" value="Name Surname">
             </div>
             <div class="card__info-item"> 
-                <label for="" class="card__color-label">${config.lang === 'en' ? 'Background color' : 'Цвет фона'}</label>
+                <label for="" class="card__color-label">${
+                  config.lang === 'en' ? 'Background color' : 'Цвет фона'
+                }</label>
                 <input type="color" name="" id="" class="card__color">
             </div>
             <div class="card__info-item"> 
@@ -31,7 +35,9 @@ class BuildCard {
                 <input type="color" name="" id="" class="card__text" value="#ffffff">
             </div>
             <div class="card__info-item">
-                <label for="" class="card__link-label">${config.lang === 'en' ? 'Background link' : 'Ссылка на ваше изображение'}</label>
+                <label for="" class="card__link-label">${
+                  config.lang === 'en' ? 'Background link' : 'Ссылка на ваше изображение'
+                }</label>
                 <input type="text" name="" id="" class="card__link">
             </div>
             <div class="card__range-item">
@@ -49,9 +55,17 @@ class BuildCard {
                 <li class="c__i-two">${config.lang === 'en' ? 'Enter your name' : 'Введите ваше имя и фамилию'}</li>
                 <li class="c__i-three">${config.lang === 'en' ? 'Choose background color' : 'Выберите цвет фона'}</li>
                 <li class="c__i-four">${config.lang === 'en' ? 'Choose text color' : 'Выберите цвет текста'}</li>
-                <li class="c__i-five">${config.lang === 'en' ? 'Add your own image via link (optional)' : 'Добавьте свое собственное изображение (ссылка, опционально)'}</li>
+                <li class="c__i-five">${
+                  config.lang === 'en'
+                    ? 'Add your own image via link (optional)'
+                    : 'Добавьте свое собственное изображение (ссылка, опционально)'
+                }</li>
                 <li class="c__i-six">${config.lang === 'en' ? 'Press "Preview" button' : 'Нажмите "Превью"'}</li>
-                <li class="c__i-seven">${config.lang === 'en' ? 'Did you like the card? Press "Create" and enjoy shopping!' : 'Вам понравилась картчока? Нажмите "Создать" и наслаждайтесь шопингом!'}</li>
+                <li class="c__i-seven">${
+                  config.lang === 'en'
+                    ? 'Did you like the card? Press "Create" and enjoy shopping!'
+                    : 'Вам понравилась картчока? Нажмите "Создать" и наслаждайтесь шопингом!'
+                }</li>
             </ol>
         </form>
         <div class="card__prev"></div>

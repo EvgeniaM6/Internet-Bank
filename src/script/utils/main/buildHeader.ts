@@ -16,10 +16,16 @@ class BuildHeader {
     <button class="header__burger">${config.lang === 'en' ? 'Menu' : 'Меню'}</button>
     <nav class="header__nav">
         <ul class="header__ul">
-            <li class="header__nav-item header__nav-about" id="about">${config.lang === 'en' ? 'About' : 'О Проекте'}</li>
-            <li class="header__nav-item header__nav-services" id="services">${config.lang === 'en' ? 'Services' : 'Услуги'}</li>
+            <li class="header__nav-item header__nav-about" id="about">${
+              config.lang === 'en' ? 'About' : 'О Проекте'
+            }</li>
+            <li class="header__nav-item header__nav-services" id="services">${
+              config.lang === 'en' ? 'Services' : 'Услуги'
+            }</li>
             <li class="header__nav-item header__nav-quiz" id="quiz">${config.lang === 'en' ? 'Quiz' : 'Квиз'}</li>
-            <li class="header__nav-item header__nav-stat" id="statistics">${config.lang === 'en' ? 'Statistics' : 'Статистика'}</li>
+            <li class="header__nav-item header__nav-stat" id="statistics">${
+              config.lang === 'en' ? 'Statistics' : 'Статистика'
+            }</li>
         </ul>
         <button class="header__burger-close">&#10006;</button>
     </nav>
