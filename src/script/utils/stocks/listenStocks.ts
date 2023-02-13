@@ -49,7 +49,7 @@ class ListenStocks {
         buttonController.disable(buttonList);
 
         const result = await stocksFetch.buyOrSell(token, EOperation.ADD, stockName, value);
-        status.textContent = result.message;
+        status.textContent = isEnglish ? result.message : result.success ? 'Успех!' : 'Ошибка';
         buttonController.able(buttonList);
 
         setTimeout(() => {
