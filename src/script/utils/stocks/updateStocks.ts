@@ -28,5 +28,5 @@ export default function (data: IMarketStocks[]) {
 
     profit.textContent = `$${benefit.toFixed(3)}`;
     profit.style.color = benefit > 0 ? 'green' : 'red';
-  })
+  });
 }
