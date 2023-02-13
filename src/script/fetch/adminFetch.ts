@@ -45,10 +45,10 @@ class AdminFetch extends Fetch {
       };
     }
     if (method === EMethod.PUT) {
-      req.body = {
-        username,
-        isBlock,
-      };
+      req.body = JSON.stringify({
+        username: username,
+        isBlock: isBlock,
+      });
     }
     if (method === EMethod.DELETE) {
       req.body = JSON.stringify({

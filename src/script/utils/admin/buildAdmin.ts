@@ -3,13 +3,16 @@ import { listenAdmin } from './listenAdmin';
 import config from '../../data/config';
 import yes from '../../../assets/img/icons/ok.svg';
 import no from '../../../assets/img/icons/cancel.svg';
+import { EAdminInfo, EMethod, ETheme } from '../../data/types';
+import { adminFetch } from '../../fetch/adminFetch';
+import { listenAuth } from '../auth/listenAuth';
 
 class BuildAdmin {
   async showUserList() {
     const token = localStorage.getItem('token');
 
     const data = (
-      await fetch(`http://127.0.0.1:3000/admin/database`, {
+      await fetch(`${config.server}/admin/database`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -18,7 +21,7 @@ class BuildAdmin {
       })
     ).json();
 
-    data.then((rez) => {
+    data.then((result) => {
       const admin = document.querySelector('.admin-container');
       if (!admin) return;
 
@@ -36,13 +39,13 @@ class BuildAdmin {
 
       const tbody = <Element>document.querySelector('.admin__users_tbody');
 
-      for (let i = 0; i < rez.safeDatabase.length; i++) {
+      for (let i = 0; i < result.safeDatabase.length; i++) {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${i + 1}</td>
-        <td class="admin__users_user">${rez.safeDatabase[i].username}</td>
-        <td>${rez.safeDatabase[i].email}</td>
+        <td class="admin__users_user">${result.safeDatabase[i].username}</td>
+        <td>${result.safeDatabase[i].email}</td>
         <td>${
-          rez.safeDatabase[i].isBlock
+          result.safeDatabase[i].isBlock
             ? `<img src="${yes}" alt="ok" class="blocked">`
             : `<img src="${no}" alt="cancel" class="blocked">`
         }</td>`;
@@ -53,7 +56,7 @@ class BuildAdmin {
       const td = document.querySelectorAll('td');
       const th = document.querySelectorAll('th');
 
-      if (config.theme === 'dark') {
+      if (config.theme === ETheme.dark) {
         td.forEach((el) => el.classList.add('table-dark'));
         th.forEach((el) => el.classList.add('table-dark'));
       }
@@ -68,7 +71,7 @@ class BuildAdmin {
     const token = localStorage.getItem('token');
 
     const data = (
-      await fetch(`http://127.0.0.1:3000/admin/user?username=${user.textContent}`, {
+      await fetch(`${config.server}/admin/user?username=${user.textContent}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -77,12 +80,12 @@ class BuildAdmin {
       })
     ).json();
 
-    data.then((rez) => {
+    data.then((result) => {
       admin.innerHTML = `<div class="admin__user">
-      <h2 class="admin__title admimn__user_name">${rez.userConfig.username}</h2>
-      <p class="admin__user_info"> E-mail: ${rez.userConfig.email}</p>
-      <p class="admin__user_info"> Is user admin: ${rez.userConfig.isAdmin ? 'yes' : 'no'}</p>
-      <p class="admin__user_info"> Is user blocked: ${rez.userConfig.isBlock ? 'yes' : 'no'}</p>
+      <h2 class="admin__title admimn__user_name">${result.userConfig.username}</h2>
+      <p class="admin__user_info"> E-mail: ${result.userConfig.email}</p>
+      <p class="admin__user_info"> Is user admin: ${result.userConfig.isAdmin ? 'yes' : 'no'}</p>
+      <p class="admin__user_info"> Is user blocked: ${result.userConfig.isBlock ? 'yes' : 'no'}</p>
       <h3 class="admin__user_operations-title">Last operations</h3>
       <table class="admin__user_operations">
         <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
@@ -90,7 +93,7 @@ class BuildAdmin {
       </table>
       <div class="admin__user_buttons">
         <button class="admin__user_button-lock user-lock">${
-          rez.userConfig.isBlock ? 'Unlock user' : 'Lock user'
+          result.userConfig.isBlock ? 'Unlock user' : 'Lock user'
         }</button>
         <button class="admin__user_button-remove">Remove user</button>
         <button class="admin__user_button-back">To list of users</button>
@@ -100,12 +103,12 @@ class BuildAdmin {
 
       const tbody = <Element>document.querySelector('.admin__user_tbody');
 
-      for (let i = 0; i < rez.userConfig.lastFive.length; i++) {
+      for (let i = 0; i < result.userConfig.lastFive.length; i++) {
         const row = document.createElement('tr');
         row.innerHTML = `<td>${i + 1}</td>
-        <td>${rez.userConfig.lastFive[i].date.slice(0, 10)}</td>
-        <td>${rez.userConfig.lastFive[i].operationID}</td>
-        <td>${rez.userConfig.lastFive[i].money.toFixed(2)}</td>`;
+        <td>${result.userConfig.lastFive[i].date.slice(0, 10)}</td>
+        <td>${result.userConfig.lastFive[i].operationID}</td>
+        <td>${result.userConfig.lastFive[i].money.toFixed(2)}</td>`;
 
         tbody.appendChild(row);
       }
@@ -113,7 +116,7 @@ class BuildAdmin {
       const td = document.querySelectorAll('td');
       const th = document.querySelectorAll('th');
 
-      if (config.theme === 'dark') {
+      if (config.theme === ETheme.dark) {
         td.forEach((el) => el.classList.add('table-dark'));
         th.forEach((el) => el.classList.add('table-dark'));
       }
@@ -130,7 +133,7 @@ class BuildAdmin {
     const token = localStorage.getItem('token');
 
     const data = (
-      await fetch(`http://127.0.0.1:3000/admin/bank`, {
+      await fetch(`${config.server}/admin/bank`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -139,9 +142,9 @@ class BuildAdmin {
       })
     ).json();
 
-    data.then((rez) => {
-      account.innerHTML = rez.bank.name;
-      money.innerHTML = `${(+rez.bank.money).toFixed(2)}`;
+    data.then((result) => {
+      account.innerHTML = result.bank.name;
+      money.innerHTML = `${(+result.bank.money).toFixed(2)}`;
     });
   }
 
@@ -149,9 +152,18 @@ class BuildAdmin {
     const admin = document.querySelector('.admin-container');
     if (!admin) return;
 
-    admin.innerHTML = `<div class="auth__container"><div>`;
+    admin.innerHTML = `<h2 class="admin__title">New user</h2>
+    <div class="auth__container auth__container-center"><div>`;
 
     buildAuth.registration();
+
+    const container = document.querySelector('.auth__container');
+    if (container) container.classList.add('auth__container-center');
+
+    const button = document.querySelector('.reg__button-reg');
+    if (button) button.innerHTML = 'Create';
+
+    listenAdmin.registration();
   }
 
   deleteAccount() {
