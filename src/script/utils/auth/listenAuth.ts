@@ -74,10 +74,10 @@ class ListenAuth {
           createAuth.login();
           const errorLabel = document.querySelector('.login__error');
           const username = document.querySelector('.login__username-input');
-
+          const isEnglish = config.lang === 'en';
           if (!errorLabel || !(username instanceof HTMLInputElement)) return;
 
-          errorLabel.textContent = result.message;
+          errorLabel.textContent = isEnglish ? result.message : 'Ошибка! неверено введенные данные';
           username.value = currUsername;
         });
       });
@@ -137,9 +137,10 @@ class ListenAuth {
         transition(auth, () => {
           createAuth.reset();
           const errorLabel = document.querySelector('.reset__error');
+          const isEnglish = config.lang === 'en';
           if (!errorLabel) return;
 
-          errorLabel.textContent = result.message;
+          errorLabel.textContent = isEnglish ? result.message : 'Ошибка! Неверно введенные данные';
         });
       });
     });
@@ -215,9 +216,10 @@ class ListenAuth {
         transition(auth, () => {
           createAuth.registration();
           const errorLabel = document.querySelector('.reg__error');
+          const isEnglish = config.lang === 'en';
           if (!errorLabel) return;
 
-          errorLabel.textContent = result.message;
+          errorLabel.textContent = isEnglish ? result.message : 'Ошибка! Такой пользователь уже существует';
         });
       });
     });
@@ -255,6 +257,7 @@ class ListenAuth {
       if (!input.value.length) return;
       load(auth);
       await userFetch.verify(config.currentUser, +input.value).then((result) => {
+        const isEnglish = config.lang === 'en';
         if (result.success) {
           if (result.userConfig?.isBlock) {
             transition(auth, () => {
@@ -263,9 +266,7 @@ class ListenAuth {
               if (!errorLabel) return;
 
               errorLabel.textContent = `${
-                config.lang === 'en'
-                  ? 'You are blocked. Please, contact with us.'
-                  : 'Вы заблокирвоаны. Свяжитесь с нами.'
+                isEnglish ? 'You are blocked. Please, contact with us.' : 'Вы заблокирвоаны. Свяжитесь с нами.'
               }`;
             });
           }
@@ -283,7 +284,7 @@ class ListenAuth {
           const errorLabel = document.querySelector('.verify__error');
           if (!errorLabel) return;
 
-          errorLabel.textContent = result.message;
+          errorLabel.textContent = isEnglish ? result.message : 'Неверный код!';
         });
       });
     });

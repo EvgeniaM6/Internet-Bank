@@ -4,6 +4,7 @@ import { IOperationRes, IStatistics } from '../../data/types';
 class BuildStatistics {
   operations(arr: IStatistics[], res: IOperationRes) {
     const main = document.querySelector('.main-container');
+    const isEnglish = config.lang === 'en';
     if (!main) return;
 
     main.innerHTML = '';
@@ -15,13 +16,13 @@ class BuildStatistics {
     const totalCount = document.createElement('p');
     totalCount.classList.add('stat__total-oper');
     totalCount.textContent = `
-    ${config.lang === 'en' ? 'Total operations: ' : 'Всего операций: '}
+    ${isEnglish ? 'Total operations: ' : 'Всего операций: '}
     ${arr.reduce((acc, el) => acc + el.count, 0)}`;
 
     const totalMoney = document.createElement('p');
-    totalMoney.classList.add('stat__total-money')
+    totalMoney.classList.add('stat__total-money');
     totalMoney.textContent = `
-    ${config.lang === 'en' ? 'Total money: ' : 'Всего денег: '}
+    ${isEnglish ? 'Total money: ' : 'Всего денег: '}
     $${arr.reduce((acc, el) => acc + el.money, 0).toFixed(2)}`;
 
     const total = document.createElement('div');
@@ -36,18 +37,20 @@ class BuildStatistics {
 
       const operationName = document.createElement('p');
       operationName.classList.add('stat__operation-p', 'stat__operation-name');
-      operationName.textContent = config.lang === 'en' ? operation.name : operation.ruName;
+      operationName.textContent = isEnglish ? operation.name : operation.ruName;
       operationName.setAttribute('runame', operation.ruName);
       operationName.setAttribute('enname', operation.name);
 
       const operationCount = document.createElement('p');
       operationCount.classList.add('stat__operation-p');
-      operationCount.innerHTML = `<span class="stat__operation-count">${config.lang === 'en' ? 'Count: ' : 'Всего: '}</span>
+      operationCount.innerHTML = `<span class="stat__operation-count">${isEnglish ? 'Count: ' : 'Всего: '}</span>
       <span>${el.count}</span>`;
 
       const operationMoney = document.createElement('p');
       operationMoney.classList.add('stat__operation-p', 'stat__operation-money');
-      operationMoney.innerHTML = `<span class="stat__operation-money">${config.lang === 'en' ? 'Sum Money: ' : 'Всего Денег: '}</span>
+      operationMoney.innerHTML = `<span class="stat__operation-money">${
+        isEnglish ? 'Sum Money: ' : 'Всего Денег: '
+      }</span>
       <span>$${el.money.toFixed(2)}</span>`;
 
       const operationContainer = document.createElement('div');

@@ -4,6 +4,7 @@ import config from '../../data/config';
 class BuildCard {
   main() {
     const main = document.querySelector('.main-container');
+    const isEnglish = config.lang === 'en';
     if (!main) return;
 
     main.className = 'main-container container';
@@ -11,7 +12,7 @@ class BuildCard {
     main.innerHTML = `<div class="card">
         <form class="card__info">
             <div class="card__info-item">
-                <label for="" class="card__select-label">${config.lang === 'en' ? 'Card by' : 'Система'}</label>
+                <label for="" class="card__select-label">${isEnglish ? 'Card by' : 'Система'}</label>
                 <select name="" id="" class="card__select">
                     <option value="mastercard" selected>Mastercard</option>
                     <option value="visa">Visa</option>
@@ -19,39 +20,49 @@ class BuildCard {
                 </select>
             </div>
             <div class="card__info-item">
-                <label for="" class="card__name-label">${config.lang === 'en' ? 'Your name' : 'Ваше имя и фамилия'}</label>
+                <label for="" class="card__name-label">${isEnglish ? 'Your name' : 'Ваше имя и фамилия'}</label>
                 <input type="text" name="" id="" class="card__name" value="Name Surname">
             </div>
             <div class="card__info-item"> 
-                <label for="" class="card__color-label">${config.lang === 'en' ? 'Background color' : 'Цвет фона'}</label>
+                <label for="" class="card__color-label">${isEnglish ? 'Background color' : 'Цвет фона'}</label>
                 <input type="color" name="" id="" class="card__color">
             </div>
             <div class="card__info-item"> 
-                <label for="" class="card__text-label">${config.lang === 'en' ? 'Text color' : 'Цвет текста'}</label>
+                <label for="" class="card__text-label">${isEnglish ? 'Text color' : 'Цвет текста'}</label>
                 <input type="color" name="" id="" class="card__text" value="#ffffff">
             </div>
             <div class="card__info-item">
-                <label for="" class="card__link-label">${config.lang === 'en' ? 'Background link' : 'Ссылка на ваше изображение'}</label>
+                <label for="" class="card__link-label">${
+                  isEnglish ? 'Background link' : 'Ссылка на ваше изображение'
+                }</label>
                 <input type="text" name="" id="" class="card__link">
             </div>
             <div class="card__range-item">
-                <label for="" class="card__blur-label">${config.lang === 'en' ? 'Blur' : 'Размытие'}</label>
+                <label for="" class="card__blur-label">${isEnglish ? 'Blur' : 'Размытие'}</label>
                 <input type="range" name="" id="" class="card__blur" max="8" min="0" value="0" step="0.1">
             </div>
             <div class="card__range-item">
-                <label for="" class="card__brightness-label">${config.lang === 'en' ? 'Brightness' : 'Яркость'}</label>
+                <label for="" class="card__brightness-label">${isEnglish ? 'Brightness' : 'Яркость'}</label>
                 <input type="range" name="" id="" class="card__brightness" max="100" min="10" value="80" step="1">
             </div>
-            <button class="card__button">${config.lang === 'en' ? 'Preview' : 'Превью'}</button>
-            <button class="card__create">${config.lang === 'en' ? 'Create!' : 'Создать!'}</button>
+            <button class="card__button">${isEnglish ? 'Preview' : 'Превью'}</button>
+            <button class="card__create">${isEnglish ? 'Create!' : 'Создать!'}</button>
             <ol class="card__instraction">
-                <li class="c__i-one">${config.lang === 'en' ? 'Choose card system' : 'Выберите платежную систему'}</li>
-                <li class="c__i-two">${config.lang === 'en' ? 'Enter your name' : 'Введите ваше имя и фамилию'}</li>
-                <li class="c__i-three">${config.lang === 'en' ? 'Choose background color' : 'Выберите цвет фона'}</li>
-                <li class="c__i-four">${config.lang === 'en' ? 'Choose text color' : 'Выберите цвет текста'}</li>
-                <li class="c__i-five">${config.lang === 'en' ? 'Add your own image via link (optional)' : 'Добавьте свое собственное изображение (ссылка, опционально)'}</li>
-                <li class="c__i-six">${config.lang === 'en' ? 'Press "Preview" button' : 'Нажмите "Превью"'}</li>
-                <li class="c__i-seven">${config.lang === 'en' ? 'Did you like the card? Press "Create" and enjoy shopping!' : 'Вам понравилась картчока? Нажмите "Создать" и наслаждайтесь шопингом!'}</li>
+                <li class="c__i-one">${isEnglish ? 'Choose card system' : 'Выберите платежную систему'}</li>
+                <li class="c__i-two">${isEnglish ? 'Enter your name' : 'Введите ваше имя и фамилию'}</li>
+                <li class="c__i-three">${isEnglish ? 'Choose background color' : 'Выберите цвет фона'}</li>
+                <li class="c__i-four">${isEnglish ? 'Choose text color' : 'Выберите цвет текста'}</li>
+                <li class="c__i-five">${
+                  isEnglish
+                    ? 'Add your own image via link (optional)'
+                    : 'Добавьте свое собственное изображение (ссылка, опционально)'
+                }</li>
+                <li class="c__i-six">${isEnglish ? 'Press "Preview" button' : 'Нажмите "Превью"'}</li>
+                <li class="c__i-seven">${
+                  isEnglish
+                    ? 'Did you like the card? Press "Create" and enjoy shopping!'
+                    : 'Вам понравилась картчока? Нажмите "Создать" и наслаждайтесь шопингом!'
+                }</li>
             </ol>
         </form>
         <div class="card__prev"></div>
