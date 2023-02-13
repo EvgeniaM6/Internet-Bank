@@ -4,6 +4,8 @@ import { adminFetch } from '../../fetch/adminFetch';
 import { userFetch } from '../../fetch/userFetch';
 import { buildMain } from '../main/buildMain';
 import { buildAdmin } from './buildAdmin';
+import { validate } from '../validate';
+import { validateAuth } from '../auth/verifyAuth';
 
 class ListenAdmin {
   showBankInfo() {
@@ -34,28 +36,18 @@ class ListenAdmin {
   lockUser(locked: boolean) {
     const lock = document.querySelector('.user-lock');
     const name = document.querySelector('.admimn__user_name');
-    console.log(lock);
-    console.log(name);
-    if (!lock || !name) return;
-
     const token = localStorage.getItem('token');
 
-    lock.addEventListener('click', async () => {
-      (
-        await fetch(`http://127.0.0.1:3000/admin/user`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            username: name.innerHTML,
-            isBlock: locked,
-          }),
-        })
-      ).json();
+    if (!lock || !name || !token) return;
 
-      buildAdmin.showUserData(name);
+    lock.addEventListener('click', async () => {
+      const data = adminFetch.user(EMethod.PUT, token, name.innerHTML, undefined, undefined, locked);
+
+      data.then((result) => {
+        if (result.success) {
+          buildAdmin.showUserData(name);
+        }
+      });
     });
   }
 
@@ -106,6 +98,68 @@ class ListenAdmin {
     if (lockButton.textContent === 'Lock user') {
       this.lockUser(true);
     } else this.lockUser(false);
+  }
+
+  registration() {
+    const note = document.querySelector('.reg__error');
+    const auth = document.querySelector('.auth__container');
+    const back = document.querySelector('.reg__button-back');
+    const reg = document.querySelector('.reg__button-reg');
+    const username = document.querySelector('.reg__username-input');
+    const email = document.querySelector('.reg__email-input');
+    const password = document.querySelector('.reg__password-input');
+    const repPassword = document.querySelector('.repeat-reg__password-input');
+
+    if (
+      !note ||
+      !(auth instanceof HTMLElement) ||
+      !back ||
+      !(reg instanceof HTMLElement) ||
+      !(username instanceof HTMLInputElement) ||
+      !(password instanceof HTMLInputElement) ||
+      !(repPassword instanceof HTMLInputElement) ||
+      !(email instanceof HTMLInputElement)
+    )
+      return;
+
+    username.focus();
+
+    username.addEventListener('blur', () => {
+      validate(username, config.regex.username);
+    });
+
+    password.addEventListener('blur', () => {
+      validate(password, config.regex.password);
+    });
+
+    repPassword.addEventListener('blur', () => {
+      repPassword.classList.remove('invalid');
+      if (repPassword.value !== password.value) {
+        repPassword.classList.add('invalid');
+      }
+    });
+
+    email.addEventListener('blur', () => {
+      validate(email, config.regex.email);
+    });
+
+    back.addEventListener('click', () => {
+      buildAdmin.showUserList();
+      this.showUserList();
+    });
+
+    reg.addEventListener('click', async () => {
+      if (!validateAuth.registrarion()) return;
+
+      await userFetch.regictration(username.value, password.value, email.value).then((result) => {
+        if (result.success) {
+          note.innerHTML = 'User create succesfully';
+          return;
+        }
+
+        note.innerHTML = 'User was not created';
+      });
+    });
   }
 }
 

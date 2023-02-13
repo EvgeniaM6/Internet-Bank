@@ -1,4 +1,4 @@
-import { EAccountLinks, EAdminLinks, EMethod } from '../../data/types';
+import { EAccountLinks, EMethod } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import { buildAdmin } from '../admin/buildAdmin';
 import { listenAdmin } from '../admin/listenAdmin';

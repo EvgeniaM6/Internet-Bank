@@ -138,8 +138,7 @@ export enum EAccountLinks {
   lastFive = 'Last operations',
 }
 
-export enum EAdminLinks {
-  user = 'User list',
-  stat = "Operation's statistics",
-  bankInfo = 'Bank information',
+export enum ETheme {
+  dark = 'dark',
+  light = 'light',
 }

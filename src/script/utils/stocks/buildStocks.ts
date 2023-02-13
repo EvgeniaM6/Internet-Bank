@@ -38,7 +38,9 @@ class BuildStock {
       div.id = `${el.name.replaceAll(' ', '_')}`;
       div.innerHTML = `<p class="stocks__user-name">${el.name}</p>
       <p class="stocks__user-count">${el.number}</p>
-      <p class="stock__user-profit" id="${el.price.toFixed(3)}" style="color:${profit > 0 ? 'green' : 'red'}">$${profit.toFixed(3)}</p>
+      <p class="stock__user-profit" id="${el.price.toFixed(3)}" style="color:${
+        profit > 0 ? 'green' : 'red'
+      }">$${profit.toFixed(3)}</p>
       <div class="stocks__user-controls">
           <button class="item__minus">-</button>
           <input type="number" name="" id="" class="item__value" max="${el.number}" min="1" value="1">
