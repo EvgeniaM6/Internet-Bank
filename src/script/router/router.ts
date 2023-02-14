@@ -108,7 +108,7 @@ class Router {
         break;
       case EPages.ACCOUNT:
         this.account();
-        pushState.account();
+        pushState.account(window.location.search.substring(6));
         break;
       case EPages.ADMIN:
         this.admin();
@@ -128,7 +128,7 @@ class Router {
         break;
       case EPages.SERVICES:
         this.services();
-        pushState.services();
+        pushState.services(window.location.search.substring(6));
         break;
       case EPages.STATISTICS:
         this.statistic();
@@ -147,9 +147,10 @@ class Router {
   }
 
   private defaultWay() {
-    const route = window.location.pathname.split('/');
+    /*const route = window.location.pathname.split('/');
     const page = route[route.length - 1];
     const parentPage = route[route.length - 2];
+    console.log(route, parentPage);
     if (parentPage === 'account') {
       this.accountExtra(page);
       return;
@@ -157,7 +158,7 @@ class Router {
     if (parentPage === 'services') {
       this.servicesExtra(page);
       return;
-    }
+    }*/
 
     this.about();
     pushState.about();
@@ -251,6 +252,13 @@ class Router {
     const main = document.querySelector('.main');
     if (!(main instanceof HTMLElement)) return;
 
+    const query = window.location.search;
+    if (query) {
+      const str = query.substring(6);
+      this.servicesExtra(str);
+      return;
+    }
+
     transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
     config.page = EPages.SERVICES;
   }
@@ -270,6 +278,12 @@ class Router {
     const main = document.querySelector('.main');
     if (!(main instanceof HTMLElement) || !this.userCheck()) return;
 
+    const query = window.location.search;
+    if (query) {
+      const str = query.substring(6);
+      this.accountExtra(str);
+      return;
+    }
     transition(main, createMain.account);
     config.page = EPages.ACCOUNT;
   }
