@@ -147,7 +147,10 @@ class ListenHeader {
 
     nav.forEach((el) => {
       el.addEventListener('click', async () => {
-        if (config.loading) return;
+        const nav = document.querySelector('.header__nav');
+        if (config.loading || !nav) return;
+
+        nav.classList.remove('header__nav_burger');
 
         config.loading = true;
         this.removeActiveClass();

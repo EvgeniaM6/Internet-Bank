@@ -3,6 +3,16 @@
   font-size: 18px;
 }
 
+.account__main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.account__main-item {
+  width: 48%;
+}
+
 .account__list {
   display: flex;
   justify-content: space-around;
@@ -25,7 +35,9 @@
 }
 
 #account__edit {
-  margin-bottom: 50px;
+  padding-bottom: 15px;
+  border-bottom: 2px $third solid;
+  margin-bottom: 40px;
 }
 
 #account__password,
@@ -75,7 +87,8 @@
 
 .account__buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
 }
 
 .button-submit,
@@ -161,6 +174,9 @@ td.table-dark:last-child {
   border-right: none;
 }
 
+tr:last-child td {
+  border-bottom: none;
+}
 .account__notification {
   margin-top: 15px;
   text-align: left;
@@ -169,6 +185,8 @@ td.table-dark:last-child {
 
 .account__operations_table {
   margin-bottom: 20px;
+  border: 2px $third solid;
+  min-height: 170px;
 }
 
 .account__ttl {
@@ -189,6 +207,23 @@ td.table-dark:last-child {
   height: 110px;
 }
 
+@media (max-width: 1100px) {
+  .account__main-container {
+    flex-direction: column;
+    gap: 40px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .account__main-item {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+}
+
 @media (max-width: 900px) {
   .account__list {
     font-size: 20px;
@@ -198,6 +233,7 @@ td.table-dark:last-child {
 @media (max-width: 600px) {
   .account__list {
     flex-wrap: wrap;
+    height: 70px;
   }
 
   .account__list-item {
@@ -206,14 +242,22 @@ td.table-dark:last-child {
   }
 }
 
+@media (max-width: 500px) {
+  .account-container {
+    font-size: 14px;
+  }
+  .account__cards {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
 @media (max-width: 410px) {
   .account-container {
     padding: 0 5px;
-  }
-
-  .account__cards {
-    display: flex;
-    justify-content: center;
   }
 
   .account__operations_table {

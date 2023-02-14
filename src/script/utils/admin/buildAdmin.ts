@@ -6,10 +6,15 @@ import no from '../../../assets/img/icons/cancel.svg';
 import { EAdminInfo, EMethod, ETheme } from '../../data/types';
 import { adminFetch } from '../../fetch/adminFetch';
 import { listenAuth } from '../auth/listenAuth';
+import { load } from '../load';
 
 class BuildAdmin {
   async showUserList() {
+    const admin = document.querySelector('.admin-container');
     const token = localStorage.getItem('token');
+    if (!(admin instanceof HTMLElement) || !token) return;
+
+    load(admin);
 
     const data = (
       await fetch(`${config.server}/admin/database`, {
@@ -22,11 +27,9 @@ class BuildAdmin {
     ).json();
 
     data.then((result) => {
-      const admin = document.querySelector('.admin-container');
-      if (!admin) return;
-
       admin.innerHTML = `<div class="admin__users">
         <h2 class="admin__title">List of users</h2>
+        <p class="admin__instraction">Click user name to open user page</p>
         <table class="admin__users_table">
         <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Blocked</th></tr></thead>
         <tbody class="admin__users_tbody"></tbody>
@@ -66,10 +69,10 @@ class BuildAdmin {
 
   async showUserData(user: Element) {
     const admin = document.querySelector('.admin-container');
-    if (!admin) return;
-
     const token = localStorage.getItem('token');
+    if (!(admin instanceof HTMLElement) || !token) return;
 
+    load(admin);
     const data = (
       await fetch(`${config.server}/admin/user?username=${user.textContent}`, {
         method: 'GET',
@@ -144,7 +147,7 @@ class BuildAdmin {
 
     data.then((result) => {
       account.innerHTML = result.bank.name;
-      money.innerHTML = `${(+result.bank.money).toFixed(2)}`;
+      money.innerHTML = `$${(+result.bank.money).toFixed(2)}`;
     });
   }
 

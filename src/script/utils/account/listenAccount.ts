@@ -9,7 +9,7 @@ import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
 
-function cancel() {
+/*function cancel() {
   const buttonCancel = document.querySelector('.button-cancel');
 
   if (!buttonCancel) return;
@@ -19,7 +19,7 @@ function cancel() {
     navigationAccount();
     return;
   });
-}
+}*/
 
 class ListenAccount {
   editAccount() {
@@ -97,7 +97,7 @@ class ListenAccount {
 
     const token = localStorage.getItem('token');
 
-    cancel();
+    //cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;
@@ -131,7 +131,7 @@ class ListenAccount {
 
     if (!token || !note || !buttonSubmit || !(password instanceof HTMLInputElement)) return;
 
-    cancel();
+    //cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const passwordValue: string = password.value;
@@ -151,15 +151,7 @@ class ListenAccount {
 
   clarifyAccount() {
     const buttonSubmit = document.querySelector('.account__clarify_button-submit');
-    const buttonCancel = document.querySelector('.account__clarify_button-cancel');
-
-    if (!buttonSubmit || !buttonCancel) return;
-
-    buttonCancel.addEventListener('click', () => {
-      buildMain.account();
-      navigationAccount();
-      return;
-    });
+    if (!buttonSubmit) return;
 
     buttonSubmit.addEventListener('click', () => {
       buildAccount.deleteAccount();
@@ -175,7 +167,7 @@ class ListenAccount {
 
     if (!create || !del || !createRadio || !delRadio) return;
 
-    cancel();
+    //cancel();
 
     create.addEventListener('click', () => {
       createRadio.classList.add('create-currency-active');
@@ -202,7 +194,7 @@ class ListenAccount {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    cancel();
+    //cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       note.textContent = 'Connect to the server...';
@@ -228,7 +220,7 @@ class ListenAccount {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    cancel();
+    //cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       note.textContent = 'Connect to the server...';
