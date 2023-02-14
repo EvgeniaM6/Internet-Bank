@@ -237,10 +237,6 @@ class ListenAccount {
       note.innerHTML = 'Note: Foreign currency account was deleted successfully';
     });
   }
-
-  showLastOperations() {
-    cancel();
-  }
 }
 
 export const listenAccount = new ListenAccount();

@@ -1,6 +1,5 @@
 import config from '../../data/config';
 import { EAccountLinks, EMethod } from '../../data/types';
-
 import { userFetch } from '../../fetch/userFetch';
 import { buildAdmin } from '../admin/buildAdmin';
 import { listenAdmin } from '../admin/listenAdmin';
@@ -129,22 +128,34 @@ class BuildMain {
     main.appendChild(about);
   }
 
-  account() {
+  async account() {
     const main = document.querySelector('.main-container');
     const account = document.querySelector('.header__nav-account');
     if (!main || !account) return;
 
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
-      <li class="account__list-item account__list-edit">${EAccountLinks.edit}</li>
-      <li class="account__list-item account__list-currency">${EAccountLinks.currency}</li>
-      <li class="account__list-item account__list-operations">${EAccountLinks.lastFive}</li>
+      <li class="account__list-item account__list-edit account__list-item_active"><span class="account__link_main">${EAccountLinks.account}</span> (${config.currentUser})</li>
+      <li class="account__list-item account__list-currency">${EAccountLinks.edit}</li>
+      <li class="account__list-item account__list-operations">${EAccountLinks.currency}</li>
       <li class="account__list-item account__list-delete">${EAccountLinks.delete}</li>
     </ul>
     <div class="account-container">
       <p class="account__description">We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
       <h3 class="account__ttl">Your credit cards</h3>
       <div class="account__cards"></div>
+      <h3 class="account__ttl">Your last operations</h3>
+      <table class="account__operations_table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="account__operations_date">date</th>
+            <th class="account__operations_opId">operationID</th>
+            <th class="account__operations_money">money</th>
+          </tr>
+        </thead>
+        <tbody class="account__operations_tbody"></tbody>
+      </table>
     </div>`;
 
     const cards = document.querySelector('.account__cards');
@@ -153,7 +164,6 @@ class BuildMain {
     if (!cards || !token) return;
 
     const data = userFetch.user(EMethod.GET, token);
-    console.log(data);
     data.then((rez) => {
       if (rez.userConfig?.cards) {
         for (let i = 0; i < rez.userConfig?.cards.length; i++) {
@@ -166,6 +176,29 @@ class BuildMain {
         }
       }
     });
+
+    const operations = await userFetch.user(EMethod.GET, token);
+    if (!operations.userConfig) return;
+
+    const tbody = <Element>document.querySelector('.account__operations_tbody');
+
+    for (let i = 0; i < operations.userConfig.lastFive.length; i++) {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${i + 1}</td>
+      <td>${operations.userConfig.lastFive[i].date.slice(0, 10)}</td>
+      <td>${operations.userConfig.lastFive[i].operationID}</td>
+      <td>${operations.userConfig.lastFive[i].money.toFixed(2)}</td>`;
+
+      tbody.appendChild(row);
+    }
+
+    const td = document.querySelectorAll('td');
+    const th = document.querySelectorAll('th');
+
+    if (config.theme === 'dark') {
+      td.forEach((el) => el.classList.add('table-dark'));
+      th.forEach((el) => el.classList.add('table-dark'));
+    }
   }
 
   admin() {

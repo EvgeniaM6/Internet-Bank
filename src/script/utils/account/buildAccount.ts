@@ -1,7 +1,6 @@
 import config from '../../data/config';
 import { EMethod } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
-import { listenAccount } from './listenAccount';
 
 class BuildAccount {
   editAccount() {
@@ -9,7 +8,7 @@ class BuildAccount {
     if (!account) return;
 
     account.innerHTML = `<div id="account__edit">
-        <h2 class="account__edit_title">Edit login or password</h2>
+        <h2 class="account__edit_title">Edit login or e-mail</h2>
         <div id="account__edit_username">
           <label for="user" class="account__edit_username-label">Login</label>
           <input type="text" name="user" id="edit-user" class="account__edit_username-input" value="${config.currentUser}">
@@ -151,55 +150,6 @@ class BuildAccount {
       </div>
       <p class="account__notification"></p>
       </div>`;
-  }
-
-  async showLastOperations() {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-
-    const data = await userFetch.user(EMethod.GET, token);
-    if (!data.userConfig) return;
-
-    const account = document.querySelector('.account-container');
-    if (!account) return;
-    //console.log(data);
-
-    account.innerHTML = `<table class="account__operations_table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th class="account__operations_date">date</th>
-        <th class="account__operations_opId">operationID</th>
-        <th class="account__operations_money">money</th>
-      </tr>
-    </thead>
-    <tbody class="account__operations_tbody"></tbody>
-    </table>
-    <div class="account__buttons">
-      <button class="account__operations_button-cancel button-cancel">Back</button>
-    </div>`;
-
-    const tbody = <Element>document.querySelector('.account__operations_tbody');
-
-    //console.log(tbody);
-    for (let i = 0; i < data.userConfig.lastFive.length; i++) {
-      const row = document.createElement('tr');
-      row.innerHTML = `<td>${i + 1}</td>
-      <td>${data.userConfig.lastFive[i].date.slice(0, 10)}</td>
-      <td>${data.userConfig.lastFive[i].operationID}</td>
-      <td>${data.userConfig.lastFive[i].money.toFixed(2)}</td>`;
-
-      tbody.appendChild(row);
-    }
-
-    const td = document.querySelectorAll('td');
-    const th = document.querySelectorAll('th');
-
-    if (config.theme === 'dark') {
-      td.forEach((el) => el.classList.add('table-dark'));
-      th.forEach((el) => el.classList.add('table-dark'));
-    }
-    listenAccount.showLastOperations();
   }
 }
 
