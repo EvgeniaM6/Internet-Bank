@@ -2,6 +2,7 @@ import { buildAccount } from './buildAccount';
 import { listenAccount } from './listenAccount';
 import { EAccountLinks } from '../../data/types';
 import { createMain } from '../main/createMain';
+import config from '../../data/config';
 
 export function navigationAccount() {
   const nav = document.querySelectorAll('.account__list-item');

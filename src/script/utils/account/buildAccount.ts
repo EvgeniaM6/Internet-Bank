@@ -1,13 +1,7 @@
 import config from '../../data/config';
 import { EMethod } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
-import pushState from '../../router/pushState';
 import { load } from '../load';
-import { renderPayment } from '../payment/renderPayment';
-import { renderPaymentDetails } from '../payment/renderPaymentDetails';
-import { transition } from '../transition';
-import { listenAccount } from './listenAccount';
-
 
 class BuildAccount {
   editAccount() {
@@ -49,7 +43,6 @@ class BuildAccount {
       </div>
       <div class="account__buttons">
         <button class="account__password_button-submit button-submit">Submit</button>
-        <button class="account__password_button-cancel button-cancel">Back</button>
       </div>
       <p class="account__notification_password"></p>
       </div>`;
@@ -62,7 +55,6 @@ class BuildAccount {
     account.innerHTML = `<p class="account__clarify_question">Do you really want to remove your account</p>
       <div class="account__buttons">
         <button class="account__clarify_button-submit button-submit">Remove</button>
-        <button class="account__clarify_button-cancel button-cancel">Back</button>
       </div>`;
   }
 
@@ -92,7 +84,6 @@ class BuildAccount {
     </div>
     <div class="account__currency">
       <div class="account__buttons">
-        <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
     </div>
     <div class="account__currency_current"></div>`;
@@ -147,7 +138,6 @@ class BuildAccount {
       </div>
       <div class="account__buttons">
         <button class="account__currency_button-submit button-submit">Submit</button>
-        <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
       <p class="account__notification">Ready to create/delete</p>
       </div>`;
@@ -170,7 +160,6 @@ class BuildAccount {
       </div>
       <div class="account__buttons">
         <button class="account__currency_button-submit button-submit">Submit</button>
-        <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
       <p class="account__notification">Ready to create/delete</p>
       </div>`;

@@ -3,6 +3,7 @@ import { EAccountLinks, EMethod } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import { buildAdmin } from '../admin/buildAdmin';
 import { listenAdmin } from '../admin/listenAdmin';
+import { load } from '../load';
 
 class BuildMain {
   about() {
@@ -142,20 +143,26 @@ class BuildMain {
     </ul>
     <div class="account-container">
       <p class="account__description">We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
-      <h3 class="account__ttl">Your credit cards</h3>
-      <div class="account__cards"></div>
-      <h3 class="account__ttl">Your last operations</h3>
-      <table class="account__operations_table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th class="account__operations_date">date</th>
-            <th class="account__operations_opId">operationID</th>
-            <th class="account__operations_money">money</th>
-          </tr>
-        </thead>
-        <tbody class="account__operations_tbody"></tbody>
-      </table>
+      <div class="account__main-container">
+        <div class="account__main-item">
+          <h3 class="account__ttl">Your credit cards</h3>
+          <div class="account__cards"></div>
+        </div>
+        <div class="account__main-item">
+          <h3 class="account__ttl">Your last operations</h3>
+          <table class="account__operations_table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="account__operations_date">date</th>
+                <th class="account__operations_opId">operationID</th>
+                <th class="account__operations_money">money</th>
+              </tr>
+            </thead>
+            <tbody class="account__operations_tbody"></tbody>
+          </table>
+        </div>        
+      </div>      
     </div>`;
 
     const cards = document.querySelector('.account__cards');
@@ -177,11 +184,23 @@ class BuildMain {
       }
     });
 
+    const tbody = <HTMLElement>document.querySelector('.account__operations_tbody');
+    tbody.style.position = 'relative';
+    load(tbody);
+
+    const loading = document.querySelector('.load');
+    if (!(loading instanceof HTMLElement)) return;
+    loading.style.height = '100px';
+    loading.style.width = '100%';
+    loading.style.position = 'absolute';
+    loading.style.top = '20px';
+    loading.style.left = '50%';
+    loading.style.transform = 'translateX(-50%)';
+
     const operations = await userFetch.user(EMethod.GET, token);
     if (!operations.userConfig) return;
 
-    const tbody = <Element>document.querySelector('.account__operations_tbody');
-
+    tbody.innerHTML = '';
     for (let i = 0; i < operations.userConfig.lastFive.length; i++) {
       const row = document.createElement('tr');
       row.innerHTML = `<td>${i + 1}</td>
@@ -190,6 +209,13 @@ class BuildMain {
       <td>${operations.userConfig.lastFive[i].money.toFixed(2)}</td>`;
 
       tbody.appendChild(row);
+    }
+
+    if (!operations.userConfig.lastFive.length) {
+      const table = document.querySelector('.account__operations_table');
+      if (!table) return;
+
+      table.textContent = 'No operations';
     }
 
     const td = document.querySelectorAll('td');
