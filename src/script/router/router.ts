@@ -3,6 +3,9 @@ import { EMethod, EPages } from '../data/types';
 import { adminFetch } from '../fetch/adminFetch';
 import { userFetch } from '../fetch/userFetch';
 import { openWebSocket } from '../fetch/webSocket';
+import { buildAccount } from '../utils/account/buildAccount';
+import { listenAccount } from '../utils/account/listenAccount';
+import { navigationAccount } from '../utils/account/navigationAccount';
 import { buildAuth } from '../utils/auth/buildAuth';
 import { createAuth } from '../utils/auth/createAuth';
 import { createMain } from '../utils/main/createMain';
@@ -25,7 +28,6 @@ class Router {
         createMain.header();
       }
 
-      await listenHeader.updateInfo();
       switch (page) {
         case EPages.ABOUT:
           this.about();
@@ -54,7 +56,10 @@ class Router {
         case EPages.STOCKS:
           this.stocks();
           break;
+        default:
+          this.defaultWay();
       }
+      await listenHeader.updateInfo();
     });
   }
 
@@ -133,12 +138,23 @@ class Router {
         pushState.stocks();
         break;
       default:
-        this.about();
-        pushState.about();
+        this.defaultWay();
     }
     setTimeout(() => {
       body.style.opacity = '1';
     }, 0);
+  }
+
+  private defaultWay() {
+    const route = window.location.pathname.split('/');
+    const page = route[route.length - 1];
+    const parentPage = route[route.length - 2];
+    if (parentPage === 'account') {
+      this.accountExtra(page);
+      return;
+    }
+    this.about();
+    pushState.about();
   }
 
   private userCheck() {
@@ -239,6 +255,34 @@ class Router {
 
     transition(main, createMain.account);
     config.page = EPages.ACCOUNT;
+  }
+
+  private accountExtra(page: string) {
+    createMain.account();
+
+    const nav = document.querySelectorAll('.account__list-item');
+    nav.forEach((el) => el.classList.remove('account__list-item_active'));
+    const elem = Array.from(nav).find((el) => el.textContent === page.replaceAll('_', ' '));
+    if (elem) elem.classList.add('account__list-item_active');
+
+    switch (page) {
+      case 'Edit_account':
+        buildAccount.editAccount();
+        listenAccount.editAccount();
+        listenAccount.editPassword();
+        break;
+      case 'Currency':
+        buildAccount.currency();
+        listenAccount.currency();
+        break;
+      case 'Delete_account':
+        buildAccount.clarifyAccount();
+        listenAccount.clarifyAccount();
+        break;
+      default:
+        buildAccount.main();
+        navigationAccount();
+    }
   }
 
   private admin() {

@@ -20,6 +20,7 @@ import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
+import pushState from '../../router/pushState';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -48,7 +49,10 @@ class RenderPaymentDetails {
     } else {
       createElem('div', 'back__text', backBtn, this.langs[config.lang].back__text);
     }
-    backBtn.addEventListener('click', () => this.backToAllServices());
+    backBtn.addEventListener('click', () => {
+      this.backToAllServices();
+      pushState.services();
+    });
 
     const operationInfo = createElem('div', 'operation__info', operation);
 

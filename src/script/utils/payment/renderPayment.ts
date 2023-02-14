@@ -24,6 +24,7 @@ import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { load } from '../load';
+import pushState from '../../router/pushState';
 
 class RenderPayment {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -94,7 +95,10 @@ class RenderPayment {
 
     const btn = createElem('button', 'serv-card__btn btn-colored', card, this.langs[config.lang]['serv-card__btn']);
 
-    btn.addEventListener('click', () => this.renderPayment(+operationId));
+    btn.addEventListener('click', () => {
+      this.renderPayment(+operationId);
+      pushState.services(operationId);
+    });
 
     container.append(card);
   }
