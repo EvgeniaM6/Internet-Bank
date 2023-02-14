@@ -13,4 +13,5 @@ export default {
     password: '^[a-zA-Z0-9]{8,20}$',
     email: '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$',
   },
+  loading: false,
 };

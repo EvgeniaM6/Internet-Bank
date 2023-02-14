@@ -205,13 +205,16 @@ class ListenAccount {
     cancel();
 
     buttonSubmit.addEventListener('click', async () => {
+      note.textContent = 'Connect to the server...';
       const data = await moneyFetch.moneyAccount(EMethod.POST, config.currentUser, currency.value, token);
 
       if (!data.success) {
-        note.innerHTML = 'Note: You already have such a foreign currency account';
-        return;
+        note.innerHTML = `You already have a ${currency.value} account`;
+      } else {
+        note.innerHTML = 'Success';
+        buildAccount.updateCurrency();
       }
-      note.innerHTML = 'Note: Foreign currency account was created successfully';
+      setTimeout(() => note.textContent = 'Ready to create/delete', 3000);
     });
   }
 
@@ -228,13 +231,16 @@ class ListenAccount {
     cancel();
 
     buttonSubmit.addEventListener('click', async () => {
+      note.textContent = 'Connect to the server...';
       const data = await moneyFetch.moneyAccount(EMethod.DELETE, config.currentUser, currency.value, token);
 
       if (!data.success) {
-        note.innerHTML = "Note: You don't have such a foreign currency account";
-        return;
+        note.innerHTML = `You don't have a ${currency.value} account`;
+      } else {
+        note.innerHTML = 'Success';
+        buildAccount.updateCurrency();
       }
-      note.innerHTML = 'Note: Foreign currency account was deleted successfully';
+      setTimeout(() => note.textContent = 'Ready to create/delete', 3000);
     });
   }
 
