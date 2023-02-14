@@ -243,10 +243,6 @@ class ListenAccount {
       setTimeout(() => (note.textContent = 'Ready to create/delete'), 3000);
     });
   }
-
-  showLastOperations() {
-    cancel();
-  }
 }
 
 export const listenAccount = new ListenAccount();

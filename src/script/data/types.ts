@@ -135,7 +135,7 @@ export enum EAccountLinks {
   changePassword = 'Change password',
   delete = 'Delete account',
   currency = 'Currency',
-  lastFive = 'Last operations',
+  account = 'Your account',
 }
 
 export enum ETheme {
