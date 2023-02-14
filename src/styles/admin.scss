@@ -5,8 +5,12 @@
 
 .admin__title {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   font-size: 36px;
+}
+
+.admin__instraction {
+  margin-bottom: 8px;
 }
 
 .admin__information_bank {
@@ -55,6 +59,7 @@
 .admin__user_operations {
   margin-bottom: 20px;
   width: 768px;
+  border: 2px $third solid;
 }
 
 .admin__users_user {

@@ -237,8 +237,8 @@ class BuildMain {
       <h2 class="admin__title">Administration</h2>
       <div class="admin__information_bank">
         <h3 class="admin__information_title">Bank information</h3>
-        <p class="admin__information_detail">Bank account: <span class="admin__information_account"></span></p>
-        <p class="admin__information_detail">Money: <span class="admin__information_money"></span>$</p>
+        <p class="admin__information_detail">Bank account: <span class="admin__information_account">Get info from server...</span></p>
+        <p class="admin__information_detail">Money: <span class="admin__information_money">Get info from server...</span></p>
       </div>
       <h3 class="admin__information_title">To get information about users press button:</h3>
       <button class="admin__information_button">List of users</button>
