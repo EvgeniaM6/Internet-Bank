@@ -214,7 +214,7 @@ class ListenAccount {
         note.innerHTML = 'Success';
         buildAccount.updateCurrency();
       }
-      setTimeout(() => note.textContent = 'Ready to create/delete', 3000);
+      setTimeout(() => (note.textContent = 'Ready to create/delete'), 3000);
     });
   }
 
@@ -240,7 +240,7 @@ class ListenAccount {
         note.innerHTML = 'Success';
         buildAccount.updateCurrency();
       }
-      setTimeout(() => note.textContent = 'Ready to create/delete', 3000);
+      setTimeout(() => (note.textContent = 'Ready to create/delete'), 3000);
     });
   }
 
