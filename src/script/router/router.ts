@@ -1,6 +1,7 @@
 import config from '../data/config';
-import { EPages } from '../data/types';
+import { EMethod, EPages } from '../data/types';
 import { adminFetch } from '../fetch/adminFetch';
+import { userFetch } from '../fetch/userFetch';
 import { openWebSocket } from '../fetch/webSocket';
 import { buildAuth } from '../utils/auth/buildAuth';
 import { createAuth } from '../utils/auth/createAuth';
@@ -57,13 +58,9 @@ class Router {
     });
   }
 
-  page() {
+  async page() {
     const body = document.querySelector('.page');
     if (!(body instanceof HTMLElement)) return;
-
-    setTimeout(() => {
-      body.style.opacity = '1';
-    }, 200);
 
     const route = window.location.pathname.split('/');
     const page = route[route.length - 1];
@@ -74,7 +71,17 @@ class Router {
     }
 
     const token = localStorage.getItem('token');
-    if (token) openWebSocket();
+    if (token) {
+      const check = await this.isBlocked();
+
+      if (check) {
+        this.login();
+        pushState.login();
+        body.style.opacity = '1';
+        return;
+      }
+      openWebSocket();
+    }
 
     if (page === '' || page === 'index.html') {
       if (!token) {
@@ -128,6 +135,9 @@ class Router {
         this.about();
         pushState.about();
     }
+    setTimeout(() => {
+      body.style.opacity = '1';
+    }, 0);
   }
 
   private userCheck() {
@@ -139,6 +149,14 @@ class Router {
     }
 
     return token;
+  }
+
+  private async isBlocked() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const user = await userFetch.user(EMethod.GET, token);
+    return user.userConfig?.isBlock;
   }
 
   private async isAdmin() {
