@@ -32,43 +32,33 @@ class RenderPayment {
   elemsForUpdatingText: TElemsForUpdateText = {};
   selectedCategoryFilter = 'all';
   operationsContainer = createElem('div', 'operations');
+  canRenderPage = false;
   langs: TLang = {
     en,
     ru,
   };
 
-  renderPaymentsPage(): void {
+  constructor() {
+    this.saveServicesResponse();
+  }
+
+  async renderPaymentsPage(): Promise<void> {
     load(this.main);
 
-    userFetch.services().then((response: IMainRes) => {
-      this.main.innerHTML = '';
-      this.main.className = 'container main-container';
-      window.scrollTo(0, 0);
-      const paymentPage = createElem('div', 'main__payment-page', this.main);
-      const filtersContainer = createElem('div', 'filters', paymentPage);
+    if (!this.canRenderPage) {
+      await this.saveServicesResponse();
+    }
 
-      paymentPage.append(this.operationsContainer);
+    this.main.innerHTML = '';
+    this.main.className = 'container main-container';
+    window.scrollTo(0, 0);
+    const paymentPage = createElem('div', 'main__payment-page', this.main);
+    const filtersContainer = createElem('div', 'filters', paymentPage);
 
-      const operationsObj = (response as IServices).operations as IServiceObj;
-      this.elemsForUpdatingText = {};
+    paymentPage.append(this.operationsContainer);
 
-      const isAnonim = !localStorage.getItem('token');
-
-      Object.keys(operationsObj).forEach((operationId) => {
-        const isNotForAnonimServ =
-          isAnonim && +operationId > INDEX_START_BANK_SERVICES && +operationId < INDEX_START_SERVICES;
-        const isCurrencyDuplucateService =
-          +operationId === ID_CURRENCY_REFILL_SERVICE || +operationId === ID_CURRENCY_SELL_SERVICE;
-        const isCommissionService = +operationId === ID_COMMISSION_SERVICE;
-        const isStockService = +operationId === ID_STOCKS_BUY_SERVICE || +operationId === ID_STOCKS_SELL_SERVICE;
-        if (isNotForAnonimServ || isCurrencyDuplucateService || isCommissionService || isStockService) return;
-
-        this.operationsResp[operationId] = operationsObj[operationId];
-      });
-
-      this.updatePaymentCards();
-      this.renderFilters(filtersContainer);
-    });
+    this.updatePaymentCards();
+    this.renderFilters(filtersContainer);
   }
 
   renderPaymentCard(operationId: string, container: HTMLElement): void {
@@ -167,7 +157,12 @@ class RenderPayment {
   getFiltersList(): Array<TTextByLang> {
     const values: Array<TTextByLang> = [];
 
+    const isAnonim = !localStorage.getItem('token');
+
     Object.keys(this.operationsResp).forEach((operationId) => {
+      const toRenderFilter = this.checkServiceIdForUserStatus(isAnonim, +operationId);
+      if (!toRenderFilter) return;
+
       const operationCategory = this.operationsResp[operationId].category;
       const hasValue = values.some((value) => value.en.toLowerCase() === operationCategory.en.toLowerCase());
       if (!hasValue) {
@@ -208,15 +203,22 @@ class RenderPayment {
     const operationIdArr = Object.keys(this.operationsResp);
     const filterVal = filterValue.toLowerCase();
 
+    const isAnonim = !localStorage.getItem('token');
+
+    const filteredOperationIdArr = operationIdArr.filter((operationId) => {
+      const toCountFilter = this.checkServiceIdForUserStatus(isAnonim, +operationId);
+      return toCountFilter;
+    });
+
     if (filterVal !== 'all') {
-      valuesAmount = operationIdArr.reduce((acc, operationId) => {
+      valuesAmount = filteredOperationIdArr.reduce((acc, operationId) => {
         if (this.operationsResp[operationId].category.en.toLowerCase() === filterVal) {
           acc += 1;
         }
         return acc;
       }, 0);
     } else {
-      valuesAmount = operationIdArr.length;
+      valuesAmount = filteredOperationIdArr.length;
     }
 
     return valuesAmount;
@@ -232,7 +234,12 @@ class RenderPayment {
   updatePaymentCards(): void {
     this.operationsContainer.innerHTML = '';
 
+    const isAnonim = !localStorage.getItem('token');
+
     const filteredOperationsIdArr = Object.keys(this.operationsResp).filter((operationId) => {
+      const toRenderService = this.checkServiceIdForUserStatus(isAnonim, +operationId);
+      if (!toRenderService) return false;
+
       const categInResp = this.operationsResp[operationId].category.en.toLowerCase();
 
       return this.selectedCategoryFilter === 'all' ? true : categInResp === this.selectedCategoryFilter.toLowerCase();
@@ -243,6 +250,29 @@ class RenderPayment {
     });
 
     this.updatePaymentCardsText();
+  }
+
+  async saveServicesResponse(): Promise<void> {
+    const response: IMainRes = await userFetch.services();
+    const operationsObj = (response as IServices).operations as IServiceObj;
+
+    Object.keys(operationsObj).forEach((operationId) => {
+      this.operationsResp[operationId] = operationsObj[operationId];
+    });
+
+    this.canRenderPage = true;
+  }
+
+  checkServiceIdForUserStatus(isAnonim: boolean, operationId: number): boolean {
+    const isNotForAnonimServ =
+      isAnonim && operationId > INDEX_START_BANK_SERVICES && operationId < INDEX_START_SERVICES;
+    const isCurrencyDuplucateService =
+      operationId === ID_CURRENCY_REFILL_SERVICE || operationId === ID_CURRENCY_SELL_SERVICE;
+    const isCommissionService = operationId === ID_COMMISSION_SERVICE;
+    const isStockService = operationId === ID_STOCKS_BUY_SERVICE || operationId === ID_STOCKS_SELL_SERVICE;
+
+    if (isNotForAnonimServ || isCurrencyDuplucateService || isCommissionService || isStockService) return false;
+    return true;
   }
 }
 
