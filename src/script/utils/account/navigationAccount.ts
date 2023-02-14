@@ -32,7 +32,7 @@ export function navigationAccount() {
         return;
       }
 
-      if (item.textContent === EAccountLinks.account) {
+      if (item.textContent === `${EAccountLinks.account} (${config.currentUser})`) {
         createMain.account();
         return;
       }
