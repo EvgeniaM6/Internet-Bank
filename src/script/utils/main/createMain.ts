@@ -13,19 +13,17 @@ class CreateMain {
   header() {
     const token = localStorage.getItem('token');
     if (token) {
+      buildHeader.logHeader();
+      listenHeader.log();
       let isAsmin: boolean;
       const data = adminFetch.check(token);
-      data.then((rez) => {
-        isAsmin = rez.success;
-        if (isAsmin) {
-          buildHeader.adminHeader();
-          listenHeader.log();
-          return;
-        }
-        buildHeader.logHeader();
+      data.then((res) => {
+        isAsmin = res.success;
+        if (!isAsmin) return;
+        buildHeader.adminHeader();
         listenHeader.log();
-        return;
       });
+      return;
     }
 
     buildHeader.anonimHeader();

@@ -1,6 +1,11 @@
 import config from '../../data/config';
 import { EMethod } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
+import pushState from '../../router/pushState';
+import { load } from '../load';
+import { renderPayment } from '../payment/renderPayment';
+import { renderPaymentDetails } from '../payment/renderPaymentDetails';
+import { transition } from '../transition';
 import { listenAccount } from './listenAccount';
 
 class BuildAccount {
@@ -79,7 +84,7 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="account__currency_title">Choose operation:</p>
+    account.innerHTML = `<h4 class="account__currency_title">Choose operation:</h4>
     <div class="account__currency_operations">
       <div class="account__currency_operations-create"><span class="create-currency"></span>Create currency</div>
       <div class="account__currency_operations-delete"><span class="delete-currency"></span>Delete currency</div>
@@ -90,21 +95,38 @@ class BuildAccount {
       </div>
     </div>
     <div class="account__currency_current"></div>`;
+    this.updateCurrency();
+  }
 
+  updateCurrency() {
     const currencyAccount = document.querySelector('.account__currency_current');
     const token = localStorage.getItem('token');
+    if (!(currencyAccount instanceof HTMLElement) || !token) return;
 
-    if (token) {
-      userFetch.user(EMethod.GET, token).then((rez) => {
-        if (rez.userConfig?.accounts) {
-          for (let i = 0; i < rez.userConfig.accounts.length; i++) {
-            const elem = document.createElement('p');
-            elem.innerHTML = `${rez.userConfig.accounts[i].currency}: ${rez.userConfig.accounts[i].money}`;
-            currencyAccount?.appendChild(elem);
-          }
-        }
-      });
-    }
+    currencyAccount.style.height = '100px';
+    load(currencyAccount);
+
+    const loading = document.querySelector('.load');
+    if (!(loading instanceof HTMLElement)) return;
+    loading.style.height = '100px';
+
+    userFetch.user(EMethod.GET, token).then((res) => {
+      if (!res.userConfig) return;
+      currencyAccount.innerHTML = '';
+      currencyAccount.style.height = '';
+
+      const header = document.createElement('h4');
+      header.textContent = 'Currency Accounts';
+      header.classList.add('account__currency_current-h');
+      currencyAccount.appendChild(header);
+
+      for (let i = 0; i < res.userConfig.accounts.length; i++) {
+        const elem = document.createElement('p');
+        elem.classList.add('account__currency_current-p');
+        elem.innerHTML = `${res.userConfig.accounts[i].currency}: ${res.userConfig.accounts[i].money}`;
+        currencyAccount.appendChild(elem);
+      }
+    });
   }
 
   createCurrency() {
@@ -126,7 +148,7 @@ class BuildAccount {
         <button class="account__currency_button-submit button-submit">Submit</button>
         <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
-      <p class="account__notification"></p>
+      <p class="account__notification">Ready to create/delete</p>
       </div>`;
   }
 
@@ -149,7 +171,7 @@ class BuildAccount {
         <button class="account__currency_button-submit button-submit">Submit</button>
         <button class="account__currency_button-cancel button-cancel">Back</button>
       </div>
-      <p class="account__notification"></p>
+      <p class="account__notification">Ready to create/delete</p>
       </div>`;
   }
 

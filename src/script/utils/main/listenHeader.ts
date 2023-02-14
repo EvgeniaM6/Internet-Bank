@@ -127,6 +127,7 @@ class ListenHeader {
     });
 
     logo.addEventListener('click', async () => {
+      if (config.loading) return;
       this.removeActiveClass();
       transition(main, createMain.about);
       await this.updateInfo();
@@ -134,6 +135,7 @@ class ListenHeader {
     });
 
     login.addEventListener('click', () => {
+      if (config.loading) return;
       localStorage.removeItem('token');
       transition(page, () => {
         buildAuth.main();
@@ -145,6 +147,9 @@ class ListenHeader {
 
     nav.forEach((el) => {
       el.addEventListener('click', async () => {
+        if (config.loading) return;
+
+        config.loading = true;
         this.removeActiveClass();
         el.classList.add('header__nav_active');
         if (el.id === EPages.STATISTICS) {
@@ -188,6 +193,7 @@ class ListenHeader {
           pushState.services();
           //return;
         }
+        config.loading = false;
         await this.updateInfo();
       });
     });
