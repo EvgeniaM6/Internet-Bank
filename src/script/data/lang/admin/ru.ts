@@ -1,0 +1,21 @@
+export default {
+  admin__title: 'Администрирование',
+  bank_title: 'Банковская информация',
+  admin__information_bank: 'Счёт банка:',
+  'admin__information_bank-money': 'Сумма:',
+  users_title: 'Для получения информации о пользователях нажмите кнопку:',
+  admin__information_button: 'Список пользователей',
+  admin__users_title: 'Список пользователей',
+  admin__instraction: 'Нажмите на логин пользователя, чтобы открыть его страницу',
+  admin__users_name: 'Имя',
+  admin__users_block: 'Блокировка',
+  'edit__button-create': 'Новый пользователь',
+  'edit__button-cancel': 'Назад',
+  'admin__user_operations-title': 'Последние операции',
+  'admin__user_button-remove': 'Удалить пользователя',
+  'admin__user_button-back': 'К списку пользователей',
+  admin__create_title: 'Новый пользователь',
+  admin__remove_question: 'Чтобы удалить пользователя введите ваш пароль:',
+  'admin__remove_button-submit': 'Удалить',
+  'admin__remove_button-cancel': 'Отмена'
+};

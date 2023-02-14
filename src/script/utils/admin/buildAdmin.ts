@@ -28,10 +28,10 @@ class BuildAdmin {
 
     data.then((result) => {
       admin.innerHTML = `<div class="admin__users">
-        <h2 class="admin__title">List of users</h2>
+        <h2 class="admin__title admin__users_title">List of users</h2>
         <p class="admin__instraction">Click user name to open user page</p>
         <table class="admin__users_table">
-        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Blocked</th></tr></thead>
+        <thead><tr><th>#</th><th class="admin__users_name">Name</th><th>Email</th><th class="admin__users_block">Blocked</th></tr></thead>
         <tbody class="admin__users_tbody"></tbody>
         </table>
         <div class="admin__users_buttons">
@@ -155,7 +155,7 @@ class BuildAdmin {
     const admin = document.querySelector('.admin-container');
     if (!admin) return;
 
-    admin.innerHTML = `<h2 class="admin__title">New user</h2>
+    admin.innerHTML = `<h2 class="admin__title admin__create_title">New user</h2>
     <div class="auth__container auth__container-center"><div>`;
 
     buildAuth.registration();

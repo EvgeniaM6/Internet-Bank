@@ -236,11 +236,11 @@ class BuildMain {
     main.innerHTML = `<div class="admin-container">
       <h2 class="admin__title">Administration</h2>
       <div class="admin__information_bank">
-        <h3 class="admin__information_title">Bank information</h3>
-        <p class="admin__information_detail">Bank account: <span class="admin__information_account">Get info from server...</span></p>
-        <p class="admin__information_detail">Money: <span class="admin__information_money">Get info from server...</span></p>
+        <h3 class="admin__information_title bank_title">Bank information</h3>
+        <p class="admin__information_detail"><span class="admin__information_bank">Bank account:</span> <span class="admin__information_account">Get info from server...</span></p>
+        <p class="admin__information_detail"><span class="admin__information_bank-money">Money:</span> <span class="admin__information_money">Get info from server...</span></p>
       </div>
-      <h3 class="admin__information_title">To get information about users press button:</h3>
+      <h3 class="admin__information_title users_title">To get information about users press button:</h3>
       <button class="admin__information_button">List of users</button>
     </div>`;
 
