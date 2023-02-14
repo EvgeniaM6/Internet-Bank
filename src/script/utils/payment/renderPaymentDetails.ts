@@ -23,7 +23,6 @@ import { EMethod } from '../../data/types';
 import pushState from '../../router/pushState';
 import { load } from '../load';
 
-
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
   elemsForUpdatingText: TElemsForUpdateText = {};

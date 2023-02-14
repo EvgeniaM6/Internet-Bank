@@ -11,6 +11,7 @@ import { createAuth } from '../utils/auth/createAuth';
 import { createMain } from '../utils/main/createMain';
 import { listenHeader } from '../utils/main/listenHeader';
 import { renderPayment } from '../utils/payment/renderPayment';
+import { renderPaymentDetails } from '../utils/payment/renderPaymentDetails';
 import { createStatistics } from '../utils/statistics/createStatistics';
 import createStocks from '../utils/stocks/createStocks';
 import { transition } from '../utils/transition';
@@ -153,6 +154,11 @@ class Router {
       this.accountExtra(page);
       return;
     }
+    if (parentPage === 'services') {
+      this.servicesExtra(page);
+      return;
+    }
+
     this.about();
     pushState.about();
   }
@@ -247,6 +253,17 @@ class Router {
 
     transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
     config.page = EPages.SERVICES;
+  }
+
+  private async servicesExtra(page: string) {
+    const num = +page;
+    if (!isNaN(num) && num > 0 && num < 30 && num !== 7 && num !== 11 && num !== 12 && num !== 13) {
+      // я люблю костыли, а ты?
+      await renderPaymentDetails.renderPayment(num);
+      return;
+    }
+    this.services();
+    pushState.services();
   }
 
   private account() {
