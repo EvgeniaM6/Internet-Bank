@@ -87,6 +87,7 @@ class Router {
       if (!token) {
         this.login();
         pushState.login();
+        body.style.opacity = '1';
         return;
       }
       createMain.header();
