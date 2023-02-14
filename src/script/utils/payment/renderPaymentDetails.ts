@@ -20,6 +20,7 @@ import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
+import { load } from '../load';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -31,7 +32,18 @@ class RenderPaymentDetails {
     ru,
   };
 
-  renderPayment(operationId: number): void {
+  async renderPayment(operationId: number): Promise<void> {
+    load(this.main);
+
+    if (!renderPayment.canRenderPage) {
+      await renderPayment.saveServicesResponse.call(renderPayment);
+    }
+
+    const isAnonim = !localStorage.getItem('token');
+
+    const toRenderPayment = renderPayment.checkServiceIdForUserStatus(isAnonim, operationId);
+    if (!toRenderPayment) return;
+
     this.currentOperationData = renderPayment.getOparationData(operationId);
     if (!this.currentOperationData) return;
 
