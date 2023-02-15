@@ -1,7 +1,7 @@
 export default {
-  admin__title: 'Администрирование',
+  'admin__title-main': 'Администрирование',
   bank_title: 'Банковская информация',
-  admin__information_bank: 'Счёт банка:',
+  'admin__information_bank-account': 'Счёт банка:',
   'admin__information_bank-money': 'Сумма:',
   users_title: 'Для получения информации о пользователях нажмите кнопку:',
   admin__information_button: 'Список пользователей',
@@ -19,8 +19,21 @@ export default {
   admin__user_money: 'сумма',
   'admin__user_button-remove': 'Удалить пользователя',
   'admin__user_button-back': 'К списку пользователей',
+  locked: 'Разблокировать пользователя',
+  unlocked: 'Заблокировать пользователя',
   admin__create_title: 'Новый пользователь',
   admin__remove_question: 'Чтобы удалить пользователя введите ваш пароль:',
   'admin__remove_button-submit': 'Удалить',
   'admin__remove_button-cancel': 'Отмена',
+
+  'reg__username-label': 'Логин (мин. 1 символ)',
+  'reg__email-label': 'Электронная почта',
+  'reg__password-label': 'Пароль (мин. 8 символов, цифры и буквы)',
+  'repeat-reg__password-label': 'Повторите пароль',
+  'reg__button-reg': 'Создать',
+  'reg__button-back': 'Назад',
+  reg__error: 'Мы используем двухэтапную верификацию. Пожалуйста, указывайте реальную электронную почту',
+
+  'is-yes': 'да',
+  'is-no': 'нет',
 };

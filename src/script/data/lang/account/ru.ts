@@ -32,4 +32,6 @@ export default {
   account__operations_money: 'сумма',
   account__operations_opId: 'ID операции',
   'account__operations_button-cancel': 'Назад',
+  'table-empty': 'Нет операций',
+  'account__currency_current-h': 'Валютные счета',
 };

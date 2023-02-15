@@ -153,11 +153,11 @@ class ListenAdmin {
 
       await userFetch.regictration(username.value, password.value, email.value).then((result) => {
         if (result.success) {
-          note.innerHTML = 'User create succesfully';
+          note.innerHTML = `${config.lang === 'en' ? 'User create succesfully' : 'Пользователь успешно создан'}`;
           return;
         }
 
-        note.innerHTML = 'User was not created';
+        note.innerHTML = `${config.lang === 'en' ? 'User was not created' : 'Пользователь не создан'}`;
       });
     });
   }

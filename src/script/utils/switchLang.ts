@@ -3,6 +3,8 @@ import enAbout from '../data/lang/about/en';
 import ruAbout from '../data/lang/about/ru';
 import enAccount from '../data/lang/account/en';
 import ruAccount from '../data/lang/account/ru';
+import enAdmin from '../data/lang/admin/en';
+import ruAdmin from '../data/lang/admin/ru';
 import enAuth from '../data/lang/auth/en';
 import ruAuth from '../data/lang/auth/ru';
 import enCardCreator from '../data/lang/cardCreator/en';
@@ -34,8 +36,8 @@ const textByLangsData: TPageLang = {
     ru: ruAccount,
   },
   [EPages.ADMIN]: {
-    // en: enAccount,
-    // ru: ruAccount,
+    en: enAdmin,
+    ru: ruAdmin,
   },
   [EPages.AUTH]: {
     en: enAuth,

@@ -32,4 +32,6 @@ export default {
   account__operations_money: 'money',
   account__operations_opId: 'operationID',
   'account__operations_button-cancel': 'Back',
+  'table-empty': 'No operations',
+  'account__currency_current-h': 'Currency Accounts',
 };

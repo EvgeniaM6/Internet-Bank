@@ -59,7 +59,7 @@ class BuildAccount {
       const table = document.querySelector('.account__operations_table');
       if (!table) return;
 
-      table.textContent = 'No operations';
+      table.innerHTML = `<p class="table-empty">No operations</p>`;
     }
 
     const td = document.querySelectorAll('td');

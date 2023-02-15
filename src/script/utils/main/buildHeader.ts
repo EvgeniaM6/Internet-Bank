@@ -45,13 +45,6 @@ class BuildHeader {
           <div class="header__lang">
             <button class="header__lang-btn">${this.langs[config.lang]['header__lang-btn']}</button>
           </div>
-        <div  class="header__switch">
-          <div class="header__switch_theme">
-            <img src="${moon}" alt="moon" class="header__theme">
-          </div>
-          <div class="header__lang">
-              <button class="header__lang-btn">${this.langs[config.lang]['header__lang-btn']}</button>
-          </div>
         </div>
     </div>`;
   }
