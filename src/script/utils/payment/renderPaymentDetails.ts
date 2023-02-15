@@ -43,7 +43,9 @@ class RenderPaymentDetails {
     const isAnonim = !localStorage.getItem('token');
 
     const toRenderPayment = renderPayment.checkServiceIdForUserStatus(isAnonim, operationId);
-    if (!toRenderPayment) return;
+    if (!toRenderPayment) {
+      transition(this.main, renderPayment.renderPaymentsPage.bind(renderPayment));
+    }
 
     this.currentOperationData = renderPayment.getOparationData(operationId);
     if (!this.currentOperationData) return;
