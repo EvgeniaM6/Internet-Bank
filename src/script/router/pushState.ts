@@ -32,13 +32,13 @@ class PushState {
     config.page = EPages.STOCKS;
   }
 
-  services() {
-    history.pushState({}, '', '/services');
+  services(service?: string) {
+    history.pushState({}, '', `${service ? `/services?page=${service}` : '/services'}`);
     config.page = EPages.SERVICES;
   }
 
-  account() {
-    history.pushState({}, '', '/account');
+  account(page?: string) {
+    history.pushState({}, '', `${page ? `/account?page=${page.replaceAll(' ', '_')}` : '/account'}`);
     config.page = EPages.ACCOUNT;
   }
 

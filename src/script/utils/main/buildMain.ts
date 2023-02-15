@@ -129,7 +129,7 @@ class BuildMain {
     main.appendChild(about);
   }
 
-  async account() {
+  account() {
     const main = document.querySelector('.main-container');
     const account = document.querySelector('.header__nav-account');
     if (!main || !account) return;
@@ -165,7 +165,7 @@ class BuildMain {
       </div>      
     </div>`;
 
-    const cards = document.querySelector('.account__cards');
+    /*const cards = document.querySelector('.account__cards');
     const token = localStorage.getItem('token');
 
     if (!cards || !token) return;
@@ -224,7 +224,7 @@ class BuildMain {
     if (config.theme === 'dark') {
       td.forEach((el) => el.classList.add('table-dark'));
       th.forEach((el) => el.classList.add('table-dark'));
-    }
+    }*/
   }
 
   admin() {

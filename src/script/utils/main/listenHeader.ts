@@ -11,6 +11,7 @@ import createStocks from '../stocks/createStocks';
 import pushState from '../../router/pushState';
 import moon from '../../../assets/img/icons/moon.svg';
 import sun from '../../../assets/img/icons/carbon_sun.svg';
+import { buildAccount } from '../account/buildAccount';
 
 class ListenHeader {
   async updateInfo() {

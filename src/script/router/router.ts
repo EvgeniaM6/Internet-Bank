@@ -3,11 +3,15 @@ import { EMethod, EPages, ETheme } from '../data/types';
 import { adminFetch } from '../fetch/adminFetch';
 import { userFetch } from '../fetch/userFetch';
 import { openWebSocket } from '../fetch/webSocket';
+import { buildAccount } from '../utils/account/buildAccount';
+import { listenAccount } from '../utils/account/listenAccount';
+import { navigationAccount } from '../utils/account/navigationAccount';
 import { buildAuth } from '../utils/auth/buildAuth';
 import { createAuth } from '../utils/auth/createAuth';
 import { createMain } from '../utils/main/createMain';
 import { listenHeader } from '../utils/main/listenHeader';
 import { renderPayment } from '../utils/payment/renderPayment';
+import { renderPaymentDetails } from '../utils/payment/renderPaymentDetails';
 import { createStatistics } from '../utils/statistics/createStatistics';
 import createStocks from '../utils/stocks/createStocks';
 import { switchTheme } from '../utils/theme';
@@ -26,7 +30,6 @@ class Router {
         createMain.header();
       }
 
-      await listenHeader.updateInfo();
       switch (page) {
         case EPages.ABOUT:
           this.about();
@@ -55,7 +58,10 @@ class Router {
         case EPages.STOCKS:
           this.stocks();
           break;
+        default:
+          this.defaultWay();
       }
+      await listenHeader.updateInfo();
     });
   }
 
@@ -113,7 +119,7 @@ class Router {
         break;
       case EPages.ACCOUNT:
         this.account();
-        pushState.account();
+        pushState.account(window.location.search.substring(6));
         break;
       case EPages.ADMIN:
         this.admin();
@@ -133,7 +139,7 @@ class Router {
         break;
       case EPages.SERVICES:
         this.services();
-        pushState.services();
+        pushState.services(window.location.search.substring(6));
         break;
       case EPages.STATISTICS:
         this.statistic();
@@ -144,12 +150,29 @@ class Router {
         pushState.stocks();
         break;
       default:
-        this.about();
-        pushState.about();
+        this.defaultWay();
     }
     setTimeout(() => {
       body.style.opacity = '1';
     }, 0);
+  }
+
+  private defaultWay() {
+    /*const route = window.location.pathname.split('/');
+    const page = route[route.length - 1];
+    const parentPage = route[route.length - 2];
+    console.log(route, parentPage);
+    if (parentPage === 'account') {
+      this.accountExtra(page);
+      return;
+    }
+    if (parentPage === 'services') {
+      this.servicesExtra(page);
+      return;
+    }*/
+
+    this.about();
+    pushState.about();
   }
 
   private userCheck() {
@@ -240,16 +263,68 @@ class Router {
     const main = document.querySelector('.main');
     if (!(main instanceof HTMLElement)) return;
 
+    const query = window.location.search;
+    if (query) {
+      const str = query.substring(6);
+      this.servicesExtra(str);
+      return;
+    }
+
     transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
     config.page = EPages.SERVICES;
+  }
+
+  private async servicesExtra(page: string) {
+    const num = +page;
+    if (!isNaN(num) && num > 0 && num < 30 && num !== 7 && num !== 11 && num !== 12 && num !== 13) {
+      // я люблю костыли, а ты?
+      await renderPaymentDetails.renderPayment(num);
+      return;
+    }
+    this.services();
+    pushState.services();
   }
 
   private account() {
     const main = document.querySelector('.main');
     if (!(main instanceof HTMLElement) || !this.userCheck()) return;
 
+    const query = window.location.search;
+    if (query) {
+      const str = query.substring(6);
+      this.accountExtra(str);
+      return;
+    }
     transition(main, createMain.account);
     config.page = EPages.ACCOUNT;
+  }
+
+  private accountExtra(page: string) {
+    createMain.account();
+
+    const nav = document.querySelectorAll('.account__list-item');
+    nav.forEach((el) => el.classList.remove('account__list-item_active'));
+    const elem = Array.from(nav).find((el) => el.textContent === page.replaceAll('_', ' '));
+    if (elem) elem.classList.add('account__list-item_active');
+
+    switch (page) {
+      case 'Edit_account':
+        buildAccount.editAccount();
+        listenAccount.editAccount();
+        listenAccount.editPassword();
+        break;
+      case 'Currency':
+        buildAccount.currency();
+        listenAccount.currency();
+        break;
+      case 'Delete_account':
+        buildAccount.clarifyAccount();
+        listenAccount.clarifyAccount();
+        break;
+      default:
+        buildAccount.main();
+        navigationAccount();
+    }
   }
 
   private admin() {

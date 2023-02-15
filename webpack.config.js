@@ -53,7 +53,7 @@ module.exports = {
           to: "/index.html",
           status: 200,
           force: false,
-        }
+        }        
       ]
     })
   ]

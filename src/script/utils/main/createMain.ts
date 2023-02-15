@@ -1,6 +1,7 @@
 import { adminFetch } from '../../fetch/adminFetch';
 import { openWebSocket } from '../../fetch/webSocket';
 import pushState from '../../router/pushState';
+import { buildAccount } from '../account/buildAccount';
 import { navigationAccount } from '../account/navigationAccount';
 //import { navigationAdmin } from '../admin/navigationAdmin';
 import { buildCard } from '../cardCreator/buildCard';
@@ -51,7 +52,7 @@ class CreateMain {
   }
 
   account() {
-    buildMain.account();
+    buildAccount.main();
     navigationAccount();
   }
 
