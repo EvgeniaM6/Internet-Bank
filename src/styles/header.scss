@@ -56,6 +56,13 @@
     filter: invert(0);
   }
 
+  @include media-tablet {
+    &__switch {
+      display: flex;
+      align-items: center;
+    }
+  }
+
   &__lang {
     &-btn {
       text-transform: uppercase;
@@ -65,6 +72,23 @@
       font-size: 24px;
       cursor: pointer;
       transition: all .2s;
+
+      &:hover {
+        border-bottom: solid 2px $third;
+      }
+
+      @include media-tablet {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.page-dark {
+  .header__lang {
+    &-btn {
+      border-bottom: solid 2px $white;
+      color: $white;
 
       &:hover {
         border-bottom: solid 2px $third;

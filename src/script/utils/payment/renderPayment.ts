@@ -178,10 +178,6 @@ class RenderPayment {
     const key = `${filterType.toLowerCase()}_${filterValue.en.toLowerCase().replace(/ /g, '*')}`;
 
     const inputElem = createElem('input', 'filter__input', filterItemElem) as HTMLInputElement;
-    const isAllCategoryRadio = filterValue.en.toLowerCase() === 'all';
-    if (isAllCategoryRadio) {
-      inputElem.classList.add('radio-all');
-    }
     inputElem.name = filterType.toLowerCase();
     inputElem.type = 'radio';
     inputElem.checked = this.selectedCategoryFilter.toLowerCase() === filterValue.en.toLowerCase();
@@ -191,7 +187,10 @@ class RenderPayment {
     inputElem.id = inputElem.value = label.htmlFor = `${filterValue.en.toLowerCase()}`;
 
     const labelTxt = createElem('span', 'filter__label-title', label, filterValue[config.lang]);
-    if (!isAllCategoryRadio) {
+    const isAllCategoryRadio = filterValue.en.toLowerCase() === 'all';
+    if (isAllCategoryRadio) {
+      labelTxt.classList.add('radio-all');
+    } else {
       this.elemsForUpdatingText[`0_category-title_${filterValue.en.toLowerCase()}`] = labelTxt;
     }
     createElem('span', 'filter__label-numbers', label, `(${this.countFilterValues(filterValue.en)})`);
