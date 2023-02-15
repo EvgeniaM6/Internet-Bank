@@ -87,11 +87,11 @@ class BuildAdmin {
       admin.innerHTML = `<div class="admin__user">
       <h2 class="admin__title admimn__user_name">${result.userConfig.username}</h2>
       <p class="admin__user_info"> E-mail: ${result.userConfig.email}</p>
-      <p class="admin__user_info"> Is user admin: ${result.userConfig.isAdmin ? 'yes' : 'no'}</p>
-      <p class="admin__user_info"> Is user blocked: ${result.userConfig.isBlock ? 'yes' : 'no'}</p>
+      <p class="admin__user_info"> <span class="admin__user_info-admin">Is user admin:</span> ${result.userConfig.isAdmin ? 'yes' : 'no'}</p>
+      <p class="admin__user_info"> <span class="admin__user_info-block">Is user blocked:</span> ${result.userConfig.isBlock ? 'yes' : 'no'}</p>
       <h3 class="admin__user_operations-title">Last operations</h3>
       <table class="admin__user_operations">
-        <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
+        <thead><tr><th>#</th><th class="admin__user_date">date</th><th class="admin__user_operation">operationID</th><th class="admin__user_money">money</th></tr></thead>
         <tbody class="admin__user_tbody"></tbody>
       </table>
       <div class="admin__user_buttons">
