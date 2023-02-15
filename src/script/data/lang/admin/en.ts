@@ -22,5 +22,5 @@ export default {
   admin__create_title: 'New user',
   admin__remove_question: 'To remove user enter your password:',
   'admin__remove_button-submit': 'Remove',
-  'admin__remove_button-cancel': 'Cancel'
+  'admin__remove_button-cancel': 'Cancel',
 };

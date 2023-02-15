@@ -22,5 +22,5 @@ export default {
   admin__create_title: 'Новый пользователь',
   admin__remove_question: 'Чтобы удалить пользователя введите ваш пароль:',
   'admin__remove_button-submit': 'Удалить',
-  'admin__remove_button-cancel': 'Отмена'
+  'admin__remove_button-cancel': 'Отмена',
 };
