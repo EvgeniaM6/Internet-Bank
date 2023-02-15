@@ -1,5 +1,7 @@
 import moon from '../../../assets/img/icons/moon.svg';
+import sun from '../../../assets/img/icons/carbon_sun.svg';
 import config from '../../data/config';
+import { ETheme } from '../../data/types';
 
 class BuildHeader {
   anonimHeader() {
@@ -29,7 +31,9 @@ class BuildHeader {
     <div class="header__down">
         <div class="header__login">${isEnglish ? 'Log In' : 'Войти'}</div>
         <div class="header__switch_theme">
-          <img src="${moon}" alt="moon" class="header__theme">
+          <img src="${config.theme === ETheme.dark ? sun : moon}" alt="${
+      config.theme === ETheme.dark ? 'sun' : 'moon'
+    }" class="${config.theme === ETheme.dark ? 'header__theme header__theme-dark' : 'header__theme'}">
         </div>
     </div>`;
   }

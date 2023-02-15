@@ -1,5 +1,5 @@
 import config from '../data/config';
-import { EMethod, EPages } from '../data/types';
+import { EMethod, EPages, ETheme } from '../data/types';
 import { adminFetch } from '../fetch/adminFetch';
 import { userFetch } from '../fetch/userFetch';
 import { openWebSocket } from '../fetch/webSocket';
@@ -10,6 +10,7 @@ import { listenHeader } from '../utils/main/listenHeader';
 import { renderPayment } from '../utils/payment/renderPayment';
 import { createStatistics } from '../utils/statistics/createStatistics';
 import createStocks from '../utils/stocks/createStocks';
+import { switchTheme } from '../utils/theme';
 import { transition } from '../utils/transition';
 import pushState from './pushState';
 
@@ -59,6 +60,16 @@ class Router {
   }
 
   async page() {
+    if (!localStorage.getItem('time')) {
+      const time = new Date().getHours();
+      config.theme = `${time < 22 && time > 5 ? ETheme.light : ETheme.dark}`;
+    } else {
+      const data = localStorage.getItem('time');
+      if (data) config.theme = data;
+    }
+
+    switchTheme();
+
     const body = document.querySelector('.page');
     if (!(body instanceof HTMLElement)) return;
 

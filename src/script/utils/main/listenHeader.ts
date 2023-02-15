@@ -58,6 +58,9 @@ class ListenHeader {
     theme.addEventListener('click', () => {
       if (config.theme === 'light') config.theme = 'dark';
       else config.theme = 'light';
+
+      localStorage.setItem('time', config.theme);
+
       const body = document.querySelector('.page');
       const header = document.querySelector('.header');
       const footerLogo = document.querySelector('.footer__logo');

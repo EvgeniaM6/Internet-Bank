@@ -28,10 +28,10 @@ class BuildAdmin {
 
     data.then((result) => {
       admin.innerHTML = `<div class="admin__users">
-        <h2 class="admin__title">List of users</h2>
+        <h2 class="admin__title admin__users_title">List of users</h2>
         <p class="admin__instraction">Click user name to open user page</p>
         <table class="admin__users_table">
-        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Blocked</th></tr></thead>
+        <thead><tr><th>#</th><th class="admin__users_name">Name</th><th>Email</th><th class="admin__users_block">Blocked</th></tr></thead>
         <tbody class="admin__users_tbody"></tbody>
         </table>
         <div class="admin__users_buttons">
@@ -87,11 +87,11 @@ class BuildAdmin {
       admin.innerHTML = `<div class="admin__user">
       <h2 class="admin__title admimn__user_name">${result.userConfig.username}</h2>
       <p class="admin__user_info"> E-mail: ${result.userConfig.email}</p>
-      <p class="admin__user_info"> Is user admin: ${result.userConfig.isAdmin ? 'yes' : 'no'}</p>
-      <p class="admin__user_info"> Is user blocked: ${result.userConfig.isBlock ? 'yes' : 'no'}</p>
+      <p class="admin__user_info"> <span class="admin__user_info-admin">Is user admin:</span> ${result.userConfig.isAdmin ? 'yes' : 'no'}</p>
+      <p class="admin__user_info"> <span class="admin__user_info-block">Is user blocked:</span> ${result.userConfig.isBlock ? 'yes' : 'no'}</p>
       <h3 class="admin__user_operations-title">Last operations</h3>
       <table class="admin__user_operations">
-        <thead><tr><th>#</th><th>date</th><th>operationID</th><th>money</th></tr></thead>
+        <thead><tr><th>#</th><th class="admin__user_date">date</th><th class="admin__user_operation">operationID</th><th class="admin__user_money">money</th></tr></thead>
         <tbody class="admin__user_tbody"></tbody>
       </table>
       <div class="admin__user_buttons">
@@ -155,7 +155,7 @@ class BuildAdmin {
     const admin = document.querySelector('.admin-container');
     if (!admin) return;
 
-    admin.innerHTML = `<h2 class="admin__title">New user</h2>
+    admin.innerHTML = `<h2 class="admin__title admin__create_title">New user</h2>
     <div class="auth__container auth__container-center"><div>`;
 
     buildAuth.registration();
