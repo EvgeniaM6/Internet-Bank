@@ -191,6 +191,12 @@ class BuildAccount {
       button.classList.add('account__currency-button');
       button.textContent = 'Exchange';
       button.onclick = () => {
+        const account = document.querySelector('.header__nav-account');
+        const services = document.querySelector('.header__nav-services');
+        if (!account || !services) return;
+
+        account.classList.remove('header__nav_active');
+        services.classList.add('header__nav_active');
         renderPaymentDetails.renderPayment(2);
         pushState.services('2');
       };
