@@ -93,7 +93,8 @@
 
 .button-submit,
 .button-cancel,
-.lastfive-cancel {
+.lastfive-cancel,
+.account__currency-button {
   width: 33%;
   height: 30px;
   border-radius: 15px;
@@ -152,6 +153,10 @@
 #account__currency_create-container,
 #account__currency_delete-container {
   margin-bottom: 20px;
+}
+
+.account__currency-button {
+  margin-top: 10px;
 }
 
 th,

@@ -1,8 +1,10 @@
 import config from '../../data/config';
 import { EMethod } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
+import pushState from '../../router/pushState';
 import { load } from '../load';
 import { buildMain } from '../main/buildMain';
+import { renderPaymentDetails } from '../payment/renderPaymentDetails';
 
 class BuildAccount {
   async main() {
@@ -177,12 +179,22 @@ class BuildAccount {
       header.classList.add('account__currency_current-h');
       currencyAccount.appendChild(header);
 
+      if (!res.userConfig.accounts.length) return;
       for (let i = 0; i < res.userConfig.accounts.length; i++) {
         const elem = document.createElement('p');
         elem.classList.add('account__currency_current-p');
-        elem.innerHTML = `${res.userConfig.accounts[i].currency}: ${res.userConfig.accounts[i].money}`;
+        elem.innerHTML = `${res.userConfig.accounts[i].currency}: ${res.userConfig.accounts[i].money.toFixed(2)}`;
         currencyAccount.appendChild(elem);
       }
+
+      const button = document.createElement('button');
+      button.classList.add('account__currency-button');
+      button.textContent = 'Exchange';
+      button.onclick = () => {
+        renderPaymentDetails.renderPayment(2);
+        pushState.services('2');
+      };
+      currencyAccount.appendChild(button);
     });
   }
 
