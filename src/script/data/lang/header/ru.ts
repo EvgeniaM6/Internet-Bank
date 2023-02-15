@@ -10,4 +10,5 @@ export default {
   'header__nav-card': 'Создать карточку',
   'header__nav-stocks': 'Акции',
   'header__nav-admin': 'Админка',
+  'header__lang-btn': 'eng',
 };

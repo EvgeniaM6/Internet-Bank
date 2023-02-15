@@ -10,4 +10,5 @@ export default {
   'header__nav-card': 'Card Creator',
   'header__nav-stocks': 'Stocks',
   'header__nav-admin': 'Administration',
+  'header__lang-btn': 'рус',
 };

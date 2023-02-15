@@ -12,6 +12,7 @@ import pushState from '../../router/pushState';
 import moon from '../../../assets/img/icons/moon.svg';
 import sun from '../../../assets/img/icons/carbon_sun.svg';
 import { buildAccount } from '../account/buildAccount';
+import { switchLang } from '../switchLang';
 
 class ListenHeader {
   async updateInfo() {
@@ -203,6 +204,10 @@ class ListenHeader {
         await this.updateInfo();
       });
     });
+
+    const langBtn = page.querySelector('.header__lang-btn') as HTMLElement;
+    if (!langBtn) return;
+    langBtn.onclick = () => switchLang();
   }
 
   log() {

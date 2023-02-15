@@ -55,6 +55,22 @@
   &__theme-dark {
     filter: invert(0);
   }
+
+  &__lang {
+    &-btn {
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+      border-bottom: solid 2px;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all .2s;
+
+      &:hover {
+        border-bottom: solid 2px $third;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {

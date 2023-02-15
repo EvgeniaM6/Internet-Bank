@@ -43,7 +43,11 @@ type TTexts = {
 };
 
 export type TLang = {
-  [key: string]: TTexts;
+  [key: string]: TTextByLang;
+};
+
+export type TPageLang = {
+  [page: string]: TLang;
 };
 
 export type TAccOptions = {
