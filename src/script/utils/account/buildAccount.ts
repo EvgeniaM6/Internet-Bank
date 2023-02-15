@@ -146,8 +146,8 @@ class BuildAccount {
 
     account.innerHTML = `<h4 class="account__currency_title">Choose operation:</h4>
     <div class="account__currency_operations">
-      <div class="account__currency_operations-create"><span class="create-currency"></span>Create currency</div>
-      <div class="account__currency_operations-delete"><span class="delete-currency"></span>Delete currency</div>
+      <div class="account__currency_operations-create"><span class="create-currency">Create currency</span></div>
+      <div class="account__currency_operations-delete"><span class="delete-currency">Delete currency</span></div>
     </div>
     <div class="account__currency">
       <div class="account__buttons">

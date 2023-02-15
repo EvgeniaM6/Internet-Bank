@@ -116,12 +116,8 @@ class BuildMain {
                 <small class="about__author-resp evgeniya-resp">Services, RU/EN Lang</small>
                 <p class="about__author-text evgeniya-text">${
                   isEnglish
-                    ? `Lorem ipsum dolor sit amet, consectetur 
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.`
-                    : `Lorem ipsum dolor sit amet, consectetur 
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.`
+                    ? `From Kharkiv, has a degree in finance, worked for four years in the accounting department of the bank. RS School student since summer 2022.`
+                    : `Родом из Харькова, имеет высшее финансовое образование, четыре года работала в бухгалтерии банка. Студент RS School с лета 2022 года.`
                 }</p>
             </div>
         </div>

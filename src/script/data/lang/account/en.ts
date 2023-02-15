@@ -34,4 +34,7 @@ export default {
   'account__operations_button-cancel': 'Back',
   'table-empty': 'No operations',
   'account__currency_current-h': 'Currency Accounts',
+  'create-currency': 'Create currency',
+  'delete-currency': 'Delete currency',
+  'account__currency-button': 'Exchange',
 };

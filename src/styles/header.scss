@@ -56,13 +56,6 @@
     filter: invert(0);
   }
 
-  @include media-tablet {
-    &__switch {
-      display: flex;
-      align-items: center;
-    }
-  }
-
   &__lang {
     &-btn {
       text-transform: uppercase;
@@ -151,6 +144,20 @@
     }
     &__down {
       align-items: center;
+    }
+
+    &__switch {
+      display: flex;
+      align-items: center;
+    }
+
+    &__theme {
+      width: 25px;
+      height: 25px;
+    }
+    
+    &__lang {
+      padding: 10px;
     }
   }
 }

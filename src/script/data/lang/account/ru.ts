@@ -34,4 +34,7 @@ export default {
   'account__operations_button-cancel': 'Назад',
   'table-empty': 'Нет операций',
   'account__currency_current-h': 'Валютные счета',
+  'create-currency': 'Создать валютный счет',
+  'delete-currency': 'Удалить валютный счет',
+  'account__currency-button': 'Обмен',
 };
