@@ -28,7 +28,7 @@ class ListenHeader {
     money.textContent = `$${Number(currMoney).toFixed(2)}`;
   }
 
-  private removeActiveClass() {
+  removeActiveClass() {
     const nav = document.querySelectorAll('.header__nav-item');
     nav.forEach((el) => el.classList.remove('header__nav_active'));
   }

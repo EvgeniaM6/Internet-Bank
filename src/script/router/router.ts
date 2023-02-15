@@ -23,7 +23,8 @@ class Router {
     window.addEventListener('popstate', async () => {
       const route = window.location.pathname.split('/');
       const page = route[route.length - 1];
-      console.log('Route:', route, page, window.history.state);
+
+      listenHeader.removeActiveClass();
 
       const isHeader = document.querySelector('.header__up');
       if (!isHeader && page !== EPages.AUTH) {
@@ -75,6 +76,7 @@ class Router {
     }
 
     switchTheme();
+    listenHeader.removeActiveClass();
 
     const body = document.querySelector('.page');
     if (!(body instanceof HTMLElement)) return;
@@ -229,6 +231,7 @@ class Router {
     if (!(main instanceof HTMLElement)) return;
 
     transition(main, createMain.about);
+    this.addActiveClass('about');
     config.page = EPages.ABOUT;
   }
 
@@ -237,16 +240,19 @@ class Router {
     if (!(main instanceof HTMLElement) || !this.userCheck()) return;
 
     transition(main, createMain.cardCreater);
+    this.addActiveClass('card');
     config.page = EPages.CARD_CREATOR;
   }
 
   private quiz() {
     // Quiz creator
+    this.addActiveClass('quiz');
     config.page = EPages.QUIZ;
   }
 
   private async statistic() {
     await createStatistics.operations();
+    this.addActiveClass('stat');
     config.page = EPages.STATISTICS;
   }
 
@@ -255,6 +261,7 @@ class Router {
     if (!(main instanceof HTMLElement) || !this.userCheck()) return;
 
     await createStocks.main();
+    this.addActiveClass('stocks');
     config.page = EPages.STOCKS;
   }
 
@@ -263,6 +270,7 @@ class Router {
     if (!(main instanceof HTMLElement)) return;
 
     transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
+    this.addActiveClass('services');
     config.page = EPages.SERVICES;
   }
 
@@ -271,6 +279,7 @@ class Router {
     if (!isNaN(num) && num > 0 && num < 30 && num !== 7 && num !== 11 && num !== 12 && num !== 13) {
       // я люблю костыли, а ты?
       await renderPaymentDetails.renderPayment(num);
+      this.addActiveClass('services');
       return;
     }
     this.services();
@@ -282,6 +291,7 @@ class Router {
     if (!(main instanceof HTMLElement) || !this.userCheck()) return;
 
     transition(main, createMain.account);
+    this.addActiveClass('account');
     config.page = EPages.ACCOUNT;
     return true;
   }
@@ -313,6 +323,7 @@ class Router {
         buildAccount.main();
         navigationAccount();
     }
+    this.addActiveClass('account');
   }
 
   private admin() {
@@ -320,7 +331,15 @@ class Router {
     if (!(main instanceof HTMLElement) || !this.isAdmin()) return;
 
     transition(main, createMain.admin);
+    this.addActiveClass('admin');
     config.page = EPages.ADMIN;
+  }
+
+  private addActiveClass(page: string) {
+    const headerItem = document.querySelector(`.header__nav-${page}`);
+    if (!headerItem) return;
+
+    headerItem.classList.add('header__nav_active');
   }
 }
 

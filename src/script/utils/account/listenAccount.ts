@@ -3,8 +3,6 @@ import config from '../../data/config';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { buildAccount } from './buildAccount';
-import { buildMain } from '../main/buildMain';
-import { navigationAccount } from './navigationAccount';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
@@ -50,16 +48,17 @@ class ListenAccount {
 
       if (!valEmail || !valName || !token) return;
 
+      note.textContent = 'Connect to server...';
       userFetch.checkPassword(refreshPass, token).then((rez) => {
         if (rez.success) {
           userFetch.user(EMethod.PUT, token, name, email, refreshPass.value).then((rez) => {
             if (rez.success) {
               config.regex.username = name;
-              note.innerHTML =
-                'Note: Your login and e-mail have changed successfully! To return to account page press "Back"';
+              note.innerHTML = 'Your login and e-mail have changed successfully!';
             }
           });
-        } else note.innerHTML = 'Note: Incorrect password';
+        } else note.innerHTML = 'Incorrect password';
+        setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
       });
     });
   }
@@ -105,19 +104,21 @@ class ListenAccount {
       const confirmPassword = confirmPass.value;
       if (!oldPassword || !newPassword || !confirmPassword || !token) return;
 
+      if (newPassword !== confirmPassword) {
+        note.innerHTML = 'You have different passwords';
+        return;
+      }
+      note.textContent = 'Connect to server...';
+
       userFetch.checkPassword(oldPass, token).then((rez) => {
         if (rez.success) {
-          if (newPassword !== confirmPassword) {
-            note.innerHTML = 'Note: You have different passwords';
-            return;
-          }
-
           userFetch.changePassword(token, newPassword, oldPassword).then((rez) => {
             if (rez.success) {
-              note.innerHTML = 'Note: Your password has changed successfully! To return to account page press "Back"';
+              note.innerHTML = 'Your password has changed successfully!';
             }
           });
-        } else note.innerHTML = 'Note: Incorrect password';
+        } else note.innerHTML = 'Incorrect password';
+        setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
       });
     });
   }
@@ -144,7 +145,7 @@ class ListenAccount {
               createAuth.login();
             }
           });
-        } else note.innerHTML = 'Note: Incorrect password';
+        } else note.innerHTML = 'Incorrect password';
       });
     });
   }
