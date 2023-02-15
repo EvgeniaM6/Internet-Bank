@@ -118,8 +118,7 @@ class Router {
         pushState.about();
         break;
       case EPages.ACCOUNT:
-        this.account();
-        pushState.account();
+        if (this.account()) pushState.account();
         break;
       case EPages.ADMIN:
         this.admin();
@@ -284,9 +283,11 @@ class Router {
 
     transition(main, createMain.account);
     config.page = EPages.ACCOUNT;
+    return true;
   }
 
   private accountExtra(page: string) {
+    if (!this.userCheck()) return;
     createMain.account();
 
     const nav = document.querySelectorAll('.account__list-item');
