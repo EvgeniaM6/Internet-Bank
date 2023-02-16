@@ -50,6 +50,8 @@ class RenderPaymentDetails {
     this.currentOperationData = renderPayment.getOparationData(operationId);
     if (!this.currentOperationData) return;
 
+    const currLangObj = this.langs[config.lang];
+
     this.main.innerHTML = '';
     this.main.className = 'container main-container';
     window.scrollTo(0, 0);
@@ -59,9 +61,9 @@ class RenderPaymentDetails {
     const backBtn = createElem('button', 'back__btn', backBtnBlock);
     createElem('div', 'back__arrow', backBtn);
     if (config.theme === 'dark') {
-      createElem('div', 'back__text page-dark', backBtn, this.langs[config.lang].back__text);
+      createElem('div', 'back__text page-dark', backBtn, currLangObj.back__text);
     } else {
-      createElem('div', 'back__text', backBtn, this.langs[config.lang].back__text);
+      createElem('div', 'back__text', backBtn, currLangObj.back__text);
     }
     backBtn.addEventListener('click', () => {
       this.backToAllServices();
@@ -82,12 +84,7 @@ class RenderPaymentDetails {
     this.elemsForUpdatingText.title = operationName;
 
     const operationCategory = createElem('p', 'operation__category', operationMain);
-    createElem(
-      'span',
-      'operation__category-text',
-      operationCategory,
-      this.langs[config.lang]['operation__category-text']
-    );
+    createElem('span', 'operation__category-text', operationCategory, currLangObj['operation__category-text']);
     const categotyTxt = this.currentOperationData.category[config.lang];
     const categotyType = createElem('span', 'operation__category-type', operationCategory, categotyTxt);
     this.elemsForUpdatingText[`category_${operationId}`] = categotyType;

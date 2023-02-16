@@ -58,8 +58,10 @@ class ModalPayment {
       this.emailInputs['card-number'] = cardNumberInput;
     }
 
+    const currLangObj = this.langs[config.lang];
+
     const btnConfirmBlock = createElem('div', 'form__btn', form);
-    const btnConfirmText = this.langs[config.lang]['btn--col-3'];
+    const btnConfirmText = currLangObj['btn--col-3'];
     const btnConfirmClassName = 'btn btn--col-3 btn-colored unable';
     const btnConfirm = createElem('button', btnConfirmClassName, btnConfirmBlock, btnConfirmText) as HTMLButtonElement;
     btnConfirm.type = 'submit';
@@ -96,10 +98,10 @@ class ModalPayment {
 
     if (isAnonim) {
       const commissionBlock = createElem('div', 'commis');
-      createElem('span', 'commis__start', commissionBlock, this.langs[config.lang].commis__start);
+      createElem('span', 'commis__start', commissionBlock, currLangObj.commis__start);
       const isExchange = isAnonimExchange ? `${calculateCommissionSum(operationSum)}` : `${COMMISSION_AMOUNT}`;
       createElem('span', 'commis__sum', commissionBlock, isExchange);
-      createElem('span', 'commis__end', commissionBlock, this.langs[config.lang].commis__end);
+      createElem('span', 'commis__end', commissionBlock, currLangObj.commis__end);
       popupContent.prepend(commissionBlock);
     }
   }
@@ -238,8 +240,10 @@ class ModalPayment {
   }
 
   renderEmailInput(popupContent: HTMLElement, isAnonim: boolean): void {
+    const currLangObj = this.langs[config.lang];
+
     const personalDetails = createElem('div', 'form__person-details');
-    createElem('h2', 'form__title modal-personal', personalDetails, this.langs[config.lang]['modal-personal']);
+    createElem('h2', 'form__title modal-personal', personalDetails, currLangObj['modal-personal']);
 
     const needEmailCheckboxBlock = createElem('div', 'form__email', personalDetails);
     const needEmailCheckbox = createElem('input', 'form__email-input', needEmailCheckboxBlock) as HTMLInputElement;
@@ -248,7 +252,7 @@ class ModalPayment {
       'label',
       'form__email-label',
       needEmailCheckboxBlock,
-      this.langs[config.lang]['form__email-label']
+      currLangObj['form__email-label']
     ) as HTMLLabelElement;
     needEmailCheckbox.id = needEmailCheckboxLabel.htmlFor = 'need-email';
     this.emailInputs['checkbox-input'] = needEmailCheckbox;
@@ -272,9 +276,11 @@ class ModalPayment {
   }
 
   modalPaymentTemplate(): string {
+    const currLangObj = this.langs[config.lang];
+
     return `
       <div class="form__card-details">
-        <h2 class="form__title modal-credit-card">${this.langs[config.lang]['modal-credit-card']}</h2>
+        <h2 class="form__title modal-credit-card">${currLangObj['modal-credit-card']}</h2>
         <div class="form__data card-data">
           <div class="card-data__card-number">
             <img src=${invoiceCard} alt="credit-card" />
@@ -287,12 +293,12 @@ class ModalPayment {
               required
               pattern="\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}"
               maxlength="19"
-              title="${this.langs[config.lang].cardInputTitle}"
+              title="${currLangObj.cardInputTitle}"
             />
           </div>
           <div class="card-data__info">
             <div class="card-data__valid-data">
-              <label for="valid-thru" class="valid">${this.langs[config.lang]['valid']}</label>
+              <label for="valid-thru" class="valid">${currLangObj['valid']}</label>
               <input
                 id="valid-thru"
                 class="input--payment"
@@ -305,7 +311,7 @@ class ModalPayment {
               />
             </div>
             <div class="card-data__valid-data">
-              <label for="code-cvv" class="code-cvv">${this.langs[config.lang]['code-cvv']}</label>
+              <label for="code-cvv" class="code-cvv">${currLangObj['code-cvv']}</label>
               <input
                 id="code-cvv"
                 class="input--payment"
@@ -315,7 +321,7 @@ class ModalPayment {
                 required
                 pattern="\\d{3}"
                 maxlength="3"
-                title="${this.langs[config.lang].cvvInputTitle}"
+                title="${currLangObj.cvvInputTitle}"
               />
             </div>
           </div>

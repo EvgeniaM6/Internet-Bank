@@ -76,14 +76,16 @@ class RenderPayment {
     const operationName = createElem('p', 'serv-card__title', mainInfo);
     this.elemsForUpdatingText[`${operationId}_operation-title`] = operationName;
 
+    const currLangObj = this.langs[config.lang];
+
     const operationCategory = createElem('p', 'serv-card__category', mainInfo);
-    const categoryTxtContent = this.langs[config.lang]['serv-card__category-text'];
+    const categoryTxtContent = currLangObj['serv-card__category-text'];
     createElem('span', 'serv-card__category-text', operationCategory, categoryTxtContent);
     const categoryTxt = this.operationsResp[operationId].category[config.lang];
     const categoryTitle = createElem('span', 'serv-card__category-type', operationCategory, categoryTxt);
     this.elemsForUpdatingText[`${operationId}_category-type`] = categoryTitle;
 
-    const btn = createElem('button', 'serv-card__btn btn-colored', card, this.langs[config.lang]['serv-card__btn']);
+    const btn = createElem('button', 'serv-card__btn btn-colored', card, currLangObj['serv-card__btn']);
 
     btn.addEventListener('click', () => {
       this.renderPayment(+operationId);
