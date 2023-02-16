@@ -3,7 +3,6 @@ import { openWebSocket } from '../../fetch/webSocket';
 import pushState from '../../router/pushState';
 import { buildAccount } from '../account/buildAccount';
 import { navigationAccount } from '../account/navigationAccount';
-//import { navigationAdmin } from '../admin/navigationAdmin';
 import { buildCard } from '../cardCreator/buildCard';
 import { listenCard } from '../cardCreator/listenCard';
 import { buildHeader } from './buildHeader';
@@ -35,7 +34,6 @@ class CreateMain {
     createMain.header();
     buildMain.about();
     pushState.about();
-    //list
 
     openWebSocket();
   }
@@ -43,7 +41,6 @@ class CreateMain {
   about() {
     buildMain.about();
     window.scrollTo(0, 0);
-    //list
   }
 
   cardCreater() {
@@ -58,7 +55,6 @@ class CreateMain {
 
   admin() {
     buildMain.admin();
-    //navigationAdmin();
   }
 }
 

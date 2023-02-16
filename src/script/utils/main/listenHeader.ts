@@ -144,7 +144,6 @@ class ListenHeader {
       transition(page, () => {
         buildAuth.main();
         createAuth.login();
-        //main.style.marginLeft = '0';
       });
       pushState.login();
     });
@@ -162,43 +161,36 @@ class ListenHeader {
         if (el.id === EPages.STATISTICS) {
           await createStatistics.operations();
           pushState.statistic();
-          //return;
         }
 
         if (el.id === EPages.CARD_CREATOR) {
           transition(main, createMain.cardCreater);
           pushState.cardCreator();
-          //return;
         }
 
         if (el.id === EPages.ABOUT) {
           transition(main, createMain.about);
           pushState.about();
-          //return;
         }
 
         if (el.id === EPages.ACCOUNT) {
           transition(main, createMain.account);
           pushState.account();
-          //return;
         }
 
         if (el.id === EPages.STOCKS) {
           await createStocks.main();
           pushState.stocks();
-          //return;
         }
 
         if (el.id === EPages.ADMIN) {
           transition(main, createMain.admin);
           pushState.admin();
-          //return;
         }
 
         if (el.id === EPages.SERVICES) {
           transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
           pushState.services();
-          //return;
         }
         config.loading = false;
         await this.updateInfo();
@@ -208,7 +200,6 @@ class ListenHeader {
 
   log() {
     this.main();
-    // дополнительные слушатели
   }
 
   anonim() {

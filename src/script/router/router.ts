@@ -220,7 +220,6 @@ class Router {
     transition(page, () => {
       buildAuth.main();
       createAuth.login();
-      //main.style.marginLeft = '0';
     });
     config.page = EPages.AUTH;
   }

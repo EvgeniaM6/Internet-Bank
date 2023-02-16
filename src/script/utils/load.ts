@@ -1,7 +1,6 @@
 import config from '../data/config';
 
 export function load(el: HTMLElement) {
-  //el.style.overflow = 'hidden';
   let load = 'load';
   if (config.theme === 'dark') load = 'load load-dark';
 

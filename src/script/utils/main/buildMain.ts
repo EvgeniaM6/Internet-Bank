@@ -164,67 +164,6 @@ class BuildMain {
         </div>        
       </div>      
     </div>`;
-
-    /*const cards = document.querySelector('.account__cards');
-    const token = localStorage.getItem('token');
-
-    if (!cards || !token) return;
-
-    const data = userFetch.user(EMethod.GET, token);
-    data.then((rez) => {
-      if (rez.userConfig?.cards) {
-        for (let i = 0; i < rez.userConfig?.cards.length; i++) {
-          const element = document.createElement('img');
-          element.classList.add('account__cards_card');
-          element.setAttribute('src', rez.userConfig?.cards[i]);
-          element.setAttribute('alt', 'card');
-
-          cards.appendChild(element);
-        }
-      }
-    });
-
-    const tbody = <HTMLElement>document.querySelector('.account__operations_tbody');
-    tbody.style.position = 'relative';
-    load(tbody);
-
-    const loading = document.querySelector('.load');
-    if (!(loading instanceof HTMLElement)) return;
-    loading.style.height = '100px';
-    loading.style.width = '100%';
-    loading.style.position = 'absolute';
-    loading.style.top = '20px';
-    loading.style.left = '50%';
-    loading.style.transform = 'translateX(-50%)';
-
-    const operations = await userFetch.user(EMethod.GET, token);
-    if (!operations.userConfig) return;
-
-    tbody.innerHTML = '';
-    for (let i = 0; i < operations.userConfig.lastFive.length; i++) {
-      const row = document.createElement('tr');
-      row.innerHTML = `<td>${i + 1}</td>
-      <td>${operations.userConfig.lastFive[i].date.slice(0, 10)}</td>
-      <td>${operations.userConfig.lastFive[i].operationID}</td>
-      <td>${operations.userConfig.lastFive[i].money.toFixed(2)}</td>`;
-
-      tbody.appendChild(row);
-    }
-
-    if (!operations.userConfig.lastFive.length) {
-      const table = document.querySelector('.account__operations_table');
-      if (!table) return;
-
-      table.textContent = 'No operations';
-    }
-
-    const td = document.querySelectorAll('td');
-    const th = document.querySelectorAll('th');
-
-    if (config.theme === 'dark') {
-      td.forEach((el) => el.classList.add('table-dark'));
-      th.forEach((el) => el.classList.add('table-dark'));
-    }*/
   }
 
   admin() {

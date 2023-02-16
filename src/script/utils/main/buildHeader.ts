@@ -10,8 +10,6 @@ class BuildHeader {
     const isEnglish = config.lang === 'en';
     if (!header || !(main instanceof HTMLElement)) return;
 
-    //if (document.documentElement.clientWidth > 767) main.style.marginLeft = '230px';
-
     header.classList.add('header');
     header.innerHTML = `<div class="header__up">
         <h1 class="header__logo">RS Bank</h1>
