@@ -92,7 +92,7 @@ class BuildAccount {
         <div class="account__buttons">
           <button class="account__edit_button-submit button-submit">Submit</button>
         </div>
-        <p class="account__notification"></p>
+        <p class="account__notification">Ready to edit</p>
       </div>
       <div id="account__password">
       <h2 class="account__password_title">Change password</h2>
@@ -111,7 +111,7 @@ class BuildAccount {
       <div class="account__buttons">
         <button class="account__password_button-submit button-submit">Submit</button>
       </div>
-      <p class="account__notification_password"></p>
+      <p class="account__notification_password">Ready to edit</p>
       </div>`;
   }
 

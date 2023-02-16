@@ -182,7 +182,8 @@ td.table-dark:last-child {
 tr:last-child td {
   border-bottom: none;
 }
-.account__notification {
+.account__notification,
+.account__notification_password {
   margin-top: 15px;
   text-align: left;
   font-size: 90%;
