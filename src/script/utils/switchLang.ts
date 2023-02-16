@@ -66,7 +66,6 @@ const textByLangsData: TPageLang = {
 };
 
 export function switchLang(selectElem: HTMLSelectElement): void {
-  console.log('selectElem.value=', selectElem.value);
   config.lang = selectElem.value;
 
   const currLangTextData = textByLangsData[config.page][config.lang];

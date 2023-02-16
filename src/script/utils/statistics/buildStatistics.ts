@@ -14,13 +14,11 @@ class BuildStatistics {
     container.classList.add('stat');
 
     const totalCount = document.createElement('p');
-    // totalCount.classList.add('');
     totalCount.innerHTML = `
     <span class="stat__total-oper">${isEnglish ? 'Total operations: ' : 'Всего операций: '}</span>
     <span>${arr.reduce((acc, el) => acc + el.count, 0)}</span>`;
 
     const totalMoney = document.createElement('p');
-    // totalMoney.classList.add('');
     totalMoney.innerHTML = `
     <span class="stat__total-money">${isEnglish ? 'Total money: ' : 'Всего денег: '}</span>
     <span>$${arr.reduce((acc, el) => acc + el.money, 0).toFixed(2)}</span>`;

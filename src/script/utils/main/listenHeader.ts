@@ -197,7 +197,6 @@ class ListenHeader {
         if (el.id === EPages.QUIZ) {
           transition(main, createMain.quiz);
           pushState.quiz();
-          //return;
         }
 
         config.loading = false;
@@ -205,13 +204,9 @@ class ListenHeader {
       });
     });
 
-    console.log('page=', page);
     const langSelect = page.querySelector('.header__lang-select') as HTMLSelectElement;
-    console.log('langSelect=', langSelect);
     if (!langSelect) return;
-    console.log('langSelect.options=', langSelect.options);
     Array.from(langSelect.options).forEach((optionElem) => {
-      console.log('optionElem=', optionElem);
       optionElem.selected = optionElem.value === config.lang;
     });
     langSelect.oninput = () => switchLang(langSelect);

@@ -160,16 +160,18 @@ class ListenAdmin {
       this.showUserList();
     });
 
+    const currLangObj = langs[config.lang];
+
     reg.addEventListener('click', async () => {
       if (!validateAuth.registrarion()) return;
 
       await userFetch.regictration(username.value, password.value, email.value).then((result) => {
         if (result.success) {
-          note.innerHTML = `${config.lang === 'en' ? 'User create succesfully' : 'Пользователь успешно создан'}`;
+          note.innerHTML = currLangObj['create-succ'];
           return;
         }
 
-        note.innerHTML = `${config.lang === 'en' ? 'User was not created' : 'Пользователь не создан'}`;
+        note.innerHTML = currLangObj['create-no'];
       });
     });
   }
