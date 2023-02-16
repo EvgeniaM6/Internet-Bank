@@ -77,6 +77,19 @@
   }
 }
 
+.lang {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 10px;
+
+  @include media-tablet {
+    left: auto;
+    top: auto;
+    bottom: -38px;
+  }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

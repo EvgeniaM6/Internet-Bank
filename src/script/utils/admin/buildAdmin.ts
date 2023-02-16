@@ -7,6 +7,14 @@ import { EAdminInfo, EMethod, ETheme } from '../../data/types';
 import { adminFetch } from '../../fetch/adminFetch';
 import { listenAuth } from '../auth/listenAuth';
 import { load } from '../load';
+import { TLang } from '../../data/servicesType';
+import en from '../../data/lang/admin/en';
+import ru from '../../data/lang/admin/ru';
+
+const langs: TLang = {
+  en,
+  ru,
+};
 
 class BuildAdmin {
   async showUserList() {
@@ -26,17 +34,21 @@ class BuildAdmin {
       })
     ).json();
 
+    const currLangObj = langs[config.lang];
+
     data.then((result) => {
       admin.innerHTML = `<div class="admin__users">
-        <h2 class="admin__title admin__users_title">List of users</h2>
-        <p class="admin__instraction">Click user name to open user page</p>
+        <h2 class="admin__title admin__users_title">${currLangObj[`admin__users_title`]}</h2>
+        <p class="admin__instraction">${currLangObj['admin__instraction']}</p>
         <table class="admin__users_table">
-        <thead><tr><th>#</th><th class="admin__users_name">Name</th><th>Email</th><th class="admin__users_block">Blocked</th></tr></thead>
+        <thead><tr><th>#</th><th class="admin__users_name">${
+          currLangObj['admin__users_name']
+        }</th><th>Email</th><th class="admin__users_block">${currLangObj['admin__users_block']}</th></tr></thead>
         <tbody class="admin__users_tbody"></tbody>
         </table>
         <div class="admin__users_buttons">
-          <button class="edit__button-create user-create">New user</button>
-          <button class="edit__button-cancel user-cancel">Back</button>
+          <button class="edit__button-create user-create">${currLangObj['edit__button-create']}</button>
+          <button class="edit__button-cancel user-cancel">${currLangObj['edit__button-cancel']}</button>
         </div>
       </div>`;
 
@@ -83,27 +95,39 @@ class BuildAdmin {
       })
     ).json();
 
+    const currLangObj = langs[config.lang];
+
     data.then((result) => {
       admin.innerHTML = `<div class="admin__user">
       <h2 class="admin__title admimn__user_name">${result.userConfig.username}</h2>
       <p class="admin__user_info"> E-mail: ${result.userConfig.email}</p>
-      <p class="admin__user_info"> <span class="admin__user_info-admin">Is user admin:</span> ${
-        result.userConfig.isAdmin ? 'yes' : 'no'
-      }</p>
-      <p class="admin__user_info"> <span class="admin__user_info-block">Is user blocked:</span> ${
-        result.userConfig.isBlock ? 'yes' : 'no'
-      }</p>
-      <h3 class="admin__user_operations-title">Last operations</h3>
+      <p class="admin__user_info">
+        <span class="admin__user_info-admin">${currLangObj['admin__user_info-admin']}</span>
+        <span class="is-${result.userConfig.isAdmin ? 'yes' : 'no'}">${
+        result.userConfig.isAdmin ? currLangObj['is-yes'] : currLangObj['is-no']
+      }</span>
+      </p>
+      <p class="admin__user_info">
+        <span class="admin__user_info-block">${currLangObj['admin__user_info-block']}</span>
+        <span class="is-${result.userConfig.isBlock ? 'yes' : 'no'}">${
+        result.userConfig.isBlock ? currLangObj['is-yes'] : currLangObj['is-no']
+      }</span>
+      </p>
+      <h3 class="admin__user_operations-title">${currLangObj['admin__user_operations-title']}</h3>
       <table class="admin__user_operations">
-        <thead><tr><th>#</th><th class="admin__user_date">date</th><th class="admin__user_operation">operationID</th><th class="admin__user_money">money</th></tr></thead>
+        <thead><tr><th>#</th><th class="admin__user_date">${
+          currLangObj['admin__user_date']
+        }</th><th class="admin__user_operation">${
+        currLangObj['admin__user_operation']
+      }</th><th class="admin__user_money">${currLangObj['admin__user_money']}</th></tr></thead>
         <tbody class="admin__user_tbody"></tbody>
       </table>
       <div class="admin__user_buttons">
-        <button class="admin__user_button-lock user-lock">${
-          result.userConfig.isBlock ? 'Unlock user' : 'Lock user'
-        }</button>
-        <button class="admin__user_button-remove">Remove user</button>
-        <button class="admin__user_button-back">To list of users</button>
+        <button class="admin__user_button-lock user-lock ${result.userConfig.isBlock ? 'locked' : 'unlocked'}">${
+        result.userConfig.isBlock ? currLangObj['locked'] : currLangObj['unlocked']
+      }</button>
+        <button class="admin__user_button-remove">${currLangObj['admin__user_button-remove']}</button>
+        <button class="admin__user_button-back">${currLangObj['admin__user_button-back']}</button>
       </div>
       <div class="account-container"></div>
       </div>`;
@@ -159,7 +183,9 @@ class BuildAdmin {
     const admin = document.querySelector('.admin-container');
     if (!admin) return;
 
-    admin.innerHTML = `<h2 class="admin__title admin__create_title">New user</h2>
+    const currLangObj = langs[config.lang];
+
+    admin.innerHTML = `<h2 class="admin__title admin__create_title">${currLangObj['admin__create_title']}</h2>
     <div class="auth__container auth__container-center"><div>`;
 
     buildAuth.registration();
@@ -168,7 +194,8 @@ class BuildAdmin {
     if (container) container.classList.add('auth__container-center');
 
     const button = document.querySelector('.reg__button-reg');
-    if (button) button.innerHTML = 'Create';
+    if (button) button.innerHTML = currLangObj['reg__button-reg-create'];
+    button?.classList.add('reg__button-reg-create');
 
     listenAdmin.registration();
   }
@@ -177,13 +204,15 @@ class BuildAdmin {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="admin__remove_question">To remove user enter your password:</p>
+    const currLangObj = langs[config.lang];
+
+    account.innerHTML = `<p class="admin__remove_question">${currLangObj['admin__remove_question']}</p>
       <div class="admin__remove">
         <input type="password" name="remove" id="rem-password" class="admin__remove-input">
       </div>
       <div class="admin__buttons">
-        <button class="button-submit admin__remove_button-submit">Remove</button>
-        <button class="button-cancel admin__remove_button-cancel">Cancel</button>
+        <button class="button-submit admin__remove_button-submit">${currLangObj['admin__remove_button-submit']}</button>
+        <button class="button-cancel admin__remove_button-cancel">${currLangObj['admin__remove_button-cancel']}</button>
       </div>
       <p class="admin__notification"></p>`;
   }

@@ -6,6 +6,14 @@ import { buildAccount } from './buildAccount';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
+import { TLang } from '../../data/servicesType';
+import en from '../../data/lang/account/en';
+import ru from '../../data/lang/account/ru';
+
+const langs: TLang = {
+  en,
+  ru,
+};
 
 class ListenAccount {
   editAccount() {
@@ -36,14 +44,16 @@ class ListenAccount {
 
       if (!valEmail || !valName || !token) return;
 
-      note.textContent = 'Connect to server...';
+      const currLangObj = langs[config.lang];
+
+      note.textContent = currLangObj['connect-server'];
       userFetch.user(EMethod.PUT, token, name, email, refreshPass.value).then((rez) => {
         if (rez.success) {
           config.regex.username = name;
-          note.innerHTML = 'Your login and e-mail have changed successfully!';
-        } else note.innerHTML = 'Incorrect password';
+          note.innerHTML = currLangObj['note-login-success'];
+        } else note.innerHTML = currLangObj['note-incorr-passw'];
       });
-      setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);
     });
   }
 
@@ -80,6 +90,8 @@ class ListenAccount {
 
     const token = localStorage.getItem('token');
 
+    const currLangObj = langs[config.lang];
+
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;
       const newPassword = newPass.value;
@@ -87,17 +99,17 @@ class ListenAccount {
       if (!oldPassword || !newPassword || !confirmPassword || !token) return;
 
       if (newPassword !== confirmPassword) {
-        note.innerHTML = 'You have different passwords';
+        note.innerHTML = currLangObj['note-diff-passw'];
         return;
       }
-      note.textContent = 'Connect to server...';
+      note.textContent = currLangObj['connect-server'];
 
       userFetch.changePassword(token, newPassword, oldPassword).then((rez) => {
         if (rez.success) {
-          note.innerHTML = 'Your password has changed successfully!';
-        } else note.innerHTML = 'Incorrect password';
+          note.innerHTML = currLangObj['note-passw-success'];
+        } else note.innerHTML = currLangObj['note-incorr-passw'];
       });
-      setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);
     });
   }
 
@@ -110,6 +122,8 @@ class ListenAccount {
 
     if (!token || !note || !buttonSubmit || !(password instanceof HTMLInputElement)) return;
 
+    const currLangObj = langs[config.lang];
+
     buttonSubmit.addEventListener('click', async () => {
       const passwordValue: string = password.value;
 
@@ -121,7 +135,7 @@ class ListenAccount {
               createAuth.login();
             }
           });
-        } else note.innerHTML = 'Incorrect password';
+        } else note.innerHTML = currLangObj['note-incorr-passw'];
       });
     });
   }
@@ -169,17 +183,19 @@ class ListenAccount {
     const token = localStorage.getItem('token');
     if (!token) return;
 
+    const currLangObj = langs[config.lang];
+
     buttonSubmit.addEventListener('click', async () => {
-      note.textContent = 'Connect to the server...';
+      note.textContent = currLangObj['connect-server'];
       const data = await moneyFetch.moneyAccount(EMethod.POST, config.currentUser, currency.value, token);
 
       if (!data.success) {
-        note.innerHTML = `You already have a ${currency.value} account`;
+        note.innerHTML = `${currLangObj['already-have-start']} ${currency.value} ${currLangObj['already-have-end']}`;
       } else {
-        note.innerHTML = 'Success';
+        note.innerHTML = currLangObj['success'];
         buildAccount.updateCurrency();
       }
-      setTimeout(() => (note.textContent = 'Ready to create/delete'), 3000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to']), 3000);
     });
   }
 
@@ -193,17 +209,19 @@ class ListenAccount {
     const token = localStorage.getItem('token');
     if (!token) return;
 
+    const currLangObj = langs[config.lang];
+
     buttonSubmit.addEventListener('click', async () => {
-      note.textContent = 'Connect to the server...';
+      note.textContent = currLangObj['connect-server'];
       const data = await moneyFetch.moneyAccount(EMethod.DELETE, config.currentUser, currency.value, token);
 
       if (!data.success) {
-        note.innerHTML = `You don't have a ${currency.value} account`;
+        note.innerHTML = `${currLangObj['dont-have-start']} ${currency.value} ${currLangObj['dont-have-end']}`;
       } else {
-        note.innerHTML = 'Success';
+        note.innerHTML = currLangObj['success'];
         buildAccount.updateCurrency();
       }
-      setTimeout(() => (note.textContent = 'Ready to create/delete'), 3000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to']), 3000);
     });
   }
 }

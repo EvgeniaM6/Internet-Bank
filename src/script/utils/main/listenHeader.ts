@@ -12,6 +12,7 @@ import pushState from '../../router/pushState';
 import moon from '../../../assets/img/icons/moon.svg';
 import sun from '../../../assets/img/icons/carbon_sun.svg';
 import { buildAccount } from '../account/buildAccount';
+import { switchLang } from '../switchLang';
 
 class ListenHeader {
   async updateInfo() {
@@ -196,13 +197,19 @@ class ListenHeader {
         if (el.id === EPages.QUIZ) {
           transition(main, createMain.quiz);
           pushState.quiz();
-          //return;
         }
 
         config.loading = false;
         await this.updateInfo();
       });
     });
+
+    const langSelect = page.querySelector('.header__lang-select') as HTMLSelectElement;
+    if (!langSelect) return;
+    Array.from(langSelect.options).forEach((optionElem) => {
+      optionElem.selected = optionElem.value === config.lang;
+    });
+    langSelect.oninput = () => switchLang(langSelect);
   }
 
   log() {

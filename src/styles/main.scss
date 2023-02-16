@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+  position: relative;
 }
 
 .main-auth {
@@ -24,7 +24,7 @@
   .main {
     margin-top: 85px;
     margin-left: 0;
-    min-height: calc(100vh - 85px);
+    min-height: calc(100vh + 85px);
   }
 
   .main-auth {

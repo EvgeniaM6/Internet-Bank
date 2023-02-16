@@ -30,5 +30,6 @@ export default {
   'andrei-text': '',
   evgeniya: 'Yevheniia Miniukova',
   'evgeniya-resp': 'Services, RU/EN Lang',
-  'evgeniya-text': '',
+  'evgeniya-text':
+    'From Kharkiv, has a degree in finance, worked for four years in the accounting department of the bank. RS School student since summer 2022.',
 };

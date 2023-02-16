@@ -14,16 +14,14 @@ class BuildStatistics {
     container.classList.add('stat');
 
     const totalCount = document.createElement('p');
-    totalCount.classList.add('stat__total-oper');
-    totalCount.textContent = `
-    ${isEnglish ? 'Total operations: ' : 'Всего операций: '}
-    ${arr.reduce((acc, el) => acc + el.count, 0)}`;
+    totalCount.innerHTML = `
+    <span class="stat__total-oper">${isEnglish ? 'Total operations: ' : 'Всего операций: '}</span>
+    <span>${arr.reduce((acc, el) => acc + el.count, 0)}</span>`;
 
     const totalMoney = document.createElement('p');
-    totalMoney.classList.add('stat__total-money');
-    totalMoney.textContent = `
-    ${isEnglish ? 'Total money: ' : 'Всего денег: '}
-    $${arr.reduce((acc, el) => acc + el.money, 0).toFixed(2)}`;
+    totalMoney.innerHTML = `
+    <span class="stat__total-money">${isEnglish ? 'Total money: ' : 'Всего денег: '}</span>
+    <span>$${arr.reduce((acc, el) => acc + el.money, 0).toFixed(2)}</span>`;
 
     const total = document.createElement('div');
     total.appendChild(totalCount);
@@ -48,7 +46,7 @@ class BuildStatistics {
 
       const operationMoney = document.createElement('p');
       operationMoney.classList.add('stat__operation-p', 'stat__operation-money');
-      operationMoney.innerHTML = `<span class="stat__operation-money">${
+      operationMoney.innerHTML = `<span class="stat__operation-money-t">${
         isEnglish ? 'Sum Money: ' : 'Всего Денег: '
       }</span>
       <span>$${el.money.toFixed(2)}</span>`;

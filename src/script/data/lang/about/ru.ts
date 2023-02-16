@@ -28,7 +28,8 @@ export default {
   andrei: 'Andrei Shamanouski',
   'andrei-resp': 'User and Admin Panels, Day/Night Mode, Financial Quiz',
   'andrei-text': '',
-  evgeniya: 'Yevheniia Miniukova',
+  evgeniya: 'Евгения Минюкова',
   'evgeniya-resp': 'Services, RU/EN Lang',
-  'evgeniya-text': '',
+  'evgeniya-text':
+    'Родом из Харькова, имеет высшее финансовое образование, четыре года работала в бухгалтерии банка. Студент RS School с лета 2022 года.',
 };

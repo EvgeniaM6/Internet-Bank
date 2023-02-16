@@ -2,8 +2,16 @@ import moon from '../../../assets/img/icons/moon.svg';
 import sun from '../../../assets/img/icons/carbon_sun.svg';
 import config from '../../data/config';
 import { ETheme } from '../../data/types';
+import en from '../../data/lang/header/en';
+import ru from '../../data/lang/header/ru';
+import { TLang } from '../../data/servicesType';
 
 class BuildHeader {
+  langs: TLang = {
+    en,
+    ru,
+  };
+
   anonimHeader() {
     const header = document.querySelector('header');
     const main = document.querySelector('.main');
@@ -28,10 +36,18 @@ class BuildHeader {
     </nav>
     <div class="header__down">
         <div class="header__login">${isEnglish ? 'Log In' : 'Войти'}</div>
-        <div class="header__switch_theme">
-          <img src="${config.theme === ETheme.dark ? sun : moon}" alt="${
+        <div  class="header__switch">
+          <div class="header__switch_theme">
+            <img src="${config.theme === ETheme.dark ? sun : moon}" alt="${
       config.theme === ETheme.dark ? 'sun' : 'moon'
     }" class="${config.theme === ETheme.dark ? 'header__theme header__theme-dark' : 'header__theme'}">
+          </div>
+          <div class="header__lang">
+            <select class="header__lang-select">
+              <option value="en">en</option>
+              <option value="ru">ru</option>
+            </select>
+          </div>
         </div>
     </div>`;
   }

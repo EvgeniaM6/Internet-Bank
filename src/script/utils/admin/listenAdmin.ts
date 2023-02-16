@@ -6,6 +6,14 @@ import { buildMain } from '../main/buildMain';
 import { buildAdmin } from './buildAdmin';
 import { validate } from '../validate';
 import { validateAuth } from '../auth/verifyAuth';
+import { TLang } from '../../data/servicesType';
+import en from '../../data/lang/admin/en';
+import ru from '../../data/lang/admin/ru';
+
+const langs: TLang = {
+  en,
+  ru,
+};
 
 class ListenAdmin {
   showBankInfo() {
@@ -65,6 +73,8 @@ class ListenAdmin {
 
     cancel.addEventListener('click', () => (account.innerHTML = ''));
 
+    const currLangObj = langs[config.lang];
+
     submit.addEventListener('click', () => {
       userFetch.checkPassword(password, token).then((rez) => {
         if (rez.success) {
@@ -74,7 +84,7 @@ class ListenAdmin {
               this.showUserList();
             }
           });
-        } else note.innerHTML = 'Note: Incorrect password';
+        } else note.innerHTML = currLangObj['note-incorr-passw'];
       });
     });
   }
@@ -95,7 +105,9 @@ class ListenAdmin {
       this.showUserList();
     });
 
-    if (lockButton.textContent === 'Lock user') {
+    const currLangObj = langs[config.lang];
+
+    if (lockButton.textContent === currLangObj['unlocked']) {
       this.lockUser(true);
     } else this.lockUser(false);
   }
@@ -148,16 +160,18 @@ class ListenAdmin {
       this.showUserList();
     });
 
+    const currLangObj = langs[config.lang];
+
     reg.addEventListener('click', async () => {
       if (!validateAuth.registrarion()) return;
 
       await userFetch.regictration(username.value, password.value, email.value).then((result) => {
         if (result.success) {
-          note.innerHTML = 'User create succesfully';
+          note.innerHTML = currLangObj['create-succ'];
           return;
         }
 
-        note.innerHTML = 'User was not created';
+        note.innerHTML = currLangObj['create-no'];
       });
     });
   }

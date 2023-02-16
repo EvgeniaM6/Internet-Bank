@@ -1,6 +1,17 @@
 import config from '../../data/config';
+import { LANGS_ARR } from '../../data/constants';
+import en from '../../data/lang/header/en';
+import ru from '../../data/lang/header/ru';
+import { TLang } from '../../data/servicesType';
+import { createElem } from '../../utilities';
+import { switchLang } from '../switchLang';
 
 class BuildAuth {
+  langs: TLang = {
+    en,
+    ru,
+  };
+
   main() {
     const main = document.querySelector('.main-container');
     const body = document.querySelector('.main');
@@ -22,6 +33,15 @@ class BuildAuth {
     if (auth) {
       if (config.theme === 'dark') auth.classList.add('auth-dark');
     }
+
+    const langBlock = createElem('div', 'lang', main as HTMLElement);
+    const langSelect = createElem('select', 'header__lang-select', langBlock) as HTMLSelectElement;
+    LANGS_ARR.forEach((langStr) => {
+      const langOptionElem = createElem('option', '', langSelect, langStr) as HTMLOptionElement;
+      langOptionElem.value = langStr;
+      langOptionElem.selected = langStr === config.lang;
+    });
+    langSelect.oninput = () => switchLang(langSelect);
   }
   login() {
     const auth = document.querySelector('.auth__container');
