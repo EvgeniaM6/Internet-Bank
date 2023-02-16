@@ -46,10 +46,15 @@
   &__login {
     cursor: pointer;
   }
+
+  &__switch {
+    display: flex;
+    gap: 20px;
+  }
   &__theme {
     filter: invert(100%);
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 
   &__theme-dark {
@@ -62,7 +67,7 @@
       background: transparent;
       border: none;
       border-bottom: solid 2px;
-      font-size: 24px;
+      font-size: 22px;
       cursor: pointer;
       transition: all .2s;
 
@@ -156,8 +161,5 @@
       height: 25px;
     }
     
-    &__lang {
-      padding: 10px;
-    }
   }
 }
