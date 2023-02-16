@@ -141,3 +141,20 @@ export enum ETheme {
   dark = 'dark',
   light = 'light',
 }
+
+export interface IQuiz {
+  id: number;
+  question: IQuestion;
+  answers: IAnswers;
+  desc: IQuestion;
+}
+
+export interface IQuestion {
+  ru: string;
+  en: string;
+}
+
+export interface IAnswers {
+  ru: string[];
+  en: string[];
+}

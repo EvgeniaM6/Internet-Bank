@@ -192,6 +192,13 @@ class ListenHeader {
           transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
           pushState.services();
         }
+
+        if (el.id === EPages.QUIZ) {
+          transition(main, createMain.quiz);
+          pushState.quiz();
+          //return;
+        }
+
         config.loading = false;
         await this.updateInfo();
       });
