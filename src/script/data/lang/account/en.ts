@@ -50,4 +50,5 @@ export default {
   'connect-server': 'Connect to the server...',
   'dont-have-start': "You don't have",
   'dont-have-end': 'account',
+  ready_to_edit: 'Ready to edit',
 };

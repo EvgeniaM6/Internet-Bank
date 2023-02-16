@@ -39,7 +39,7 @@ export default {
   'account__currency-button': 'Обмен',
   'user-creditcard': 'Ваши банковские карты',
   'user-lastoperations': 'Ваши последние операции',
-  account__notification: 'Готово создать/удалить',
+  ready_to: 'Готово создать/удалить',
   'note-login-success':
     'Примечание: Ваш логин и адрес электронной почты успешно изменены! Для возврата на страницу аккаунта нажмите "Назад"',
   'note-incorr-passw': 'Примечание: неверный пароль',
@@ -51,4 +51,5 @@ export default {
   'connect-server': 'Соединение с сервером...',
   'dont-have-start': 'У Вас нет',
   'dont-have-end': 'счета',
+  ready_to_edit: 'Готово редактировать',
 };

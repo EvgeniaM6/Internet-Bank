@@ -46,14 +46,14 @@ class ListenAccount {
 
       const currLangObj = langs[config.lang];
 
-      note.textContent = 'Connect to server...';
+      note.textContent = currLangObj['connect-server'];
       userFetch.user(EMethod.PUT, token, name, email, refreshPass.value).then((rez) => {
         if (rez.success) {
           config.regex.username = name;
           note.innerHTML = currLangObj['note-login-success'];
         } else note.innerHTML = currLangObj['note-incorr-passw'];
       });
-      setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);
     });
   }
 
@@ -102,14 +102,14 @@ class ListenAccount {
         note.innerHTML = currLangObj['note-diff-passw'];
         return;
       }
-      note.textContent = 'Connect to server...';
+      note.textContent = currLangObj['connect-server'];
 
       userFetch.changePassword(token, newPassword, oldPassword).then((rez) => {
         if (rez.success) {
           note.innerHTML = currLangObj['note-passw-success'];
         } else note.innerHTML = currLangObj['note-incorr-passw'];
       });
-      setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);
     });
   }
 
