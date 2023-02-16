@@ -1,7 +1,6 @@
 import { buildAccount } from './buildAccount';
 import { listenAccount } from './listenAccount';
 import { EAccountLinks } from '../../data/types';
-import { createMain } from '../main/createMain';
 import config from '../../data/config';
 import pushState from '../../router/pushState';
 

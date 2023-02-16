@@ -7,18 +7,6 @@ import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
 
-/*function cancel() {
-  const buttonCancel = document.querySelector('.button-cancel');
-
-  if (!buttonCancel) return;
-
-  buttonCancel.addEventListener('click', () => {
-    buildMain.account();
-    navigationAccount();
-    return;
-  });
-}*/
-
 class ListenAccount {
   editAccount() {
     const refreshName = document.getElementById('edit-user');
@@ -49,17 +37,13 @@ class ListenAccount {
       if (!valEmail || !valName || !token) return;
 
       note.textContent = 'Connect to server...';
-      userFetch.checkPassword(refreshPass, token).then((rez) => {
+      userFetch.user(EMethod.PUT, token, name, email, refreshPass.value).then((rez) => {
         if (rez.success) {
-          userFetch.user(EMethod.PUT, token, name, email, refreshPass.value).then((rez) => {
-            if (rez.success) {
-              config.regex.username = name;
-              note.innerHTML = 'Your login and e-mail have changed successfully!';
-            }
-          });
+          config.regex.username = name;
+          note.innerHTML = 'Your login and e-mail have changed successfully!';
         } else note.innerHTML = 'Incorrect password';
-        setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
       });
+      setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
     });
   }
 
@@ -96,8 +80,6 @@ class ListenAccount {
 
     const token = localStorage.getItem('token');
 
-    //cancel();
-
     buttonSubmit.addEventListener('click', async () => {
       const oldPassword = oldPass.value;
       const newPassword = newPass.value;
@@ -110,16 +92,12 @@ class ListenAccount {
       }
       note.textContent = 'Connect to server...';
 
-      userFetch.checkPassword(oldPass, token).then((rez) => {
+      userFetch.changePassword(token, newPassword, oldPassword).then((rez) => {
         if (rez.success) {
-          userFetch.changePassword(token, newPassword, oldPassword).then((rez) => {
-            if (rez.success) {
-              note.innerHTML = 'Your password has changed successfully!';
-            }
-          });
+          note.innerHTML = 'Your password has changed successfully!';
         } else note.innerHTML = 'Incorrect password';
-        setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
       });
+      setTimeout(() => (note.textContent = 'Ready to edit'), 4000);
     });
   }
 
@@ -131,8 +109,6 @@ class ListenAccount {
     const token = localStorage.getItem('token');
 
     if (!token || !note || !buttonSubmit || !(password instanceof HTMLInputElement)) return;
-
-    //cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       const passwordValue: string = password.value;
@@ -168,8 +144,6 @@ class ListenAccount {
 
     if (!create || !del || !createRadio || !delRadio) return;
 
-    //cancel();
-
     create.addEventListener('click', () => {
       createRadio.classList.add('create-currency-active');
       delRadio.classList.remove('delete-currency-active');
@@ -195,8 +169,6 @@ class ListenAccount {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    //cancel();
-
     buttonSubmit.addEventListener('click', async () => {
       note.textContent = 'Connect to the server...';
       const data = await moneyFetch.moneyAccount(EMethod.POST, config.currentUser, currency.value, token);
@@ -220,8 +192,6 @@ class ListenAccount {
 
     const token = localStorage.getItem('token');
     if (!token) return;
-
-    //cancel();
 
     buttonSubmit.addEventListener('click', async () => {
       note.textContent = 'Connect to the server...';
