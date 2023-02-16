@@ -37,4 +37,11 @@ export default {
   'create-currency': 'Create currency',
   'delete-currency': 'Delete currency',
   'account__currency-button': 'Exchange',
+  'user-creditcard': 'Your credit cards',
+  'user-lastoperations': 'Your last operations',
+  ready_to: 'Ready to create/delete',
+  'note-login-success': 'Note: Your login and e-mail have changed successfully! To return to account page press "Back"',
+  'note-incorr-passw': 'Note: Incorrect password',
+  'note-diff-passw': 'Note: You have different passwords',
+  'note-passw-success': 'Note: Your password has changed successfully! To return to account page press "Back"',
 };

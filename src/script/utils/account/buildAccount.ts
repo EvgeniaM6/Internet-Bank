@@ -1,10 +1,18 @@
 import config from '../../data/config';
+import en from '../../data/lang/account/en';
+import ru from '../../data/lang/account/ru';
+import { TLang } from '../../data/servicesType';
 import { EMethod } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import pushState from '../../router/pushState';
 import { load } from '../load';
 import { buildMain } from '../main/buildMain';
 import { renderPaymentDetails } from '../payment/renderPaymentDetails';
+
+const langs: TLang = {
+  en,
+  ru,
+};
 
 class BuildAccount {
   async main() {
@@ -55,11 +63,13 @@ class BuildAccount {
       tbody.appendChild(row);
     }
 
+    const currLangObj = langs[config.lang];
+
     if (!operations.userConfig.lastFive.length) {
       const table = document.querySelector('.account__operations_table');
       if (!table) return;
 
-      table.innerHTML = `<p class="table-empty">No operations</p>`;
+      table.innerHTML = `<p class="table-empty">${currLangObj['table-empty']}</p>`;
     }
 
     const td = document.querySelectorAll('td');
@@ -75,41 +85,43 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
+    const currLangObj = langs[config.lang];
+
     account.innerHTML = `<div id="account__edit">
-        <h2 class="account__edit_title">Edit login or e-mail</h2>
+        <h2 class="account__edit_title">${currLangObj['account__edit_title']}</h2>
         <div id="account__edit_username">
-          <label for="user" class="account__edit_username-label">Login</label>
+          <label for="user" class="account__edit_username-label">${currLangObj['account__edit_username-label']}</label>
           <input type="text" name="user" id="edit-user" class="account__edit_username-input" value="${config.currentUser}">
         </div>
         <div id="account__edit_email">
-          <label for="email" class="account__edit_email-label">E-mail</label>
+          <label for="email" class="account__edit_email-label">${currLangObj['account__edit_email-label']}</label>
           <input type="email" name="email" id="edit-email" class="account__edit_email-input" value="${config.currentEmail}">
         </div>
         <div id="account__edit_password">
-          <label for="password" class="account__edit_password-label">Password</label>
+          <label for="password" class="account__edit_password-label">${currLangObj['account__edit_password-label']}</label>
           <input type="password" name="password" id="edit-password" class="account__edit_password-input">
         </div>
         <div class="account__buttons">
-          <button class="account__edit_button-submit button-submit">Submit</button>
+          <button class="account__edit_button-submit button-submit">${currLangObj['account__edit_button-submit']}</button>
         </div>
         <p class="account__notification">Ready to edit</p>
       </div>
       <div id="account__password">
-      <h2 class="account__password_title">Change password</h2>
+      <h2 class="account__password_title">${currLangObj['account__password_title']}</h2>
       <div id="account__password_oldpassword">
-        <label for="oldpass" class="account__password_oldpassword-label">Old password</label>
+        <label for="oldpass" class="account__password_oldpassword-label">${currLangObj['account__password_oldpassword-label']}</label>
         <input type="password" name="oldpass" id="password-oldpass" class="account__password_oldpassword-input">
       </div>
       <div id="account__password_newpassword">
-        <label for="newpass" class="account__password_newpassword-label">New password</label>
+        <label for="newpass" class="account__password_newpassword-label">${currLangObj['account__password_newpassword-label']}</label>
         <input type="password" name="newpass" id="password-newpass" class="account__password_newpassword-input">
       </div>
       <div id="account__password_confirmpassword">
-        <label for="confirmpass" class="account__password_confirmpassword-label">Confirm password</label>
+        <label for="confirmpass" class="account__password_confirmpassword-label">${currLangObj['account__password_confirmpassword-label']}</label>
         <input type="password" name="confirmpass" id="password-confirmpass" class="account__password_confirmpassword-input">
       </div>
       <div class="account__buttons">
-        <button class="account__password_button-submit button-submit">Submit</button>
+        <button class="account__password_button-submit button-submit">${currLangObj['account__password_button-submit']}</button>
       </div>
       <p class="account__notification_password">Ready to edit</p>
       </div>`;
@@ -119,9 +131,11 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="account__clarify_question">Do you really want to remove your account</p>
+    const currLangObj = langs[config.lang];
+
+    account.innerHTML = `<p class="account__clarify_question">${currLangObj['account__clarify_question']}</p>
       <div class="account__buttons">
-        <button class="account__clarify_button-submit button-submit">Remove</button>
+        <button class="account__clarify_button-submit button-submit">${currLangObj['account__clarify_button-submit']}</button>
       </div>`;
   }
 
@@ -129,13 +143,15 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<p class="account__remove_question">Enter your password:</p>
+    const currLangObj = langs[config.lang];
+
+    account.innerHTML = `<p class="account__remove_question">${currLangObj['account__remove_question']}</p>
       <div class="account__remove">
         <input type="password" name="remove" id="remove-password" class="account__remove-input">
       </div>
       <div class="account__buttons">
-        <button class="account__remove_button-submit button-submit">Remove</button>
-        <button class="account__remove_button-cancel button-cancel">Cancel</button>
+        <button class="account__remove_button-submit button-submit">${currLangObj['account__remove_button-submit']}</button>
+        <button class="account__remove_button-cancel button-cancel">${currLangObj['account__remove_button-cancel']}</button>
       </div>
       <p class="account__notification"></p>`;
   }
@@ -144,10 +160,12 @@ class BuildAccount {
     const account = document.querySelector('.account-container');
     if (!account) return;
 
-    account.innerHTML = `<h4 class="account__currency_title">Choose operation:</h4>
+    const currLangObj = langs[config.lang];
+
+    account.innerHTML = `<h4 class="account__currency_title">${currLangObj['account__currency_title']}</h4>
     <div class="account__currency_operations">
-      <div class="account__currency_operations-create"><span class="create-currency">Create currency</span></div>
-      <div class="account__currency_operations-delete"><span class="delete-currency">Delete currency</span></div>
+      <div class="account__currency_operations-create"><span class="create-currency">${currLangObj['create-currency']}</span></div>
+      <div class="account__currency_operations-delete"><span class="delete-currency">${currLangObj['delete-currency']}</span></div>
     </div>
     <div class="account__currency">
       <div class="account__buttons">
@@ -208,9 +226,11 @@ class BuildAccount {
     const account = document.querySelector('.account__currency');
     if (!account) return;
 
+    const currLangObj = langs[config.lang];
+
     account.innerHTML = `<div id="account__currency_create">
       <div id="account__currency_create-container">
-        <label class="account__currency_create-label">Choose currency</label>
+        <label class="account__currency_create-label">${currLangObj['account__currency_create-label']}</label>
         
         <select id="account__currency_create-select" class="account__currency_create-input">
           <option value="EUR" selected>EUR</option>
@@ -220,9 +240,9 @@ class BuildAccount {
         </select>
       </div>
       <div class="account__buttons">
-        <button class="account__currency_button-submit button-submit">Submit</button>
+        <button class="account__currency_button-submit button-submit">${currLangObj['account__currency_button-submit']}</button>
       </div>
-      <p class="account__notification">Ready to create/delete</p>
+      <p class="account__notification ready_to">${currLangObj['ready_to']}</p>
       </div>`;
   }
 
@@ -230,9 +250,11 @@ class BuildAccount {
     const account = document.querySelector('.account__currency');
     if (!account) return;
 
+    const currLangObj = langs[config.lang];
+
     account.innerHTML = `<div id="account__currency_delete">
       <div id="account__currency_delete-container">
-        <label class="account__currency_delete-label">Choose currency</label>
+        <label class="account__currency_delete-label">${currLangObj['account__currency_delete-label']}</label>
           
         <select id="account__currency_delete-select" class="account__currency_delete-input">
           <option value="EUR" selected>EUR</option>
@@ -242,9 +264,9 @@ class BuildAccount {
         </select>
       </div>
       <div class="account__buttons">
-        <button class="account__currency_button-submit button-submit">Submit</button>
+        <button class="account__currency_button-submit button-submit">${currLangObj['account__currency_button-submit']}</button>
       </div>
-      <p class="account__notification">Ready to create/delete</p>
+      <p class="account__notification ready_to">${currLangObj['ready_to']}</p>
       </div>`;
   }
 }

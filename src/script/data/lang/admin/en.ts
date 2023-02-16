@@ -31,9 +31,12 @@ export default {
   'reg__password-label': 'Password (min 8 characters, numbers and letters)',
   'repeat-reg__password-label': 'Repeat Password',
   'reg__button-reg': "Let's start!",
+  'reg__button-reg-create': 'Create',
   'reg__button-back': 'Back',
   reg__error: 'We use two-step verification. Please, enter real e-mail',
 
   'is-yes': 'yes',
   'is-no': 'no',
+
+  'get-info': 'Get info from server...',
 };

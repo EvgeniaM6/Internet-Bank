@@ -1,10 +1,25 @@
 import config from '../../data/config';
-import { EAccountLinks, EMethod } from '../../data/types';
+import enAccount from '../../data/lang/account/en';
+import ruAccount from '../../data/lang/account/ru';
+import enAdmin from '../../data/lang/admin/en';
+import ruAdmin from '../../data/lang/admin/ru';
+import { TLang, TPageLang } from '../../data/servicesType';
+import { EAccountLinks, EMethod, EPages } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import { buildAdmin } from '../admin/buildAdmin';
 import { listenAdmin } from '../admin/listenAdmin';
 import { load } from '../load';
 
+const textByLangsData: TPageLang = {
+  [EPages.ACCOUNT]: {
+    en: enAccount,
+    ru: ruAccount,
+  },
+  [EPages.ADMIN]: {
+    en: enAdmin,
+    ru: ruAdmin,
+  },
+};
 class BuildMain {
   about() {
     const main = document.querySelector('.main-container');
@@ -130,6 +145,8 @@ class BuildMain {
     const account = document.querySelector('.header__nav-account');
     if (!main || !account) return;
 
+    const currLangObj = textByLangsData[EPages.ACCOUNT][config.lang];
+
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
       <li class="account__list-item account__list-edit account__list-item_active"><span class="account__link_main">${EAccountLinks.account}</span> (${config.currentUser})</li>
@@ -138,21 +155,21 @@ class BuildMain {
       <li class="account__list-item account__list-delete">${EAccountLinks.delete}</li>
     </ul>
     <div class="account-container">
-      <p class="account__description">We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!</p>
+      <p class="account__description">${currLangObj['account__description']}</p>
       <div class="account__main-container">
         <div class="account__main-item">
-          <h3 class="account__ttl">Your credit cards</h3>
+          <h3 class="account__ttl user-creditcard">${currLangObj['user-creditcard']}</h3>
           <div class="account__cards"></div>
         </div>
         <div class="account__main-item">
-          <h3 class="account__ttl">Your last operations</h3>
+          <h3 class="account__ttl user-lastoperations">${currLangObj['user-lastoperations']}</h3>
           <table class="account__operations_table">
             <thead>
               <tr>
                 <th>#</th>
-                <th class="account__operations_date">date</th>
-                <th class="account__operations_opId">operationID</th>
-                <th class="account__operations_money">money</th>
+                <th class="account__operations_date">${currLangObj['account__operations_date']}</th>
+                <th class="account__operations_opId">${currLangObj['account__operations_opId']}</th>
+                <th class="account__operations_money">${currLangObj['account__operations_money']}</th>
               </tr>
             </thead>
             <tbody class="account__operations_tbody"></tbody>
@@ -167,17 +184,19 @@ class BuildMain {
     const admin = document.querySelector('.header__nav-admin');
     if (!main || !admin) return;
 
+    const currLangObj = textByLangsData[EPages.ADMIN][config.lang];
+
     admin.classList.add('header__nav_active');
     main.innerHTML = `<div class="admin-container">
-      <h2 class="admin__title admin__title-main">Administration</h2>
+      <h2 class="admin__title admin__title-main">${currLangObj['admin__title-main']}</h2>
       <div class="admin__information_bank">
-        <h3 class="admin__information_title bank_title">Bank information</h3>
+        <h3 class="admin__information_title bank_title">${currLangObj['bank_title']}</h3>
         <p class="admin__information_detail">
-          <span class="admin__information_bank-account">Bank account:</span> <span class="admin__information_account">Get info from server...</span></p>
-        <p class="admin__information_detail"><span class="admin__information_bank-money">Money:</span> <span class="admin__information_money">Get info from server...</span></p>
+          <span class="admin__information_bank-account">${currLangObj['admin__information_bank-account']}</span> <span class="admin__information_account get-info">${currLangObj['get-info']}</span></p>
+        <p class="admin__information_detail"><span class="admin__information_bank-money">${currLangObj['admin__information_bank-money']}</span> <span class="admin__information_money get-info">${currLangObj['get-info']}</span></p>
       </div>
-      <h3 class="admin__information_title users_title">To get information about users press button:</h3>
-      <button class="admin__information_button">List of users</button>
+      <h3 class="admin__information_title users_title">${currLangObj['users_title']}</h3>
+      <button class="admin__information_button">${currLangObj['admin__information_button']}</button>
     </div>`;
 
     buildAdmin.showBankInfo();
