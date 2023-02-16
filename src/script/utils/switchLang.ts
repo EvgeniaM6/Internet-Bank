@@ -48,8 +48,8 @@ const textByLangsData: TPageLang = {
     ru: ruCardCreator,
   },
   [EPages.QUIZ]: {
-    // en: enCardCreator,
-    // ru: ruCardCreator,
+    // en: ,
+    // ru: ,
   },
   [EPages.SERVICES]: {
     en: enPayment,
@@ -76,20 +76,17 @@ export function switchLang(selectElem: HTMLSelectElement): void {
     renderPaymentDetails.updatePaymentText();
   } else if (config.page === EPages.STATISTICS) {
     const elemsWithLangAttrList = document.querySelectorAll(`[runame]`);
+
     Array.from(elemsWithLangAttrList).forEach((elem) => {
       elem.textContent = config.lang === 'en' ? elem.getAttribute('enname') : elem.getAttribute('runame');
     });
   }
 
   const header = document.querySelector(`.header`) as HTMLElement;
-  if (header) {
-    const currLangTextHeaderData = textByLangsData.header[config.lang];
-    updateTextByClass(currLangTextHeaderData);
-  }
-  //   const langBtn = document.querySelector(`.header__lang-btn`) as HTMLElement;
-  //   if (!langBtn) return;
-  //   langBtn.textContent = textByLangsData.header[config.lang]['header__lang-btn'];
-  // }
+  if (!header) return;
+
+  const currLangTextHeaderData = textByLangsData.header[config.lang];
+  updateTextByClass(currLangTextHeaderData);
 }
 
 function updateTextByClass(currLangTextData: TTextByLang) {

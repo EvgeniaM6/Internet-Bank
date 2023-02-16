@@ -209,7 +209,6 @@ class ListenHeader {
     if (!langSelect) return;
     Array.from(langSelect.options).forEach((optionElem) => {
       optionElem.selected = optionElem.value === config.lang;
-      console.log('optionElem.value=', optionElem.value, 'optionElem.selected=', optionElem.selected);
     });
     langSelect.oninput = () => switchLang(langSelect);
   }
