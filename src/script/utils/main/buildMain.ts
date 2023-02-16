@@ -104,7 +104,7 @@ class BuildMain {
                     ? `23 yo, Minsk. Have Air Traffic Controller diploma.
                 Likes to work on interesting and challenging projects.
                  RS School student since spring 2022.`
-                    : ``
+                    : `23 года, Минск. Есть диплом авиадиспетчера. Любит работать над интересными и сложными проектами. Студент RS School с весны 2022 года.`
                 }</p>
             </div>
         </div>
