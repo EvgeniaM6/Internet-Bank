@@ -57,7 +57,7 @@
   }
 
   &__lang {
-    &-btn {
+    &-select {
       text-transform: uppercase;
       background: transparent;
       border: none;
@@ -79,7 +79,7 @@
 
 .page-dark {
   .header__lang {
-    &-btn {
+    &-select {
       border-bottom: solid 2px $white;
       color: $white;
 

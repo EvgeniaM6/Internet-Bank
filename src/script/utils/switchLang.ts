@@ -65,8 +65,8 @@ const textByLangsData: TPageLang = {
   },
 };
 
-export function switchLang(): void {
-  config.lang = config.lang === 'en' ? 'ru' : 'en';
+export function switchLang(selectElem: HTMLSelectElement): void {
+  config.lang = selectElem.value;
 
   const currLangTextData = textByLangsData[config.page][config.lang];
   updateTextByClass(currLangTextData);
@@ -85,11 +85,11 @@ export function switchLang(): void {
   if (header) {
     const currLangTextHeaderData = textByLangsData.header[config.lang];
     updateTextByClass(currLangTextHeaderData);
-  } else {
-    const langBtn = document.querySelector(`.header__lang-btn`) as HTMLElement;
-    if (!langBtn) return;
-    langBtn.textContent = textByLangsData.header[config.lang]['header__lang-btn'];
   }
+  //   const langBtn = document.querySelector(`.header__lang-btn`) as HTMLElement;
+  //   if (!langBtn) return;
+  //   langBtn.textContent = textByLangsData.header[config.lang]['header__lang-btn'];
+  // }
 }
 
 function updateTextByClass(currLangTextData: TTextByLang) {

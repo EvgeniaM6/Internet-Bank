@@ -205,9 +205,13 @@ class ListenHeader {
       });
     });
 
-    const langBtn = page.querySelector('.header__lang-btn') as HTMLElement;
-    if (!langBtn) return;
-    langBtn.onclick = () => switchLang();
+    const langSelect = page.querySelector('.header__lang-btn') as HTMLSelectElement;
+    if (!langSelect) return;
+    Array.from(langSelect.options).forEach((optionElem) => {
+      optionElem.selected = optionElem.value === config.lang;
+      console.log('optionElem.value=', optionElem.value, 'optionElem.selected=', optionElem.selected);
+    });
+    langSelect.oninput = () => switchLang(langSelect);
   }
 
   log() {

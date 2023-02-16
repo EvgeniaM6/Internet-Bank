@@ -43,7 +43,10 @@ class BuildHeader {
     }" class="${config.theme === ETheme.dark ? 'header__theme header__theme-dark' : 'header__theme'}">
           </div>
           <div class="header__lang">
-            <button class="header__lang-btn">${this.langs[config.lang]['header__lang-btn']}</button>
+            <select class="header__lang-select">
+              <option value="en">en</option>
+              <option value="ru">ru</option>
+            </select>
           </div>
         </div>
     </div>`;

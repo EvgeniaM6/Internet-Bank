@@ -34,8 +34,13 @@ class BuildAuth {
     }
 
     const langBlock = createElem('div', 'lang', main as HTMLElement);
-    const langBtn = createElem('button', 'header__lang-btn', langBlock, this.langs[config.lang]['header__lang-btn']);
-    langBtn.onclick = () => switchLang();
+    const langSelect = createElem('select', 'header__lang-select', langBlock) as HTMLSelectElement;
+    ['en', 'ru'].forEach((langStr) => {
+      const langOptionElem = createElem('option', '', langSelect, langStr) as HTMLOptionElement;
+      langOptionElem.value = langStr;
+      langOptionElem.selected = langStr === config.lang;
+    });
+    langSelect.oninput = () => switchLang(langSelect);
   }
   login() {
     const auth = document.querySelector('.auth__container');
