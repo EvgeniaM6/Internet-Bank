@@ -83,7 +83,7 @@ class BuildCard {
   }
 
   card() {
-    const code = `<div class="card__code" style="position:relative;width:650px;height:400px;font-family: 'Montserrat', sans-serif;border-radius:20px;overflow:hidden;font-size:30px;color:${
+    const code = `<div class="card__code" style="position:relative;width:650px;height:400px;font-family: 'IBM Plex Sans', sans-serif;border-radius:20px;overflow:hidden;font-size:30px;color:${
       cardConfig.text
     };">
         <div style="width:100%;height:100%;${
