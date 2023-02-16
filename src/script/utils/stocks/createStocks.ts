@@ -1,5 +1,3 @@
-import config from '../../data/config';
-import { EPages } from '../../data/types';
 import stocksFetch from '../../fetch/stocksFetch';
 import { load } from '../load';
 import { transition } from '../transition';

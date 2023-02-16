@@ -94,14 +94,15 @@ class BuildQuiz {
       });
     });
 
-    next.addEventListener('click', () => {
+    next.addEventListener('click', async () => {
       if (!next.classList.contains('quiz__game_button-next-active')) return;
 
       if (i !== questions.length) {
         this.game(questions, i, score);
         return;
       }
-      this.game(questions, 0, 0);
+      const newQuestions = await this.getQuestions();
+      this.game(newQuestions, 0, 0);
     });
   }
 
