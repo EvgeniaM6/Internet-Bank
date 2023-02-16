@@ -130,14 +130,12 @@ class ModalPayment {
 
     if (isAnonim) {
       moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
-        console.log('tryPayByCard=', payCardResp);
         if (!payCardResp.success) {
           this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
           return;
         }
 
         moneyFetch.commission(operationSum, operationId).then((resp) => {
-          console.log('commission=', resp);
           this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
         });
       });
@@ -149,14 +147,12 @@ class ModalPayment {
       if (!token) return;
 
       moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
-        console.log('changeMainMoney=', resp);
         this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
       });
       return;
     }
 
     moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
-      console.log('tryPayByCard=', payCardResp);
       this.checkResponseForEmailSending(payCardResp, popup, operationSum, operationId);
     });
   }
@@ -362,10 +358,8 @@ class ModalPayment {
       this.modalInfoMessage(message, popup);
     } else {
       const anonimEmail = (this.emailInputs['email-input'] as HTMLInputElement)?.value;
-      console.log('anonimEmail=', anonimEmail);
 
       moneyFetch.sendCheckToEmail(paymentSum, operationId, anonimEmail).then((emailResp) => {
-        console.log('sendCheckToEmail=', emailResp);
         message = emailResp ? currLang.modalInfoMessage : currLang.errorPayByCardMessage;
 
         this.modalInfoMessage(message, popup);
@@ -409,14 +403,12 @@ class ModalPayment {
     switch (operationId) {
       case INDEX_START_BANK_SERVICES:
         moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
-          console.log('tryPayByCard=', payCardResp);
           if (!payCardResp.success) {
             this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
             return;
           }
 
           moneyFetch.anonimExchange(operationSum, currTo, isClient).then((resp) => {
-            console.log('anonimExchange=', resp);
             this.checkResponse(resp, popup, operationSum, operationId);
           });
         });
@@ -424,7 +416,6 @@ class ModalPayment {
       case ID_CURRENCY_COMMON_EXCHANGE:
         if (!currFrom || !token) return;
         moneyFetch.clientExchange(operationSum, currFrom, currTo, token).then((resp) => {
-          console.log('clientExchange=', resp);
           this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
         });
         break;
@@ -434,7 +425,6 @@ class ModalPayment {
           .moneyAccount(EMethod.PUT, config.currentUser, currTo, token, operationSum, EOperation.ADD)
           .then((resp) => {
             if (!resp) return;
-            console.log('moneyAccount ADD=', resp);
             this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
           });
         break;
@@ -444,7 +434,6 @@ class ModalPayment {
           .moneyAccount(EMethod.PUT, config.currentUser, currFrom, token, operationSum, EOperation.REMOVE)
           .then((resp) => {
             if (!resp) return;
-            console.log('moneyAccount REMOVE=', resp);
             this.checkResponseForEmailSending(resp, popup, operationSum, operationId);
           });
         break;
@@ -467,20 +456,17 @@ class ModalPayment {
 
     if (operationId === ID_REFILL_SERVICE) {
       moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
-        console.log('tryPayByCard=', payCardResp);
         if (!payCardResp.success) {
           this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
           return;
         }
 
         moneyFetch.changeMainMoney(operationSum, EOperation.ADD, token, operationId).then((resp) => {
-          console.log('changeMainMoney=', resp);
           this.checkResponse(resp, popup, operationSum, operationId);
         });
       });
     } else {
       moneyFetch.changeMainMoney(operationSum, EOperation.REMOVE, token, operationId).then((resp) => {
-        console.log('changeMainMoney=', resp);
         this.checkResponse(resp, popup, operationSum, operationId);
       });
     }
@@ -499,7 +485,6 @@ class ModalPayment {
     this.startLoadingModalPayment(popup);
 
     moneyFetch.transfer(operationSum, userTo, token).then((resp) => {
-      console.log('transfer=', resp);
       this.checkResponse(resp, popup, operationSum, operationId);
     });
   }

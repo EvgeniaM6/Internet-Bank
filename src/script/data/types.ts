@@ -44,7 +44,6 @@ export interface IUserConfig {
   isBlock: boolean;
 }
 
-// Check
 export interface IUser extends IUserConfig {
   lastFive: {
     operationID: number;

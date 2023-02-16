@@ -1,5 +1,4 @@
 export default {
-  //internet-bank-server-production.up.railway.app
   server: 'https://internet-bank-server-production.up.railway.app',
   wss: 'wss://internet-bank-server-production.up.railway.app',
   currentUser: '',

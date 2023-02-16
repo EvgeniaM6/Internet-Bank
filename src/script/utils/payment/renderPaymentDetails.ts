@@ -392,7 +392,6 @@ class RenderPaymentDetails {
 
     userNameInput.disabled = true;
     userFetch.isOurUser(userNameInput.value).then((resp) => {
-      console.log('isOurUser=', resp);
       userNameInput.disabled = false;
       if (isUserInputFocused) {
         userNameInput.focus();
