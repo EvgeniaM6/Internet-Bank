@@ -79,7 +79,7 @@
 #account__currency_create-select,
 #account__currency_delete-select,
 #remove-password {
-  width: 200px;
+  width: 190px;
   height: 25px;
   border-radius: 6px;
   border: 1px #d8c307 solid;
@@ -230,7 +230,7 @@ tr:last-child td {
   
 }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .account__list {
     font-size: 20px;
   }

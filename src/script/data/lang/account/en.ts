@@ -1,8 +1,8 @@
 export default {
-  'account__list-edit': 'Edit account',
+  'account__list-edit': 'Edit',
   'account__list-currency': 'Currency',
   'account__list-operations': 'Last operations',
-  'account__list-delete': 'Delete account',
+  'account__list-delete': 'Delete',
   account__description:
     "We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!",
   account__ttl: 'Your credit cards',
@@ -34,8 +34,8 @@ export default {
   'account__operations_button-cancel': 'Back',
   'table-empty': 'No operations',
   'account__currency_current-h': 'Currency Accounts',
-  'create-currency': 'Create currency',
-  'delete-currency': 'Delete currency',
+  'create-currency-text': 'Create currency',
+  'delete-currency-text': 'Delete currency',
   'account__currency-button': 'Exchange',
   'user-creditcard': 'Your credit cards',
   'user-lastoperations': 'Your last operations',

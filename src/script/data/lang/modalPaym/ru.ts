@@ -6,7 +6,7 @@ export default {
   cardInputTitle: 'введите 16 цифр',
   cvvInputTitle: 'введите 3 цифры',
   'btn--col-3': 'Подтвердить',
-  'modal-personal': 'Личная информация',
+  'modal-personal': 'Дополнительно',
   'modal-credit-card': 'Данные кредитной карты',
   'code-cvv': 'cvv-код',
   valid: 'месяц/год',

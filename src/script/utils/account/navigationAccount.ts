@@ -14,7 +14,7 @@ export function navigationAccount() {
       nav.forEach((el) => el.classList.remove('account__list-item_active'));
       item.classList.add('account__list-item_active');
 
-      if (item.textContent === EAccountLinks.edit) {
+      if (item.classList.contains('account__list-edit')) {
         buildAccount.editAccount();
         listenAccount.editAccount();
         listenAccount.editPassword();
@@ -22,21 +22,21 @@ export function navigationAccount() {
         return;
       }
 
-      if (item.textContent === EAccountLinks.delete) {
+      if (item.classList.contains('account__list-delete')) {
         buildAccount.clarifyAccount();
         listenAccount.clarifyAccount();
         pushState.account(item.textContent || '');
         return;
       }
 
-      if (item.textContent === EAccountLinks.currency) {
+      if (item.classList.contains('account__list-currency')) {
         buildAccount.currency();
         listenAccount.currency();
         pushState.account(item.textContent || '');
         return;
       }
 
-      if (item.textContent === `${EAccountLinks.account} (${config.currentUser})`) {
+      if (item.classList.contains('account__list-main')) {
         buildAccount.main();
         navigationAccount();
         pushState.account();

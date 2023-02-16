@@ -7,7 +7,7 @@ export default {
   header__login: 'Войти',
   header__logout: 'Выйти',
   'header__nav-account': 'Аккаунт',
-  'header__nav-card': 'Создать карточку',
+  'header__nav-card': 'Новая Карта',
   'header__nav-stocks': 'Акции',
   'header__nav-admin': 'Админка',
 };

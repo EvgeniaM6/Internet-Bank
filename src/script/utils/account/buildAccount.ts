@@ -164,8 +164,8 @@ class BuildAccount {
 
     account.innerHTML = `<h4 class="account__currency_title">${currLangObj['account__currency_title']}</h4>
     <div class="account__currency_operations">
-      <div class="account__currency_operations-create"><span class="create-currency">${currLangObj['create-currency']}</span></div>
-      <div class="account__currency_operations-delete"><span class="delete-currency">${currLangObj['delete-currency']}</span></div>
+      <div class="account__currency_operations-create"><span class="create-currency"></span><span class="create-currency-text">${currLangObj['create-currency-text']}</span></div>
+      <div class="account__currency_operations-delete"><span class="delete-currency"></span><span class="delete-currency-text">${currLangObj['delete-currency-text']}</span></div>
     </div>
     <div class="account__currency">
       <div class="account__buttons">
