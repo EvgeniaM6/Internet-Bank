@@ -1,7 +1,5 @@
 import { buildAccount } from './buildAccount';
 import { listenAccount } from './listenAccount';
-import { EAccountLinks } from '../../data/types';
-import config from '../../data/config';
 import pushState from '../../router/pushState';
 
 export function navigationAccount() {

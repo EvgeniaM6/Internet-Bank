@@ -3,8 +3,6 @@ import { userFetch } from '../../fetch/userFetch';
 import { buildStatistics } from './buildStatistics';
 import { load } from '../load';
 import { transition } from '../transition';
-import config from '../../data/config';
-import { EPages } from '../../data/types';
 
 class CreateStatistics {
   async operations() {

@@ -3,12 +3,10 @@ import enAccount from '../../data/lang/account/en';
 import ruAccount from '../../data/lang/account/ru';
 import enAdmin from '../../data/lang/admin/en';
 import ruAdmin from '../../data/lang/admin/ru';
-import { TLang, TPageLang } from '../../data/servicesType';
-import { EAccountLinks, EMethod, EPages } from '../../data/types';
-import { userFetch } from '../../fetch/userFetch';
+import { TPageLang } from '../../data/servicesType';
+import { EAccountLinks, EPages } from '../../data/types';
 import { buildAdmin } from '../admin/buildAdmin';
 import { listenAdmin } from '../admin/listenAdmin';
-import { load } from '../load';
 
 const textByLangsData: TPageLang = {
   [EPages.ACCOUNT]: {

@@ -1,4 +1,3 @@
-import { buildCard } from '../utils/cardCreator/buildCard';
 import cardConfig from '../utils/cardCreator/cardConfig';
 
 export default async function () {
