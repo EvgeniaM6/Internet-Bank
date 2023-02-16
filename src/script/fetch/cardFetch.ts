@@ -20,7 +20,6 @@ export default async function () {
   };
 
   const res = await fetch('https://hcti.io/v1/image', options);
-  const link /*: /*{url: string}*/ = await res.json();
-  console.log(link);
+  const link = await res.json();
   return link.url;
 }

@@ -202,7 +202,6 @@ class ListenAuth {
       if (!validateAuth.registrarion()) return;
       load(auth);
       await userFetch.regictration(username.value, password.value, email.value).then((result) => {
-        console.log(result);
         if (result.success) {
           transition(auth, () => {
             createAuth.afterRegistration();

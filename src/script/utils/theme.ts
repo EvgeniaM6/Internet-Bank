@@ -10,7 +10,7 @@ export function switchTheme() {
   const td = document.querySelectorAll('td');
   const th = document.querySelectorAll('th');
   const nav = document.querySelector('.header__nav');
-  console.log(config.theme);
+
   if (config.theme === ETheme.dark) {
     if (backTxt) backTxt.classList.add('page-dark');
     if (body) body.classList.add('page-dark');

@@ -6,14 +6,11 @@ export function openWebSocket() {
   const socket = new WebSocket(`${config.wss}`);
 
   socket.onopen = () => {
-    console.log('WebSocket open');
     const key = localStorage.getItem('token') || 'anonim';
     socket.send(key);
   };
 
   socket.onmessage = (e) => {
-    console.log('Get data from WS');
-    console.log(e.data);
     const data: IMarketStocks[] = JSON.parse(e.data);
     updateStocks(data);
   };

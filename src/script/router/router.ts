@@ -162,7 +162,6 @@ class Router {
     const route = window.location.pathname.split('/');
     const page = route[route.length - 1];
     const parentPage = route[route.length - 2];
-    console.log(route, parentPage);
     if (parentPage === 'account') {
       this.accountExtra(page);
       return;

@@ -13,9 +13,7 @@ class MoneyFetch extends Fetch {
       },
       body: JSON.stringify({ money, operationID }),
     };
-    console.log(req);
     const result: IMainRes = await this.mainFetch(req, path, query);
-    console.log(result);
     return result;
   }
 
