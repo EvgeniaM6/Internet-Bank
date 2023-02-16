@@ -1,4 +1,5 @@
 import config from '../../data/config';
+import { LANGS_ARR } from '../../data/constants';
 import en from '../../data/lang/header/en';
 import ru from '../../data/lang/header/ru';
 import { TLang } from '../../data/servicesType';
@@ -35,7 +36,7 @@ class BuildAuth {
 
     const langBlock = createElem('div', 'lang', main as HTMLElement);
     const langSelect = createElem('select', 'header__lang-select', langBlock) as HTMLSelectElement;
-    ['en', 'ru'].forEach((langStr) => {
+    LANGS_ARR.forEach((langStr) => {
       const langOptionElem = createElem('option', '', langSelect, langStr) as HTMLOptionElement;
       langOptionElem.value = langStr;
       langOptionElem.selected = langStr === config.lang;

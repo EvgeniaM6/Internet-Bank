@@ -14,6 +14,7 @@ import {
 } from './services';
 import { FOREIGN_CURRENCY, MAIN_CURRENCY } from './currency';
 import { OPERATION_INPUT_DATA } from './servicesInputsData';
+import { LANGS_ARR } from './lang';
 
 export {
   INDEX_START_BANK_SERVICES,
@@ -34,4 +35,5 @@ export {
   MAIN_CURRENCY,
   OPERATION_INPUT_DATA,
   PERCENTS_AMOUNT,
+  LANGS_ARR,
 };

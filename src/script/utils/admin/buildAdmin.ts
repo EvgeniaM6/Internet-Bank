@@ -206,7 +206,7 @@ class BuildAdmin {
 
     const currLangObj = langs[config.lang];
 
-    account.innerHTML = `<p class="admin__remove_question">${currLangObj['admin__create_title']}</p>
+    account.innerHTML = `<p class="admin__remove_question">${currLangObj['admin__remove_question']}</p>
       <div class="admin__remove">
         <input type="password" name="remove" id="rem-password" class="admin__remove-input">
       </div>

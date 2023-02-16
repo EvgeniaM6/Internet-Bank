@@ -104,7 +104,7 @@ class BuildAccount {
         <div class="account__buttons">
           <button class="account__edit_button-submit button-submit">${currLangObj['account__edit_button-submit']}</button>
         </div>
-        <p class="account__notification">Ready to edit</p>
+        <p class="account__notification ready_to_edit">${currLangObj['ready_to_edit']}</p>
       </div>
       <div id="account__password">
       <h2 class="account__password_title">${currLangObj['account__password_title']}</h2>
@@ -123,7 +123,7 @@ class BuildAccount {
       <div class="account__buttons">
         <button class="account__password_button-submit button-submit">${currLangObj['account__password_button-submit']}</button>
       </div>
-      <p class="account__notification_password">Ready to edit</p>
+      <p class="account__notification_password ready_to_edit">${currLangObj['ready_to_edit']}</p>
       </div>`;
   }
 
@@ -183,6 +183,8 @@ class BuildAccount {
     currencyAccount.style.height = '100px';
     load(currencyAccount);
 
+    const currLangObj = langs[config.lang];
+
     const loading = document.querySelector('.load');
     if (!(loading instanceof HTMLElement)) return;
     loading.style.height = '100px';
@@ -193,7 +195,7 @@ class BuildAccount {
       currencyAccount.style.height = '';
 
       const header = document.createElement('h4');
-      header.textContent = 'Currency Accounts';
+      header.textContent = currLangObj['account__currency_current-h'];
       header.classList.add('account__currency_current-h');
       currencyAccount.appendChild(header);
 
@@ -207,7 +209,7 @@ class BuildAccount {
 
       const button = document.createElement('button');
       button.classList.add('account__currency-button');
-      button.textContent = 'Exchange';
+      button.textContent = currLangObj['account__currency-button'];
       button.onclick = () => {
         const account = document.querySelector('.header__nav-account');
         const services = document.querySelector('.header__nav-services');
