@@ -6,6 +6,7 @@ import { navigationAccount } from '../account/navigationAccount';
 //import { navigationAdmin } from '../admin/navigationAdmin';
 import { buildCard } from '../cardCreator/buildCard';
 import { listenCard } from '../cardCreator/listenCard';
+import { buildQuiz } from '../quiz/buildQuiz';
 import { buildHeader } from './buildHeader';
 import { buildMain } from './buildMain';
 import { listenHeader } from './listenHeader';
@@ -59,6 +60,10 @@ class CreateMain {
   admin() {
     buildMain.admin();
     //navigationAdmin();
+  }
+
+  quiz() {
+    buildQuiz.main();
   }
 }
 
