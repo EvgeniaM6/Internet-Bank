@@ -45,4 +45,10 @@ export default {
   'note-incorr-passw': 'Примечание: неверный пароль',
   'note-diff-passw': 'Примечание. У вас разные пароли.',
   'note-passw-success': 'Примечание: Ваш пароль успешно изменен! Для возврата на страницу аккаунта нажмите "Назад"',
+  'already-have-start': 'У Вас уже есть',
+  'already-have-end': 'счет',
+  success: 'Успешно',
+  'connect-server': 'Соединение с сервером...',
+  'dont-have-start': 'У Вас нет',
+  'dont-have-end': 'счета',
 };

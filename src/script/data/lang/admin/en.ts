@@ -39,4 +39,5 @@ export default {
   'is-no': 'no',
 
   'get-info': 'Get info from server...',
+  'note-incorr-passw': 'Note: Incorrect password',
 };

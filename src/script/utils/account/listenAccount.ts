@@ -186,16 +186,16 @@ class ListenAccount {
     const currLangObj = langs[config.lang];
 
     buttonSubmit.addEventListener('click', async () => {
-      note.textContent = 'Connect to the server...';
+      note.textContent = currLangObj['connect-server'];
       const data = await moneyFetch.moneyAccount(EMethod.POST, config.currentUser, currency.value, token);
 
       if (!data.success) {
-        note.innerHTML = `You already have a ${currency.value} account`;
+        note.innerHTML = `${currLangObj['already-have-start']} ${currency.value} ${currLangObj['already-have-end']}`;
       } else {
-        note.innerHTML = 'Success';
+        note.innerHTML = currLangObj['success'];
         buildAccount.updateCurrency();
       }
-      setTimeout(() => (note.textContent = 'Ready to create/delete'), 3000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to']), 3000);
     });
   }
 
@@ -209,17 +209,19 @@ class ListenAccount {
     const token = localStorage.getItem('token');
     if (!token) return;
 
+    const currLangObj = langs[config.lang];
+
     buttonSubmit.addEventListener('click', async () => {
-      note.textContent = 'Connect to the server...';
+      note.textContent = currLangObj['connect-server'];
       const data = await moneyFetch.moneyAccount(EMethod.DELETE, config.currentUser, currency.value, token);
 
       if (!data.success) {
-        note.innerHTML = `You don't have a ${currency.value} account`;
+        note.innerHTML = `${currLangObj['dont-have-start']} ${currency.value} ${currLangObj['dont-have-end']}`;
       } else {
-        note.innerHTML = 'Success';
+        note.innerHTML = currLangObj['success'];
         buildAccount.updateCurrency();
       }
-      setTimeout(() => (note.textContent = 'Ready to create/delete'), 3000);
+      setTimeout(() => (note.textContent = currLangObj['ready_to']), 3000);
     });
   }
 }

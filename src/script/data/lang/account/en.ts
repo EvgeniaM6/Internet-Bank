@@ -44,4 +44,10 @@ export default {
   'note-incorr-passw': 'Note: Incorrect password',
   'note-diff-passw': 'Note: You have different passwords',
   'note-passw-success': 'Note: Your password has changed successfully! To return to account page press "Back"',
+  'already-have-start': 'You already have a',
+  'already-have-end': 'account',
+  success: 'Success',
+  'connect-server': 'Connect to the server...',
+  'dont-have-start': "You don't have",
+  'dont-have-end': 'account',
 };
