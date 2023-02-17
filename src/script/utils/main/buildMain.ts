@@ -109,16 +109,12 @@ class BuildMain {
         <div class="about__andrei about__author-container">
             <img src="https://avatars.githubusercontent.com/u/96068842?v=4" alt="andrei-photo" class="about__author-photo">
             <div class="about__author-info">
-                <p class="about__author-name andrei">${isEnglish ? 'Andrei Shamanouski' : 'Andrei Shamanouski'}</p>
+                <p class="about__author-name andrei">${isEnglish ? 'Andrei Shamanouski' : 'Андрей Шамановский'}</p>
                 <small class="about__author-resp andrei-resp">User and Admin Panels, Day/Night Mode, Financial Quiz</small>
                 <p class="about__author-text andrei-text">${
                   isEnglish
-                    ? `Lorem ipsum dolor sit amet, consectetur 
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.`
-                    : `Lorem ipsum dolor sit amet, consectetur 
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-                dolore magna aliqua.`
+                    ? `36 y.o., Minsk. Works in IT department in a bank. Wants to develop and get new knowledge. RS School student since december 2021.`
+                    : `36 лет, Минск. Работает в ИТ департаменте в банке. Хочет развиваться и получать новые знания. Студент RS School с декабря 2021.`
                 }</p>
             </div>
         </div>
@@ -147,7 +143,7 @@ class BuildMain {
 
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
-      <li class="account__list-item account__list-main account__list-item_active"><span class="account__link_main">${EAccountLinks.account}</span> (${config.currentUser})</li>
+      <li class="account__list-item account__list-main account__list-item_active"><span class="account__link_main">${EAccountLinks.account}</span> (<span class="account__link_name">${config.currentUser}</span>)</li>
       <li class="account__list-item account__list-edit">${EAccountLinks.edit}</li>
       <li class="account__list-item account__list-currency">${EAccountLinks.currency}</li>
       <li class="account__list-item account__list-delete">${EAccountLinks.delete}</li>

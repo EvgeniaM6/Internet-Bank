@@ -27,7 +27,8 @@ export default {
     '23 года, Минск. Есть диплом авиадиспетчера. Любит работать над интересными и сложными проектами. Студент RS School с весны 2022 года.',
   andrei: 'Andrei Shamanouski',
   'andrei-resp': 'User and Admin Panels, Day/Night Mode, Financial Quiz',
-  'andrei-text': '',
+  'andrei-text':
+    '36 лет, Минск. Работает в ИТ департаменте в банке. Хочет развиваться и получать новые знания. Студент RS School с декабря 2021.',
   evgeniya: 'Евгения Минюкова',
   'evgeniya-resp': 'Services, RU/EN Lang',
   'evgeniya-text':

@@ -17,10 +17,13 @@ import enStatistics from '../data/lang/statistics/en';
 import ruStatistics from '../data/lang/statistics/ru';
 import enStock from '../data/lang/stock/en';
 import ruStock from '../data/lang/stock/ru';
+import enQuiz from '../data/lang/quiz/en';
+import ruQuiz from '../data/lang/quiz/ru';
 import { TPageLang, TTextByLang } from '../data/servicesType';
 import { EPages } from '../data/types';
 import { renderPayment } from './payment/renderPayment';
 import { renderPaymentDetails } from './payment/renderPaymentDetails';
+import { buildQuiz } from './quiz/buildQuiz';
 
 const textByLangsData: TPageLang = {
   header: {
@@ -48,8 +51,8 @@ const textByLangsData: TPageLang = {
     ru: ruCardCreator,
   },
   [EPages.QUIZ]: {
-    // en: ,
-    // ru: ,
+    en: enQuiz,
+    ru: ruQuiz,
   },
   [EPages.SERVICES]: {
     en: enPayment,
@@ -80,6 +83,34 @@ export function switchLang(selectElem: HTMLSelectElement): void {
     Array.from(elemsWithLangAttrList).forEach((elem) => {
       elem.textContent = config.lang === 'en' ? elem.getAttribute('enname') : elem.getAttribute('runame');
     });
+  } else if (config.page === EPages.QUIZ) {
+    const data = sessionStorage.getItem('quiz');
+    if (data) {
+      const questions = JSON.parse(data);
+      const question = document.querySelector('.quiz__question');
+      const quizAnswers = document.querySelector('.quiz__answers');
+      const description = document.querySelector('.quiz__description');
+
+      if (!question || !quizAnswers || !description) return;
+      question.innerHTML = `${config.lang === 'en' ? questions.question.en : questions.question.ru}`;
+      for (let j = 0; j < questions.answers.en.length; j++) {
+        const li = document.getElementById(`ans${j + 1}`);
+        if (li) li.innerHTML = `${config.lang === 'en' ? questions.answers.en[j] : questions.answers.ru[j]}`;
+      }
+
+      if (!(description.innerHTML === '')) {
+        description.innerHTML = `${config.lang === 'en' ? questions.desc.en : questions.desc.ru}`;
+      }
+
+      const result = document.querySelector('.quiz__result');
+      if (!result) return;
+
+      if (!(result.innerHTML === '')) {
+        const score = document.querySelector('.quiz__score_n');
+        if (!score) return;
+        buildQuiz.showResult(+score.innerHTML);
+      }
+    }
   }
 
   const header = document.querySelector(`.header`) as HTMLElement;
