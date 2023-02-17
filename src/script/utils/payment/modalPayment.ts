@@ -24,7 +24,7 @@ import {
 import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
-import { EMethod, EOperation, IMainRes } from '../../data/types';
+import { EMethod, EOperation, ETheme, IMainRes } from '../../data/types';
 
 class ModalPayment {
   value?: string;
@@ -42,7 +42,7 @@ class ModalPayment {
 
     const popupContent = createElem(
       'div',
-      `${config.theme === 'dark' ? 'popup__content page-dark dark-border' : 'popup__content'}`,
+      `${config.theme === ETheme.dark ? 'popup__content page-dark dark-border' : 'popup__content'}`,
       popup
     ) as HTMLElement;
     const form = createElem('form', 'form', popupContent) as HTMLFormElement;

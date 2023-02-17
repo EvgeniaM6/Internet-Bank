@@ -1,5 +1,6 @@
 import cardConfig from './cardConfig';
 import config from '../../data/config';
+import { ETheme } from '../../data/types';
 
 class BuildCard {
   main() {
@@ -73,7 +74,7 @@ class BuildCard {
 
     if (!blur || !brightness) return;
 
-    if (config.theme === 'dark') {
+    if (config.theme === ETheme.dark) {
       blur.classList.add('page-dark');
       brightness.classList.add('page-dark');
     } else {

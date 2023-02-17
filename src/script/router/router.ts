@@ -86,21 +86,10 @@ class Router {
 
     if (page !== EPages.AUTH && page !== '' && page !== 'index.html') {
       createMain.header();
-      listenHeader.updateInfo();
+      //listenHeader.updateInfo();
     }
 
     const token = localStorage.getItem('token');
-    if (token) {
-      const check = await this.isBlocked();
-
-      if (check) {
-        this.login();
-        pushState.login();
-        body.style.opacity = '1';
-        return;
-      }
-      openWebSocket();
-    }
 
     if (page === '' || page === 'index.html') {
       if (!token) {
@@ -112,8 +101,21 @@ class Router {
       createMain.header();
       this.about();
       pushState.about();
-      listenHeader.updateInfo();
+      //listenHeader.updateInfo();
     }
+
+    if (token) {
+      const check = await listenHeader.updateInfo();
+
+      if (!check) {
+        this.login();
+        pushState.login();
+        body.style.opacity = '1';
+        return;
+      }
+      openWebSocket();
+    }
+
     switch (page) {
       case EPages.ABOUT:
         this.about();
