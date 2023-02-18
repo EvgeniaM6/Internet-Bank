@@ -1,5 +1,8 @@
 import config from '../../data/config';
 import { IQuiz } from '../../data/types';
+import langs from '../../data/lang/quiz/langs';
+
+let currentLang;
 
 class BuildQuiz {
   async main() {
@@ -7,12 +10,14 @@ class BuildQuiz {
     const quiz = document.querySelector('.header__nav-quiz');
     if (!main || !quiz) return;
 
+    currentLang = config.lang === 'en' ? langs.en : langs.ru;
+
     quiz.classList.add('header__nav_active');
     main.innerHTML = `<div class="quiz-container">
-      <h2 class="quiz__title">Quiz</h2>
+      <h2 class="quiz__title">${currentLang['quiz__title']}</h2>
       <div class="quiz__game">
-      <p class="quiz__about">We offer you to pass a small test. Check your knowledge of financial literacy. Try to answer as much as possible questions. Good luck! To start press button:</p>
-      <button class="quiz__game_button-start">Start</button>
+      <p class="quiz__about">${currentLang['quiz__about']}</p>
+      <button class="quiz__game_button-start">${currentLang['quiz__game_button-start']}</button>
       </div>
     </div>`;
     const questions = await this.getQuestions();
@@ -31,15 +36,24 @@ class BuildQuiz {
 
     if (!game || !questions) return;
 
-    game.innerHTML = `<h3 class="quiz__question_num"><span class="quiz__question_num-q">Question</span> <span class="quiz__question_num-n">${
-      i + 1
-    }</span><h3>
-    <h4 class="quiz__score"><span class="quiz__score_s">Score:</span> <span class="quiz__score_n">${score}</span></h4>
+    sessionStorage.setItem('quiz', JSON.stringify(questions[i]));
+
+    const isEnglish = config.lang === 'en';
+    currentLang = config.lang === 'en' ? langs.en : langs.ru;
+
+    game.innerHTML = `<h3 class="quiz__question_num"><span class="quiz__question_num-q">${
+      currentLang['quiz__question_num-q']
+    }</span> <span class="quiz__question_num-n">${i + 1}</span><h3>
+    <h4 class="quiz__score"><span class="quiz__score_s">${
+      currentLang['quiz__score_s']
+    }</span> <span class="quiz__score_n">${score}</span></h4>
     <p class="quiz__question"></p>
     <ul class="quiz__answers"></ul>
     <p class="quiz__description"></p>
     <p class="quiz__result"><p>
-    <button class="quiz__game_button-next">${i + 1 === questions.length ? 'Try again' : 'Next'}</button>`;
+    <button class="quiz__game_button-next">${
+      i + 1 === questions.length ? currentLang['quiz__game_button-try'] : currentLang['quiz__game_button-next']
+    }</button>`;
     const question = document.querySelector('.quiz__question');
     const quizAnswers = document.querySelector('.quiz__answers');
     const description = document.querySelector('.quiz__description');
@@ -49,11 +63,12 @@ class BuildQuiz {
 
     if (!question || !quizAnswers || !description || !next || !showScore) return;
     {
-      question.innerHTML = `${questions[i].question.en}`;
+      question.innerHTML = `${isEnglish ? questions[i].question.en : questions[i].question.ru}`;
       for (let j = 0; j < questions[i].answers.en.length; j++) {
         const li = document.createElement('li');
+        li.id = `ans${j + 1}`;
         li.classList.add('quiz__answers_item');
-        li.innerHTML = `${questions[i].answers.en[j]}`;
+        li.innerHTML = `${isEnglish ? questions[i].answers.en[j] : questions[i].answers.ru[j]}`;
         quizAnswers.appendChild(li);
       }
     }
@@ -81,7 +96,7 @@ class BuildQuiz {
           })
         ).json();
         data.then((result) => {
-          description.innerHTML = `${questions[i].desc.en}`;
+          description.innerHTML = `${config.lang === 'en' ? questions[i].desc.en : questions[i].desc.ru}`;
           if (result.result === 1) {
             answer.classList.add('quiz__answers_item-correct');
             score++;
@@ -112,22 +127,30 @@ class BuildQuiz {
 
     switch (score) {
       case 0:
-        result.innerHTML = '0/5 - You a looser! A-ha-ha';
+        config.lang === 'en' ? (result.innerHTML = '0/5 - You a looser! A-ha-ha') : (result.innerHTML = '0/5 - Ужас!');
         break;
       case 1:
-        result.innerHTML = '1/5 - It is better then nothing';
+        config.lang === 'en'
+          ? (result.innerHTML = '1/5 - It is better then nothing')
+          : (result.innerHTML = '1/5 - Лучше, чем ничего');
         break;
       case 2:
-        result.innerHTML = '2/5 - Something went wrong';
+        config.lang === 'en'
+          ? (result.innerHTML = '2/5 - Something went wrong')
+          : (result.innerHTML = '2/5 - Что-то пошло не так');
         break;
       case 3:
-        result.innerHTML = '3/5 - You was near';
+        config.lang === 'en' ? (result.innerHTML = '3/5 - You was near') : (result.innerHTML = '3/5 - Вы были близко');
         break;
       case 4:
-        result.innerHTML = '4/5 - Nearly! Next time will be better';
+        config.lang === 'en'
+          ? (result.innerHTML = '4/5 - Nearly! Next time will be better')
+          : (result.innerHTML = '4/5 - В следующий раз повезёт больше');
         break;
       case 5:
-        result.innerHTML = '5/5 - Great! Not like the rss test';
+        config.lang === 'en'
+          ? (result.innerHTML = '5/5 - Great! Not like the rss test')
+          : (result.innerHTML = '5/5 - Отлично! Это вам не тесты в RSS');
         break;
     }
   }

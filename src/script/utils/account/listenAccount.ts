@@ -17,6 +17,7 @@ const langs: TLang = {
 
 class ListenAccount {
   editAccount() {
+    const accountName = document.querySelector('.account__link_name');
     const refreshName = document.getElementById('edit-user');
     const refreshEmail = document.getElementById('edit-email');
     const refreshPass = document.getElementById('edit-password');
@@ -25,6 +26,7 @@ class ListenAccount {
     const token = localStorage.getItem('token');
     if (
       !token ||
+      !accountName ||
       !buttonSubmit ||
       !note ||
       !(refreshName instanceof HTMLInputElement) ||
@@ -51,6 +53,7 @@ class ListenAccount {
         if (rez.success) {
           config.regex.username = name;
           note.innerHTML = currLangObj['note-login-success'];
+          accountName.innerHTML = name;
         } else note.innerHTML = currLangObj['note-incorr-passw'];
       });
       setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);

@@ -27,7 +27,8 @@ export default {
     '23 yo, Minsk. Have Air Traffic Controller diploma. Likes to work on interesting and challenging projects. RS School student since spring 2022.',
   andrei: 'Andrei Shamanouski',
   'andrei-resp': 'User and Admin Panels, Day/Night Mode, Financial Quiz',
-  'andrei-text': '',
+  'andrei-text':
+    '36 y.o., Minsk. Works in IT department in a bank. Wants to develop and get new knowledge. RS School student since december 2021.',
   evgeniya: 'Yevheniia Miniukova',
   'evgeniya-resp': 'Services, RU/EN Lang',
   'evgeniya-text':
