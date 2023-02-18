@@ -1,8 +1,9 @@
 import config from '../data/config';
+import { ETheme } from '../data/types';
 
 export function load(el: HTMLElement) {
   let load = 'load';
-  if (config.theme === 'dark') load = 'load load-dark';
+  if (config.theme === ETheme.dark) load = 'load load-dark';
 
   el.innerHTML = `<div class="${load}"><svg class="load__image" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
     <path fill="#d8c307"

@@ -1,5 +1,8 @@
 import config from '../../data/config';
+import langs from '../../data/lang/stock/langs';
 import { IMarketStocks, IUserStocks } from '../../data/types';
+
+let currentLang;
 
 class BuildStock {
   main() {
@@ -14,26 +17,26 @@ class BuildStock {
 
   buildUserList(userStocks: IUserStocks[], marketStocks: IMarketStocks[]) {
     const userList = document.querySelector('.stocks__user');
-    const isEnglish = config.lang === 'en';
+    currentLang = config.lang === 'en' ? langs.en : langs.ru;
 
     if (!userList) return;
 
     if (!userStocks.length) {
-      userList.innerHTML = `<h3 class="stocks__user-h">${isEnglish ? 'User Stocks' : 'Ваши Акции'}</h3>
-      <p class="stocks__user-empty">${isEnglish ? "You haven't any stocks" : 'У вас нет акций'}</p>`;
+      userList.innerHTML = `<h3 class="stocks__user-h">${currentLang['stocks__user-h']}</h3>
+      <p class="stocks__user-empty">${currentLang['stocks__user-empty']}</p>`;
       return;
     }
 
-    userList.innerHTML = `<h3 class="stocks__user-h">${isEnglish ? 'User Stocks' : 'Ваши Акции'}</h3>
+    userList.innerHTML = `<h3 class="stocks__user-h">${currentLang['stocks__user-h']}</h3>
     <p class="stocks__user-header">
-        <span class="stocks__user-header-name">${isEnglish ? 'Name' : 'Название'}</span>
-        <span class="stocks__user-header-count">${isEnglish ? 'Count' : 'Кол-во'}</span>
-        <span class="stocks__user-header-profit">${isEnglish ? 'Profit' : 'Прибыль'}</span>
+        <span class="stocks__user-header-name">${currentLang['stocks__user-header-name']}</span>
+        <span class="stocks__user-header-count">${currentLang['stocks__user-header-count']}</span>
+        <span class="stocks__user-header-profit">${currentLang['stocks__user-header-profit']}</span>
     </p>`;
 
     userStocks.forEach((el) => {
       const stock = marketStocks.find((stock) => el.name === stock.name);
-      const isEnglish = config.lang === 'en';
+      currentLang = config.lang === 'en' ? langs.en : langs.ru;
       if (!stock) return;
 
       const profit = stock.money - el.price;
@@ -51,8 +54,8 @@ class BuildStock {
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__user-payment">
-          <button class="stocks__user-button stocks__button">${isEnglish ? 'Sell' : 'Продать'}</button>
-          <p class="stocks__user-status">${isEnglish ? 'Ready to deal' : 'Открыто'}</p>
+          <button class="stocks__user-button stocks__button">${currentLang['stocks__user-button']}</button>
+          <p class="stocks__user-status">${currentLang['stocks__user-status']}</p>
       </div>`;
 
       userList.appendChild(div);
@@ -61,17 +64,18 @@ class BuildStock {
 
   buildMarketList(marketStocks: IMarketStocks[]) {
     const marketList = document.querySelector('.stocks__market');
-    const isEnglish = config.lang === 'en';
+    currentLang = config.lang === 'en' ? langs.en : langs.ru;
     if (!marketList) return;
 
-    marketList.innerHTML = `<h3 class="stocks__market-h">${isEnglish ? 'Stocks Market' : 'Биржа'}</h3>
+    marketList.innerHTML = `<h3 class="stocks__market-h">${currentLang['stocks__market-h']}</h3>
     <p class="stocks__market-header">
-        <span class="stocks__market-header-name">${isEnglish ? 'Name' : 'Название'}</span>
-        <span class="stocks__market-header-count">${isEnglish ? 'Count' : 'Кол-во'}</span>
-        <span class="stocks__market-header-price">${isEnglish ? 'Price' : 'Цена'}</span>
+        <span class="stocks__market-header-name">${currentLang['stocks__market-header-name']}</span>
+        <span class="stocks__market-header-count">${currentLang['stocks__market-header-count']}</span>
+        <span class="stocks__market-header-price">${currentLang['stocks__market-header-price']}</span>
     </p>`;
 
     marketStocks.forEach((el) => {
+      currentLang = config.lang === 'en' ? langs.en : langs.ru;
       const div = document.createElement('div');
       div.classList.add('stocks__market-item', `${el.name.replaceAll(' ', '_')}`);
       div.id = `${el.name.replaceAll(' ', '_')}`;
@@ -84,8 +88,8 @@ class BuildStock {
           <button class="item__plus">+</button>
       </div>
       <div class="stocks__market-payment">
-        <button class="stocks__market-button stocks__button">${isEnglish ? 'Buy' : 'Купить'}</button>
-        <p class="stocks__market-status">${isEnglish ? 'Ready to deal' : 'Открыто'}<p>
+        <button class="stocks__market-button stocks__button">${currentLang['stocks__market-button']}</button>
+        <p class="stocks__market-status">${currentLang['stocks__market-status']}<p>
       </div>`;
 
       marketList.appendChild(div);

@@ -1,5 +1,5 @@
 import config from '../../data/config';
-import { EMethod, EPages } from '../../data/types';
+import { EMethod, EPages, ETheme } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
@@ -19,6 +19,7 @@ class ListenHeader {
     const token = localStorage.getItem('token');
     if (!token || !money) return;
     const result = await userFetch.user(EMethod.GET, token);
+    if (result.userConfig?.isBlock) return;
     if (!result.userConfig?.email || !result.userConfig.username || !result.userConfig.money) return;
     config.currentEmail = result.userConfig.email;
     config.currentUser = result.userConfig.username;
@@ -26,6 +27,7 @@ class ListenHeader {
     const currMoney = result.userConfig.money;
     localStorage.setItem('money', `${currMoney}`);
     money.textContent = `$${Number(currMoney).toFixed(2)}`;
+    return true;
   }
 
   removeActiveClass() {
@@ -57,8 +59,8 @@ class ListenHeader {
       return;
 
     theme.addEventListener('click', () => {
-      if (config.theme === 'light') config.theme = 'dark';
-      else config.theme = 'light';
+      if (config.theme === ETheme.light) config.theme = ETheme.dark;
+      else config.theme = ETheme.light;
 
       localStorage.setItem('time', config.theme);
 
@@ -89,7 +91,7 @@ class ListenHeader {
 
       const nav = document.querySelector('.header__nav');
       if (!nav || !header) return;
-      if (config.theme === 'dark') {
+      if (config.theme === ETheme.dark) {
         theme.innerHTML = `<img src="${sun}" alt="moon" class="header__theme header__theme-dark">`;
         nav.classList.add('page-dark');
         header.classList.add('page-dark');
@@ -101,7 +103,7 @@ class ListenHeader {
 
       if (!blur || !brightness) return;
 
-      if (config.theme === 'dark') {
+      if (config.theme === ETheme.dark) {
         blur.classList.add('page-dark');
         brightness.classList.add('page-dark');
       } else {
@@ -116,7 +118,7 @@ class ListenHeader {
 
       nav.classList.add('header__nav_burger');
 
-      if (config.theme === 'dark') {
+      if (config.theme === ETheme.dark) {
         nav.classList.add('page-dark');
       } else {
         nav.classList.remove('page-dark');

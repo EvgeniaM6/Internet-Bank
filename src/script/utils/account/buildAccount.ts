@@ -2,7 +2,7 @@ import config from '../../data/config';
 import en from '../../data/lang/account/en';
 import ru from '../../data/lang/account/ru';
 import { TLang } from '../../data/servicesType';
-import { EMethod } from '../../data/types';
+import { EMethod, ETheme } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import pushState from '../../router/pushState';
 import { load } from '../load';
@@ -75,7 +75,7 @@ class BuildAccount {
     const td = document.querySelectorAll('td');
     const th = document.querySelectorAll('th');
 
-    if (config.theme === 'dark') {
+    if (config.theme === ETheme.dark) {
       td.forEach((el) => el.classList.add('table-dark'));
       th.forEach((el) => el.classList.add('table-dark'));
     }
