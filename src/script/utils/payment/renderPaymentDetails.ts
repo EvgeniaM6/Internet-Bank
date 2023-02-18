@@ -175,7 +175,7 @@ class RenderPaymentDetails {
       } else if ((+inputId[0] === 1 || +inputId[0] === 2) && inputEl instanceof HTMLSelectElement) {
         return !!(inputEl as HTMLSelectElement).selectedIndex;
       } else {
-        if (+inputId[0] === 1 && (inputEl as HTMLInputElement).name === 'card') {
+        if ((+inputId[0] === 1 || +inputId[0] === 6) && (inputEl as HTMLInputElement).name === 'card') {
           modalPayment.maskCardNumber.call(inputEl);
         }
 
@@ -389,7 +389,13 @@ class RenderPaymentDetails {
       return;
     }
 
-    userNameInput.disabled = true;
+    // Add Egor
+
+    this.checkBtnsAbility(this.canPay);
+
+    //End
+
+    /*userNameInput.disabled = true;
     userFetch.isOurUser(userNameInput.value).then((resp) => {
       userNameInput.disabled = false;
       if (isUserInputFocused) {
@@ -398,7 +404,7 @@ class RenderPaymentDetails {
       this.canPay = this.canPay ? resp.success : this.canPay;
 
       this.checkBtnsAbility(this.canPay);
-    });
+    });*/
   }
 }
 

@@ -28,7 +28,7 @@ class BuildMain {
     about.innerHTML = `<h2 class="about__h">${currentLang['about__h']}</h2>
     <p class="about__text">${currentLang['about__text']}</p>
     <section class="about__highlights about__section">
-        <h3 class="about__highlights-h">${currentLang['about__text']}</h3>
+        <h3 class="about__highlights-h">${currentLang['about__highlights-h']}</h3>
         <ul>
             <li class="high_one">${currentLang['high_one']}</li>
             <li class="high_two">${currentLang['high_two']}</li>

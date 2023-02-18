@@ -7,9 +7,9 @@ export default {
   login__register: 'Register now',
   login__reset: 'Forgot password?',
 
-  'reg__username-label': 'Username (min 1 character)',
+  'reg__username-label': 'Username (2-20 character)',
   'reg__email-label': 'E-mail',
-  'reg__password-label': 'Password (min 8 characters, numbers and letters)',
+  'reg__password-label': 'Password (8-20 characters, numbers and letters)',
   'repeat-reg__password-label': 'Repeat Password',
   'reg__button-reg': "Let's start!",
   'reg__button-back': 'Back',
