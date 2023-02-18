@@ -51,4 +51,5 @@ export default {
   'dont-have-start': "You don't have",
   'dont-have-end': 'account',
   ready_to_edit: 'Ready to edit',
+  account__operations_button: 'Send check',
 };

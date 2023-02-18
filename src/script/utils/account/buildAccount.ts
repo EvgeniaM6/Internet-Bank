@@ -8,6 +8,7 @@ import pushState from '../../router/pushState';
 import { load } from '../load';
 import { buildMain } from '../main/buildMain';
 import { renderPaymentDetails } from '../payment/renderPaymentDetails';
+import { listenAccount } from './listenAccount';
 
 const langs: TLang = {
   en,
@@ -79,6 +80,8 @@ class BuildAccount {
       td.forEach((el) => el.classList.add('table-dark'));
       th.forEach((el) => el.classList.add('table-dark'));
     }
+
+    listenAccount.main();
   }
 
   editAccount() {

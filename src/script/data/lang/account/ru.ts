@@ -51,4 +51,5 @@ export default {
   'dont-have-start': 'У Вас нет',
   'dont-have-end': 'счета',
   ready_to_edit: 'Мы готовы! А вы?',
+  account__operations_button: 'Отправить',
 };

@@ -4,7 +4,7 @@ import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { buildAccount } from './buildAccount';
 import { userFetch } from '../../fetch/userFetch';
-import { EMethod } from '../../data/types';
+import { EMethod, ETheme } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import { TLang } from '../../data/servicesType';
 import en from '../../data/lang/account/en';
@@ -16,6 +16,45 @@ const langs: TLang = {
 };
 
 class ListenAccount {
+  main() {
+    const trs = document.querySelectorAll('tr');
+    const button = document.querySelector('.account__operations_button');
+    let id: number;
+    let money: number;
+
+    if (!button) return;
+
+    button.addEventListener('click', () => {
+      if (button.classList.contains('account__operations_button-active')) {
+        fetch(`${config.server}/money/check`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            money: money,
+            operationID: id,
+            email: config.currentEmail,
+          }),
+        });
+      }
+    });
+
+    if (trs) {
+      trs.forEach((tr) => {
+        tr.addEventListener('click', () => {
+          trs.forEach((tr) => (tr.style.backgroundColor = `${config.theme === ETheme.dark ? 'black' : 'white'}`));
+          tr.style.backgroundColor = 'grey';
+          const tds = tr.querySelectorAll('td');
+          if (!tds) return;
+          id = +tds[2].innerHTML;
+          money = +tds[3].innerHTML;
+          button.classList.add('account__operations_button-active');
+        });
+      });
+    }
+  }
+
   editAccount() {
     const accountName = document.querySelector('.account__link_name');
     const refreshName = document.getElementById('edit-user');

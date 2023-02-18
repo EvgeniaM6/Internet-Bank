@@ -213,6 +213,26 @@ tr:last-child td {
   height: 110px;
 }
 
+.account__operations_button {
+  width: 120px;
+  height: 30px;
+  margin-bottom: 15px;
+  border-radius: 15px;
+  font-size: 18px;
+  border-width: 0px;
+  color: #fffffc;
+  background-color: grey;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.account__operations_button-active {
+  background-color: #d8c307;
+  &:hover {
+    opacity: .8;
+  }
+}
+
 @media (max-width: 1100px) {
   .account__main-container {
     flex-direction: column;
