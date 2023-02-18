@@ -19,7 +19,7 @@ import en from '../../data/lang/payment/en';
 import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
-import { EMethod } from '../../data/types';
+import { EMethod, ETheme } from '../../data/types';
 import pushState from '../../router/pushState';
 import { load } from '../load';
 
@@ -60,7 +60,7 @@ class RenderPaymentDetails {
     const backBtnBlock = createElem('div', 'operation__back back', operation);
     const backBtn = createElem('button', 'back__btn', backBtnBlock);
     createElem('div', 'back__arrow', backBtn);
-    if (config.theme === 'dark') {
+    if (config.theme === ETheme.dark) {
       createElem('div', 'back__text page-dark', backBtn, currLangObj.back__text);
     } else {
       createElem('div', 'back__text', backBtn, currLangObj.back__text);

@@ -24,6 +24,10 @@ class ListenStocks {
         if (input.value < input.min) input.value = input.min;
       });
 
+      input.addEventListener('input', () => {
+        if (input.value.length > 3) input.value = input.max;
+      });
+
       minus.addEventListener('click', () => {
         if (input.value === input.min) return;
         input.value = `${Number(input.value) - 1}`;
@@ -80,6 +84,10 @@ class ListenStocks {
       input.addEventListener('blur', () => {
         if (input.value > input.max) input.value = input.max;
         if (input.value < input.min) input.value = input.min;
+      });
+
+      input.addEventListener('input', () => {
+        if (input.value.length > 3) input.value = input.max;
       });
 
       minus.addEventListener('click', () => {
