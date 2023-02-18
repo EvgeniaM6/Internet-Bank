@@ -43,7 +43,7 @@ class ListenAccount {
     if (trs) {
       trs.forEach((tr) => {
         tr.addEventListener('click', () => {
-          trs.forEach((tr) => (tr.style.backgroundColor = `${config.theme === ETheme.dark ? 'black' : 'white'}`));
+          trs.forEach((tr) => (tr.style.backgroundColor = `${config.theme === ETheme.dark ? '#090909' : '#fffffc'}`));
           tr.style.backgroundColor = 'grey';
           const tds = tr.querySelectorAll('td');
           if (!tds) return;
