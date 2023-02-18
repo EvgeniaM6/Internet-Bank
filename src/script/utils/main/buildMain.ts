@@ -28,7 +28,7 @@ class BuildMain {
     about.innerHTML = `<h2 class="about__h">${currentLang['about__h']}</h2>
     <p class="about__text">${currentLang['about__text']}</p>
     <section class="about__highlights about__section">
-        <h3 class="about__highlights-h">${currentLang['about__text']}</h3>
+        <h3 class="about__highlights-h">${currentLang['about__highlights-h']}</h3>
         <ul>
             <li class="high_one">${currentLang['high_one']}</li>
             <li class="high_two">${currentLang['high_two']}</li>
@@ -91,10 +91,10 @@ class BuildMain {
 
     account.classList.add('header__nav_active');
     main.innerHTML = `<ul class="account__list">
-      <li class="account__list-item account__list-main account__list-item_active"><span class="account__link_main">${EAccountLinks.account}</span> (<span class="account__link_name">${config.currentUser}</span>)</li>
-      <li class="account__list-item account__list-edit">${EAccountLinks.edit}</li>
-      <li class="account__list-item account__list-currency">${EAccountLinks.currency}</li>
-      <li class="account__list-item account__list-delete">${EAccountLinks.delete}</li>
+      <li class="account__list-item account__list-main account__list-item_active"><span class="account__link_main">${currentLang['account__link_main']}</span> (<span class="account__link_name">${config.currentUser}</span>)</li>
+      <li class="account__list-item account__list-edit">${currentLang['account__list-edit']}</li>
+      <li class="account__list-item account__list-currency">${currentLang['account__list-currency']}</li>
+      <li class="account__list-item account__list-delete">${currentLang['account__list-delete']}</li>
     </ul>
     <div class="account-container">
       <p class="account__description">${currentLang['account__description']}</p>

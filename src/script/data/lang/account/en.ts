@@ -1,7 +1,7 @@
 export default {
   'account__list-edit': 'Edit',
   'account__list-currency': 'Currency',
-  'account__list-operations': 'Last operations',
+  account__link_main: 'Main',
   'account__list-delete': 'Delete',
   account__description:
     "We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!",

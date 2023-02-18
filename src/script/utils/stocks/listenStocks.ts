@@ -15,7 +15,6 @@ class ListenStocks {
       const minus = stock.querySelector('.item__minus');
       const plus = stock.querySelector('.item__plus');
       const input = stock.querySelector('.item__value');
-      const isEnglish = config.lang === 'en';
 
       if (!counter || !button || !minus || !plus || !(input instanceof HTMLInputElement)) return;
 
@@ -39,6 +38,7 @@ class ListenStocks {
       });
 
       button.addEventListener('click', async () => {
+        const isEnglish = config.lang === 'en';
         const token = localStorage.getItem('token');
         if (!token) return;
 
@@ -70,7 +70,6 @@ class ListenStocks {
 
   user() {
     const userList = document.querySelectorAll('.stocks__user-item');
-    const isEnglish = config.lang === 'en';
 
     userList.forEach((stock) => {
       const counter = stock.querySelector('.stocks__user-count');
@@ -101,6 +100,7 @@ class ListenStocks {
       });
 
       button.addEventListener('click', async () => {
+        const isEnglish = config.lang === 'en';
         const token = localStorage.getItem('token');
         if (!token) return;
 

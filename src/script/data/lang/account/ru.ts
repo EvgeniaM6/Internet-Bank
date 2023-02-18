@@ -1,7 +1,7 @@
 export default {
   'account__list-edit': 'Изменить',
   'account__list-currency': 'Валютные счета',
-  'account__list-operations': 'Последние операции',
+  account__link_main: 'Главная',
   'account__list-delete': 'Удалить',
   account__description:
     'Мы приветствуем Вас в личном кабинете. Здесь Вы можете управлять вашими персональными данными и получить банковскую информацию.',

@@ -7,9 +7,9 @@ export default {
   login__register: 'Зарегистрироваться',
   login__reset: 'Забыли пароль?',
 
-  'reg__username-label': 'Логин (мин. 1 символ)',
+  'reg__username-label': 'Логин (2-20 символов)',
   'reg__email-label': 'Электронная почта',
-  'reg__password-label': 'Пароль (мин. 8 символов, цифры и буквы)',
+  'reg__password-label': 'Пароль (8-20 символов, цифры и буквы)',
   'repeat-reg__password-label': 'Повторите пароль',
   'reg__button-reg': 'Создать',
   'reg__button-back': 'Назад',

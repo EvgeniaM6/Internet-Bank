@@ -8,7 +8,7 @@ export default {
   page: '',
   theme: 'light',
   regex: {
-    username: '^[a-zA-Z0-9]+$',
+    username: '^[a-zA-Z0-9]{2,20}$',
     password: '^[a-zA-Z0-9]{8,20}$',
     email: '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$',
   },
