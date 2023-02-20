@@ -1,8 +1,5 @@
 import config from '../../data/config';
 import { LANGS_ARR } from '../../data/constants';
-import en from '../../data/lang/header/en';
-import ru from '../../data/lang/header/ru';
-import { TLang } from '../../data/servicesType';
 import { ETheme } from '../../data/types';
 import { createElem } from '../../utilities';
 import { switchLang } from '../switchLang';
@@ -11,11 +8,6 @@ import langs from '../../data/lang/auth/langs';
 let currentLang;
 
 class BuildAuth {
-  /*langs: TLang = {
-    en,
-    ru,
-  };*/
-
   main() {
     const main = document.querySelector('.main-container');
     const body = document.querySelector('.main');

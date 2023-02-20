@@ -5,14 +5,7 @@ import yes from '../../../assets/img/icons/ok.svg';
 import no from '../../../assets/img/icons/cancel.svg';
 import { ETheme } from '../../data/types';
 import { load } from '../load';
-import { TLang } from '../../data/servicesType';
-import en from '../../data/lang/admin/en';
-import ru from '../../data/lang/admin/ru';
-
-const langs: TLang = {
-  en,
-  ru,
-};
+import langs from '../../data/lang/admin/langs';
 
 class BuildAdmin {
   async showUserList() {

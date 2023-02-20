@@ -8,23 +8,15 @@ import {
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
 } from '../../data/constants';
-import {
-  IServiceObj,
-  IServices,
-  TElemsForUpdateText,
-  TLang,
-  TServiceDetails,
-  TTextByLang,
-} from '../../data/servicesType';
+import { IServiceObj, IServices, TElemsForUpdateText, TServiceDetails, TTextByLang } from '../../data/servicesType';
 import { IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
-import en from '../../data/lang/payment/en';
-import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { load } from '../load';
 import pushState from '../../router/pushState';
+import langs from '../../data/lang/payment/langs';
 
 class RenderPayment {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -33,10 +25,6 @@ class RenderPayment {
   selectedCategoryFilter = 'all';
   operationsContainer = createElem('div', 'operations');
   canRenderPage = false;
-  langs: TLang = {
-    en,
-    ru,
-  };
 
   constructor() {
     this.saveServicesResponse();
@@ -76,7 +64,7 @@ class RenderPayment {
     const operationName = createElem('p', 'serv-card__title', mainInfo);
     this.elemsForUpdatingText[`${operationId}_operation-title`] = operationName;
 
-    const currLangObj = this.langs[config.lang];
+    const currLangObj = langs[config.lang];
 
     const operationCategory = createElem('p', 'serv-card__category', mainInfo);
     const categoryTxtContent = currLangObj['serv-card__category-text'];
@@ -138,10 +126,10 @@ class RenderPayment {
     const filterElem = createElem('div', 'filter');
     const filterForm = createElem('form', 'filter__form', filterElem) as HTMLFormElement;
 
-    createElem('div', 'filter__title', filterForm, this.langs[config.lang].filter__title);
+    createElem('div', 'filter__title', filterForm, langs[config.lang].filter__title);
     const filterList = createElem('div', 'filter__list', filterForm);
 
-    const filterAllTxtData = { en: this.langs.en['radio-all'], ru: this.langs.ru['radio-all'] };
+    const filterAllTxtData = { en: langs.en['radio-all'], ru: langs.ru['radio-all'] };
     const filterAllItemElem = this.createFilterItemElem(filterType, filterAllTxtData);
     filterList.append(filterAllItemElem);
 
@@ -200,7 +188,6 @@ class RenderPayment {
   }
 
   countFilterValues(filterValue: string): number {
-    let valuesAmount;
     const operationIdArr = Object.keys(this.operationsResp);
     const filterVal = filterValue.toLowerCase();
 
@@ -211,18 +198,14 @@ class RenderPayment {
       return toCountFilter;
     });
 
-    if (filterVal !== 'all') {
-      valuesAmount = filteredOperationIdArr.reduce((acc, operationId) => {
-        if (this.operationsResp[operationId].category.en.toLowerCase() === filterVal) {
-          acc += 1;
-        }
-        return acc;
-      }, 0);
-    } else {
-      valuesAmount = filteredOperationIdArr.length;
-    }
+    if (filterVal === 'all') return filteredOperationIdArr.length;
 
-    return valuesAmount;
+    return filteredOperationIdArr.reduce((acc, operationId) => {
+      if (this.operationsResp[operationId].category.en.toLowerCase() === filterVal) {
+        acc += 1;
+      }
+      return acc;
+    }, 0);
   }
 
   filterOperations(filterForm: HTMLFormElement): void {
@@ -243,7 +226,7 @@ class RenderPayment {
 
       const categInResp = this.operationsResp[operationId].category.en.toLowerCase();
 
-      return this.selectedCategoryFilter === 'all' ? true : categInResp === this.selectedCategoryFilter.toLowerCase();
+      return this.selectedCategoryFilter === 'all' || categInResp === this.selectedCategoryFilter.toLowerCase();
     });
 
     filteredOperationsIdArr.forEach((operationId) => {
