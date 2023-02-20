@@ -164,9 +164,10 @@ class RenderPaymentDetails {
     this.checkBtnsAbility(false);
     const formElemsArr = Array.from(payForm.elements);
 
-    this.canPay = formElemsArr.every((inputEl) => {
+    const canPay = formElemsArr.every((inputEl) => {
       const inputId = inputEl.id.split('_');
       if (!inputId.length) return true;
+
       if (inputId[0] === 'sum' && +(inputEl as HTMLInputElement).value <= 0) {
         if (!inputEl.classList.contains('invalid')) {
           inputEl.classList.add('invalid');
@@ -189,9 +190,11 @@ class RenderPaymentDetails {
 
     const userNameInput = payForm.user as HTMLInputElement;
     if (userNameInput && userNameInput.value) {
-      this.checkUserInput(userNameInput);
+      this.checkUserInput(userNameInput, canPay);
       return;
     }
+
+    this.canPay = canPay;
 
     const selectElemsArr = formElemsArr.filter((inputEl) => {
       return inputEl instanceof HTMLSelectElement;
@@ -281,6 +284,10 @@ class RenderPaymentDetails {
       this.elemsForUpdatingText[`label_${inputId}`] = dataLabel;
 
       dataInput.addEventListener('input', () => this.checkInputsValidity(formElem));
+
+      if (inputData.name === 'user') {
+        dataInput.addEventListener('blur', () => this.checkInputsValidity(formElem));
+      }
 
       formElem.append(dataBlock);
     });
@@ -380,31 +387,23 @@ class RenderPaymentDetails {
     });
   }
 
-  checkUserInput(userNameInput: HTMLInputElement): void {
+  checkUserInput(userNameInput: HTMLInputElement, canPay: boolean): void {
     const focusedElem = document.activeElement;
     const isUserInputFocused = focusedElem === userNameInput;
 
-    if (userNameInput.value === config.currentUser) {
+    if (isUserInputFocused || userNameInput.value === config.currentUser) {
       this.canPay = false;
+      this.checkBtnsAbility(this.canPay);
       return;
     }
 
-    // Add Egor
-
-    this.checkBtnsAbility(this.canPay);
-
-    //End
-
-    /*userNameInput.disabled = true;
+    userNameInput.disabled = true;
     userFetch.isOurUser(userNameInput.value).then((resp) => {
       userNameInput.disabled = false;
-      if (isUserInputFocused) {
-        userNameInput.focus();
-      }
-      this.canPay = this.canPay ? resp.success : this.canPay;
+      this.canPay = canPay ? resp.success : canPay;
 
       this.checkBtnsAbility(this.canPay);
-    });*/
+    });
   }
 }
 
