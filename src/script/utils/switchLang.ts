@@ -68,8 +68,14 @@ const textByLangsData: TPageLang = {
   },
 };
 
+const savedLang = localStorage.getItem('lang');
+if (savedLang) {
+  config.lang = savedLang;
+}
+
 export function switchLang(selectElem: HTMLSelectElement): void {
   config.lang = selectElem.value;
+  localStorage.setItem('lang', config.lang);
 
   const currLangTextData = textByLangsData[config.page][config.lang];
   updateTextByClass(currLangTextData);
