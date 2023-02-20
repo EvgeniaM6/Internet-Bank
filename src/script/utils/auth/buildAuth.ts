@@ -41,7 +41,7 @@ class BuildAuth {
     const langBlock = createElem('div', 'lang', main as HTMLElement);
     const langSelect = createElem('select', 'header__lang-select', langBlock) as HTMLSelectElement;
     LANGS_ARR.forEach((langStr) => {
-      const langOptionElem = createElem('option', '', langSelect, langStr) as HTMLOptionElement;
+      const langOptionElem = createElem('option', 'header__lang-option', langSelect, langStr) as HTMLOptionElement;
       langOptionElem.value = langStr;
       langOptionElem.selected = langStr === config.lang;
     });
