@@ -12,6 +12,7 @@ import config from '../../data/config';
 import { validate } from '../validate';
 import {
   COMMISSION_AMOUNT,
+  COMMISSION_EXCHANGE_AMOUNT,
   ID_CURRENCY_COMMON_EXCHANGE,
   ID_CURRENCY_REFILL_SERVICE,
   ID_CURRENCY_SELL_SERVICE,
@@ -99,8 +100,8 @@ class ModalPayment {
     if (isAnonim) {
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, currLangObj.commis__start);
-      const isExchange = isAnonimExchange ? `${calculateCommissionSum(operationSum)}` : `${COMMISSION_AMOUNT}`;
-      createElem('span', 'commis__sum', commissionBlock, isExchange);
+      const commisPercent = isAnonimExchange ? COMMISSION_EXCHANGE_AMOUNT : COMMISSION_AMOUNT;
+      createElem('span', 'commis__sum', commissionBlock, `${calculateCommissionSum(operationSum, commisPercent)}`);
       createElem('span', 'commis__end', commissionBlock, currLangObj.commis__end);
       popupContent.prepend(commissionBlock);
     }
