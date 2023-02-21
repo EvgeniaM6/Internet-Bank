@@ -8,7 +8,7 @@ import {
   INDEX_START_BANK_SERVICES,
   INDEX_START_SERVICES,
 } from '../../data/constants';
-import { IServiceObj, IServices, TElemsForUpdateText, TServiceDetails, TTextByLang } from '../../data/servicesType';
+import { IServiceObj, IServices, TElemsForUpdateText, TServiceDetails, TTextByLang } from '../../data/models';
 import { IMainRes } from '../../data/types';
 import { createElem } from '../../utilities/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';

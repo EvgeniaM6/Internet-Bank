@@ -4,7 +4,7 @@ import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
 import visaCard from '../../../assets/img/payment-system/visa.png';
 import mastercardCard from '../../../assets/img/payment-system/mastercard.png';
-import { TElemsForUpdateText, TPaymentDetails } from '../../data/servicesType';
+import { EPaymSyst, TElemsForUpdateText, TPaymentDetails } from '../../data/models';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import config from '../../data/config';
 import { validate } from '../validate';
@@ -24,7 +24,6 @@ import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
 import { EMethod, EOperation, ETheme, IMainRes } from '../../data/types';
-import { EPaymSyst } from '../../data/models';
 import langs from '../../data/lang/modalPaym/langs';
 
 class ModalPayment {

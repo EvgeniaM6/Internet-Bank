@@ -1,4 +1,4 @@
-import { TOperationInputData } from '../servicesType';
+import { TOperationInputData } from '../models';
 
 export const OPERATION_INPUT_DATA: TOperationInputData = {
   sum: [

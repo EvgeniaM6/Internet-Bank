@@ -10,7 +10,7 @@ import {
   MAIN_CURRENCY,
   OPERATION_INPUT_DATA,
 } from '../../data/constants';
-import { TElemsForUpdateText, TInputData, TPaymentDetails, TServiceDetails } from '../../data/servicesType';
+import { TElemsForUpdateText, TInputData, TPaymentDetails, TServiceDetails } from '../../data/models';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
 import { modalPayment } from './modalPayment';

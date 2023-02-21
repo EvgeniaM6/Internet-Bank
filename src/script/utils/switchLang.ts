@@ -19,7 +19,7 @@ import enStock from '../data/lang/stock/en';
 import ruStock from '../data/lang/stock/ru';
 import enQuiz from '../data/lang/quiz/en';
 import ruQuiz from '../data/lang/quiz/ru';
-import { TPageLang, TTextByLang } from '../data/servicesType';
+import { TPageLang, TTextByLang } from '../data/models';
 import { EPages } from '../data/types';
 import { renderPayment } from './payment/renderPayment';
 import { renderPaymentDetails } from './payment/renderPaymentDetails';
