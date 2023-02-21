@@ -1,6 +1,6 @@
 import ru from './ru';
 import en from './en';
-import { TLang } from '../../servicesType';
+import { TLang } from '../../models';
 
 export default {
   ru,
