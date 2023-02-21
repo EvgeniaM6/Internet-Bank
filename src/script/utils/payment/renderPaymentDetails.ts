@@ -10,28 +10,23 @@ import {
   MAIN_CURRENCY,
   OPERATION_INPUT_DATA,
 } from '../../data/constants';
-import { TElemsForUpdateText, TInputData, TLang, TPaymentDetails, TServiceDetails } from '../../data/servicesType';
+import { TElemsForUpdateText, TInputData, TPaymentDetails, TServiceDetails } from '../../data/models';
 import { createElem } from '../../utilities/createElem';
 import { validate } from '../validate';
 import { modalPayment } from './modalPayment';
 import { renderPayment } from './renderPayment';
-import en from '../../data/lang/payment/en';
-import ru from '../../data/lang/payment/ru';
 import { transition } from '../transition';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod, ETheme } from '../../data/types';
 import pushState from '../../router/pushState';
 import { load } from '../load';
+import langs from '../../data/lang/payment/langs';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
   elemsForUpdatingText: TElemsForUpdateText = {};
   currentOperationData: TServiceDetails | null = null;
   canPay = false;
-  langs: TLang = {
-    en,
-    ru,
-  };
 
   async renderPayment(operationId: number): Promise<void> {
     load(this.main);
@@ -50,7 +45,7 @@ class RenderPaymentDetails {
     this.currentOperationData = renderPayment.getOparationData(operationId);
     if (!this.currentOperationData) return;
 
-    const currLangObj = this.langs[config.lang];
+    const currLangObj = langs[config.lang];
 
     this.main.innerHTML = '';
     this.main.className = 'container main-container';
@@ -102,7 +97,7 @@ class RenderPaymentDetails {
     this.renderInput('sum', payForm);
     this.renderInput(`${operationId}`, payForm);
 
-    const currLang = this.langs[config.lang];
+    const currLang = langs[config.lang];
 
     if (!localStorage.getItem('token')) {
       const isCommissExchange = operationId === INDEX_START_BANK_SERVICES;
@@ -164,9 +159,10 @@ class RenderPaymentDetails {
     this.checkBtnsAbility(false);
     const formElemsArr = Array.from(payForm.elements);
 
-    this.canPay = formElemsArr.every((inputEl) => {
+    const canPay = formElemsArr.every((inputEl) => {
       const inputId = inputEl.id.split('_');
       if (!inputId.length) return true;
+
       if (inputId[0] === 'sum' && +(inputEl as HTMLInputElement).value <= 0) {
         if (!inputEl.classList.contains('invalid')) {
           inputEl.classList.add('invalid');
@@ -182,16 +178,17 @@ class RenderPaymentDetails {
         const inputPattern = (inputEl as HTMLInputElement).pattern;
         if (!inputPattern) return true;
 
-        const isCorrectValue = validate(inputEl as HTMLInputElement, inputPattern);
-        return isCorrectValue;
+        return validate(inputEl as HTMLInputElement, inputPattern);
       }
     });
 
     const userNameInput = payForm.user as HTMLInputElement;
     if (userNameInput && userNameInput.value) {
-      this.checkUserInput(userNameInput);
+      this.checkUserInput(userNameInput, canPay);
       return;
     }
+
+    this.canPay = canPay;
 
     const selectElemsArr = formElemsArr.filter((inputEl) => {
       return inputEl instanceof HTMLSelectElement;
@@ -282,6 +279,10 @@ class RenderPaymentDetails {
 
       dataInput.addEventListener('input', () => this.checkInputsValidity(formElem));
 
+      if (inputData.name === 'user') {
+        dataInput.addEventListener('blur', () => this.checkInputsValidity(formElem));
+      }
+
       formElem.append(dataBlock);
     });
   }
@@ -312,20 +313,19 @@ class RenderPaymentDetails {
   }
 
   renderOption(currency: string, selectElem: HTMLSelectElement, isAnonimExchange: boolean, isDefault?: boolean): void {
+    const option = createElem('option', `form-paym__option`, selectElem) as HTMLOptionElement;
     let clasName: string;
+
     if (isDefault) {
       clasName = isAnonimExchange ? `option-default-anonim` : `option-default-${selectElem.id}`;
-    } else {
-      clasName = isAnonimExchange ? `option-anonim_${currency}` : `option_${currency}`;
-    }
-
-    const optionText = this.langs[config.lang][clasName];
-    const option = createElem('option', `form-paym__option ${clasName}`, selectElem, optionText) as HTMLOptionElement;
-    if (isDefault) {
       option.disabled = true;
     } else {
+      clasName = isAnonimExchange ? `option-anonim_${currency}` : `option_${currency}`;
       option.value = currency;
     }
+
+    option.classList.add(`${clasName}`);
+    option.textContent = langs[config.lang][clasName];
   }
 
   checkOptions(selectElemsArr: HTMLSelectElement[]): void {
@@ -380,31 +380,23 @@ class RenderPaymentDetails {
     });
   }
 
-  checkUserInput(userNameInput: HTMLInputElement): void {
+  checkUserInput(userNameInput: HTMLInputElement, canPay: boolean): void {
     const focusedElem = document.activeElement;
     const isUserInputFocused = focusedElem === userNameInput;
 
-    if (userNameInput.value === config.currentUser) {
+    if (isUserInputFocused || userNameInput.value === config.currentUser) {
       this.canPay = false;
+      this.checkBtnsAbility(this.canPay);
       return;
     }
 
-    // Add Egor
-
-    this.checkBtnsAbility(this.canPay);
-
-    //End
-
-    /*userNameInput.disabled = true;
+    userNameInput.disabled = true;
     userFetch.isOurUser(userNameInput.value).then((resp) => {
       userNameInput.disabled = false;
-      if (isUserInputFocused) {
-        userNameInput.focus();
-      }
-      this.canPay = this.canPay ? resp.success : this.canPay;
+      this.canPay = canPay ? resp.success : canPay;
 
       this.checkBtnsAbility(this.canPay);
-    });*/
+    });
   }
 }
 

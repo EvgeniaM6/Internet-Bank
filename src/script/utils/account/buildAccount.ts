@@ -1,18 +1,11 @@
 import config from '../../data/config';
-import en from '../../data/lang/account/en';
-import ru from '../../data/lang/account/ru';
-import { TLang } from '../../data/servicesType';
+import langs from '../../data/lang/account/langs';
 import { EMethod, ETheme } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import pushState from '../../router/pushState';
 import { load } from '../load';
 import { buildMain } from '../main/buildMain';
 import { renderPaymentDetails } from '../payment/renderPaymentDetails';
-
-const langs: TLang = {
-  en,
-  ru,
-};
 
 class BuildAccount {
   async main() {

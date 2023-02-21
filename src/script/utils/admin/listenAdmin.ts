@@ -6,14 +6,7 @@ import { buildMain } from '../main/buildMain';
 import { buildAdmin } from './buildAdmin';
 import { validate } from '../validate';
 import { validateAuth } from '../auth/verifyAuth';
-import { TLang } from '../../data/servicesType';
-import en from '../../data/lang/admin/en';
-import ru from '../../data/lang/admin/ru';
-
-const langs: TLang = {
-  en,
-  ru,
-};
+import langs from '../../data/lang/admin/langs';
 
 class ListenAdmin {
   showBankInfo() {

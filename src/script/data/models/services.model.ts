@@ -1,4 +1,5 @@
-import { IMainRes } from './types';
+import { TTextByLang } from '.';
+import { IMainRes } from '../types';
 
 export interface IServices extends IMainRes {
   operations: IServiceObj;
@@ -15,10 +16,6 @@ export type TServiceDetails = {
   logo?: string;
 };
 
-export type TElemsForUpdateText = {
-  [key: string]: HTMLElement;
-};
-
 export type TOperationInputData = {
   [key: string]: TInputData[];
 };
@@ -32,22 +29,6 @@ export type TInputData = {
   hint: TTextByLang;
   labelText: TTextByLang;
   maxLeng?: number;
-};
-
-export type TTextByLang = {
-  [key: string]: string;
-};
-
-type TTexts = {
-  [key: string]: string;
-};
-
-export type TLang = {
-  [key: string]: TTextByLang;
-};
-
-export type TPageLang = {
-  [page: string]: TLang;
 };
 
 export type TAccOptions = {

@@ -7,7 +7,7 @@ export default {
   'operation__category-text': 'Category:',
   'form-paym__btn': 'pay from my account ',
   'form-paym__btn-card': 'pay by card',
-  operation__commission: `Commission for this operation is ${COMMISSION_AMOUNT} USD`,
+  operation__commission: `Commission for this operation is ${COMMISSION_AMOUNT}% of the payment`,
   'operation__commission-exch': `Commission for this operation is ${COMMISSION_EXCHANGE_AMOUNT}% of the payment`,
   back__text: 'Back to all services',
   'option-default-anonim': 'Currency to withdraw',

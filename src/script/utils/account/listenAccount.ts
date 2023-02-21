@@ -6,14 +6,7 @@ import { buildAccount } from './buildAccount';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
-import { TLang } from '../../data/servicesType';
-import en from '../../data/lang/account/en';
-import ru from '../../data/lang/account/ru';
-
-const langs: TLang = {
-  en,
-  ru,
-};
+import langs from '../../data/lang/account/langs';
 
 class ListenAccount {
   editAccount() {

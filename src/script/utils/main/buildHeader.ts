@@ -37,8 +37,8 @@ class BuildHeader {
           </div>
           <div class="header__lang">
             <select class="header__lang-select">
-              <option value="en">en</option>
-              <option value="ru">ru</option>
+              <option class="header__lang-option" value="en">en</option>
+              <option class="header__lang-option" value="ru">ru</option>
             </select>
           </div>
         </div>

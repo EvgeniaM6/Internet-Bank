@@ -4,14 +4,13 @@ import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
 import visaCard from '../../../assets/img/payment-system/visa.png';
 import mastercardCard from '../../../assets/img/payment-system/mastercard.png';
-import en from '../../data/lang/modalPaym/en';
-import ru from '../../data/lang/modalPaym/ru';
-import { TElemsForUpdateText, TLang, TPaymentDetails } from '../../data/servicesType';
+import { EPaymSyst, TElemsForUpdateText, TPaymentDetails } from '../../data/models';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import config from '../../data/config';
 import { validate } from '../validate';
 import {
   COMMISSION_AMOUNT,
+  COMMISSION_EXCHANGE_AMOUNT,
   ID_CURRENCY_COMMON_EXCHANGE,
   ID_CURRENCY_REFILL_SERVICE,
   ID_CURRENCY_SELL_SERVICE,
@@ -25,15 +24,12 @@ import { load } from '../load';
 import { transition } from '../transition';
 import { listenHeader } from '../main/listenHeader';
 import { EMethod, EOperation, ETheme, IMainRes } from '../../data/types';
+import langs from '../../data/lang/modalPaym/langs';
 
 class ModalPayment {
   value?: string;
   canPay = false;
   btnConfirm: HTMLButtonElement | null = null;
-  langs: TLang = {
-    en,
-    ru,
-  };
   emailInputs: TElemsForUpdateText = {};
 
   renderModalPayment(paymentDetails: TPaymentDetails, isAnonim: boolean, isNotCard: boolean): void {
@@ -58,7 +54,7 @@ class ModalPayment {
       this.emailInputs['card-number'] = cardNumberInput;
     }
 
-    const currLangObj = this.langs[config.lang];
+    const currLangObj = langs[config.lang];
 
     const btnConfirmBlock = createElem('div', 'form__btn', form);
     const btnConfirmText = currLangObj['btn--col-3'];
@@ -70,27 +66,21 @@ class ModalPayment {
 
     const { operationId, operationSum } = paymentDetails;
 
-    const isAnonimExchange = operationId === INDEX_START_BANK_SERVICES;
-    const isClientExchange = operationId === ID_CURRENCY_COMMON_EXCHANGE;
-    const isRefill = operationId === ID_REFILL_SERVICE;
-    const isRemove = operationId === ID_REMOVE_SERVICE;
-    const isTransfer = operationId === ID_TRANSFER_SERVICE;
-    if (isAnonimExchange || isClientExchange) {
-      form.onsubmit = (e) => {
-        this.currencyExchange(e, paymentDetails, popup);
-      };
-    } else if (isRefill || isRemove) {
-      form.onsubmit = (e) => {
-        this.changeMainAcc(e, paymentDetails, popup);
-      };
-    } else if (isTransfer) {
-      form.onsubmit = (e) => {
-        this.transferMoney(e, paymentDetails, popup);
-      };
-    } else {
-      form.onsubmit = (e) => {
-        this.confirmPayment(e, paymentDetails, isAnonim, popup, !!isNotCard);
-      };
+    switch (operationId) {
+      case INDEX_START_BANK_SERVICES:
+      case ID_CURRENCY_COMMON_EXCHANGE:
+        form.onsubmit = (e) => this.currencyExchange(e, paymentDetails, popup);
+        break;
+      case ID_REFILL_SERVICE:
+      case ID_REMOVE_SERVICE:
+        form.onsubmit = (e) => this.changeMainAcc(e, paymentDetails, popup);
+        break;
+      case ID_TRANSFER_SERVICE:
+        form.onsubmit = (e) => this.transferMoney(e, paymentDetails, popup);
+        break;
+      default:
+        form.onsubmit = (e) => this.confirmPayment(e, paymentDetails, isAnonim, popup, !!isNotCard);
+        break;
     }
     form.addEventListener('input', (e) => this.checkForm(e));
 
@@ -99,8 +89,11 @@ class ModalPayment {
     if (isAnonim) {
       const commissionBlock = createElem('div', 'commis');
       createElem('span', 'commis__start', commissionBlock, currLangObj.commis__start);
-      const isExchange = isAnonimExchange ? `${calculateCommissionSum(operationSum)}` : `${COMMISSION_AMOUNT}`;
-      createElem('span', 'commis__sum', commissionBlock, isExchange);
+
+      const isAnonimExchange = operationId === INDEX_START_BANK_SERVICES;
+      const commisPercent = isAnonimExchange ? COMMISSION_EXCHANGE_AMOUNT : COMMISSION_AMOUNT;
+      createElem('span', 'commis__sum', commissionBlock, `${calculateCommissionSum(operationSum, commisPercent)}`);
+
       createElem('span', 'commis__end', commissionBlock, currLangObj.commis__end);
       popupContent.prepend(commissionBlock);
     }
@@ -133,7 +126,7 @@ class ModalPayment {
     if (isAnonim) {
       moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
         if (!payCardResp.success) {
-          this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+          this.modalInfoMessage(langs[config.lang].errorPayByCardMessage, popup);
           return;
         }
 
@@ -174,7 +167,7 @@ class ModalPayment {
   }
 
   showValidity(inputEl: HTMLInputElement): void {
-    inputEl.setCustomValidity(this.langs[config.lang].cardDataValidity);
+    inputEl.setCustomValidity(langs[config.lang].cardDataValidity);
   }
 
   maskCardNumber(): void {
@@ -198,14 +191,19 @@ class ModalPayment {
     const firstChar = this.value?.trim().slice(0, 1);
     const newImg = new Image();
 
-    if (firstChar === '3') {
-      newImg.src = americanExpressCard;
-    } else if (firstChar === '4') {
-      newImg.src = visaCard;
-    } else if (firstChar === '5') {
-      newImg.src = mastercardCard;
-    } else {
-      newImg.src = invoiceCard;
+    switch (firstChar) {
+      case EPaymSyst.AmericanExpr:
+        newImg.src = americanExpressCard;
+        break;
+      case EPaymSyst.Visa:
+        newImg.src = visaCard;
+        break;
+      case EPaymSyst.Mastercard:
+        newImg.src = mastercardCard;
+        break;
+      default:
+        newImg.src = invoiceCard;
+        break;
     }
 
     newImg.addEventListener('load', () => {
@@ -240,7 +238,7 @@ class ModalPayment {
   }
 
   renderEmailInput(popupContent: HTMLElement, isAnonim: boolean): void {
-    const currLangObj = this.langs[config.lang];
+    const currLangObj = langs[config.lang];
 
     const personalDetails = createElem('div', 'form__person-details');
     createElem('h2', 'form__title modal-personal', personalDetails, currLangObj['modal-personal']);
@@ -276,7 +274,7 @@ class ModalPayment {
   }
 
   modalPaymentTemplate(): string {
-    const currLangObj = this.langs[config.lang];
+    const currLangObj = langs[config.lang];
 
     return `
       <div class="form__card-details">
@@ -348,7 +346,7 @@ class ModalPayment {
   }
 
   checkResponseForEmailSending(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number): void {
-    const currLang = this.langs[config.lang];
+    const currLang = langs[config.lang];
     let message = resp.success ? currLang.modalInfoMessage : currLang.errorPayByCardMessage;
     const respMess = resp.message;
 
@@ -410,7 +408,7 @@ class ModalPayment {
       case INDEX_START_BANK_SERVICES:
         moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
           if (!payCardResp.success) {
-            this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+            this.modalInfoMessage(langs[config.lang].errorPayByCardMessage, popup);
             return;
           }
 
@@ -463,7 +461,7 @@ class ModalPayment {
     if (operationId === ID_REFILL_SERVICE) {
       moneyFetch.tryPayByCard(cardNumber).then((payCardResp) => {
         if (!payCardResp.success) {
-          this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+          this.modalInfoMessage(langs[config.lang].errorPayByCardMessage, popup);
           return;
         }
 
@@ -497,7 +495,7 @@ class ModalPayment {
 
   checkResponse(resp: IMainRes, popup: HTMLElement, paymentSum: number, operationId: number): void {
     if (!resp.success) {
-      this.modalInfoMessage(this.langs[config.lang].errorPayByCardMessage, popup);
+      this.modalInfoMessage(langs[config.lang].errorPayByCardMessage, popup);
       return;
     }
 

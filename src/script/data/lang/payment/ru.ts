@@ -7,7 +7,7 @@ export default {
   'operation__category-text': 'Категория:',
   'form-paym__btn': 'оплатить со своего счета',
   'form-paym__btn-card': 'оплатить картой',
-  operation__commission: `Комиссия за данную операцию составляет ${COMMISSION_AMOUNT} USD`,
+  operation__commission: `Комиссия за данную операцию составляет ${COMMISSION_AMOUNT}% от платежа`,
   'operation__commission-exch': `Комиссия за данную операцию составляет ${COMMISSION_EXCHANGE_AMOUNT}% от платежа`,
   back__text: 'Вернуться ко всем сервисам',
   'option-default-anonim': 'Валюта для списания',
