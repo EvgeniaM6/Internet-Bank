@@ -2,7 +2,6 @@ import config from '../../data/config';
 import langs from '../../data/lang/about/langs';
 import accLangs from '../../data/lang/account/langs';
 import adminLangs from '../../data/lang/admin/langs';
-import { EAccountLinks, EPages } from '../../data/types';
 import { buildAdmin } from '../admin/buildAdmin';
 import { listenAdmin } from '../admin/listenAdmin';
 
@@ -116,6 +115,16 @@ class BuildMain {
             </thead>
             <tbody class="account__operations_tbody"></tbody>
           </table>
+          <div class="account__operations_container">
+            <h4 class="account__op_title">Get operation's check</h4>
+            <button class="account__operations_button">${currentLang['account__operations_button']}</button>
+            <p class="account__operation_process">${currentLang['account__operation_process']}</p>
+          </div>
+          <div>
+            <h4 class="account__ops_title">Get last operations' check</h4>
+            <button class="account__alloperations_button">${currentLang['account__alloperations_button']}</button>
+            <p class="account__operations_process">${currentLang['account__operations_process']}</p>
+          </div>
         </div>        
       </div>      
     </div>`;

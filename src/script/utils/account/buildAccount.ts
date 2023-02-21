@@ -6,6 +6,7 @@ import pushState from '../../router/pushState';
 import { load } from '../load';
 import { buildMain } from '../main/buildMain';
 import { renderPaymentDetails } from '../payment/renderPaymentDetails';
+import { listenAccount } from './listenAccount';
 
 class BuildAccount {
   async main() {
@@ -72,6 +73,8 @@ class BuildAccount {
       td.forEach((el) => el.classList.add('table-dark'));
       th.forEach((el) => el.classList.add('table-dark'));
     }
+
+    listenAccount.main();
   }
 
   editAccount() {

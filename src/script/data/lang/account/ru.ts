@@ -51,4 +51,11 @@ export default {
   'dont-have-start': 'У Вас нет',
   'dont-have-end': 'счета',
   ready_to_edit: 'Мы готовы! А вы?',
+  account__operations_button: 'Отправить',
+  account__alloperations_button: 'Отправить',
+  ready_to_send: 'Готово к отправке',
+  account__operations_process: 'Готово к отправке',
+  account__operation_process: 'Выберите операцию',
+  account__op_title: 'Отправить чек операции',
+  account__ops_title: 'Отправить выписку последних операций',
 };

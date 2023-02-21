@@ -51,4 +51,11 @@ export default {
   'dont-have-start': "You don't have",
   'dont-have-end': 'account',
   ready_to_edit: 'Ready to edit',
+  account__operations_button: 'Send to email',
+  account__alloperations_button: 'Send to email',
+  ready_to_send: 'Ready to send',
+  account__operations_process: 'Ready to send',
+  account__operation_process: 'Choose operation',
+  account__op_title: "Get operation's check",
+  account__ops_title: "Get last operations' check",
 };

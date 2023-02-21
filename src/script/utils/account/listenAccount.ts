@@ -4,11 +4,95 @@ import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { buildAccount } from './buildAccount';
 import { userFetch } from '../../fetch/userFetch';
-import { EMethod } from '../../data/types';
+import { EMethod, ETheme } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import langs from '../../data/lang/account/langs';
 
 class ListenAccount {
+  main() {
+    const tbody = document.querySelector('.account__operations_tbody');
+    const trs = tbody?.querySelectorAll('tr');
+    const buttonOperation = document.querySelector('.account__operations_button');
+    const buttonOperations = document.querySelector('.account__alloperations_button');
+    const token = localStorage.getItem('token');
+    let id: number;
+    let money: number;
+
+    if (!buttonOperation || !buttonOperations || !token) return;
+
+    buttonOperations.addEventListener('click', () => {
+      const note = document.querySelector('.account__operations_process');
+      if (!note) return;
+
+      const currLangObj = langs[config.lang];
+
+      note.innerHTML = currLangObj['connect-server'];
+      fetch(`${config.server}/user/last`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((result) => {
+        result.json().then((res) => {
+          if (res.success) {
+            note.innerHTML = currLangObj['success'];
+            setTimeout(() => (note.textContent = currLangObj['account__operations_process']), 4000);
+          }
+        });
+      });
+    });
+
+    buttonOperation.addEventListener('click', () => {
+      const note = document.querySelector('.account__operation_process');
+      if (!note) return;
+
+      const currLangObj = langs[config.lang];
+
+      note.innerHTML = currLangObj['connect-server'];
+
+      if (buttonOperation.classList.contains('account__operations_button-active')) {
+        fetch(`${config.server}/money/check`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            money: money,
+            operationID: id,
+            email: config.currentEmail,
+          }),
+        }).then((result) => {
+          result.json().then((res) => {
+            if (res.success) {
+              note.innerHTML = currLangObj['success'];
+              setTimeout(() => (note.textContent = currLangObj['account__operation_process']), 4000);
+            }
+          });
+        });
+      }
+    });
+
+    if (trs) {
+      trs.forEach((tr) => {
+        tr.addEventListener('click', () => {
+          const note = document.querySelector('.account__operation_process');
+          if (!note) return;
+
+          const currLangObj = langs[config.lang];
+          note.innerHTML = currLangObj['ready_to_send'];
+          trs.forEach((tr) => (tr.style.backgroundColor = `${config.theme === ETheme.dark ? '#090909' : '#fffffc'}`));
+          tr.style.backgroundColor = 'grey';
+          const tds = tr.querySelectorAll('td');
+          if (!tds) return;
+          id = +tds[2].innerHTML;
+          money = +tds[3].innerHTML;
+          buttonOperation.classList.add('account__operations_button-active');
+        });
+      });
+    }
+  }
+
   editAccount() {
     const accountName = document.querySelector('.account__link_name');
     const refreshName = document.getElementById('edit-user');
