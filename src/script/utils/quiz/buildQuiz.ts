@@ -97,11 +97,19 @@ class BuildQuiz {
         ).json();
         data.then((result) => {
           description.innerHTML = `${config.lang === 'en' ? questions[i].desc.en : questions[i].desc.ru}`;
-          if (result.result === 1) {
+          if (result.result.correct === 1) {
             answer.classList.add('quiz__answers_item-correct');
             score++;
             showScore.innerHTML = `${score}`;
-          } else answer.classList.add('quiz__answers_item-wrong');
+          } else {
+            answer.classList.add('quiz__answers_item-wrong');
+            const right = `${config.lang === 'en' ? result.result.corrAnswers[0].en : result.result.corrAnswers[0].ru}`;
+            answers.forEach((answer) => {
+              if (answer.innerHTML === right) {
+                answer.classList.add('quiz__answers_item-correct');
+              }
+            });
+          }
           next.classList.add('quiz__game_button-next-active');
           i++;
           if (i === questions.length) this.showResult(score);
