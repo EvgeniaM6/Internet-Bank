@@ -158,3 +158,15 @@ export interface IAnswers {
   ru: string[];
   en: string[];
 }
+
+export interface IExchangeRate {
+  currency_pair: string;
+  exchange_rate: number;
+}
+
+export enum ECurrency {
+  USD = 'USD',
+  EUR = 'EUR',
+  BYN = 'BYN',
+  UAH = 'UAH',
+}

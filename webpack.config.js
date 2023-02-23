@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.ts',
   //mode: 'production',
   mode: 'development',
-  //watch: true,
+  watch: true,
   output: {
     path: path.resolve(__dirname, 'dist'),
     //publicPath: '/',

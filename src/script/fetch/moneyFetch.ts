@@ -1,4 +1,4 @@
-import { EMethod, EOperation, ICommission, IMainRes } from '../data/types';
+import { ECurrency, EMethod, EOperation, ICommission, IExchangeRate, IMainRes } from '../data/types';
 import Fetch from './mainFetch';
 
 class MoneyFetch extends Fetch {
@@ -151,6 +151,17 @@ class MoneyFetch extends Fetch {
     };
     const result: IMainRes = await this.mainFetch(req, path);
     return result;
+  }
+
+  async exchangeRate(curr1: ECurrency = ECurrency.USD, curr2: ECurrency) {
+    const res = await fetch(`https://api.api-ninjas.com/v1/exchangerate?pair=${curr1}_${curr2}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': 'w/DFGJ+sVb1SJ5tXWPlwNQ==D3zKc1k0KkSNzLvV',
+      },
+    });
+    const data: IExchangeRate = await res.json();
+    return data;
   }
 }
 
