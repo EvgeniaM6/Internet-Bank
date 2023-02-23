@@ -82,7 +82,7 @@ class ModalPayment {
         form.onsubmit = (e) => this.confirmPayment(e, paymentDetails, isAnonim, popup, !!isNotCard);
         break;
     }
-    form.addEventListener('input', (e) => this.checkForm(e));
+    form.addEventListener('input', (e) => this.checkForm(e, form));
 
     this.renderEmailInput(form, isAnonim);
 
@@ -152,7 +152,7 @@ class ModalPayment {
     });
   }
 
-  checkForm(e: Event): void {
+  checkForm(e: Event, formEl: HTMLFormElement): void {
     const currInput = e.target as HTMLInputElement;
 
     if (currInput.id === 'card-number') {
@@ -163,7 +163,12 @@ class ModalPayment {
       this.maskCardDataValidThru.call(currInput);
     }
 
-    this.checkInputsValidity(e.currentTarget as HTMLFormElement);
+    if (currInput.maxLength === currInput.value.length) {
+      const activeElIndex = Array.from(formEl.elements).findIndex((inputEl) => inputEl === document.activeElement);
+      (formEl[activeElIndex + 1] as HTMLInputElement).focus();
+    }
+
+    this.checkInputsValidity(formEl);
   }
 
   showValidity(inputEl: HTMLInputElement): void {
