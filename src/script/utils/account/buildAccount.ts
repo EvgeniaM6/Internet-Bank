@@ -49,6 +49,7 @@ class BuildAccount {
     tbody.innerHTML = '';
     for (let i = 0; i < operations.userConfig.lastFive.length; i++) {
       const row = document.createElement('tr');
+      row.classList.add('cursor');
       row.innerHTML = `<td>${i + 1}</td>
       <td>${operations.userConfig.lastFive[i].date.slice(0, 10)}</td>
       <td>${operations.userConfig.lastFive[i].operationID}</td>

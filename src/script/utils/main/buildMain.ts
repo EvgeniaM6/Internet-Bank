@@ -116,12 +116,12 @@ class BuildMain {
             <tbody class="account__operations_tbody"></tbody>
           </table>
           <div class="account__operations_container">
-            <h4 class="account__op_title">Get operation's check</h4>
+            <h4 class="account__op_title">${currentLang['account__op_title']}</h4>
             <button class="account__operations_button">${currentLang['account__operations_button']}</button>
             <p class="account__operation_process">${currentLang['account__operation_process']}</p>
           </div>
           <div>
-            <h4 class="account__ops_title">Get last operations' check</h4>
+            <h4 class="account__ops_title">${currentLang['account__ops_title']}</h4>
             <button class="account__alloperations_button">${currentLang['account__alloperations_button']}</button>
             <p class="account__operations_process">${currentLang['account__operations_process']}</p>
           </div>
