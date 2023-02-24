@@ -47,15 +47,18 @@ class CreateMain {
   cardCreater() {
     buildCard.main();
     listenCard.main();
+    window.scrollTo(0, 0);
   }
 
   account() {
     buildAccount.main();
     navigationAccount();
+    window.scrollTo(0, 0);
   }
 
   admin() {
     buildMain.admin();
+    window.scrollTo(0, 0);
   }
 
   quiz() {
