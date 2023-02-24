@@ -24,7 +24,8 @@ class Router {
     window.addEventListener('popstate', async () => {
       const route = window.location.pathname.split('/');
       const page = route[route.length - 1];
-
+      const popup = document.querySelector('.popup');
+      if (popup) popup.remove();
       listenHeader.removeActiveClass();
 
       const isHeader = document.querySelector('.header__up');
