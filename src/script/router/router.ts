@@ -3,19 +3,20 @@ import { EMethod, EPages, ETheme } from '../data/types';
 import { adminFetch } from '../fetch/adminFetch';
 import { userFetch } from '../fetch/userFetch';
 import { openWebSocket } from '../fetch/webSocket';
-import { buildAccount } from '../utils/account/buildAccount';
-import { listenAccount } from '../utils/account/listenAccount';
-import { navigationAccount } from '../utils/account/navigationAccount';
-import { buildAuth } from '../utils/auth/buildAuth';
-import { createAuth } from '../utils/auth/createAuth';
-import { createMain } from '../utils/main/createMain';
-import { listenHeader } from '../utils/main/listenHeader';
-import { renderPayment } from '../utils/payment/renderPayment';
-import { renderPaymentDetails } from '../utils/payment/renderPaymentDetails';
-import { createStatistics } from '../utils/statistics/createStatistics';
-import createStocks from '../utils/stocks/createStocks';
-import { switchTheme } from '../utils/theme';
-import { transition } from '../utils/transition';
+import { buildAccount } from '../pages/account/buildAccount';
+import { listenAccount } from '../pages/account/listenAccount';
+import { navigationAccount } from '../pages/account/navigationAccount';
+import { buildAuth } from '../pages/auth/buildAuth';
+import { createAuth } from '../pages/auth/createAuth';
+import { createMain } from '../pages/main/createMain';
+import { listenHeader } from '../pages/main/listenHeader';
+import { renderPayment } from '../pages/payment/renderPayment';
+import { renderPaymentDetails } from '../pages/payment/renderPaymentDetails';
+import { buildQuiz } from '../pages/quiz/buildQuiz';
+import { createStatistics } from '../pages/statistics/createStatistics';
+import createStocks from '../pages/stocks/createStocks';
+import { switchTheme } from '../utilities/theme';
+import { transition } from '../utilities/transition';
 import pushState from './pushState';
 
 class Router {
@@ -23,7 +24,8 @@ class Router {
     window.addEventListener('popstate', async () => {
       const route = window.location.pathname.split('/');
       const page = route[route.length - 1];
-
+      const popup = document.querySelector('.popup');
+      if (popup) popup.remove();
       listenHeader.removeActiveClass();
 
       const isHeader = document.querySelector('.header__up');
@@ -245,7 +247,7 @@ class Router {
   }
 
   private quiz() {
-    // Quiz creator
+    buildQuiz.main();
     this.addActiveClass('quiz');
     config.page = EPages.QUIZ;
   }

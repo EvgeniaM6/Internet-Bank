@@ -3,7 +3,7 @@ import langs from '../../data/lang/account/langs';
 import { EMethod, ETheme } from '../../data/types';
 import { userFetch } from '../../fetch/userFetch';
 import pushState from '../../router/pushState';
-import { load } from '../load';
+import { load } from '../../utilities/load';
 import { buildMain } from '../main/buildMain';
 import { renderPaymentDetails } from '../payment/renderPaymentDetails';
 import { listenAccount } from './listenAccount';

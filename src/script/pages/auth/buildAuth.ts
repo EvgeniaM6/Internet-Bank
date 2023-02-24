@@ -1,8 +1,8 @@
 import config from '../../data/config';
 import { LANGS_ARR } from '../../data/constants';
 import { ETheme } from '../../data/types';
-import { createElem } from '../../utilities';
-import { switchLang } from '../switchLang';
+import { createElem } from '../../utilities/payUtils';
+import { switchLang } from '../../utilities/switchLang';
 import langs from '../../data/lang/auth/langs';
 
 let currentLang;

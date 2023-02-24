@@ -7,9 +7,9 @@ const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
-  //mode: 'production',
-  mode: 'development',
-  watch: true,
+  mode: 'production',
+  //mode: 'development',
+  //watch: true,
   output: {
     path: path.resolve(__dirname, 'dist'),
     //publicPath: '/',
@@ -43,11 +43,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new EslintPlugin({extensions: 'ts'}),
-    /* new CopyPlugin({
+    /*new CopyPlugin({
       patterns: [
         { from: 'src/assets', to: 'assets'},
       ],
-    }), */
+    }),*/
     new NetlifyPlugin({redirects: [
         {
           from: "/*",

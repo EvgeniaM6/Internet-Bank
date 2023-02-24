@@ -1,5 +1,5 @@
 import config from '../../data/config';
-import { validate } from '../validate';
+import { validate } from '../../utilities/validate';
 
 class ValidateAuth {
   login() {

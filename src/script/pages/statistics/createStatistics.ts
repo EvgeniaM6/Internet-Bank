@@ -1,8 +1,8 @@
 import { statFetch } from '../../fetch/statistickFetch';
 import { userFetch } from '../../fetch/userFetch';
 import { buildStatistics } from './buildStatistics';
-import { load } from '../load';
-import { transition } from '../transition';
+import { load } from '../../utilities/load';
+import { transition } from '../../utilities/transition';
 
 class CreateStatistics {
   async operations() {

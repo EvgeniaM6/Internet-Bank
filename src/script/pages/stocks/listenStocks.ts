@@ -1,7 +1,7 @@
 import config from '../../data/config';
 import { EOperation } from '../../data/types';
 import stocksFetch from '../../fetch/stocksFetch';
-import buttonController from '../buttonController';
+import buttonController from '../../utilities/buttonController';
 import { listenHeader } from '../main/listenHeader';
 import createStocks from './createStocks';
 

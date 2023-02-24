@@ -20,13 +20,13 @@ export default {
 
   'reset__username-label': 'Логин',
   'reset__email-label': 'Электронная почта',
-  'reset__button-reset': 'Сбросить',
+  'reset__button-reset': 'Сброс',
   'reset__button-back': 'Назад',
 
   'after-reset__text': 'Проверьте вашу почту - мы отправили новый пароль',
   'after-reset__back': 'Назад',
 
   'verify__code-label': 'Код (проверьте электронную почту или используйте ПИН-КОД)',
-  'verify__button-confirm': 'Подтвердить',
+  'verify__button-confirm': 'Войти',
   'verify__button-back': 'Назад',
 };

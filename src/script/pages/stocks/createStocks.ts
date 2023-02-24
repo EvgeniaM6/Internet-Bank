@@ -1,6 +1,6 @@
 import stocksFetch from '../../fetch/stocksFetch';
-import { load } from '../load';
-import { transition } from '../transition';
+import { load } from '../../utilities/load';
+import { transition } from '../../utilities/transition';
 import buildStocks from './buildStocks';
 import listenStocks from './listenStocks';
 
@@ -10,6 +10,7 @@ class CreateStocks {
     const token = localStorage.getItem('token');
     if (!(main instanceof HTMLElement) || !token) return;
 
+    window.scrollTo(0, 0);
     load(main);
     await stocksFetch.getData(token).then((result) => {
       transition(main, () => {

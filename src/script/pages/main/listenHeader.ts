@@ -5,13 +5,13 @@ import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
 import { renderPayment } from '../payment/renderPayment';
 import { createStatistics } from '../statistics/createStatistics';
-import { transition } from '../transition';
+import { transition } from '../../utilities/transition';
 import { createMain } from './createMain';
 import createStocks from '../stocks/createStocks';
 import pushState from '../../router/pushState';
 import moon from '../../../assets/img/icons/moon.svg';
 import sun from '../../../assets/img/icons/carbon_sun.svg';
-import { switchLang } from '../switchLang';
+import { switchLang } from '../../utilities/switchLang';
 
 class ListenHeader {
   async updateInfo() {

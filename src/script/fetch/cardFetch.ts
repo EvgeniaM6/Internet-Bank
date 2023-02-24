@@ -1,4 +1,4 @@
-import cardConfig from '../utils/cardCreator/cardConfig';
+import cardConfig from '../pages/cardCreator/cardConfig';
 
 export default async function () {
   const json = {

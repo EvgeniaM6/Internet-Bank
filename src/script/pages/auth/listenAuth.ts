@@ -1,9 +1,9 @@
 import config from '../../data/config';
 import { userFetch } from '../../fetch/userFetch';
-import { load } from '../load';
+import { load } from '../../utilities/load';
 import { createMain } from '../main/createMain';
-import { transition } from '../transition';
-import { validate } from '../validate';
+import { transition } from '../../utilities/transition';
+import { validate } from '../../utilities/validate';
 import { createAuth } from './createAuth';
 import { validateAuth } from './verifyAuth';
 

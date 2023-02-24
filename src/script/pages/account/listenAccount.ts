@@ -1,4 +1,4 @@
-import { validate } from '../validate';
+import { validate } from '../../utilities/validate';
 import config from '../../data/config';
 import { buildAuth } from '../auth/buildAuth';
 import { createAuth } from '../auth/createAuth';
