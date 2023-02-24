@@ -25,6 +25,7 @@ import { transition } from '../../utilities/transition';
 import { listenHeader } from '../main/listenHeader';
 import { EMethod, EOperation, ETheme, IMainRes } from '../../data/types';
 import langs from '../../data/lang/modalPaym/langs';
+import pushState from '../../router/pushState';
 
 class ModalPayment {
   value?: string;
@@ -346,6 +347,7 @@ class ModalPayment {
       setTimeout(() => {
         popupMessage.remove();
         transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
+        pushState.services();
       }, 3000);
     });
   }
