@@ -1,6 +1,6 @@
 import config from '../data/config';
 import { IMarketStocks } from '../data/types';
-import updateStocks from '../utils/stocks/updateStocks';
+import updateStocks from '../pages/stocks/updateStocks';
 
 export function openWebSocket() {
   const socket = new WebSocket(`${config.wss}`);

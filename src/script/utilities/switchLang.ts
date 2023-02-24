@@ -21,9 +21,9 @@ import enQuiz from '../data/lang/quiz/en';
 import ruQuiz from '../data/lang/quiz/ru';
 import { TPageLang, TTextByLang } from '../data/models';
 import { EPages } from '../data/types';
-import { renderPayment } from './payment/renderPayment';
-import { renderPaymentDetails } from './payment/renderPaymentDetails';
-import { buildQuiz } from './quiz/buildQuiz';
+import { renderPayment } from '../pages/payment/renderPayment';
+import { renderPaymentDetails } from '../pages/payment/renderPaymentDetails';
+import { buildQuiz } from '../pages/quiz/buildQuiz';
 
 const textByLangsData: TPageLang = {
   header: {

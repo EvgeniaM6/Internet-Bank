@@ -1,4 +1,4 @@
-import { calculateCommissionSum, createElem } from '../../utilities';
+import { calculateCommissionSum, createElem } from '../../utilities/payUtils/index';
 import { renderPayment } from './renderPayment';
 import invoiceCard from '../../../assets/img/payment-system/invoice.png';
 import americanExpressCard from '../../../assets/img/payment-system/american-express.png';
@@ -7,7 +7,7 @@ import mastercardCard from '../../../assets/img/payment-system/mastercard.png';
 import { EPaymSyst, TElemsForUpdateText, TPaymentDetails } from '../../data/models';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import config from '../../data/config';
-import { validate } from '../validate';
+import { validate } from '../../utilities/validate';
 import {
   COMMISSION_AMOUNT,
   COMMISSION_EXCHANGE_AMOUNT,
@@ -20,8 +20,8 @@ import {
   INDEX_START_BANK_SERVICES,
   MAIN_CURRENCY,
 } from '../../data/constants';
-import { load } from '../load';
-import { transition } from '../transition';
+import { load } from '../../utilities/load';
+import { transition } from '../../utilities/transition';
 import { listenHeader } from '../main/listenHeader';
 import { EMethod, EOperation, ETheme, IMainRes } from '../../data/types';
 import langs from '../../data/lang/modalPaym/langs';

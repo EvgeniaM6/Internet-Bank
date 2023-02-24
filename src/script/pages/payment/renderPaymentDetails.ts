@@ -11,15 +11,15 @@ import {
   OPERATION_INPUT_DATA,
 } from '../../data/constants';
 import { TElemsForUpdateText, TInputData, TPaymentDetails, TServiceDetails } from '../../data/models';
-import { createElem } from '../../utilities/createElem';
-import { validate } from '../validate';
+import { createElem } from '../../utilities/payUtils/createElem';
+import { validate } from '../../utilities/validate';
 import { modalPayment } from './modalPayment';
 import { renderPayment } from './renderPayment';
-import { transition } from '../transition';
+import { transition } from '../../utilities/transition';
 import { userFetch } from '../../fetch/userFetch';
 import { EMethod, ETheme } from '../../data/types';
 import pushState from '../../router/pushState';
-import { load } from '../load';
+import { load } from '../../utilities/load';
 import langs from '../../data/lang/payment/langs';
 
 class RenderPaymentDetails {

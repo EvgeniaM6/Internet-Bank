@@ -1,6 +1,6 @@
 import stocksFetch from '../../fetch/stocksFetch';
-import { load } from '../load';
-import { transition } from '../transition';
+import { load } from '../../utilities/load';
+import { transition } from '../../utilities/transition';
 import buildStocks from './buildStocks';
 import listenStocks from './listenStocks';
 

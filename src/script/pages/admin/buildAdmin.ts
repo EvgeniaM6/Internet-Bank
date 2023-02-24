@@ -1,10 +1,10 @@
-import { buildAuth } from '../auth/buildAuth';
+import { buildAuth } from '../../pages/auth/buildAuth';
 import { listenAdmin } from './listenAdmin';
 import config from '../../data/config';
 import yes from '../../../assets/img/icons/ok.svg';
 import no from '../../../assets/img/icons/cancel.svg';
 import { ETheme } from '../../data/types';
-import { load } from '../load';
+import { load } from '../../utilities/load';
 import langs from '../../data/lang/admin/langs';
 
 class BuildAdmin {

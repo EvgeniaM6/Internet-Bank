@@ -2,10 +2,10 @@ import config from '../../data/config';
 import { EMethod } from '../../data/types';
 import { adminFetch } from '../../fetch/adminFetch';
 import { userFetch } from '../../fetch/userFetch';
-import { buildMain } from '../main/buildMain';
+import { buildMain } from '../../pages/main/buildMain';
 import { buildAdmin } from './buildAdmin';
-import { validate } from '../validate';
-import { validateAuth } from '../auth/verifyAuth';
+import { validate } from '../../utilities/validate';
+import { validateAuth } from '../../pages/auth/verifyAuth';
 import langs from '../../data/lang/admin/langs';
 
 class ListenAdmin {

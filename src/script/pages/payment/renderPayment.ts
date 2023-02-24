@@ -10,11 +10,11 @@ import {
 } from '../../data/constants';
 import { IServiceObj, IServices, TElemsForUpdateText, TServiceDetails, TTextByLang } from '../../data/models';
 import { IMainRes } from '../../data/types';
-import { createElem } from '../../utilities/createElem';
+import { createElem } from '../../utilities/payUtils/createElem';
 import { renderPaymentDetails } from './renderPaymentDetails';
-import { transition } from '../transition';
+import { transition } from '../../utilities/transition';
 import { userFetch } from '../../fetch/userFetch';
-import { load } from '../load';
+import { load } from '../../utilities/load';
 import pushState from '../../router/pushState';
 import langs from '../../data/lang/payment/langs';
 
