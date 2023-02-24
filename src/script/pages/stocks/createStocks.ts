@@ -10,7 +10,7 @@ class CreateStocks {
     const token = localStorage.getItem('token');
     if (!(main instanceof HTMLElement) || !token) return;
 
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     load(main);
     await stocksFetch.getData(token).then((result) => {
       transition(main, () => {

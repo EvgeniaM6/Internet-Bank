@@ -12,6 +12,7 @@ import { createMain } from '../pages/main/createMain';
 import { listenHeader } from '../pages/main/listenHeader';
 import { renderPayment } from '../pages/payment/renderPayment';
 import { renderPaymentDetails } from '../pages/payment/renderPaymentDetails';
+import { buildQuiz } from '../pages/quiz/buildQuiz';
 import { createStatistics } from '../pages/statistics/createStatistics';
 import createStocks from '../pages/stocks/createStocks';
 import { switchTheme } from '../utilities/theme';
@@ -245,7 +246,7 @@ class Router {
   }
 
   private quiz() {
-    // Quiz creator
+    buildQuiz.main();
     this.addActiveClass('quiz');
     config.page = EPages.QUIZ;
   }
