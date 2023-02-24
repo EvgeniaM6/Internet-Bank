@@ -3,7 +3,7 @@ export default {
   'stocks__user-empty': 'У вас нет акций',
   'stocks__user-header-name': 'Название',
   'stocks__user-header-count': 'Кол-во',
-  'stocks__user-header-profit': 'Прибыль',
+  'stocks__user-header-profit': 'Доход',
   'stocks__user-button': 'Продать',
   'stocks__market-header-name': 'Название',
   'stocks__market-header-count': 'Кол-во',
