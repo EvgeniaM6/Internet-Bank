@@ -17,10 +17,11 @@ import { modalPayment } from './modalPayment';
 import { renderPayment } from './renderPayment';
 import { transition } from '../../utilities/transition';
 import { userFetch } from '../../fetch/userFetch';
-import { EMethod, ETheme } from '../../data/types';
+import { EMethod, ETheme, IExchangeRate } from '../../data/types';
 import pushState from '../../router/pushState';
 import { load } from '../../utilities/load';
 import langs from '../../data/lang/payment/langs';
+import { moneyFetch } from '../../fetch/moneyFetch';
 
 class RenderPaymentDetails {
   main = document.querySelector('.main-container') as HTMLElement;
@@ -61,10 +62,7 @@ class RenderPaymentDetails {
     } else {
       createElem('div', 'back__text', backBtn, currLangObj.back__text);
     }
-    backBtn.addEventListener('click', () => {
-      this.backToAllServices();
-      pushState.services();
-    });
+    backBtn.onclick = () => this.backToAllServices();
 
     const operationInfo = createElem('div', 'operation__info', operation);
 
@@ -85,12 +83,17 @@ class RenderPaymentDetails {
     const categotyType = createElem('span', 'operation__category-type', operationCategory, categotyTxt);
     this.elemsForUpdatingText[`category_${operationId}`] = categotyType;
 
-    this.renderCommonService(operationId, operation);
+    const operationBlock = createElem('div', 'operation__block', operation);
+    this.renderService(operationId, operationBlock);
+
+    if (operationId === INDEX_START_BANK_SERVICES || operationId === ID_CURRENCY_COMMON_EXCHANGE) {
+      this.renderExchRates(operationBlock);
+    }
 
     this.updatePaymentText();
   }
 
-  renderCommonService(operationId: number, operationContainer: HTMLElement): void {
+  renderService(operationId: number, operationContainer: HTMLElement): void {
     const payDetails = createElem('div', 'operation__details');
     const payForm = createElem('form', 'operation__form form-paym', payDetails) as HTMLFormElement;
     payForm.name = `${operationId}`;
@@ -239,6 +242,7 @@ class RenderPaymentDetails {
   backToAllServices(): void {
     const main = document.querySelector('.main') as HTMLElement;
     transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
+    pushState.services();
   }
 
   renderInput(inputType: string, formElem: HTMLFormElement): void {
@@ -397,6 +401,51 @@ class RenderPaymentDetails {
       this.canPay = canPay ? resp.success : canPay;
 
       this.checkBtnsAbility(this.canPay);
+    });
+  }
+
+  renderExchRates(containerEl: HTMLElement): void {
+    const ratesBlock = createElem('div', 'operation__exch-rates');
+    const table = createElem('table', 'operation__exch-rates-table rates-table', ratesBlock);
+
+    const loadingRow = createElem('tr', 'rates-table__loading', table);
+    load(loadingRow);
+
+    const allCurrencyArr = [MAIN_CURRENCY, ...FOREIGN_CURRENCY];
+    const exchangeRatesPromisesArr = [];
+
+    for (let i = 0; i < allCurrencyArr.length; i++) {
+      const currencyFrom = allCurrencyArr[i];
+
+      for (let j = i + 1; j < allCurrencyArr.length; j++) {
+        const currencyTo = allCurrencyArr[j];
+        exchangeRatesPromisesArr.push(moneyFetch.exchangeRate(currencyFrom, currencyTo));
+      }
+    }
+
+    containerEl.append(ratesBlock);
+
+    Promise.all(exchangeRatesPromisesArr).then((responsesArr) => {
+      loadingRow.remove();
+      this.renderExchRatesTable(responsesArr, table);
+    });
+  }
+
+  renderExchRatesTable(responsesArr: IExchangeRate[], table: HTMLElement): void {
+    const currLangObj = langs[config.lang];
+
+    const tableHead = createElem('thead', 'rates-table__head', table);
+    createElem('th', 'rates-table__th th-curr-from', tableHead, currLangObj['th-curr-from']);
+    createElem('th', 'rates-table__th th-curr-to', tableHead, currLangObj['th-curr-to']);
+    createElem('th', 'rates-table__th th-rate', tableHead, currLangObj['th-rate']);
+
+    responsesArr.forEach((ratesResp) => {
+      const [currFrom, currTo] = ratesResp.currency_pair.split('_');
+
+      const tableRow = createElem('tr', 'rates-table__tr', table);
+      createElem('td', 'rates-table__td', tableRow, currFrom);
+      createElem('td', 'rates-table__td', tableRow, currTo);
+      createElem('td', 'rates-table__td', tableRow, `${ratesResp.exchange_rate}`);
     });
   }
 }

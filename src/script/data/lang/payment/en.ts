@@ -24,4 +24,8 @@ export default {
   'option-anonim_BYN': 'Card in BYN',
   'option-anonim_UAH': 'Card in UAH',
   'radio-all': 'All',
+
+  'th-curr-from': 'Currency to sell',
+  'th-curr-to': 'Currency to buy',
+  'th-rate': 'Exchange rate',
 };
