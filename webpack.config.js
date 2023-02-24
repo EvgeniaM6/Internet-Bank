@@ -43,11 +43,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new EslintPlugin({extensions: 'ts'}),
-    /* new CopyPlugin({
+    /*new CopyPlugin({
       patterns: [
         { from: 'src/assets', to: 'assets'},
       ],
-    }), */
+    }),*/
     new NetlifyPlugin({redirects: [
         {
           from: "/*",
