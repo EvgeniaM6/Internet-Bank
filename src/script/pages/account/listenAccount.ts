@@ -98,16 +98,22 @@ class ListenAccount {
     const refreshName = document.getElementById('edit-user');
     const refreshEmail = document.getElementById('edit-email');
     const refreshPass = document.getElementById('edit-password');
+    const refreshEPass = document.getElementById('email-password');
     const buttonSubmit = document.querySelector('.account__edit_button-submit');
+    const buttonEmail = document.querySelector('.account__email_button-submit');
     const note = document.querySelector('.account__notification');
+    const enote = document.querySelector('.account__notification_email');
     const token = localStorage.getItem('token');
     if (
       !token ||
       !accountName ||
       !buttonSubmit ||
+      !buttonEmail ||
       !note ||
+      !enote ||
       !(refreshName instanceof HTMLInputElement) ||
       !(refreshEmail instanceof HTMLInputElement) ||
+      !(refreshEPass instanceof HTMLInputElement) ||
       !(refreshPass instanceof HTMLInputElement)
     )
       return;
@@ -115,20 +121,36 @@ class ListenAccount {
     let valName: boolean;
     let valEmail: boolean;
 
-    buttonSubmit.addEventListener('click', async () => {
-      valName = validate(refreshName, config.regex.username);
+    buttonEmail.addEventListener('click', async () => {
       valEmail = validate(refreshEmail, config.regex.email);
-      const name = refreshName.value;
       const email = refreshEmail.value;
 
-      if (!valEmail || !valName || !token) return;
+      if (!valEmail || !token) return;
+
+      const currLangObj = langs[config.lang];
+
+      enote.textContent = currLangObj['connect-server'];
+      userFetch.user(EMethod.PUT, token, config.currentUser, email, refreshEPass.value).then((rez) => {
+        if (rez.success) {
+          config.currentEmail = email;
+          enote.innerHTML = currLangObj['note-login-success'];
+        } else enote.innerHTML = currLangObj['note-incorr-passw'];
+      });
+      setTimeout(() => (enote.textContent = currLangObj['ready_to_edit']), 4000);
+    });
+
+    buttonSubmit.addEventListener('click', async () => {
+      valName = validate(refreshName, config.regex.username);
+      const name = refreshName.value;
+
+      if (!valName || !token) return;
 
       const currLangObj = langs[config.lang];
 
       note.textContent = currLangObj['connect-server'];
-      userFetch.user(EMethod.PUT, token, name, email, refreshPass.value).then((rez) => {
+      userFetch.user(EMethod.PUT, token, name, config.currentEmail, refreshPass.value).then((rez) => {
         if (rez.success) {
-          config.regex.username = name;
+          config.currentUser = name;
           note.innerHTML = currLangObj['note-login-success'];
           accountName.innerHTML = name;
         } else note.innerHTML = currLangObj['note-incorr-passw'];

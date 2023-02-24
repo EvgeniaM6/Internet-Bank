@@ -6,11 +6,12 @@ export default {
   account__description:
     "We are excited to welcome you in your personal account. Here you can manage your personal date and get your banking information. Let's start!",
   account__ttl: 'Your credit cards',
-  account__edit_title: 'Edit login or password',
+  account__edit_title: 'Edit login',
   'account__edit_username-label': 'Login',
   'account__edit_email-label': 'E-mail',
   'account__edit_password-label': 'Password',
   'account__edit_button-submit': 'Submit',
+  'account__email_button-submit': 'Submit',
   account__password_title: 'Change password',
   'account__password_oldpassword-label': 'Old password',
   'account__password_newpassword-label': 'New password',
@@ -58,4 +59,6 @@ export default {
   account__operation_process: 'Choose operation',
   account__op_title: "Get operation's check",
   account__ops_title: "Get last operations' check",
+  account__email_title: 'Edit email',
+  'account__email_password-label': 'Password',
 };

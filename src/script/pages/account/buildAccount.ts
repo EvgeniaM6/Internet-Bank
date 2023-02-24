@@ -90,10 +90,6 @@ class BuildAccount {
           <label for="user" class="account__edit_username-label">${currLangObj['account__edit_username-label']}</label>
           <input type="text" name="user" id="edit-user" class="account__edit_username-input" value="${config.currentUser}">
         </div>
-        <div id="account__edit_email">
-          <label for="email" class="account__edit_email-label">${currLangObj['account__edit_email-label']}</label>
-          <input type="email" name="email" id="edit-email" class="account__edit_email-input" value="${config.currentEmail}">
-        </div>
         <div id="account__edit_password">
           <label for="password" class="account__edit_password-label">${currLangObj['account__edit_password-label']}</label>
           <input type="password" name="password" id="edit-password" class="account__edit_password-input">
@@ -103,6 +99,23 @@ class BuildAccount {
         </div>
         <p class="account__notification ready_to_edit">${currLangObj['ready_to_edit']}</p>
       </div>
+
+      <div id="account__email">
+        <h2 class="account__email_title">${currLangObj['account__email_title']}</h2>
+        <div id="account__edit_email">
+          <label for="email" class="account__edit_email-label">${currLangObj['account__edit_email-label']}</label>
+          <input type="email" name="email" id="edit-email" class="account__edit_email-input" value="${config.currentEmail}">
+        </div>
+        <div id="account__email_password">
+          <label for="epassword" class="account__email_password-label">${currLangObj['account__email_password-label']}</label>
+          <input type="password" name="epassword" id="email-password" class="account__email_password-input">
+        </div>
+        <div class="account__buttons">
+          <button class="account__email_button-submit button-submit">${currLangObj['account__email_button-submit']}</button>
+        </div>
+        <p class="account__notification_email ready_to_edit">${currLangObj['ready_to_edit']}</p>
+      </div>
+
       <div id="account__password">
       <h2 class="account__password_title">${currLangObj['account__password_title']}</h2>
       <div id="account__password_oldpassword">

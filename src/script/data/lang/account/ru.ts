@@ -6,11 +6,12 @@ export default {
   account__description:
     'Мы приветствуем Вас в личном кабинете. Здесь Вы можете управлять вашими персональными данными и получить банковскую информацию.',
   account__ttl: 'Ваши банковские карты',
-  account__edit_title: 'Изменить логин или электронную почту',
+  account__edit_title: 'Изменить логин',
   'account__edit_username-label': 'Логин',
   'account__edit_email-label': 'E-mail',
   'account__edit_password-label': 'Пароль',
   'account__edit_button-submit': 'Принять',
+  'account__email_button-submit': 'Принять',
   account__password_title: 'Изменить пароль',
   'account__password_oldpassword-label': 'Старый пароль',
   'account__password_newpassword-label': 'Пароль',
@@ -58,4 +59,6 @@ export default {
   account__operation_process: 'Выберите операцию',
   account__op_title: 'Отправить чек операции',
   account__ops_title: 'Отправить выписку последних операций',
+  account__email_title: 'Изменить электронную почту',
+  'account__email_password-label': 'Пароль',
 };
