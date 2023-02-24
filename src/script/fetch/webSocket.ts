@@ -4,6 +4,14 @@ import updateStocks from '../utils/stocks/updateStocks';
 
 export function openWebSocket() {
   const socket = new WebSocket(`${config.wss}`);
+  const checkConnection = setInterval(() => {
+    const state = socket.readyState;
+    console.log(state);
+    if (state !== 3) return;
+
+    clearInterval(checkConnection);
+    openWebSocket();
+  }, 10000);
 
   socket.onopen = () => {
     const key = localStorage.getItem('token') || 'anonim';
@@ -14,11 +22,4 @@ export function openWebSocket() {
     const data: IMarketStocks[] = JSON.parse(e.data);
     updateStocks(data);
   };
-
-  const login = document.querySelector('.header__login');
-  if (!login) return;
-
-  login.addEventListener('click', () => {
-    socket.close(1000, 'User left main page');
-  });
 }
