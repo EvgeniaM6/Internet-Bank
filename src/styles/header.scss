@@ -172,3 +172,21 @@
     
   }
 }
+
+@media screen and (max-width: 400px) {
+  .header {
+    &__burger {
+      font-size: 18px;
+      &-close {
+        font-size: 18px;
+      }
+    }
+    &__logo {
+      font-size: 22px;
+    }
+    &__theme {
+      width: 23px;
+      height: 23px;
+    }
+  }
+}
