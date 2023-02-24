@@ -30,6 +30,7 @@ class RenderPaymentDetails {
 
   async renderPayment(operationId: number): Promise<void> {
     load(this.main);
+    this.canPay = false;
 
     if (!renderPayment.canRenderPage) {
       await renderPayment.saveServicesResponse.call(renderPayment);
