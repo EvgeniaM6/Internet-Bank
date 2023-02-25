@@ -66,7 +66,8 @@
 
   &__block {
     display: flex;
-    justify-content: space-between;
+    //justify-content: space-between;
+    gap: 50px;
 
     .rates-table {
       &__th {
@@ -177,6 +178,7 @@
     &__block {
       flex-direction: column;
       align-items: center;
+      gap: 30px;
     }
   }
 }
