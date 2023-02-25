@@ -62,6 +62,9 @@ class BuildQuiz {
     const showScore = document.querySelector('.quiz__score_n');
 
     if (!question || !quizAnswers || !description || !next || !showScore) return;
+
+    i + 1 === questions.length ? next.classList.add('last') : next.classList.remove('last');
+
     {
       question.innerHTML = `${isEnglish ? questions[i].question.en : questions[i].question.ru}`;
       for (let j = 0; j < questions[i].answers.en.length; j++) {
