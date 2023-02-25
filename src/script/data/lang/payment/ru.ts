@@ -25,7 +25,7 @@ export default {
   'option-anonim_UAH': 'Карта в UAH',
   'radio-all': 'Все',
 
-  'th-curr-from': 'Валюта продажи',
-  'th-curr-to': 'Валюта покупки',
+  'th-curr-from': 'Продажа',
+  'th-curr-to': 'Покупка',
   'th-rate': 'Курс',
 };

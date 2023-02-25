@@ -71,6 +71,11 @@
     .rates-table {
       &__th {
         padding: 5px;
+        width: 100px;
+      }
+
+      &__td {
+        width: 100px;
       }
 
       &__loading {
@@ -80,7 +85,6 @@
       }
 
       &__tr {
-
         &:hover {
           background: $third;
         }
@@ -111,6 +115,15 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+  }
+
+  &__exch-rates {
+    max-height: 400px;
+    min-width: 300px;
+  }
+
+  &__exch-rates-table {
+    border: 2px $third solid;
   }
 
   &__commission,
@@ -153,6 +166,17 @@
           opacity: 1;
         }
       }
+    }
+  }
+}
+
+
+
+@media screen and (max-width: 880px) {
+  .operation{
+    &__block {
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

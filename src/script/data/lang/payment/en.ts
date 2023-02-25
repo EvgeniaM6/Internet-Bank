@@ -25,7 +25,7 @@ export default {
   'option-anonim_UAH': 'Card in UAH',
   'radio-all': 'All',
 
-  'th-curr-from': 'Currency to sell',
-  'th-curr-to': 'Currency to buy',
+  'th-curr-from': 'Sell',
+  'th-curr-to': 'Buy',
   'th-rate': 'Exchange rate',
 };

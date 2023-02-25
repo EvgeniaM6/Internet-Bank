@@ -406,10 +406,10 @@ class RenderPaymentDetails {
 
   renderExchRates(containerEl: HTMLElement): void {
     const ratesBlock = createElem('div', 'operation__exch-rates');
-    const table = createElem('table', 'operation__exch-rates-table rates-table', ratesBlock);
 
-    const loadingRow = createElem('tr', 'rates-table__loading', table);
-    load(loadingRow);
+    load(ratesBlock);
+    const loadingCircle = ratesBlock.querySelector('.load') as HTMLElement;
+    loadingCircle.style.height = '400px';
 
     const allCurrencyArr = [MAIN_CURRENCY, ...FOREIGN_CURRENCY];
     const exchangeRatesPromisesArr = [];
@@ -426,7 +426,8 @@ class RenderPaymentDetails {
     containerEl.append(ratesBlock);
 
     Promise.all(exchangeRatesPromisesArr).then((responsesArr) => {
-      loadingRow.remove();
+      ratesBlock.innerHTML = '';
+      const table = createElem('table', 'operation__exch-rates-table rates-table', ratesBlock);
       this.renderExchRatesTable(responsesArr, table);
     });
   }
@@ -445,7 +446,7 @@ class RenderPaymentDetails {
       const tableRow = createElem('tr', 'rates-table__tr', table);
       createElem('td', 'rates-table__td', tableRow, currFrom);
       createElem('td', 'rates-table__td', tableRow, currTo);
-      createElem('td', 'rates-table__td', tableRow, `${ratesResp.exchange_rate}`);
+      createElem('td', 'rates-table__td', tableRow, ratesResp.exchange_rate.toFixed(2));
     });
   }
 }
