@@ -24,4 +24,8 @@ export default {
   'option-anonim_BYN': 'Карта в BYN',
   'option-anonim_UAH': 'Карта в UAH',
   'radio-all': 'Все',
+
+  'th-curr-from': 'Валюта продажи',
+  'th-curr-to': 'Валюта покупки',
+  'th-rate': 'Курс',
 };

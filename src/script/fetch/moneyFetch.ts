@@ -153,7 +153,7 @@ class MoneyFetch extends Fetch {
     return result;
   }
 
-  async exchangeRate(curr1: ECurrency = ECurrency.USD, curr2: ECurrency) {
+  async exchangeRate(curr1: string = ECurrency.USD, curr2: string) {
     const res = await fetch(`https://api.api-ninjas.com/v1/exchangerate?pair=${curr1}_${curr2}`, {
       headers: {
         'Content-Type': 'application/json',
