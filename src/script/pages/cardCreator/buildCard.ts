@@ -54,15 +54,13 @@ class BuildCard {
                 <li class="c__i-three">${isEnglish ? 'Choose background color' : 'Выберите цвет фона'}</li>
                 <li class="c__i-four">${isEnglish ? 'Choose text color' : 'Выберите цвет текста'}</li>
                 <li class="c__i-five">${
-                  isEnglish
-                    ? 'Add your own image via link (optional)'
-                    : 'Добавьте свое собственное изображение (ссылка, опционально)'
+                  isEnglish ? 'Add your own image via link (optional)' : 'Добавьте свой собственный фон (ссылка)'
                 }</li>
                 <li class="c__i-six">${isEnglish ? 'Press "Preview" button' : 'Нажмите "Превью"'}</li>
                 <li class="c__i-seven">${
                   isEnglish
                     ? 'Did you like the card? Press "Create" and enjoy shopping!'
-                    : 'Вам понравилась картчока? Нажмите "Создать" и наслаждайтесь шопингом!'
+                    : 'Нажмите "Создать" и наслаждайтесь шопингом!'
                 }</li>
             </ol>
         </form>

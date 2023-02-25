@@ -13,6 +13,10 @@
   width: 48%;
 }
 
+.account__description {
+  text-align: center;
+}
+
 .account__list {
   display: flex;
   justify-content: space-around;
@@ -101,7 +105,7 @@
 .button-cancel,
 .lastfive-cancel,
 .account__currency-button {
-  width: 33%;
+  width: 43%;
   height: 30px;
   border-radius: 15px;
   font-size: 18px;
@@ -275,7 +279,6 @@ tr:last-child td {
     width: 90%;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
   
 }

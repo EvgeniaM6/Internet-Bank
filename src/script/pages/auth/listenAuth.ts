@@ -77,7 +77,7 @@ class ListenAuth {
           const isEnglish = config.lang === 'en';
           if (!errorLabel || !(username instanceof HTMLInputElement)) return;
 
-          errorLabel.textContent = isEnglish ? result.message : 'Ошибка! неверено введенные данные';
+          errorLabel.textContent = isEnglish ? result.message : 'Ошибка! Неверно введенные данные';
           username.value = currUsername;
         });
       });
