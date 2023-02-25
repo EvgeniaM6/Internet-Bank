@@ -129,6 +129,17 @@ export function switchLang(selectElem: HTMLSelectElement): void {
     }
   } else if (config.page === EPages.ADMIN) {
     buildAdmin.showBankInfo();
+  } else if (config.page === EPages.ACCOUNT) {
+    const process = document.querySelector('.account__operation_process');
+    const button = document.querySelector('.account__operations_button');
+
+    if (process && button) {
+      if (button.classList.contains('account__operations_button-active')) {
+        config.lang === 'en'
+          ? (process.innerHTML = enAccount['ready_to_send'])
+          : (process.innerHTML = ruAccount['ready_to_send']);
+      }
+    }
   }
 
   const header = document.querySelector(`.header`) as HTMLElement;

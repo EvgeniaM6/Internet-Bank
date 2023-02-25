@@ -66,7 +66,15 @@ class ListenAccount {
           result.json().then((res) => {
             if (res.success) {
               note.innerHTML = currLangObj['success'];
-              setTimeout(() => (note.textContent = currLangObj['account__operation_process']), 4000);
+              setTimeout(() => {
+                note.textContent = currLangObj['account__operation_process'];
+                if (trs)
+                  trs.forEach(
+                    (tr) => (tr.style.backgroundColor = `${config.theme === ETheme.dark ? '#090909' : '#fffffc'}`)
+                  );
+
+                buttonOperation.classList.remove('account__operations_button-active');
+              }, 4000);
             }
           });
         });
