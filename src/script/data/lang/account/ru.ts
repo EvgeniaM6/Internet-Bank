@@ -27,7 +27,7 @@ export default {
   account__currency_title: 'Выберите операцию:',
   'account__currency_button-cancel': 'Назад',
   'account__currency_create-label': 'Валюта',
-  'account__currency_button-submit': 'Submit',
+  'account__currency_button-submit': 'Принять',
   'account__currency_delete-label': 'Валюта',
   account__operations_date: 'дата',
   account__operations_money: 'сумма',
