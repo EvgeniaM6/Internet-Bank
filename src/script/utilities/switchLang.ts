@@ -24,6 +24,7 @@ import { EPages } from '../data/types';
 import { renderPayment } from '../pages/payment/renderPayment';
 import { renderPaymentDetails } from '../pages/payment/renderPaymentDetails';
 import { buildQuiz } from '../pages/quiz/buildQuiz';
+import { buildAdmin } from '../pages/admin/buildAdmin';
 
 const textByLangsData: TPageLang = {
   header: {
@@ -117,6 +118,8 @@ export function switchLang(selectElem: HTMLSelectElement): void {
         buildQuiz.showResult(+score.innerHTML);
       }
     }
+  } else if (config.page === EPages.ADMIN) {
+    buildAdmin.showBankInfo();
   }
 
   const header = document.querySelector(`.header`) as HTMLElement;
