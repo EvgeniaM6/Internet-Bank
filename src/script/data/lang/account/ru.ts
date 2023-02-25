@@ -43,6 +43,7 @@ export default {
   ready_to: 'Мы готовы! А вы?',
   'note-login-success': 'Данные успешно изменены!',
   'note-incorr-passw': 'Неверный пароль',
+  'something-wrong': 'Неверный пароль или такой пользователь уже существует',
   'note-diff-passw': 'У вас разные пароли.',
   'note-passw-success': 'Ваш пароль успешно изменен!',
   'already-have-start': 'У Вас уже есть',

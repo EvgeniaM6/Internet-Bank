@@ -161,7 +161,7 @@ class ListenAccount {
           config.currentUser = name;
           note.innerHTML = currLangObj['note-login-success'];
           accountName.innerHTML = name;
-        } else note.innerHTML = currLangObj['note-incorr-passw'];
+        } else note.innerHTML = currLangObj['something-wrong'];
       });
       setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);
     });

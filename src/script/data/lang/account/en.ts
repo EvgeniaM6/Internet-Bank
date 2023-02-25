@@ -43,6 +43,7 @@ export default {
   ready_to: 'Ready to create/delete',
   'note-login-success': 'Note: Your login and e-mail have changed successfully!',
   'note-incorr-passw': 'Note: Incorrect password',
+  'something-wrong': 'Note: Wrong password or such user already exists',
   'note-diff-passw': 'Note: You have different passwords',
   'note-passw-success': 'Note: Your password has changed successfully!',
   'already-have-start': 'You already have a',
