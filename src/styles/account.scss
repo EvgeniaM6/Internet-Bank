@@ -34,24 +34,28 @@
   color: $third;
 }
 
-#account__edit {
+#account__edit,
+#account__email {
   padding-bottom: 15px;
   border-bottom: 2px $third solid;
   margin-bottom: 40px;
 }
 
 #account__password,
-#account__edit {
+#account__edit,
+#account__email {
   width: 360px;
   text-align: right;
 }
 
-#account__edit {
+#account__edit,
+#account__email {
   margin-bottom: 15px;
 }
 
 .account__edit_title,
-.account__password_title {
+.account__password_title,
+.account__email_title {
   margin-bottom: 15px;
   text-align: left;
 }
@@ -64,6 +68,7 @@
 }
 
 #account__edit_password,
+#account__email_password,
 #account__password_confirmpassword,
 .account__clarify_question,
 .account__remove {
@@ -73,6 +78,7 @@
 .account__edit_username-input,
 .account__edit_email-input,
 .account__edit_password-input,
+.account__email_password-input,
 .account__password_oldpassword-input,
 .account__password_newpassword-input,
 .account__password_confirmpassword-input,
@@ -187,6 +193,7 @@ tr:last-child td {
   border-bottom: none;
 }
 .account__notification,
+.account__notification_email,
 .account__notification_password {
   margin-top: 15px;
   text-align: left;

@@ -14,6 +14,9 @@ class BuildHeader {
     if (!header || !(main instanceof HTMLElement)) return;
 
     header.classList.add('header');
+    localStorage.getItem('time') === ETheme.dark
+      ? header.classList.add('page-dark')
+      : header.classList.remove('page-dark');
     header.innerHTML = `<div class="header__up">
         <h1 class="header__logo">RS Bank</h1>
     </div>
