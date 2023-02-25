@@ -115,6 +115,11 @@
   }
 }
 
+.account__remove_button-submit,
+.account__remove_button-cancel {
+  width: 80px;
+} 
+
 .account__currency_title {
   margin-bottom: 15px;
   text-align: center;
