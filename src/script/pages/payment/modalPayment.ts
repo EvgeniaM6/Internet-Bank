@@ -37,6 +37,8 @@ class ModalPayment {
     const popup = createElem('div', 'popup', document.body);
     popup.addEventListener('click', (e) => this.closePopUp(e));
 
+    document.body.style.overflow = 'hidden';
+
     const popupContent = createElem(
       'div',
       `${config.theme === ETheme.dark ? 'popup__content page-dark dark-border' : 'popup__content'}`,
@@ -104,6 +106,7 @@ class ModalPayment {
     const clickedElem = e.target as HTMLElement;
     if (clickedElem.classList.contains('popup')) {
       clickedElem.remove();
+      document.body.style.overflow = 'auto';
     }
   }
 
@@ -348,6 +351,7 @@ class ModalPayment {
         popupMessage.remove();
         transition(main, renderPayment.renderPaymentsPage.bind(renderPayment));
         pushState.services();
+        document.body.style.overflow = 'auto';
       }, 3000);
     });
   }

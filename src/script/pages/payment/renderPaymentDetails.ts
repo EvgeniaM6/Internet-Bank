@@ -436,17 +436,29 @@ class RenderPaymentDetails {
     const currLangObj = langs[config.lang];
 
     const tableHead = createElem('thead', 'rates-table__head', table);
-    createElem('th', 'rates-table__th th-curr-from', tableHead, currLangObj['th-curr-from']);
-    createElem('th', 'rates-table__th th-curr-to', tableHead, currLangObj['th-curr-to']);
-    createElem('th', 'rates-table__th th-rate', tableHead, currLangObj['th-rate']);
+    const thCurrFrom = createElem('th', 'rates-table__th th-curr-from', tableHead, currLangObj['th-curr-from']);
+    const thCurrTo = createElem('th', 'rates-table__th th-curr-to', tableHead, currLangObj['th-curr-to']);
+    const thRate = createElem('th', 'rates-table__th th-rate', tableHead, currLangObj['th-rate']);
+
+    if (config.theme === ETheme.dark) {
+      thCurrFrom.classList.add('table-dark');
+      thCurrTo.classList.add('table-dark');
+      thRate.classList.add('table-dark');
+    }
 
     responsesArr.forEach((ratesResp) => {
       const [currFrom, currTo] = ratesResp.currency_pair.split('_');
 
       const tableRow = createElem('tr', 'rates-table__tr', table);
-      createElem('td', 'rates-table__td', tableRow, currFrom);
-      createElem('td', 'rates-table__td', tableRow, currTo);
-      createElem('td', 'rates-table__td', tableRow, ratesResp.exchange_rate.toFixed(2));
+      const tdCurrFrom = createElem('td', 'rates-table__td', tableRow, currFrom);
+      const tdCurrTo = createElem('td', 'rates-table__td', tableRow, currTo);
+      const tdRate = createElem('td', 'rates-table__td', tableRow, ratesResp.exchange_rate.toFixed(2));
+
+      if (config.theme === ETheme.dark) {
+        tdCurrFrom.classList.add('table-dark');
+        tdCurrTo.classList.add('table-dark');
+        tdRate.classList.add('table-dark');
+      }
     });
   }
 }
