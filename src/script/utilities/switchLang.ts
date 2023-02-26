@@ -128,6 +128,17 @@ export function switchLang(selectElem: HTMLSelectElement): void {
       }
     }
   } else if (config.page === EPages.ADMIN) {
+    const note = document.querySelector('.reg__error');
+    if (note) {
+      if (note.classList.contains('success')) {
+        config.lang === 'en' ? (note.innerHTML = enAdmin['create-succ']) : (note.innerHTML = ruAdmin['create-succ']);
+      }
+
+      if (note.classList.contains('unsuccess')) {
+        config.lang === 'en' ? (note.innerHTML = enAdmin['create-no']) : (note.innerHTML = ruAdmin['create-no']);
+      }
+    }
+
     buildAdmin.showBankInfo();
   } else if (config.page === EPages.ACCOUNT) {
     const process = document.querySelector('.account__operation_process');
