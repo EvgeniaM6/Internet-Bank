@@ -139,7 +139,7 @@ class Router {
         break;
       case EPages.ADMIN:
         this.admin();
-        pushState.admin();
+        //pushState.admin();
         break;
       case EPages.AUTH:
         this.login();
@@ -147,7 +147,7 @@ class Router {
         break;
       case EPages.CARD_CREATOR:
         this.cardCreator();
-        pushState.cardCreator();
+        //pushState.cardCreator();
         break;
       case EPages.QUIZ:
         this.quiz();
@@ -163,7 +163,7 @@ class Router {
         break;
       case EPages.STOCKS:
         this.stocks();
-        pushState.stocks();
+        //pushState.stocks();
         break;
       default:
         this.defaultWay();
@@ -223,6 +223,7 @@ class Router {
     if (!result.success) {
       alert('You are not a admin!');
       this.about();
+      pushState.about();
     }
 
     return result.success;
@@ -256,6 +257,7 @@ class Router {
 
     transition(main, createMain.cardCreater);
     this.addActiveClass('card');
+    pushState.cardCreator();
     config.page = EPages.CARD_CREATOR;
   }
 
@@ -277,6 +279,7 @@ class Router {
 
     await createStocks.main();
     this.addActiveClass('stocks');
+    pushState.stocks();
     config.page = EPages.STOCKS;
   }
 
@@ -348,6 +351,7 @@ class Router {
 
     transition(main, createMain.admin);
     this.addActiveClass('admin');
+    pushState.admin();
     config.page = EPages.ADMIN;
   }
 

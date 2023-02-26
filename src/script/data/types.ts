@@ -130,10 +130,10 @@ export interface IGetStocks extends IMainRes {
 }
 
 export enum EAccountLinks {
-  edit = 'Edit',
+  edit = 'edit',
   changePassword = 'Change password',
-  delete = 'Delete',
-  currency = 'Currency',
+  delete = 'delete',
+  currency = 'currency',
   account = 'Account',
 }
 

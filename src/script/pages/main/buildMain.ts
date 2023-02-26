@@ -46,7 +46,7 @@ class BuildMain {
         <h3 class="about__stack_h">${currentLang['about__stack_h']}</h3>
         <ul>
             <li class="stack_one">Front-end: HTML5, SCSS, TypeScript</li>
-            <li class="stack_two">Back-end: Node.js / Express (WebSocket, JWT, NodeEmailer, etc.)</li>
+            <li class="stack_two">Back-end: Node.js / Express (WebSocket, JWT, Nodemailer, etc.)</li>
             <li class="stack_three">Database: Mongo DB (Mongoose)</li>
             <li class="stack_four">API: Currency (API Ninjas), DOMtoImage (HCTI API)</li>
         </ul>

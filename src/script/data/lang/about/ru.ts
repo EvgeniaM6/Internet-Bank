@@ -17,7 +17,7 @@ export default {
   high_eleven: 'Языки: русский и английский',
   about__stack_h: 'Стэк',
   stack_one: 'Front-end: HTML5, SCSS, TypeScript',
-  stack_two: 'Back-end: Node.js / Express (WebSocket, JWT, NodeEmailer, etc.)',
+  stack_two: 'Back-end: Node.js / Express (WebSocket, JWT, Nodemailer, etc.)',
   stack_three: 'Database: Mongo DB',
   stack_four: 'API: Currency (API Ninjas), DOMtoImage (HCTI API)',
   'about__authors-h': 'Авторы',
