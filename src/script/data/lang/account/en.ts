@@ -41,7 +41,7 @@ export default {
   'user-creditcard': 'Your credit cards',
   'user-lastoperations': 'Your last operations',
   ready_to: 'Ready to create/delete',
-  'note-login-success': 'Note: Your login and e-mail have changed successfully!',
+  'note-login-success': 'Note: Your data has changed successfully!',
   'note-incorr-passw': 'Note: Incorrect password',
   'something-wrong': 'Note: Wrong password or such user already exists',
   'note-diff-passw': 'Note: You have different passwords',

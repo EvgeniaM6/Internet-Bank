@@ -142,7 +142,11 @@ class ListenAccount {
         if (rez.success) {
           config.currentEmail = email;
           enote.innerHTML = currLangObj['note-login-success'];
-        } else enote.innerHTML = currLangObj['note-incorr-passw'];
+          refreshEPass.value = '';
+        } else {
+          enote.innerHTML = currLangObj['note-incorr-passw'];
+          refreshEPass.value = '';
+        }
       });
       setTimeout(() => (enote.textContent = currLangObj['ready_to_edit']), 4000);
     });
@@ -161,7 +165,11 @@ class ListenAccount {
           config.currentUser = name;
           note.innerHTML = currLangObj['note-login-success'];
           accountName.innerHTML = name;
-        } else note.innerHTML = currLangObj['something-wrong'];
+          refreshPass.value = '';
+        } else {
+          note.innerHTML = currLangObj['something-wrong'];
+          refreshPass.value = '';
+        }
       });
       setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);
     });
