@@ -40,25 +40,25 @@ class CreateMain {
   }
 
   about() {
-    buildMain.about();
     window.scrollTo(0, 0);
+    buildMain.about();
   }
 
   cardCreater() {
+    window.scrollTo(0, 0);
     buildCard.main();
     listenCard.main();
-    window.scrollTo(0, 0);
   }
 
   account() {
+    window.scrollTo(0, 0);
     buildAccount.main();
     navigationAccount();
-    window.scrollTo(0, 0);
   }
 
   admin() {
-    buildMain.admin();
     window.scrollTo(0, 0);
+    buildMain.admin();
   }
 
   quiz() {

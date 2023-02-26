@@ -15,8 +15,8 @@ class CreateStatistics {
     const stats = data.result;
     if (!stats) return;
     transition(main, () => {
-      buildStatistics.operations(stats, operations);
       window.scrollTo(0, 0);
+      buildStatistics.operations(stats, operations);
     });
   }
 }
