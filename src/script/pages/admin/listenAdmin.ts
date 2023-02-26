@@ -153,17 +153,28 @@ class ListenAdmin {
       this.showUserList();
     });
 
-    const currLangObj = langs[config.lang];
-
     reg.addEventListener('click', async () => {
       if (!validateAuth.registrarion()) return;
 
+      const currLangObj = langs[config.lang];
+
       await userFetch.regictration(username.value, password.value, email.value).then((result) => {
         if (result.success) {
-          note.innerHTML = currLangObj['create-succ'];
+          note.classList.remove('unsuccess');
+          note.classList.add('success');
+          note.innerHTML = `${currLangObj['create-succ']} Pin: ${result.pinCode}`;
+          username.value = '';
+          email.value = '';
+          password.value = '';
+          repPassword.value = '';
+          setTimeout(() => {
+            note.classList.remove('success');
+            note.innerHTML = currLangObj['reg__error'];
+          }, 5000);
           return;
         }
 
+        note.classList.add('unsuccess');
         note.innerHTML = currLangObj['create-no'];
       });
     });

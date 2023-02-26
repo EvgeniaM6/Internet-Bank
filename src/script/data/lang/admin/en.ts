@@ -41,6 +41,6 @@ export default {
   'get-info': 'Get info from server...',
   'note-incorr-passw': 'Note: Incorrect password',
 
-  'create-succ': 'User create succesfully',
+  'create-succ': 'User create succesfully.',
   'create-no': 'User was not created',
 };

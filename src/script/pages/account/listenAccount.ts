@@ -7,6 +7,7 @@ import { userFetch } from '../../fetch/userFetch';
 import { EMethod, ETheme } from '../../data/types';
 import { moneyFetch } from '../../fetch/moneyFetch';
 import langs from '../../data/lang/account/langs';
+import pushState from '../../router/pushState';
 
 class ListenAccount {
   main() {
@@ -250,6 +251,7 @@ class ListenAccount {
             if (rez.success) {
               buildAuth.main();
               createAuth.login();
+              pushState.login();
             }
           });
         } else note.innerHTML = currLangObj['note-incorr-passw'];
