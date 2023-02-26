@@ -171,7 +171,16 @@
   }
 }
 
+.page-dark .operation{
+  .form-paym__input {
+    background-color: $black;
+    color: $white;
 
+    &:is(:-webkit-autofill, :-webkit-autofill:focus) {
+      transition: background-color 600000s 0s, color 600000s 0s;
+    }
+  }
+}
 
 @media screen and (max-width: 880px) {
   .operation{
