@@ -49,9 +49,8 @@ class ListenAccount {
 
       const currLangObj = langs[config.lang];
 
-      note.innerHTML = currLangObj['connect-server'];
-
       if (buttonOperation.classList.contains('account__operations_button-active')) {
+        note.innerHTML = currLangObj['connect-server'];
         fetch(`${config.server}/money/check`, {
           method: 'POST',
           headers: {
