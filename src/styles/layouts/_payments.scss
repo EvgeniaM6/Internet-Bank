@@ -28,17 +28,29 @@
           text-align: center;
           margin-right: 0;
           margin-bottom: 8px;
+          font-size: 16px;
         }
       }
     
       &__list {
         display: flex;
         flex-wrap: wrap;
+
+        @include media-tablet {
+          max-height: 80px;
+          overflow: auto;
+        }
       }
     
       &__item {
         font-size: 18px;
         margin: 0 32px 5px 0;
+
+        @include media-tablet {
+          font-size: 16px;
+          padding: 5px;
+          margin: 0;
+        }
       }
     
       &__label {
@@ -113,10 +125,10 @@
       grid-template-columns: 1fr 1fr;
     }
 
-    @include media-mobile {
+    @include media-big-mobile {
       grid-template-columns: 1fr;
     }
-  
+
     .serv-card {
       display: flex;
       flex-direction: column;
@@ -162,5 +174,24 @@
         font-weight: 700;
       }
     }
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $third;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $white;
+    border-radius: 10px;
+    border: 2px solid $third;
+
+    &:hover {
+      background-color: $color-scroll-hover;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
   }
 }
