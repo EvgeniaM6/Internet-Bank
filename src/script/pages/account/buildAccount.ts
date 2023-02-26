@@ -163,7 +163,7 @@ class BuildAccount {
         <button class="account__remove_button-submit button-submit">${currLangObj['account__remove_button-submit']}</button>
         <button class="account__remove_button-cancel button-cancel">${currLangObj['account__remove_button-cancel']}</button>
       </div>
-      <p class="account__notification"></p>`;
+      <p class="account__notification del__notification"></p>`;
   }
 
   currency() {

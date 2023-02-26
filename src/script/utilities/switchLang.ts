@@ -140,6 +140,13 @@ export function switchLang(selectElem: HTMLSelectElement): void {
           : (process.innerHTML = ruAccount['ready_to_send']);
       }
     }
+
+    const delNotification = document.querySelector('.del__notification');
+    if (delNotification && delNotification.innerHTML !== '') {
+      config.lang === 'en'
+        ? (delNotification.innerHTML = enAccount['note-incorr-passw'])
+        : (delNotification.innerHTML = ruAccount['note-incorr-passw']);
+    }
   }
 
   const header = document.querySelector(`.header`) as HTMLElement;
