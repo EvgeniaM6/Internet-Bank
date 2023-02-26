@@ -66,7 +66,15 @@ class ListenAccount {
           result.json().then((res) => {
             if (res.success) {
               note.innerHTML = currLangObj['success'];
-              setTimeout(() => (note.textContent = currLangObj['account__operation_process']), 4000);
+              setTimeout(() => {
+                note.textContent = currLangObj['account__operation_process'];
+                if (trs)
+                  trs.forEach(
+                    (tr) => (tr.style.backgroundColor = `${config.theme === ETheme.dark ? '#090909' : '#fffffc'}`)
+                  );
+
+                buttonOperation.classList.remove('account__operations_button-active');
+              }, 4000);
             }
           });
         });
@@ -153,7 +161,7 @@ class ListenAccount {
           config.currentUser = name;
           note.innerHTML = currLangObj['note-login-success'];
           accountName.innerHTML = name;
-        } else note.innerHTML = currLangObj['note-incorr-passw'];
+        } else note.innerHTML = currLangObj['something-wrong'];
       });
       setTimeout(() => (note.textContent = currLangObj['ready_to_edit']), 4000);
     });

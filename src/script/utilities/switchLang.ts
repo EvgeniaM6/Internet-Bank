@@ -24,6 +24,7 @@ import { EPages } from '../data/types';
 import { renderPayment } from '../pages/payment/renderPayment';
 import { renderPaymentDetails } from '../pages/payment/renderPaymentDetails';
 import { buildQuiz } from '../pages/quiz/buildQuiz';
+import { buildAdmin } from '../pages/admin/buildAdmin';
 
 const textByLangsData: TPageLang = {
   header: {
@@ -77,6 +78,8 @@ export function switchLang(selectElem: HTMLSelectElement): void {
   config.lang = selectElem.value;
   localStorage.setItem('lang', config.lang);
 
+  const next = document.querySelector('.quiz__game_button-next');
+
   const currLangTextData = textByLangsData[config.page][config.lang];
   updateTextByClass(currLangTextData);
 
@@ -96,8 +99,9 @@ export function switchLang(selectElem: HTMLSelectElement): void {
       const question = document.querySelector('.quiz__question');
       const quizAnswers = document.querySelector('.quiz__answers');
       const description = document.querySelector('.quiz__description');
+      const next = document.querySelector('.quiz__game_button-next');
 
-      if (!question || !quizAnswers || !description) return;
+      if (!question || !quizAnswers || !description || !next) return;
       question.innerHTML = `${config.lang === 'en' ? questions.question.en : questions.question.ru}`;
       for (let j = 0; j < questions.answers.en.length; j++) {
         const li = document.getElementById(`ans${j + 1}`);
@@ -115,6 +119,25 @@ export function switchLang(selectElem: HTMLSelectElement): void {
         const score = document.querySelector('.quiz__score_n');
         if (!score) return;
         buildQuiz.showResult(+score.innerHTML);
+      }
+
+      if (next.classList.contains('last')) {
+        config.lang === 'en'
+          ? (next.innerHTML = enQuiz['quiz__game_button-try'])
+          : (next.innerHTML = ruQuiz['quiz__game_button-try']);
+      }
+    }
+  } else if (config.page === EPages.ADMIN) {
+    buildAdmin.showBankInfo();
+  } else if (config.page === EPages.ACCOUNT) {
+    const process = document.querySelector('.account__operation_process');
+    const button = document.querySelector('.account__operations_button');
+
+    if (process && button) {
+      if (button.classList.contains('account__operations_button-active')) {
+        config.lang === 'en'
+          ? (process.innerHTML = enAccount['ready_to_send'])
+          : (process.innerHTML = ruAccount['ready_to_send']);
       }
     }
   }
