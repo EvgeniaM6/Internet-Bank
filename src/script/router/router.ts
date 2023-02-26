@@ -103,7 +103,18 @@ class Router {
       createMain.header();
       this.about();
       pushState.about();
-      //listenHeader.updateInfo();
+      // Kostyl!
+      const check = await listenHeader.updateInfo();
+
+      if (!check) {
+        this.login();
+        pushState.login();
+        body.style.opacity = '1';
+        return;
+      }
+      body.style.opacity = '1';
+      openWebSocket();
+      return;
     }
 
     if (token) {
@@ -341,6 +352,10 @@ class Router {
   }
 
   private addActiveClass(page: string) {
+    const headerItems = document.querySelectorAll('.header__nav-item');
+    headerItems.forEach((el) => {
+      el.classList.remove('header__nav_active');
+    });
     const headerItem = document.querySelector(`.header__nav-${page}`);
     if (!headerItem) return;
 
