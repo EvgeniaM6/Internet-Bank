@@ -24,7 +24,7 @@ class CreateMain {
         buildHeader.adminHeader();
         listenHeader.log();
         const headerAbout = document.querySelector('.header__nav-about');
-        if (headerAbout) headerAbout.classList.add('.header__nav_active');
+        if (headerAbout) headerAbout.classList.add('header__nav_active');
       });
       return;
     }
