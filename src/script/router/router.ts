@@ -1,5 +1,5 @@
 import config from '../data/config';
-import { EMethod, EPages, ETheme } from '../data/types';
+import { EAccountLinks, EMethod, EPages, ETheme } from '../data/types';
 import { adminFetch } from '../fetch/adminFetch';
 import { userFetch } from '../fetch/userFetch';
 import { openWebSocket } from '../fetch/webSocket';
@@ -168,10 +168,12 @@ class Router {
     const parentPage = route[route.length - 2];
     if (parentPage === 'account') {
       this.accountExtra(page);
+      config.page = EPages.ACCOUNT;
       return;
     }
     if (parentPage === 'services') {
       this.servicesExtra(page);
+      config.page = EPages.SERVICES;
       return;
     }
 
@@ -308,21 +310,22 @@ class Router {
     if (elem) elem.classList.add('account__list-item_active');
 
     switch (page) {
-      case 'Edit_account':
+      case EAccountLinks.edit:
         buildAccount.editAccount();
         listenAccount.editAccount();
         listenAccount.editPassword();
         break;
-      case 'Currency':
+      case EAccountLinks.currency:
         buildAccount.currency();
         listenAccount.currency();
         break;
-      case 'Delete_account':
+      case EAccountLinks.delete:
         buildAccount.clarifyAccount();
         listenAccount.clarifyAccount();
         break;
       default:
         buildAccount.main();
+        pushState.account();
         navigationAccount();
     }
     this.addActiveClass('account');

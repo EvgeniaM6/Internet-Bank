@@ -1,6 +1,7 @@
 import { buildAccount } from './buildAccount';
 import { listenAccount } from './listenAccount';
 import pushState from '../../router/pushState';
+import { EAccountLinks } from '../../data/types';
 
 export function navigationAccount() {
   const nav = document.querySelectorAll('.account__list-item');
@@ -16,21 +17,21 @@ export function navigationAccount() {
         buildAccount.editAccount();
         listenAccount.editAccount();
         listenAccount.editPassword();
-        pushState.account(item.textContent || '');
+        pushState.account(EAccountLinks.edit);
         return;
       }
 
       if (item.classList.contains('account__list-delete')) {
         buildAccount.clarifyAccount();
         listenAccount.clarifyAccount();
-        pushState.account(item.textContent || '');
+        pushState.account(EAccountLinks.delete);
         return;
       }
 
       if (item.classList.contains('account__list-currency')) {
         buildAccount.currency();
         listenAccount.currency();
-        pushState.account(item.textContent || '');
+        pushState.account(EAccountLinks.currency);
         return;
       }
 

@@ -6,7 +6,6 @@ export function openWebSocket() {
   const socket = new WebSocket(`${config.wss}`);
   const checkConnection = setInterval(() => {
     const state = socket.readyState;
-    console.log(state);
     if (state !== 3) return;
 
     clearInterval(checkConnection);
